@@ -8,6 +8,30 @@ A few small benfits:
 - Simple intergration of theHarvester Modules and new ones to come
 - Also the ability to change major settings fast without diving into the code
  
+##Build Log:
+####Changelog in 0.1:
+```
+Modules Under added:
+-----------------------------
+(x) HtmlScrape Added to Modules 
+(x) PDFMiner Added to Modules
+(x) SearchPGP Added to Modules
+
+```
+####Build out Path:
+```
+Modules Under Dev:
+-----------------------------
+( ) Google Search
+( ) Searching SEC Data
+
+Framework Under Dev:
+-----------------------------
+( ) New Parsers to clean results
+( ) Fix import errors with Glob
+```
+
+
 ## Standard Help
 ```
  ============================================================
