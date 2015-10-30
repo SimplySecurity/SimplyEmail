@@ -8,6 +8,14 @@ A few small benfits:
 - Simple intergration of theHarvester Modules and new ones to come
 - Also the ability to change major settings fast without diving into the code
  
+##Build Log:
+Curent Mods:
+- HtmlScrape.py
+- PDFMiner.py
+- SearchPGP.py
+Future Mods:
+
+
 ## Standard Help
 ```
  ============================================================
