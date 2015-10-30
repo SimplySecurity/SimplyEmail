@@ -9,13 +9,14 @@
 # SimplyEmail v1.0 build out:
 # (1) HTML Sraping
 # (2) GoogleSearch
-# (3) SEC Public Fillings*
+# (3) SEC Public Fillings* 
+# (4) PDF mining 
 import os 
 import time
 import argparse
 import sys
 from Helpers import helpers
-from Common import TaskConducter
+from Common import TaskController
 
 
 
@@ -45,7 +46,7 @@ def TaskControler():
 		sys.exit(0)
 
 	# set up the clas
-	Task = TaskConducter.Conducter()
+	Task = TaskController.Conducter()
 	Task.load_modules()
 	# List the current installed modules
 	if cli_list:
@@ -62,7 +63,7 @@ def TaskControler():
 
 def main():
 	# instatiate the class
-	orc = TaskConducter.Conducter()
+	orc = TaskController.Conducter()
 	orc.title()
 	orc.title_screen()
 
