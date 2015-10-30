@@ -12,7 +12,6 @@
 # (3) SEC Public Fillings*
 # (4) PDF mining
 import os
-import time
 import argparse
 import sys
 from Helpers import helpers
@@ -44,7 +43,6 @@ def cli_parser():
 def TaskControler():
     # Get all the options passed and pass it to the TaskConducter, this will
     # keep all the prcessing on the side.
-    EmailCollection = []
     cli_all, cli_domain, cli_list = cli_parser()
     cli_domain = cli_domain.lower()
     if not len(cli_domain) > 1:
@@ -59,7 +57,7 @@ def TaskControler():
         Task.ListModules()
         exit
     if cli_all:
-        EmailCollection = Task.TaskSelector(cli_domain)
+        Task.TaskSelector(cli_domain)
 
 
 # def GenerateReport():
