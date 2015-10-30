@@ -9,11 +9,14 @@ A few small benfits:
 - Also the ability to change major settings fast without diving into the code
  
 ##Build Log:
-Curent Mods:
+Curent Modules in the Master:
 - HtmlScrape.py
 - PDFMiner.py
 - SearchPGP.py
-Future Mods:
+Future Build Supported Modules:
+- Google Search
+- Searching SEC Data
+
 
 
 ## Standard Help
