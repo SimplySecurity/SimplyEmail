@@ -41,6 +41,7 @@ def TaskControler():
 	# Get all the options passed and pass it to the TaskConducter, this will keep all the prcessing on the side.
 	EmailCollection = []
 	cli_all, cli_domain, cli_list = cli_parser()
+	cli_domain = cli_domain.lower()
 	if not len(cli_domain) > 1:
 		print helpers.color("[*] No Domain Supplied to start up!\n", warning=True)
 		sys.exit(0)
