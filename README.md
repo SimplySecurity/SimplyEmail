@@ -10,14 +10,16 @@ A few small benfits:
  
 ##Build Log:
 ####Changelog in 0.1:
-(x) HtmlScrape Added to Modules
+```
+(x) HtmlScrape Added to Modules 
 (x) PDFMiner Added to Modules
 (x) SearchPGP Added to Modules
-
+```
 ####Build out Path:
+```
 ( ) Google Search
 ( ) Searching SEC Data
-
+```
 
 
 ## Standard Help
