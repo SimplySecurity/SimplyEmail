@@ -25,6 +25,8 @@ class ClassName:
         try:
             config.read('Common/SimplyEmail.ini')
             self.domain = domain
+            self.useragent = "--user-agent=" + \
+                str(config['GlobalSettings']['UserAgent'])
             self.depth = "--level=" + str(config['HtmlScrape']['Depth'])
             self.wait = "--wait=" + str(config['HtmlScrape']['Wait'])
             self.limit_rate = "--limit-rate=" + \
@@ -49,7 +51,8 @@ class ClassName:
             # Using subprocess, more or less because of the rebust HTML miroring ability
             # And also allows proxy / VPN Support
             # "--convert-links"
-            subprocess.call(["wget", "-q", self.save, "--recursive", self.depth, self.wait, self.limit_rate,
+            subprocess.call(["wget", "-q", self.save, "--header=""Accept: text/html""", self.useragent,
+                             "--recursive", self.depth, self.wait, self.limit_rate,
                              self.timeout, "--page-requisites", "--html-extension", "--convert-links",
                              "-R gif,jpg,pdf,png", "--domains", self.domain, self.domain])
         except:

@@ -22,7 +22,7 @@ class ClassName:
             config.read('Common/SimplyEmail.ini')
             self.Domain = Domain
             self.Quanity = int(config['GoogleSearch']['StartQuantity'])
-            self.UserAgent = str(config['GlobalSettings']['UserAgent'])
+            self.UserAgent = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
             self.Limit = int(config['GoogleSearch']['QueryLimit'])
             self.Counter = int(config['GoogleSearch']['QueryStart'])
             self.Html = ""
@@ -45,7 +45,7 @@ class ClassName:
                 error = "[!] Major issue with Google Search:" + str(e)
                 print helpers.color(error, warning=True)
             try:
-                r = requests.get(url)
+                r = requests.get(url, headers=self.UserAgent)
             except Exception as e:
                 error = "[!] Fail during Request to Google (Check Connection):" + \
                     str(e)
