@@ -45,17 +45,14 @@ def TaskControler():
     # keep all the prcessing on the side.
     cli_all, cli_domain, cli_list = cli_parser()
     cli_domain = cli_domain.lower()
-    if not len(cli_domain) > 1:
-        print helpers.color("[*] No Domain Supplied to start up!\n", warning=True)
-        sys.exit(0)
-
-    # set up the clas
     Task = TaskController.Conducter()
     Task.load_modules()
-    # List the current installed modules
     if cli_list:
         Task.ListModules()
         exit
+    if not len(cli_domain) > 1:
+        print helpers.color("[*] No Domain Supplied to start up!\n", warning=True)
+        sys.exit(0)
     if cli_all:
         Task.TaskSelector(cli_domain)
 
