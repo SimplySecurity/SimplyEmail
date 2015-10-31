@@ -24,6 +24,7 @@ Modules Currently Working:
 Modules Under Dev:
 -----------------------------
 ( ) Searching SEC Data
+( ) Flickr Page Search
 
 Framework Under Dev:
 -----------------------------
