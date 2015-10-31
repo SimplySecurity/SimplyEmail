@@ -16,7 +16,7 @@ Modules Currently Working:
 (x) HtmlScrape Added to Modules 
 (x) PDFMiner Added to Modules
 (x) SearchPGP Added to Modules - Port form theHarvester
-(x) Google Search - - Port form theHarvester
+(x) Google Search - Port form theHarvester
 
 ```
 ####Build out Path:
@@ -25,6 +25,7 @@ Modules Under Dev:
 -----------------------------
 ( ) Searching SEC Data
 ( ) Flickr Page Search
+( ) Exalead Search - Port from theHarvester
 
 Framework Under Dev:
 -----------------------------
