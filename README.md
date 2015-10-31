@@ -11,12 +11,13 @@ A few small benfits:
 ##Build Log:
 ####Changelog in 0.1:
 ```
-Modules Currently Working:
+Modules Added in v0.1:
 -----------------------------
 (x) HtmlScrape Added to Modules 
 (x) PDFMiner Added to Modules
 (x) SearchPGP Added to Modules - Port form theHarvester
 (x) Google Search - Port form theHarvester
+(x) Flickr Page Search
 
 ```
 ####Build out Path:
@@ -24,14 +25,15 @@ Modules Currently Working:
 Modules Under Dev:
 -----------------------------
 ( ) Searching SEC Data
-( ) Flickr Page Search
 ( ) Exalead Search - Port from theHarvester
 
 Framework Under Dev:
 -----------------------------
 ( ) New Parsers to clean results
 ( ) Fix import errors with Glob
-( ) add in "[@]something.com" to search Regex and engines
+( ) Add in "[@]something.com" to search Regex and engines
+( ) Add errors for Captcha limit's
+( ) Add auto redirects for WGET and supplied Domain Names
 ```
 
 
