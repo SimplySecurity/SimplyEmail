@@ -11,18 +11,18 @@ A few small benfits:
 ##Build Log:
 ####Changelog in 0.1:
 ```
-Modules Under added:
+Modules Currently Working:
 -----------------------------
 (x) HtmlScrape Added to Modules 
 (x) PDFMiner Added to Modules
 (x) SearchPGP Added to Modules
+(x) Google Search
 
 ```
 ####Build out Path:
 ```
 Modules Under Dev:
 -----------------------------
-( ) Google Search
 ( ) Searching SEC Data
 
 Framework Under Dev:
