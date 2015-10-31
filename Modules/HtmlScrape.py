@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import sys
 import subprocess
 import configparser
 import os
@@ -15,7 +14,6 @@ from Helpers import *
 
 # Use the same class name so we can easily start up each module the same ways
 class ClassName:
-    #,
 
     def __init__(self, domain):
         # Descriptions that are required!!!
@@ -40,20 +38,20 @@ class ClassName:
 
     def execute(self):
         try:
-            self.do_search()
+            self.search()
             Emails = self.get_emails()
             return Emails
         except Exception as e:
             print e
 
-    def do_search(self):
+    def search(self):
         try:
             # Using subprocess, more or less because of the rebust HTML miroring ability
             # And also allows proxy / VPN Support
+            # "--convert-links"
             subprocess.call(["wget", "-q", self.save, "--recursive", self.depth, self.wait, self.limit_rate,
-                             self.timeout, "--page-requisites", "--html-extension",
-                             "--convert-links", "--no-clobber", "-R gif,jpg,pdf,png", "--domains", self.domain, self.domain])
-            print helpers.color("[*] Wget completed miror", status=True)
+                             self.timeout, "--page-requisites", "--html-extension", "--convert-links",
+                             "-R gif,jpg,pdf,png", "--domains", self.domain, self.domain])
         except:
             print "[!] ERROR during Wget Request"
 
@@ -80,7 +78,6 @@ class ClassName:
             os.remove('temp.txt')
             for item in output:
                 FinalOutput.append(item.rstrip("\n"))
-            print helpers.color("[*] HTML Patern mattching completed", status=True)
         except Exception as e:
             print e
             print "[!] ERROR during patern matching"

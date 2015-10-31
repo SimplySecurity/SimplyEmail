@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import threading
 import imp
 import glob
 import multiprocessing
@@ -80,8 +79,13 @@ class Conducter:
                         for Email in Emails:
                             Results_queue.put(Email)
                         break
+                    else:
+                        Message = "[*] " + Module.name + " has completed with no Email(s)"
+                        print helpers.color(Message, status=True)
+                        break
                 except Exception as e:
-                    error = "[!] Error Starting Module: " + str(e)
+                    error = "[!] Error During Runtime in Module " + \
+                        Module.name + ": " + str(e)
                     print helpers.color(error, warning=True)
             except Exception as e:
                 error = "[!] Error Loading Module: " + str(e)
