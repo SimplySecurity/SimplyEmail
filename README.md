@@ -31,6 +31,7 @@ Framework Under Dev:
 -----------------------------
 ( ) New Parsers to clean results
 ( ) Fix import errors with Glob
+( ) add in "[@]something.com" to search Regex and engines
 ```
 
 

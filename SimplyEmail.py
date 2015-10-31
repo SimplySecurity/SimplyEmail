@@ -49,7 +49,7 @@ def TaskControler():
     Task.load_modules()
     if cli_list:
         Task.ListModules()
-        exit
+        sys.exit(0)
     if not len(cli_domain) > 1:
         print helpers.color("[*] No Domain Supplied to start up!\n", warning=True)
         sys.exit(0)

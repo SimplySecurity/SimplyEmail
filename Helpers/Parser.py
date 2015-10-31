@@ -3,6 +3,7 @@
 import os
 import re
 import subprocess
+from random import randint
 
 # Simple Parser Options for email enumeration.
 
@@ -27,23 +28,26 @@ class Parser:
         # Major hack during testing;
         # I found grep is was better at Regex than re in python
         FinalOutput = []
+        StartFileName = randint(1000,999999)
+        EndFileName = randint(1000,999999)
         val = ""
-        with open("temp-Output.temp", "wr") as myfile:
+        with open(str(StartFileName), "wr") as myfile:
             myfile.write(self.InputData)
         ps = subprocess.Popen(
-            ('grep', "@", "temp-Output.temp"), stdout=subprocess.PIPE)
+            ('grep', "@", str(StartFileName)), stdout=subprocess.PIPE)
         try:
             val = subprocess.check_output(("grep", "-i", "-o", '[A-Z0-9._%+-]\+@[A-Z0-9.-]\+\.[A-Z]\{2,4\}'),
                                           stdin=ps.stdout)
-        except:
+            print val
+        except Exception as e:
             pass
-        os.remove('temp-Output.temp')
+        os.remove(str(StartFileName))
         if len(val) > 0:
-            with open('temp.txt', "wr+") as myfile:
+            with open(str(EndFileName), "w") as myfile:
                 myfile.write(str(val))
-            with open('temp.txt', "wr+") as myfile:
+            with open(str(EndFileName), "r") as myfile:
                 output = myfile.readlines()
-            os.remove('temp.txt')
+            os.remove(str(EndFileName))
             for item in output:
                 FinalOutput.append(item.rstrip("\n"))
         return FinalOutput
