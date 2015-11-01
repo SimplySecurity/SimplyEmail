@@ -14,7 +14,6 @@ A few small benfits:
 Modules Added in v0.1:
 -----------------------------
 (x) HtmlScrape Added to Modules 
-(x) PDFMiner Added to Modules
 (x) SearchPGP Added to Modules - Port form theHarvester
 (x) Google Search - Port form theHarvester
 (x) Flickr Page Search
@@ -26,6 +25,7 @@ Modules Added in v0.1:
 Modules Under Dev:
 -----------------------------
 ( ) Searching SEC Data
+( ) PDFMiner 
 ( ) Exalead Search - Port from theHarvester
 ( ) GitHubGist 
 ( ) PasteBin Searches 
