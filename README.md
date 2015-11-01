@@ -24,6 +24,7 @@ Modules Added in v0.1:
 ```
 Modules Under Dev:
 -----------------------------
+( ) StartPage Search (can help with captcha issues)
 ( ) Searching SEC Data
 ( ) PDFMiner 
 ( ) Exalead Search - Port from theHarvester
