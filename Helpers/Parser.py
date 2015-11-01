@@ -38,7 +38,6 @@ class Parser:
         try:
             val = subprocess.check_output(("grep", "-i", "-o", '[A-Z0-9._%+-]\+@[A-Z0-9.-]\+\.[A-Z]\{2,4\}'),
                                           stdin=ps.stdout)
-            print val
         except Exception as e:
             pass
         os.remove(str(StartFileName))

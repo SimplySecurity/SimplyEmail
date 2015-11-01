@@ -70,8 +70,11 @@ class ClassName:
                 ('grep', '-r', "@", directory), stdout=subprocess.PIPE)
             # Take in "ps" var and parse it for only email addresses
             output = []
-            val = subprocess.check_output(("grep", "-i", "-o", '[A-Z0-9._%+-]\+@[A-Z0-9.-]\+\.[A-Z]\{2,4\}'),
-                                          stdin=ps.stdout)
+            try:
+                val = subprocess.check_output(("grep", "-i", "-o", '[A-Z0-9._%+-]\+@[A-Z0-9.-]\+\.[A-Z]\{2,4\}'),
+                                              stdin=ps.stdout)
+            except Exception as e:
+                pass
             # Supper "hack" since the data returned is from Pipelin /n and all
             # in var
             with open('temp.txt', "wr+") as myfile:

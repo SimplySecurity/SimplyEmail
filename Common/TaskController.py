@@ -173,7 +173,7 @@ class Conducter:
             p.daemon = True
             p.start()
         for p in procs:
-            p.join()
+            p.join(timeout=60)
         # Launches a single thread to output results
         try:
             FinalEmailList = self.CleanResults(Results_queue)
