@@ -14,10 +14,10 @@ A few small benfits:
 Modules Added in v0.1:
 -----------------------------
 (x) HtmlScrape Added to Modules 
-(x) PDFMiner Added to Modules
 (x) SearchPGP Added to Modules - Port form theHarvester
 (x) Google Search - Port form theHarvester
 (x) Flickr Page Search
+(x) GitHub Code Search
 
 ```
 ####Build out Path:
@@ -25,7 +25,11 @@ Modules Added in v0.1:
 Modules Under Dev:
 -----------------------------
 ( ) Searching SEC Data
+( ) PDFMiner 
 ( ) Exalead Search - Port from theHarvester
+( ) GitHubGist 
+( ) PasteBin Searches 
+( ) Past Data Dumps
 
 Framework Under Dev:
 -----------------------------
@@ -34,6 +38,7 @@ Framework Under Dev:
 ( ) Add in "[@]something.com" to search Regex and engines
 ( ) Add errors for Captcha limit's
 ( ) Add auto redirects for WGET and supplied Domain Names
+( ) Add Threading/Multi to GitHub Search
 ```
 
 
