@@ -28,6 +28,8 @@ Modules Under Dev:
 ( ) Searching SEC Data
 ( ) Exalead Search - Port from theHarvester
 ( ) GitHubGist 
+( ) PasteBin Searches 
+( ) Past Data Dumps
 
 Framework Under Dev:
 -----------------------------
