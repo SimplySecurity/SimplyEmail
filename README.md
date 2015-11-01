@@ -36,6 +36,7 @@ Framework Under Dev:
 ( ) Add in "[@]something.com" to search Regex and engines
 ( ) Add errors for Captcha limit's
 ( ) Add auto redirects for WGET and supplied Domain Names
+( ) Add Threading/Multi to GitHub Search
 ```
 
 
