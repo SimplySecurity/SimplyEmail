@@ -30,6 +30,7 @@ Modules Under Dev:
 ( ) GitHubGist 
 ( ) PasteBin Searches 
 ( ) Past Data Dumps
+( ) Canary API based and non API
 
 Framework Under Dev:
 -----------------------------
