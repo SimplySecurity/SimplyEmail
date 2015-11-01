@@ -18,6 +18,7 @@ Modules Added in v0.1:
 (x) SearchPGP Added to Modules - Port form theHarvester
 (x) Google Search - Port form theHarvester
 (x) Flickr Page Search
+(x) GitHub Code Search
 
 ```
 ####Build out Path:
@@ -26,6 +27,7 @@ Modules Under Dev:
 -----------------------------
 ( ) Searching SEC Data
 ( ) Exalead Search - Port from theHarvester
+( ) GitHubGist 
 
 Framework Under Dev:
 -----------------------------
