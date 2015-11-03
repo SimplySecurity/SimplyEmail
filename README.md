@@ -18,6 +18,7 @@ Modules Added in v0.1:
 (x) Google Search - Port form theHarvester
 (x) Flickr Page Search
 (x) GitHub Code Search
+(x) Whois Non-Auth API Search
 
 Issues Fixed in v0.1:
 -----------------------------
