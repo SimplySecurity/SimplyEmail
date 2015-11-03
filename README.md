@@ -19,6 +19,16 @@ Modules Added in v0.1:
 (x) Flickr Page Search
 (x) GitHub Code Search
 
+Issues Fixed in v0.1:
+-----------------------------
+(x) Wget fails to follow redirects in some cases
+
+Imprrovements in v0.1:
+-----------------------------
+(x) Added in valid UserAgents and headers
+(x) HTML Scrape now has opption to save or remove is mirror
+(x) HTML Scrape UTF-8 issues fixed
+
 ```
 ####Build out Path:
 ```
@@ -38,8 +48,9 @@ Framework Under Dev:
 ( ) Fix import errors with Glob
 ( ) Add in "[@]something.com" to search Regex and engines
 ( ) Add errors for Captcha limit's
-( ) Add auto redirects for WGET and supplied Domain Names
+(/) Add auto redirects for WGET and supplied Domain Names: may need httrack?
 ( ) Add Threading/Multi to GitHub Search
+( ) Fix Issues with Join()
 ```
 
 

@@ -34,7 +34,8 @@ class ClassName:
             self.timeout = "--read-timeout=" + \
                 str(config['HtmlScrape']['Timeout'])
             self.save = "--directory-prefix=" + \
-                str(config['HtmlScrape']['Save'])
+                str(config['HtmlScrape']['Save']) + str(self.domain)
+            self.remove = str(config['HtmlScrape']['RemoveHTML'])
         except:
             print helpers.color("[*] Major Settings for HTML are missing, EXITING!\n", warning=True)
 
@@ -47,6 +48,9 @@ class ClassName:
             print e
 
     def search(self):
+        # setup domain so it will follow reddirects
+        # may move this to httrack in future
+        TempDomain = "http://www." + str(self.domain)
         try:
             # Using subprocess, more or less because of the rebust HTML miroring ability
             # And also allows proxy / VPN Support
@@ -54,7 +58,7 @@ class ClassName:
             subprocess.call(["wget", "-q", self.save, "--header=""Accept: text/html""", self.useragent,
                              "--recursive", self.depth, self.wait, self.limit_rate,
                              self.timeout, "--page-requisites", "--html-extension", "--convert-links",
-                             "-R gif,jpg,pdf,png", "--domains", self.domain, self.domain])
+                             "-R gif,jpg,pdf,png", "--domains", self.domain, TempDomain])
         except:
             print "[!] ERROR during Wget Request"
 
@@ -62,7 +66,8 @@ class ClassName:
         # Direct location of new dir created during wget
         output = []
         FinalOutput = []
-        directory = self.save.strip('--directory-prefix=') + self.domain
+        val = ""
+        directory = self.save.strip("--directory-prefix=")
         # Grep for any data containing "@", sorting out binary files as well
         # Pass list of Dirs to a regex, and read that path for emails
         try:
@@ -77,16 +82,18 @@ class ClassName:
                 pass
             # Supper "hack" since the data returned is from Pipelin /n and all
             # in var
-            with open('temp.txt', "wr+") as myfile:
-                myfile.write(str(val))
-            with open('temp.txt', "r") as myfile:
-                output = myfile.readlines()
-            os.remove('temp.txt')
-            for item in output:
-                FinalOutput.append(item.rstrip("\n"))
+            if val:
+                with open('temp.txt', "wr+") as myfile:
+                    myfile.write(str(val))
+                with open('temp.txt', "r") as myfile:
+                    output = myfile.readlines()
+                os.remove('temp.txt')
+                for item in output:
+                    FinalOutput.append(item.rstrip("\n"))
         except Exception as e:
             print e
-            print "[!] ERROR during patern matching"
+        if self.remove == "yes" or self.remove == "Yes":
+            os.removedirs(directory)
         # using PIPE output/input to avoid using "shell=True",
         # which can leave major security holes if script has certain permisions
         return FinalOutput

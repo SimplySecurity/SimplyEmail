@@ -30,6 +30,8 @@ def cli_parser():
     parser.add_argument("-e", metavar="company.com", default="",
                         help="Set required email addr user, ex ale@email.com")
     parser.add_argument(
+        "-s", action='store_true', help="Show only emils matching your domain (We may want to collect all emails for potential connections)")
+    parser.add_argument(
         "-l", action='store_true', help="List the current Modules Loaded")
     parser.add_argument('-h', '-?', '--h', '-help',
                         '--help', action="store_true", help=argparse.SUPPRESS)
@@ -37,13 +39,14 @@ def cli_parser():
     if args.h:
         parser.print_help()
         sys.exit()
-    return args.all, args.e, args.l
+    return args.all, args.e, args.s, args.l
 
 
 def TaskControler():
     # Get all the options passed and pass it to the TaskConducter, this will
     # keep all the prcessing on the side.
-    cli_all, cli_domain, cli_list = cli_parser()
+    # need to pass the store true somehow to tell printer to restrict output
+    cli_all, cli_domain, cli_store, cli_list = cli_parser()
     cli_domain = cli_domain.lower()
     Task = TaskController.Conducter()
     Task.load_modules()
