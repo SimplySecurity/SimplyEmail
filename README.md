@@ -19,6 +19,7 @@ Modules Added in v0.1:
 (x) Flickr Page Search
 (x) GitHub Code Search
 (x) Whois Non-Auth API Search
+(x) Whoisology Search
 
 Issues Fixed in v0.1:
 -----------------------------
