@@ -1,4 +1,3 @@
-#http://api.hackertarget.com/whois/?q=verisgroup.com
 #!/usr/bin/env python
 import requests
 import configparser
@@ -11,12 +10,12 @@ from Helpers import helpers
 # 3) execute function (calls everthing it neeeds)
 # 4) places the findings into a queue
 
-
+#https://whoisology.com/archive_11/microsoft.com
 class ClassName:
 
     def __init__(self, domain):
-        self.name = "Searching Whois"
-        self.description = "Search the Whois database for potential POC emails"
+        self.name = "Searching Whoisology"
+        self.description = "Search the Whoisology database for potential POC emails"
         self.domain = domain
         config = configparser.ConfigParser()
         self.results = ""
@@ -24,7 +23,7 @@ class ClassName:
             config.read('Common/SimplyEmail.ini')
             self.UserAgent = str(config['GlobalSettings']['UserAgent'])
         except:
-            print helpers.color("[*] Major Settings for Search Whois are missing, EXITING!\n", warning=True)
+            print helpers.color("[*] Major Settings for Search Whoisology are missing, EXITING!\n", warning=True)
 
     def execute(self):
         self.process()
@@ -34,15 +33,18 @@ class ClassName:
 
     def process(self):
         try:
-            url = "http://api.hackertarget.com/whois/?q=" + \
+            url = "https://whoisology.com/archive_11/" + \
                 self.domain
             r = requests.get(url)
         except Exception as e:
-            error = "[!] Major issue with Whois Search:" + str(e)
+            error = "[!] Major issue with Whoisology Search:" + str(e)
             print helpers.color(error, warning=True)
         self.results = r.content
 
     def get_emails(self):
         Parse = Parser.Parser(self.results)
+        Parse.genericClean()
+        Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
         return FinalOutput
+

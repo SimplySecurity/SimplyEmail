@@ -63,8 +63,5 @@ class ClassName:
         Parse = Parser.Parser(self.Html)
         Parse.genericClean()
         Parse.urlClean()
-        with open('temps.txt', "wr+") as myfile:
-            myfile.write(self.Html)
         FinalOutput = Parse.GrepFindEmails()
-        print FinalOutput
         return FinalOutput
