@@ -2,6 +2,7 @@
 
 import os
 import re
+import string
 import subprocess
 from random import randint
 
@@ -15,6 +16,31 @@ class Parser:
     def __init__(self, InputData):
         self.InputData = InputData
         #self.domain = domain
+
+    # A really good url clean by theHarvester at : 
+    # https://raw.githubusercontent.com/killswitch-GUI/theHarvester/master/myparser.py
+    def genericClean(self):
+        self.InputData = re.sub('<em>', '', self.InputData)
+        self.InputData = re.sub('<b>', '', self.InputData)
+        self.InputData = re.sub('</b>', '', self.InputData)
+        self.InputData = re.sub('</em>', '', self.InputData)
+        self.InputData = re.sub('%2f', ' ', self.InputData)
+        self.InputData = re.sub('%3a', ' ', self.InputData)
+        self.InputData = re.sub('<strong>', '', self.InputData)
+        self.InputData = re.sub('</strong>', '', self.InputData)
+
+        for e in ('>', ':', '=', '<', '/', '\\', ';', '&', '%3A', '%3D', '%3C'):
+            self.InputData = string.replace(self.InputData, e, ' ')
+
+    # A really good url clean by theHarvester at : 
+    # https://raw.githubusercontent.com/killswitch-GUI/theHarvester/master/myparser.py
+    def urlClean(self):
+        self.InputData = re.sub('<em>', '', self.InputData)
+        self.InputData = re.sub('</em>', '', self.InputData)
+        self.InputData = re.sub('%2f', ' ', self.InputData)
+        self.InputData = re.sub('%3a', ' ', self.InputData)
+        for e in ('<', '>', ':', '=', ';', '&', '%3A', '%3D', '%3C'):
+            self.InputData = string.replace(self.InputData, e, ' ')
 
     def FindEmails(self):
         Result = []

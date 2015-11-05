@@ -24,7 +24,7 @@ class ClassName:
             config.read('Common/SimplyEmail.ini')
             self.UserAgent = str(config['GlobalSettings']['UserAgent'])
         except:
-            print helpers.color("[*] Major Settings for SearchPGP are missing, EXITING!\n", warning=True)
+            print helpers.color("[*] Major Settings for Search Whois are missing, EXITING!\n", warning=True)
 
     def execute(self):
         self.process()

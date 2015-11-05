@@ -22,7 +22,8 @@ class ClassName:
             config.read('Common/SimplyEmail.ini')
             self.Domain = Domain
             self.Quanity = int(config['GoogleSearch']['StartQuantity'])
-            self.UserAgent = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+            self.UserAgent = {
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
             self.Limit = int(config['GoogleSearch']['QueryLimit'])
             self.Counter = int(config['GoogleSearch']['QueryStart'])
             self.Html = ""
@@ -40,12 +41,16 @@ class ClassName:
             try:
                 url = "http://www.google.com/search?num=" + str(self.Quanity) + \
                     "&start=" + str(self.Counter) + \
-                    "&hl=en&meta=&q=%40\"" + self.Domain + "\""
+                    '&hl=en&meta=&q="%40' + self.Domain + '"'
+
+                urly = "http://www.google.com/search?num=" + str(self.Quanity) + "&start=" + \
+                    str(self.Counter) + "&hl=en&meta=&q=%40\"" + \
+                    self.Domain + "\""
             except Exception as e:
                 error = "[!] Major issue with Google Search:" + str(e)
                 print helpers.color(error, warning=True)
             try:
-                r = requests.get(url, headers=self.UserAgent)
+                r = requests.get(urly, headers=self.UserAgent)
             except Exception as e:
                 error = "[!] Fail during Request to Google (Check Connection):" + \
                     str(e)
@@ -56,5 +61,10 @@ class ClassName:
 
     def get_emails(self):
         Parse = Parser.Parser(self.Html)
+        Parse.genericClean()
+        Parse.urlClean()
+        with open('temps.txt', "wr+") as myfile:
+            myfile.write(self.Html)
         FinalOutput = Parse.GrepFindEmails()
+        print FinalOutput
         return FinalOutput

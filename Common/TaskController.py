@@ -121,7 +121,7 @@ class Conducter:
         #error =  "[!] Error building HTML file:" + e
         # print helpers.color(error, warning=True)
 
-    def CleanResults(self, results_queue):
+    def CleanResults(self, results_queue, domain):
         # Clean Up results, remove dupplicates and enforce strict Domain reuslts (future)
         # Set Timeout or you wont leave the While loop
         EmailList = []
@@ -132,9 +132,14 @@ class Conducter:
             except Exception as e:
                 print e
                 break
+        SecondList = []
+        # Validate the domain.. this can mess up but i dont want to miss anything
+        for item in EmailList:
+            if domain in item:
+                SecondList.append(item)
         FinalList = []
         # Itt over all items in the list
-        for item in EmailList:
+        for item in SecondList:
             # Check if the value is in the new list
             if item not in FinalList:
                 # Add item to list and put back in the Queue
@@ -176,7 +181,7 @@ class Conducter:
             p.join(timeout=60)
         # Launches a single thread to output results
         try:
-            FinalEmailList = self.CleanResults(Results_queue)
+            FinalEmailList = self.CleanResults(Results_queue, domain)
         except Exception as e:
             error = "[!] Something went wrong with parsing results:" + str(e)
             print helpers.color(error, warning=True)
@@ -192,6 +197,46 @@ class Conducter:
             print helpers.color(error, warning=True)
 
         self.CompletedScreen(FinalCount, domain)
+
+    def TestModule(self, domain, module):
+        Config = configparser.ConfigParser()
+        Config.read("Common/SimplyEmail.ini")
+        total_proc = int(Config['ProcessConfig']['TottalProcs'])
+        Task_queue = multiprocessing.Queue()
+        Results_queue = multiprocessing.Queue()
+        for Task in self.modules:
+            if module in Task:
+                Task_queue.put(Task)
+        if total_proc > len(self.modules):
+            total_proc = len(self.modules)
+        for i in xrange(total_proc):
+            Task_queue.put(None)
+        procs = []
+        for thread in range(total_proc):
+            procs.append(multiprocessing.Process(
+                target=self.ExecuteModule, args=(Task_queue, Results_queue, domain)))
+        for p in procs:
+            p.daemon = True
+            p.start()
+        for p in procs:
+            p.join(timeout=60)
+        # Launches a single thread to output results
+        try:
+            FinalEmailList = self.CleanResults(Results_queue, domain)
+        except Exception as e:
+            error = "[!] Something went wrong with parsing results:" + str(e)
+            print helpers.color(error, warning=True)
+        try:
+            FinalCount = self.printer(Results_queue)
+        except Exception as e:
+            error = "[!] Something went wrong with outputing results:" + str(e)
+            print helpers.color(error, warning=True)
+        try:
+            self.HtmlPrinter(FinalEmailList, domain)
+        except Exception as e:
+            error = "[!] Something went wrong with HTML results:" + str(e)
+            print helpers.color(error, warning=True)
+
 
     def load_modules(self):
         # loop and assign key and name

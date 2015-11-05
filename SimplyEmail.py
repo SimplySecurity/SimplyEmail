@@ -33,20 +33,22 @@ def cli_parser():
         "-s", action='store_true', help="Show only emils matching your domain (We may want to collect all emails for potential connections)")
     parser.add_argument(
         "-l", action='store_true', help="List the current Modules Loaded")
+    parser.add_argument(
+        "-t", metavar="html / flickr / google", help="Test individual module (For Linting)")
     parser.add_argument('-h', '-?', '--h', '-help',
                         '--help', action="store_true", help=argparse.SUPPRESS)
     args = parser.parse_args()
     if args.h:
         parser.print_help()
         sys.exit()
-    return args.all, args.e, args.s, args.l
+    return args.all, args.e, args.s, args.l, args.t
 
 
 def TaskControler():
     # Get all the options passed and pass it to the TaskConducter, this will
     # keep all the prcessing on the side.
     # need to pass the store true somehow to tell printer to restrict output
-    cli_all, cli_domain, cli_store, cli_list = cli_parser()
+    cli_all, cli_domain, cli_store, cli_list, cli_test = cli_parser()
     cli_domain = cli_domain.lower()
     Task = TaskController.Conducter()
     Task.load_modules()
@@ -56,6 +58,9 @@ def TaskControler():
     if not len(cli_domain) > 1:
         print helpers.color("[*] No Domain Supplied to start up!\n", warning=True)
         sys.exit(0)
+    if cli_test:
+        # setup a small easy test to activate certain modules 
+        Task.TestModule(cli_domain,cli_test)
     if cli_all:
         Task.TaskSelector(cli_domain)
 
