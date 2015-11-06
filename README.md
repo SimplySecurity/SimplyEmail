@@ -62,11 +62,11 @@ Framework Under Dev:
 ## Standard Help
 ```
  ============================================================
- Curent Version: 0.1 | Website: Cyber-Syndicates.com
+ Curent Version: 0.1 | Website: CyberSyndicates.com
  ============================================================
  Twitter: @real_slacker007 |  Twitter: @Killswitch_gui
  ============================================================
-------------------------------------------------------------------------------
+-----------------------------------------------------------------------------
    ______  ________                       __ __ 
  /      \/        |                     /  /  |
 /$$$$$$  $$$$$$$$/ _____  ____   ______ $$/$$ |
@@ -77,20 +77,23 @@ $$      \$$    |  $$$$$$ $$$$  |$$$$$$  $$ $$ |
 $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
  $$$$$$/ $$$$$$$$/$$/  $$/  $$/ $$$$$$$/$$/$$/
 
-------------------------------------------------------------------------------
-usage: SimplyEmail.py [-all] [-e company.com] [-l]
+-----------------------------------------------------------------------------
+usage: SimplyEmail.py [-all] [-e company.com] [-s] [-l]
+                      [-t html / flickr / google]
 
-Email enumeration is an important phase of so many operation that a pen-tester
+Email enumeration is a important phase of so many operation that a pen-tester
 or Red Teamer goes through. There are tons of applications that do this but I
 wanted a simple yet effective way to get what Recon-Ng gets and theHarvester
 gets. (You may want to run -h)
 
 optional arguments:
-  -all            Use all non API methods to obtain Emails
-  -e company.com  Set required email addr user, ex ale@email.com
-  -l              List the current Modules Loaded
-
-
+  -all                  Use all non API methods to obtain Emails
+  -e company.com        Set required email addr user, ex ale@email.com
+  -s                    Show only emils matching your domain (We may want to
+                        collect all emails for potential connections)
+  -l                    List the current Modules Loaded
+  -t Html / Flickr / Google
+                        Test individual module (For Linting)
 ```
 
 ## Run SimpleEmail
