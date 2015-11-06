@@ -20,10 +20,12 @@ Modules Added in v0.1:
 (x) GitHub Code Search
 (x) Whois Non-Auth API Search
 (x) Whoisology Search
+(x) Yahoo Search - Port from theHarvester
 
 Issues Fixed in v0.1:
 -----------------------------
 (x) Wget fails to follow redirects in some cases
+(x) Fixed Issues with google search
 
 Imprrovements in v0.1:
 -----------------------------
