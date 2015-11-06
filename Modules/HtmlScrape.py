@@ -41,7 +41,9 @@ class ClassName:
 
     def execute(self):
         try:
+            print "header"
             self.search()
+            print "here"
             Emails = self.get_emails()
             return Emails
         except Exception as e:
@@ -55,10 +57,10 @@ class ClassName:
             # Using subprocess, more or less because of the rebust HTML miroring ability
             # And also allows proxy / VPN Support
             # "--convert-links"
-            subprocess.call(["wget", "-q", self.save, "--header=""Accept: text/html""", self.useragent,
+            subprocess.call(["wget", "-q", "--header=""Accept: text/html""", self.useragent,
                              "--recursive", self.depth, self.wait, self.limit_rate,
-                             self.timeout, "--page-requisites", "--html-extension", "--convert-links",
-                             "-R gif,jpg,pdf,png", "--domains", self.domain, TempDomain])
+                             self.timeout, "--page-requisites", "-R gif,jpg,pdf,png", 
+                             "--domains", self.domain, TempDomain])
         except:
             print "[!] ERROR during Wget Request"
 
@@ -68,6 +70,7 @@ class ClassName:
         FinalOutput = []
         val = ""
         directory = self.save.strip("--directory-prefix=")
+        print directory
         # Grep for any data containing "@", sorting out binary files as well
         # Pass list of Dirs to a regex, and read that path for emails
         try:
