@@ -108,11 +108,11 @@ This will run ALL modules that are have API placed in the SimpleEmail.ini file a
 root@vapt-kali:~/Desktop/SimplyEmail# ./SimplyEmail.py -l
 
  ============================================================
- Curent Version: 0.1 | Website: Cyber-Syndicates.com
+ Curent Version: 0.1 | Website: CyberSyndicates.com
  ============================================================
  Twitter: @real_slacker007 |  Twitter: @Killswitch_gui
  ============================================================
-------------------------------------------------------------------------------
+-----------------------------------------------------------------------------
    ______  ________                       __ __ 
  /      \/        |                     /  /  |
 /$$$$$$  $$$$$$$$/ _____  ____   ______ $$/$$ |
@@ -123,10 +123,17 @@ $$      \$$    |  $$$$$$ $$$$  |$$$$$$  $$ $$ |
 $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
  $$$$$$/ $$$$$$$$/$$/  $$/  $$/ $$$$$$$/$$/$$/
 
-------------------------------------------------------------------------------
+-----------------------------------------------------------------------------
  [*] Available Modules are:
 
 	1)	Modules/HtmlScrape.py   
-	2)	Modules/SearchPGP.py    
-	3)	Modules/PDFMiner.py  
+	2)	Modules/YahooSearch.py  
+	3)	Modules/GitHubCodeSearch.py
+	4)	Modules/Whoisolgy.py    
+	5)	Modules/WhoisAPISearch.py
+	6)	Modules/SearchPGP.py    
+	7)	Modules/GoogleSearch.py 
+	8)	Modules/FlickrSearch.py 
+
+
 ```
