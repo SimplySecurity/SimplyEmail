@@ -20,10 +20,12 @@ Modules Added in v0.1:
 (x) GitHub Code Search
 (x) Whois Non-Auth API Search
 (x) Whoisology Search
+(x) Yahoo Search - Port from theHarvester
 
 Issues Fixed in v0.1:
 -----------------------------
 (x) Wget fails to follow redirects in some cases
+(x) Fixed Issues with google search
 
 Imprrovements in v0.1:
 -----------------------------
@@ -60,11 +62,11 @@ Framework Under Dev:
 ## Standard Help
 ```
  ============================================================
- Curent Version: 0.1 | Website: Cyber-Syndicates.com
+ Curent Version: 0.1 | Website: CyberSyndicates.com
  ============================================================
  Twitter: @real_slacker007 |  Twitter: @Killswitch_gui
  ============================================================
-------------------------------------------------------------------------------
+-----------------------------------------------------------------------------
    ______  ________                       __ __ 
  /      \/        |                     /  /  |
 /$$$$$$  $$$$$$$$/ _____  ____   ______ $$/$$ |
@@ -75,20 +77,23 @@ $$      \$$    |  $$$$$$ $$$$  |$$$$$$  $$ $$ |
 $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
  $$$$$$/ $$$$$$$$/$$/  $$/  $$/ $$$$$$$/$$/$$/
 
-------------------------------------------------------------------------------
-usage: SimplyEmail.py [-all] [-e company.com] [-l]
+-----------------------------------------------------------------------------
+usage: SimplyEmail.py [-all] [-e company.com] [-s] [-l]
+                      [-t html / flickr / google]
 
-Email enumeration is an important phase of so many operation that a pen-tester
+Email enumeration is a important phase of so many operation that a pen-tester
 or Red Teamer goes through. There are tons of applications that do this but I
 wanted a simple yet effective way to get what Recon-Ng gets and theHarvester
 gets. (You may want to run -h)
 
 optional arguments:
-  -all            Use all non API methods to obtain Emails
-  -e company.com  Set required email addr user, ex ale@email.com
-  -l              List the current Modules Loaded
-
-
+  -all                  Use all non API methods to obtain Emails
+  -e company.com        Set required email addr user, ex ale@email.com
+  -s                    Show only emils matching your domain (We may want to
+                        collect all emails for potential connections)
+  -l                    List the current Modules Loaded
+  -t Html / Flickr / Google
+                        Test individual module (For Linting)
 ```
 
 ## Run SimpleEmail
@@ -103,11 +108,11 @@ This will run ALL modules that are have API placed in the SimpleEmail.ini file a
 root@vapt-kali:~/Desktop/SimplyEmail# ./SimplyEmail.py -l
 
  ============================================================
- Curent Version: 0.1 | Website: Cyber-Syndicates.com
+ Curent Version: 0.1 | Website: CyberSyndicates.com
  ============================================================
  Twitter: @real_slacker007 |  Twitter: @Killswitch_gui
  ============================================================
-------------------------------------------------------------------------------
+-----------------------------------------------------------------------------
    ______  ________                       __ __ 
  /      \/        |                     /  /  |
 /$$$$$$  $$$$$$$$/ _____  ____   ______ $$/$$ |
@@ -118,10 +123,17 @@ $$      \$$    |  $$$$$$ $$$$  |$$$$$$  $$ $$ |
 $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
  $$$$$$/ $$$$$$$$/$$/  $$/  $$/ $$$$$$$/$$/$$/
 
-------------------------------------------------------------------------------
+-----------------------------------------------------------------------------
  [*] Available Modules are:
 
 	1)	Modules/HtmlScrape.py   
-	2)	Modules/SearchPGP.py    
-	3)	Modules/PDFMiner.py  
+	2)	Modules/YahooSearch.py  
+	3)	Modules/GitHubCodeSearch.py
+	4)	Modules/Whoisolgy.py    
+	5)	Modules/WhoisAPISearch.py
+	6)	Modules/SearchPGP.py    
+	7)	Modules/GoogleSearch.py 
+	8)	Modules/FlickrSearch.py 
+
+
 ```
