@@ -2,6 +2,8 @@
 
 What is the simple email recon tool? This tool was based off the work of theHarvester and kind of a port of the functionality. This was just an expansion of what was used to build theHarvester and will incorporate his work but allow users to easily build Modules for the Framework. Which I felt was desperately needed after building my first module for theHarvester.
 
+## Scrape EVERYTHING - Simply 
+
 A few small benfits:
 - Easy for you to write modules (All you need is 3 required Class options and your up and running)
 - Multiprocessing Queue for modules and Result Queue for easy handling of Email data 
@@ -21,6 +23,7 @@ Modules Added in v0.1:
 (x) Whois Non-Auth API Search
 (x) Whoisology Search
 (x) Yahoo Search - Port from theHarvester
+(x) Canary (Non-API) PasteBin Search for Past Data Dumps!
 
 Issues Fixed in v0.1:
 -----------------------------
