@@ -4,6 +4,7 @@
 # Non-API-Based
 import requests
 import configparser
+import time
 from BeautifulSoup import BeautifulSoup
 from Helpers import Parser
 from Helpers import helpers
@@ -24,6 +25,7 @@ from Helpers import helpers
 
 # Some considerations are the retunred results: max 100 it seems
 # API may return a great array of results - This will be added later
+# Still having some major python errors
 
 
 class ClassName:
@@ -33,7 +35,7 @@ class ClassName:
         self.description = "Search Canary for paste potential data dumps, this can take a bit but a great source"
         self.domain = domain
         config = configparser.ConfigParser()
-        self.Html = ""
+        self.FinalOutput = []
         try:
             config.read('Common/SimplyEmail.ini')
             self.Depth = int(config['CanaryPasteBin']['PageDepth'])
@@ -43,8 +45,8 @@ class ClassName:
 
     def execute(self):
         self.process()
-        FinalOutput = self.get_emails()
-        return FinalOutput
+        return self.FinalOutput
+
 
     def process(self):
         # Get all the Pastebin raw items
@@ -72,18 +74,23 @@ class ClassName:
         for Url in UrlList:
             try:
                 Url = "https://canary.pw" + Url
-                print Url
                 # They can be massive!
-                html = requests.get(Url, timeout=20)
-                self.Html += html.content
+                html = requests.get(Url, timeout=60)
+                self.get_emails(html.content)
             except Exception as e:
                 error = "[!] Connection Timed out on Canary Pastebin Search:" + \
                     str(e)
                 print helpers.color(error, warning=True)
 
-    def get_emails(self):
-        Parse = Parser.Parser(self.Html)
+    # We must Pre Parse (python dosnt like the large vars)
+    def get_emails(self,html):
+        # You must report back with parsing errors!!!
+        # in one case I have seen alex@gmail.com:Password
+        # This will break most Reg-Ex
+        Parse = Parser.Parser(html)
         Parse.genericClean()
         Parse.urlClean()
-        FinalOutput = Parse.GrepFindEmails()
-        return FinalOutput
+        List = []
+        List += Parse.GrepFindEmails()
+        for email in List:
+        	self.FinalOutput.append(email)

@@ -6,6 +6,7 @@ import Queue
 import configparser
 import os
 import warnings
+import time
 from Helpers import helpers
 from Helpers import HtmlBootStrapTheme
 
@@ -31,6 +32,7 @@ class Conducter:
         self.Emails = []
         self.Tasks = []
         self.version = "0.1"
+        self.ResultsList = []
 
     def ConfigSectionMap(section):
         dict1 = {}
@@ -78,11 +80,11 @@ class Conducter:
                         print helpers.color(Length, status=True)
                         for Email in Emails:
                             Results_queue.put(Email)
-                        break
+                        Task_queue.task_done()
                     else:
-                        Message = "[*] " + Module.name + " has completed with no Email(s)"
+                        Message = "[*] " + Module.name + \
+                            " has completed with no Email(s)"
                         print helpers.color(Message, status=True)
-                        break
                 except Exception as e:
                     error = "[!] Error During Runtime in Module " + \
                         Module.name + ": " + str(e)
@@ -91,23 +93,17 @@ class Conducter:
                 error = "[!] Error Loading Module: " + str(e)
                 print helpers.color(error, warning=True)
 
-    def printer(self, results_queue):
+    def printer(self, FinalEmailList):
         # Building out the Text file that will be outputted
         x = 0
-        while True:
-            # Get item an print to output file
+        for item in FinalEmailList:
+            item = item + "\n"
             try:
-                # Must set time out due to blocking,
-                item = results_queue.get(timeout=1)
-                item = item + "\n"
                 with open('Email_list.txt', "a") as myfile:
                     myfile.write(item)
-                    x += 1
+                x += 1
             except Exception as e:
                 print e
-                break
-            # results_queue.task_done()
-        FinshText = "[* ]"
         print helpers.color("[*] Completed output!", status=True)
         return x
 
@@ -133,7 +129,8 @@ class Conducter:
                 print e
                 break
         SecondList = []
-        # Validate the domain.. this can mess up but i dont want to miss anything
+        # Validate the domain.. this can mess up but i dont want to miss
+        # anything
         for item in EmailList:
             if domain in item:
                 SecondList.append(item)
@@ -144,7 +141,7 @@ class Conducter:
             if item not in FinalList:
                 # Add item to list and put back in the Queue
                 FinalList.append(item)
-                results_queue.put(item)
+                # results_queue.put(item)
         print helpers.color("[*] Completed Cleaning Results", status=True)
         return FinalList
 
@@ -177,38 +174,57 @@ class Conducter:
         for p in procs:
             p.daemon = True
             p.start()
+        # This SAVED my life!
+        # really important to understand that if the results queue was still full
+        # the .join() method would not join even though a Consumer recived
+        # a posin pill! This allows us to easily:
+        # 1) start up all procs
+        # 2) wait till all procs are posined
+        # 3) than start up the cleaner and parser
+        # 4) once finshed, than release by a break
+        # 5) finally the Results_queue would be empty
+        # 6) All procs can finally join!
+        while True:
+            LeftOver = multiprocessing.active_children()
+            time.sleep(2)
+            print LeftOver
+            if len(LeftOver) == 0:
+                try:
+                    FinalEmailList = self.CleanResults(Results_queue, domain)
+                except Exception as e:
+                    error = "[!] Something went wrong with parsing results:" + \
+                        str(e)
+                    print helpers.color(error, warning=True)
+                try:
+                    FinalCount = self.printer(FinalEmailList)
+                except Exception as e:
+                    error = "[!] Something went wrong with outputixng results:" + \
+                        str(e)
+                    print helpers.color(error, warning=True)
+                Results_queue.close()
+                try:
+                    self.HtmlPrinter(FinalEmailList, domain)
+                except Exception as e:
+                    error = "[!] Something went wrong with HTML results:" + \
+                        str(e)
+                    print helpers.color(error, warning=True)
+                break
         for p in procs:
-            p.join(timeout=60)
-        # Launches a single thread to output results
-        try:
-            FinalEmailList = self.CleanResults(Results_queue, domain)
-        except Exception as e:
-            error = "[!] Something went wrong with parsing results:" + str(e)
-            print helpers.color(error, warning=True)
-        try:
-            FinalCount = self.printer(Results_queue)
-        except Exception as e:
-            error = "[!] Something went wrong with outputing results:" + str(e)
-            print helpers.color(error, warning=True)
-        try:
-            self.HtmlPrinter(FinalEmailList, domain)
-        except Exception as e:
-            error = "[!] Something went wrong with HTML results:" + str(e)
-            print helpers.color(error, warning=True)
+            p.join()
+        Task_queue.close()
 
         self.CompletedScreen(FinalCount, domain)
 
     def TestModule(self, domain, module):
         Config = configparser.ConfigParser()
         Config.read("Common/SimplyEmail.ini")
-        total_proc = int(Config['ProcessConfig']['TottalProcs'])
-        Task_queue = multiprocessing.Queue()
+        total_proc = int(1)
+        Task_queue = multiprocessing.JoinableQueue()
         Results_queue = multiprocessing.Queue()
         for Task in self.modules:
             if module in Task:
                 Task_queue.put(Task)
-        if total_proc > len(self.modules):
-            total_proc = len(self.modules)
+        # Only use one proc or things will not join!
         for i in xrange(total_proc):
             Task_queue.put(None)
         procs = []
@@ -218,25 +234,46 @@ class Conducter:
         for p in procs:
             p.daemon = True
             p.start()
+        # This SAVED my life!
+        # really important to understand that if the results queue was still full
+        # the .join() method would not join even though a Consumer recived
+        # a posin pill! This allows us to easily:
+        # 1) start up all procs
+        # 2) wait till all procs are posined
+        # 3) than start up the cleaner and parser
+        # 4) once finshed, than release by a break
+        # 5) finally the Results_queue would be empty
+        # 6) All procs can finally join!
+        while True:
+            LeftOver = multiprocessing.active_children()
+            time.sleep(2)
+            print LeftOver
+            if len(LeftOver) == 0:
+                try:
+                    FinalEmailList = self.CleanResults(Results_queue, domain)
+                except Exception as e:
+                    error = "[!] Something went wrong with parsing results:" + \
+                        str(e)
+                    print helpers.color(error, warning=True)
+                try:
+                    FinalCount = self.printer(FinalEmailList)
+                except Exception as e:
+                    error = "[!] Something went wrong with outputixng results:" + \
+                        str(e)
+                    print helpers.color(error, warning=True)
+                Results_queue.close()
+                try:
+                    self.HtmlPrinter(FinalEmailList, domain)
+                except Exception as e:
+                    error = "[!] Something went wrong with HTML results:" + \
+                        str(e)
+                    print helpers.color(error, warning=True)
+                break
         for p in procs:
-            p.join(timeout=60)
+            p.join()
+        Task_queue.close()
         # Launches a single thread to output results
-        try:
-            FinalEmailList = self.CleanResults(Results_queue, domain)
-        except Exception as e:
-            error = "[!] Something went wrong with parsing results:" + str(e)
-            print helpers.color(error, warning=True)
-        try:
-            FinalCount = self.printer(Results_queue)
-        except Exception as e:
-            error = "[!] Something went wrong with outputing results:" + str(e)
-            print helpers.color(error, warning=True)
-        try:
-            self.HtmlPrinter(FinalEmailList, domain)
-        except Exception as e:
-            error = "[!] Something went wrong with HTML results:" + str(e)
-            print helpers.color(error, warning=True)
-
+        self.CompletedScreen(FinalCount, domain)
 
     def load_modules(self):
         # loop and assign key and name
