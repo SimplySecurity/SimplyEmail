@@ -51,7 +51,7 @@ Modules Under Dev:
 ( ) Searching SEC Data
 ( ) PDFMiner 
 ( ) Exalead Search - Port from theHarvester
-( ) GitHubGist 
+( ) PwnBin Search 
 ( ) PasteBin Searches 
 ( ) Past Data Dumps
 ( ) Canary API based and non API
