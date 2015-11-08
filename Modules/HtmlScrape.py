@@ -3,6 +3,7 @@
 import subprocess
 import configparser
 import os
+import shutil
 from Helpers import *
 
 
@@ -41,9 +42,7 @@ class ClassName:
 
     def execute(self):
         try:
-            print "header"
             self.search()
-            print "here"
             Emails = self.get_emails()
             return Emails
         except Exception as e:
@@ -58,9 +57,9 @@ class ClassName:
             # And also allows proxy / VPN Support
             # "--convert-links"
             subprocess.call(["wget", "-q", "--header=""Accept: text/html""", self.useragent,
-                             "--recursive", self.depth, self.wait, self.limit_rate,
-                             self.timeout, "--page-requisites", "-R gif,jpg,pdf,png", 
-                             "--domains", self.domain, TempDomain])
+                             "--recursive", self.depth, self.wait, self.limit_rate, self.save,
+                             self.timeout, "--page-requisites", "-R gif,jpg,pdf,png,css", 
+                             "--no-clobber", "--domains", self.domain, TempDomain])
         except:
             print "[!] ERROR during Wget Request"
 
@@ -70,7 +69,7 @@ class ClassName:
         FinalOutput = []
         val = ""
         directory = self.save.strip("--directory-prefix=")
-        print directory
+        # directory = "www." + directory
         # Grep for any data containing "@", sorting out binary files as well
         # Pass list of Dirs to a regex, and read that path for emails
         try:
@@ -95,8 +94,8 @@ class ClassName:
                     FinalOutput.append(item.rstrip("\n"))
         except Exception as e:
             print e
-        if self.remove == "yes" or self.remove == "Yes":
-            os.removedirs(directory)
+        # if self.remove == "yes" or self.remove == "Yes":
+        #    os.removedirs(directory)
         # using PIPE output/input to avoid using "shell=True",
         # which can leave major security holes if script has certain permisions
         return FinalOutput

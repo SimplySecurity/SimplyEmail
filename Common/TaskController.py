@@ -95,9 +95,20 @@ class Conducter:
 
     def printer(self, FinalEmailList):
         # Building out the Text file that will be outputted
+        Date = time.strftime("%d/%m/%Y")
+        Time = time.strftime("%I:%M:%S")
+        PrintTitle =  "\t----------------------------------\n"
+        PrintTitle += "\tEmail Recon: " + Date + " " + Time + "\n"
+        PrintTitle += "\t----------------------------------\n"
         x = 0
         for item in FinalEmailList:
             item = item + "\n"
+            if x == 0:
+                try:
+                    with open('Email_list.txt', "a") as myfile:
+                        myfile.write(PrintTitle)
+                except Exception as e:
+                    print e
             try:
                 with open('Email_list.txt', "a") as myfile:
                     myfile.write(item)
@@ -320,7 +331,7 @@ class Conducter:
         print " ============================================================"
 
     def title_screen(self):
-        offtext = """-----------------------------------------------------------------------------
+        offtext = """------------------------------------------------------------
    ______  ________                       __ __ 
  /      \/        |                     /  /  |
 /$$$$$$  $$$$$$$$/ _____  ____   ______ $$/$$ |
@@ -331,7 +342,7 @@ $$      \$$    |  $$$$$$ $$$$  |$$$$$$  $$ $$ |
 $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
  $$$$$$/ $$$$$$$$/$$/  $$/  $$/ $$$$$$$/$$/$$/
 
------------------------------------------------------------------------------"""
+------------------------------------------------------------"""
         print helpers.color(offtext, bold=False)
 
     def CompletedScreen(self, FinalCount, domain):
