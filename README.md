@@ -24,6 +24,7 @@ Modules Added in v0.1:
 (x) Google Search - Port form theHarvester
 (x) Flickr Page Search
 (x) GitHub Code Search
+(x) GitHubGist Code Search
 (x) Whois Non-Auth API Search
 (x) Whoisology Search
 (x) Yahoo Search - Port from theHarvester
