@@ -9,6 +9,10 @@ A few small benfits:
 - Multiprocessing Queue for modules and Result Queue for easy handling of Email data 
 - Simple intergration of theHarvester Modules and new ones to come
 - Also the ability to change major settings fast without diving into the code
+
+API Based Searches:
+- When API based searches become avaliable, no need to add them to the Command line
+- API keys will be auto pulled from the SimpleEmail.ini, this will activate the module for use
  
 ##Build Log:
 ####Changelog in 0.1:
