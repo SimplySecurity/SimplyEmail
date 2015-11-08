@@ -81,6 +81,7 @@ class ClassName:
                 error = "[!] Connection Timed out on Canary Pastebin Search:" + \
                     str(e)
                 print helpers.color(error, warning=True)
+        
 
     # We must Pre Parse (python dosnt like the large vars)
     def get_emails(self,html):
