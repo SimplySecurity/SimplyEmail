@@ -29,6 +29,7 @@ Issues Fixed in v0.1:
 -----------------------------
 (x) Wget fails to follow redirects in some cases
 (x) Fixed Issues with google search
+(x) Major change with how the Framework Handles Consumer and Producred Model
 
 Imprrovements in v0.1:
 -----------------------------
