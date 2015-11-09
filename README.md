@@ -2,6 +2,15 @@
 
 What is the simple email recon tool? This tool was based off the work of theHarvester and kind of a port of the functionality. This was just an expansion of what was used to build theHarvester and will incorporate his work but allow users to easily build Modules for the Framework. Which I felt was desperately needed after building my first module for theHarvester.
 
+MAJOR CALLOUTS:
+@laramies - His OSINT theHarvester tool
+	https://github.com/laramies/theHarvester
+
+Work Conducted by:
+----------------------------------------------
+* Alexander Rymdeko-Harvey -- [Twitter @Killswitch-GUI -- [Web] [CyberSydicates.com](http://cybersyndicates.com)
+* Keelyn Roberts -- [Twitter] @real_slacker007 -- [Web] [CyberSydicates.com](http://cybersyndicates.com)
+
 ## Scrape EVERYTHING - Simply 
 
 A few small benfits:
@@ -35,19 +44,20 @@ Issues Fixed in v0.1:
 (x) Wget fails to follow redirects in some cases
 (x) Fixed Issues with google search
 (x) Major change with how the Framework Handles Consumer and Producred Model
+(x) Fix Issues with Join()
 
 Imprrovements in v0.1:
 -----------------------------
 (x) Added in valid UserAgents and headers
 (x) HTML Scrape now has opption to save or remove is mirror
 (x) HTML Scrape UTF-8 issues fixed
-
 ```
 ####Build out Path:
 ```
 Modules Under Dev:
 -----------------------------
 ( ) StartPage Search (can help with captcha issues)
+( ) GitHub User Search
 ( ) Searching SEC Data
 ( ) PDFMiner 
 ( ) Exalead Search - Port from theHarvester
@@ -62,9 +72,9 @@ Framework Under Dev:
 ( ) Fix import errors with Glob
 ( ) Add in "[@]something.com" to search Regex and engines
 ( ) Add errors for Captcha limit's
-(/) Add auto redirects for WGET and supplied Domain Names: may need httrack?
 ( ) Add Threading/Multi to GitHub Search
-( ) Fix Issues with Join()
+( ) Add Source of collection to HTML Output
+
 ```
 ## Get Started
 Please RUN the simple Setup Bash script!!!
@@ -127,8 +137,8 @@ root@vapt-kali:~/Desktop/SimplyEmail# ./SimplyEmail.py -l
  ============================================================
  Twitter: @real_slacker007 |  Twitter: @Killswitch_gui
  ============================================================
------------------------------------------------------------------------------
-   ______  ________                       __ __ 
+------------------------------------------------------------
+   ______  ________                       __ __
  /      \/        |                     /  /  |
 /$$$$$$  $$$$$$$$/ _____  ____   ______ $$/$$ |
 $$ \__$$/$$ |__   /     \/    \ /      \/  $$ |
@@ -138,17 +148,18 @@ $$      \$$    |  $$$$$$ $$$$  |$$$$$$  $$ $$ |
 $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
  $$$$$$/ $$$$$$$$/$$/  $$/  $$/ $$$$$$$/$$/$$/
 
------------------------------------------------------------------------------
+------------------------------------------------------------
  [*] Available Modules are:
 
 	1)	Modules/HtmlScrape.py   
-	2)	Modules/YahooSearch.py  
-	3)	Modules/GitHubCodeSearch.py
-	4)	Modules/Whoisolgy.py    
-	5)	Modules/WhoisAPISearch.py
-	6)	Modules/SearchPGP.py    
-	7)	Modules/GoogleSearch.py 
-	8)	Modules/FlickrSearch.py 
-
-
+	2)	Modules/Whoisolgy.py    
+	3)	Modules/CanaryBinSearch.py
+	4)	Modules/YahooSearch.py  
+	5)	Modules/GitHubCodeSearch.py
+	6)	Modules/EmailHunter.py  
+	7)	Modules/WhoisAPISearch.py
+	8)	Modules/SearchPGP.py    
+	9)	Modules/GoogleSearch.py 
+	10)	Modules/GitHubGistSearch.py
+	11)	Modules/FlickrSearch.py 
 ```
