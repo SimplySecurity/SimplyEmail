@@ -24,60 +24,6 @@ API Based Searches:
 - When API based searches become avaliable, no need to add them to the Command line
 - API keys will be auto pulled from the SimpleEmail.ini, this will activate the module for use
  
-##Build Log:
-####Changelog in 0.1:
-```
-Modules Added in v0.1:
------------------------------
-(x) HtmlScrape Added to Modules 
-(x) SearchPGP Added to Modules - Port form theHarvester
-(x) Google Search - Port form theHarvester
-(x) Flickr Page Search
-(x) GitHub Code Search
-(x) GitHubGist Code Search
-(x) Whois Non-Auth API Search
-(x) Whoisology Search
-(x) Yahoo Search - Port from theHarvester
-(x) Canary (Non-API) PasteBin Search for Past Data Dumps!
-
-Issues Fixed in v0.1:
------------------------------
-(x) Wget fails to follow redirects in some cases
-(x) Fixed Issues with google search
-(x) Major change with how the Framework Handles Consumer and Producred Model
-(x) Fix Issues with Join() and Conducter
-
-Imprrovements in v0.1:
------------------------------
-(x) Added in valid UserAgents and headers
-(x) HTML Scrape now has opption to save or remove is mirror
-(x) HTML Scrape UTF-8 issues fixed
-```
-####Build out Path:
-```
-Modules Under Dev:
------------------------------
-( ) StartPage Search (can help with captcha issues)
-( ) GitHub User Search
-( ) Searching SEC Data
-( ) PDFMiner 
-( ) Exalead Search - Port from theHarvester
-( ) PwnBin Search 
-( ) PasteBin Searches 
-( ) Past Data Dumps
-( ) Canary API based and non API
-( ) psbdmp API Based and non Alert
-
-Framework Under Dev:
------------------------------
-( ) New Parsers to clean results
-( ) Fix import errors with Glob
-( ) Add in "[@]something.com" to search Regex and engines
-( ) Add errors for Captcha limit's
-( ) Add Threading/Multi to GitHub Search
-( ) Add Source of collection to HTML Output
-
-```
 ## Get Started
 Please RUN the simple Setup Bash script!!!
 ```Bash
@@ -164,4 +110,58 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 	9)	Modules/GoogleSearch.py 
 	10)	Modules/GitHubGistSearch.py
 	11)	Modules/FlickrSearch.py 
+```
+##Build Log:
+####Changelog in 0.1:
+```
+Modules Added in v0.1:
+-----------------------------
+(x) HtmlScrape Added to Modules 
+(x) SearchPGP Added to Modules - Port form theHarvester
+(x) Google Search - Port form theHarvester
+(x) Flickr Page Search
+(x) GitHub Code Search
+(x) GitHubGist Code Search
+(x) Whois Non-Auth API Search
+(x) Whoisology Search
+(x) Yahoo Search - Port from theHarvester
+(x) Canary (Non-API) PasteBin Search for Past Data Dumps!
+
+Issues Fixed in v0.1:
+-----------------------------
+(x) Wget fails to follow redirects in some cases
+(x) Fixed Issues with google search
+(x) Major change with how the Framework Handles Consumer and Producred Model
+(x) Fix Issues with Join() and Conducter
+
+Imprrovements in v0.1:
+-----------------------------
+(x) Added in valid UserAgents and headers
+(x) HTML Scrape now has opption to save or remove is mirror
+(x) HTML Scrape UTF-8 issues fixed
+```
+####Build out Path:
+```
+Modules Under Dev:
+-----------------------------
+( ) StartPage Search (can help with captcha issues)
+( ) GitHub User Search
+( ) Searching SEC Data
+( ) PDFMiner 
+( ) Exalead Search - Port from theHarvester
+( ) PwnBin Search 
+( ) PasteBin Searches 
+( ) Past Data Dumps
+( ) Canary API based and non API
+( ) psbdmp API Based and non Alert
+
+Framework Under Dev:
+-----------------------------
+( ) New Parsers to clean results
+( ) Fix import errors with Glob
+( ) Add in "[@]something.com" to search Regex and engines
+( ) Add errors for Captcha limit's
+( ) Add Threading/Multi to GitHub Search
+( ) Add Source of collection to HTML Output
+
 ```
