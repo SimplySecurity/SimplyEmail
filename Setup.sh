@@ -40,6 +40,7 @@ func_install_requests(){
   #sudo apt-get upgrade 
   sudo pip install --upgrade requests 
   sudo pip install configparser --upgrade
+  sudo pip install BeautifulSoup --upgrade
   chmod 755 SimplyEmail.py
 
 }
