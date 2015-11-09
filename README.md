@@ -4,18 +4,18 @@
 What is the simple email recon tool? This tool was based off the work of theHarvester and kind of a port of the functionality. This was just an expansion of what was used to build theHarvester and will incorporate his work but allow users to easily build Modules for the Framework. Which I felt was desperately needed after building my first module for theHarvester.
 
 MAJOR CALLOUTS:
-@laramies - His OSINT theHarvester tool
-	https://github.com/laramies/theHarvester
+@laramies - Devloper of theHarvester tool https://github.com/laramies/theHarvester
 
 Work Conducted by:
 ----------------------------------------------
-* Alexander Rymdeko-Harvey -- [Twitter] @Killswitch-GUI -- [Web] [CyberSydicates.com](http://cybersyndicates.com)
-* Keelyn Roberts -- [Twitter] @real_slacker007 -- [Web] [CyberSydicates.com](http://cybersyndicates.com)
+* Alexander Rymdeko-Harvey [Twitter] @Killswitch-GUI -- [Web] [CyberSydicates.com](http://cybersyndicates.com)
+* Keelyn Roberts [Twitter] @real_slacker007 -- [Web] [CyberSydicates.com](http://cybersyndicates.com)
 
 ## Scrape EVERYTHING - Simply 
 
 A few small benfits:
-- Easy for you to write modules (All you need is 3 required Class options and your up and running)
+- Easy for you to write modules (All you need is 1 required Class options and your up and running)
+- Use the built in Parsers for most raw results
 - Multiprocessing Queue for modules and Result Queue for easy handling of Email data 
 - Simple intergration of theHarvester Modules and new ones to come
 - Also the ability to change major settings fast without diving into the code
@@ -45,7 +45,7 @@ Issues Fixed in v0.1:
 (x) Wget fails to follow redirects in some cases
 (x) Fixed Issues with google search
 (x) Major change with how the Framework Handles Consumer and Producred Model
-(x) Fix Issues with Join()
+(x) Fix Issues with Join() and Conducter
 
 Imprrovements in v0.1:
 -----------------------------
@@ -128,7 +128,7 @@ Lets say your target is cybersyndicates.com
 ```python
 ./SimplyEmail.py -all -e cybersyndicates.com
 ```
-This will run ALL modules that are have API placed in the SimpleEmail.ini file and will run all non-API based modules. 
+This will run ALL modules that are have API Key placed in the SimpleEmail.ini file and will run all non-API based modules. 
 ### List Modules SimpleEmail
 ```
 root@vapt-kali:~/Desktop/SimplyEmail# ./SimplyEmail.py -l
