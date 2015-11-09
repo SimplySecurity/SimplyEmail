@@ -127,8 +127,8 @@ root@vapt-kali:~/Desktop/SimplyEmail# ./SimplyEmail.py -l
  ============================================================
  Twitter: @real_slacker007 |  Twitter: @Killswitch_gui
  ============================================================
------------------------------------------------------------------------------
-   ______  ________                       __ __ 
+------------------------------------------------------------
+   ______  ________                       __ __
  /      \/        |                     /  /  |
 /$$$$$$  $$$$$$$$/ _____  ____   ______ $$/$$ |
 $$ \__$$/$$ |__   /     \/    \ /      \/  $$ |
@@ -138,17 +138,18 @@ $$      \$$    |  $$$$$$ $$$$  |$$$$$$  $$ $$ |
 $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
  $$$$$$/ $$$$$$$$/$$/  $$/  $$/ $$$$$$$/$$/$$/
 
------------------------------------------------------------------------------
+------------------------------------------------------------
  [*] Available Modules are:
 
 	1)	Modules/HtmlScrape.py   
-	2)	Modules/YahooSearch.py  
-	3)	Modules/GitHubCodeSearch.py
-	4)	Modules/Whoisolgy.py    
-	5)	Modules/WhoisAPISearch.py
-	6)	Modules/SearchPGP.py    
-	7)	Modules/GoogleSearch.py 
-	8)	Modules/FlickrSearch.py 
-
-
+	2)	Modules/Whoisolgy.py    
+	3)	Modules/CanaryBinSearch.py
+	4)	Modules/YahooSearch.py  
+	5)	Modules/GitHubCodeSearch.py
+	6)	Modules/EmailHunter.py  
+	7)	Modules/WhoisAPISearch.py
+	8)	Modules/SearchPGP.py    
+	9)	Modules/GoogleSearch.py 
+	10)	Modules/GitHubGistSearch.py
+	11)	Modules/FlickrSearch.py 
 ```
