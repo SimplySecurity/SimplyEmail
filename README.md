@@ -24,6 +24,7 @@ Modules Added in v0.1:
 (x) Google Search - Port form theHarvester
 (x) Flickr Page Search
 (x) GitHub Code Search
+(x) GitHubGist Code Search
 (x) Whois Non-Auth API Search
 (x) Whoisology Search
 (x) Yahoo Search - Port from theHarvester
@@ -50,7 +51,7 @@ Modules Under Dev:
 ( ) Searching SEC Data
 ( ) PDFMiner 
 ( ) Exalead Search - Port from theHarvester
-( ) GitHubGist 
+( ) PwnBin Search 
 ( ) PasteBin Searches 
 ( ) Past Data Dumps
 ( ) Canary API based and non API
