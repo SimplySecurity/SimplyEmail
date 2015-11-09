@@ -3,6 +3,7 @@ import imp
 import glob
 import multiprocessing
 import Queue
+import threading
 import configparser
 import os
 import warnings
@@ -30,6 +31,7 @@ class Conducter:
         self.dmodules = {}
         # create required array
         self.Emails = []
+        self.ConsumerList = []
         self.Tasks = []
         self.version = "0.1"
         self.ResultsList = []
@@ -128,21 +130,13 @@ class Conducter:
         #error =  "[!] Error building HTML file:" + e
         # print helpers.color(error, warning=True)
 
-    def CleanResults(self, results_queue, domain):
+    def CleanResults(self, domain):
         # Clean Up results, remove dupplicates and enforce strict Domain reuslts (future)
         # Set Timeout or you wont leave the While loop
-        EmailList = []
-        while True:
-            try:
-                item = results_queue.get(timeout=1)
-                EmailList.append(item)
-            except Exception as e:
-                print e
-                break
         SecondList = []
         # Validate the domain.. this can mess up but i dont want to miss
         # anything
-        for item in EmailList:
+        for item in self.ConsumerList:
             if domain in item:
                 SecondList.append(item)
         FinalList = []
@@ -155,6 +149,16 @@ class Conducter:
                 # results_queue.put(item)
         print helpers.color("[*] Completed Cleaning Results", status=True)
         return FinalList
+
+    def Consumer(self, Results_queue):
+        while True:
+            try:
+                item = Results_queue.get()
+                if item is None:
+                    break
+                self.ConsumerList.append(item)
+            except:
+                pass
 
     def TaskSelector(self, domain):
         # Here it will check the Que for the next task to be completed
@@ -200,8 +204,9 @@ class Conducter:
             time.sleep(2)
             print LeftOver
             if len(LeftOver) == 0:
+                Results_queue.put(None)
                 try:
-                    FinalEmailList = self.CleanResults(Results_queue, domain)
+                    FinalEmailList = self.CleanResults(domain)
                 except Exception as e:
                     error = "[!] Something went wrong with parsing results:" + \
                         str(e)
@@ -226,6 +231,9 @@ class Conducter:
 
         self.CompletedScreen(FinalCount, domain)
 
+    # This is the Test version of the multi proc above, this function
+    # Helps with testing only one module at a time. Helping with proper
+    # Module Dev and testing before intergration
     def TestModule(self, domain, module):
         Config = configparser.ConfigParser()
         Config.read("Common/SimplyEmail.ini")
@@ -235,7 +243,7 @@ class Conducter:
         for Task in self.modules:
             if module in Task:
                 Task_queue.put(Task)
-        # Only use one proc or things will not join!
+        # Only use one proc since this is a test module
         for i in xrange(total_proc):
             Task_queue.put(None)
         procs = []
@@ -255,13 +263,22 @@ class Conducter:
         # 4) once finshed, than release by a break
         # 5) finally the Results_queue would be empty
         # 6) All procs can finally join!
+        t = threading.Thread(target=self.Consumer, args=(Results_queue,))
+        t.daemon = True
+        t.start()
+        # Enter this loop so we know when to terminate the Consumer thread
+        # This multiprocessing.active_children() is also Joining!
         while True:
             LeftOver = multiprocessing.active_children()
-            time.sleep(2)
-            print LeftOver
+            time.sleep(1)
+            # We want to wait till we have no procs left, before we join
             if len(LeftOver) == 0:
+                # Block untill all results are consumed
+                time.sleep(5)
+                Results_queue.put(None)
+                # t.join()
                 try:
-                    FinalEmailList = self.CleanResults(Results_queue, domain)
+                    FinalEmailList = self.CleanResults(domain)
                 except Exception as e:
                     error = "[!] Something went wrong with parsing results:" + \
                         str(e)
@@ -313,14 +330,6 @@ class Conducter:
             x += 1
         print ""
 
-    # def module_menu(self, module):
- # int the Class Object
- #        module_name = module
- #        module = self.modules[module]
- #        module = module.ClassName()
- #        self.module_info(module)
- #        messages.helpmsg(self.modulescommands, showTitle=False)
-
     def title(self):
         os.system('clear')
         # stolen from Veil :)
@@ -332,7 +341,7 @@ class Conducter:
 
     def title_screen(self):
         offtext = """------------------------------------------------------------
-   ______  ________                       __ __ 
+   ______  ________                       __ __
  /      \/        |                     /  /  |
 /$$$$$$  $$$$$$$$/ _____  ____   ______ $$/$$ |
 $$ \__$$/$$ |__   /     \/    \ /      \/  $$ |

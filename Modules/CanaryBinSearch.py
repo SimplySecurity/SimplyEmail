@@ -4,7 +4,7 @@
 # Non-API-Based
 import requests
 import configparser
-import time
+import urllib2
 from BeautifulSoup import BeautifulSoup
 from Helpers import Parser
 from Helpers import helpers
@@ -35,7 +35,7 @@ class ClassName:
         self.description = "Search Canary for paste potential data dumps, this can take a bit but a great source"
         self.domain = domain
         config = configparser.ConfigParser()
-        self.FinalOutput = []
+        self.Html = ""
         try:
             config.read('Common/SimplyEmail.ini')
             self.Depth = int(config['CanaryPasteBin']['PageDepth'])
@@ -45,8 +45,8 @@ class ClassName:
 
     def execute(self):
         self.process()
-        return self.FinalOutput
-
+        FinalOutput = self.get_emails()
+        return FinalOutput
 
     def process(self):
         # Get all the Pastebin raw items
@@ -56,7 +56,7 @@ class ClassName:
             try:
                 url = "https://canary.pw/search/?q=" + str(self.domain) + "&page=" + \
                     str(self.Counter)
-                r = requests.get(url, timeout=20)
+                r = requests.get(url, timeout=5)
                 if r.status_code != 200:
                     break
             except Exception as e:
@@ -71,27 +71,29 @@ class ClassName:
                     UrlList.append(a)
             self.Counter += 1
         # Now take all gathered URL's and gather the HTML content needed
-        for Url in UrlList:
+        Status = "[*] Canary found " + str(len(UrlList)) + " PasteBin(s) to Search!"
+        print helpers.color(Status, status=True)
+        for item in UrlList:
             try:
-                Url = "https://canary.pw" + Url
+                item = "https://canary.pw" + str(item)
                 # They can be massive!
-                html = requests.get(Url, timeout=60)
-                self.get_emails(html.content)
+                rawhtml = urllib2.urlopen(item, timeout=20)
+                try:
+                    self.Html +=  rawhtml.read()
+                except:
+                    pass
             except Exception as e:
                 error = "[!] Connection Timed out on Canary Pastebin Search:" + \
                     str(e)
                 print helpers.color(error, warning=True)
-        
 
     # We must Pre Parse (python dosnt like the large vars)
-    def get_emails(self,html):
+    def get_emails(self):
         # You must report back with parsing errors!!!
         # in one case I have seen alex@gmail.com:Password
         # This will break most Reg-Ex
-        Parse = Parser.Parser(html)
+        Parse = Parser.Parser(self.Html)
         Parse.genericClean()
         Parse.urlClean()
-        List = []
-        List += Parse.GrepFindEmails()
-        for email in List:
-        	self.FinalOutput.append(email)
+        FinalOutput = Parse.GrepFindEmails()
+        return FinalOutput
