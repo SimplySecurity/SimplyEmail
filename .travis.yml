@@ -2,4 +2,5 @@ language: python
 python:
   - "2.7"
 script:
+  - "sudo sh Setup.sh"
   - "sudo ./SimplyEmail.py -l"
