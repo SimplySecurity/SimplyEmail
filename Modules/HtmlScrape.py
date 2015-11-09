@@ -94,8 +94,8 @@ class ClassName:
                     FinalOutput.append(item.rstrip("\n"))
         except Exception as e:
             print e
-        # if self.remove == "yes" or self.remove == "Yes":
-        #    os.removedirs(directory)
+        if self.remove == "yes" or self.remove == "Yes":
+            shutil.rmtree(directory)
         # using PIPE output/input to avoid using "shell=True",
         # which can leave major security holes if script has certain permisions
         return FinalOutput
