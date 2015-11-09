@@ -111,7 +111,7 @@ optional arguments:
                         Test individual module (For Linting)
 ```
 
-### Run SimpleEmail
+### Run SimplyEmail
 
 Lets say your target is cybersyndicates.com
 ```python
