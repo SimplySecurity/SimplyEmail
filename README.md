@@ -68,7 +68,7 @@ Framework Under Dev:
 ```
 ## Get Started
 Please RUN the simple Setup Bash script!!!
-```
+```Bash
 root@kali:~/Desktop/SimplyEmail# sh Setup.sh
 or
 root@kali:~/Desktop/SimplyEmail# ./Setup.sh
