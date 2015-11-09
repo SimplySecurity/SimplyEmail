@@ -8,7 +8,7 @@ MAJOR CALLOUTS:
 
 Work Conducted by:
 ----------------------------------------------
-* Alexander Rymdeko-Harvey [Twitter] @Killswitch-GUI  [Web] [CyberSydicates.com](http://cybersyndicates.com)
+* Alexander Rymdeko-Harvey style="color:orange;">[Twitter]</span> @Killswitch-GUI  [Web] [CyberSydicates.com](http://cybersyndicates.com)
 * Keelyn Roberts [Twitter] @real_slacker007 [Web] [CyberSydicates.com](http://cybersyndicates.com)
 
 ## Scrape EVERYTHING - Simply 
