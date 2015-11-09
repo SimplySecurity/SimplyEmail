@@ -66,9 +66,15 @@ Framework Under Dev:
 ( ) Add Threading/Multi to GitHub Search
 ( ) Fix Issues with Join()
 ```
+## Get Started
+Please RUN the simple Setup Bash script!!!
+```
+sh Setup.sh
+or
+./Setup.sh
+```
 
-
-## Standard Help
+### Standard Help
 ```
  ============================================================
  Curent Version: 0.1 | Website: CyberSyndicates.com
@@ -105,14 +111,14 @@ optional arguments:
                         Test individual module (For Linting)
 ```
 
-## Run SimpleEmail
+### Run SimpleEmail
 
 Lets say your target is cybersyndicates.com
 ```python
 ./SimplyEmail.py -all -e cybersyndicates.com
 ```
 This will run ALL modules that are have API placed in the SimpleEmail.ini file and will run all non-API based modules. 
-## List Modules SimpleEmail
+### List Modules SimpleEmail
 ```
 root@vapt-kali:~/Desktop/SimplyEmail# ./SimplyEmail.py -l
 
