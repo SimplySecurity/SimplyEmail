@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# encoding=utf8 
+import sys
 from Helpers import helpers
 
 # This Classes main goal is to build the HTML output file using all self
@@ -12,6 +13,8 @@ class HtmlBuilder:
         self.Emails = Emails
         self.Domain = Domain
         self.HTML = ""
+        reload(sys)  
+        sys.setdefaultencoding('utf8')
 
     def BuildHtml(self):
         BottomHtml = """
