@@ -82,8 +82,8 @@ function AnchorJS(a){"use strict";this.options=a||{},this._applyRemainingDefault
         for Email in self.Emails:
             line = "\t\t<tr>\n"
             line += "\t\t\t<td>" + str(x) + "</td>\n"
-            line += "\t\t\t<td>" + str(Email) + "</td>\n"
             line += "\t\t\t<td>" + str(self.Domain) + "</td>\n"
+            line += "\t\t\t<td>" + str(Email) + "</td>\n"
             line += "\t\t</tr>\n"
             x += 1
             EmailTables += str(line)
