@@ -28,7 +28,6 @@ class ClassName:
     def execute(self):
         self.process()
         FinalOutput = self.get_emails()
-        print FinalOutput
         return FinalOutput
 
     def process(self):
@@ -47,4 +46,3 @@ class ClassName:
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
         return FinalOutput
-

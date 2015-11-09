@@ -42,7 +42,7 @@ class ClassName:
         UrlList = []
         while self.Counter <= self.Depth:
             try:
-            	# search?p=2&q=%40enron.com&ref=searchresults&utf8=✓
+                # search?p=2&q=%40enron.com&ref=searchresults&utf8=✓
                 url = "https://gist.github.com/search?p=" + str(self.Counter) + "&q=%40" + \
                     str(self.domain) + "+&ref=searchresults&utf8=✓"
                 r = requests.get(url, timeout=5)

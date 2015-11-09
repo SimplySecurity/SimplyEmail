@@ -1,0 +1,90 @@
+jQuery(function($){
+	
+	// Hide all accordions not specified to be open on load
+	$('.accordion-section .closed ~ div').hide(); //hide all that are not forced to be open on load
+
+    $('.accordion-title').click(function(){
+
+		var groupName = $(this).parent().data('group');
+
+		if (groupName === 'no') {
+	 		
+            if ($(this).next().is(':visible')) {
+				$(this).next().slideUp(300);
+				$(this).addClass('closed').removeClass('open');
+			} else {
+				$(this).addClass('open').removeClass('closed').next().slideDown(300);
+			}
+            
+		} else {
+		
+			// This is what should happen to any items that share the same data-group
+			// So if the name in group-one, the stuff below happens to all data-group="grou-one",
+			// And no other groups should be affected
+			
+	 		if ($(this).next().is(':visible')) {
+				$(this).next().slideUp(300);
+				$(this).addClass('closed').removeClass('open');
+			} else {
+                $('.accordion-section').each(function(key, item){
+                    if ($(item).data('group') == groupName)
+                    {
+                        $(item).find('.accordion-content').slideUp(300);
+						$(item).find('.accordion-title').addClass('closed').removeClass('open');
+                    }
+                });
+				$(this).addClass('open').removeClass('closed').next().slideDown(300);
+			}
+            
+		}
+	});
+
+	$(window).resize(function() {
+
+	}).resize();
+
+});
+
+
+
+/* ==== Accordion ==== */
+/*
+	$('.accordion-section').on('click', '.accordion-title', function() {
+		var el = $(this);
+		var accordion = el.parents('.accordion-section');
+		var menu = accordion.find('.accordion-content');
+
+		if ( !accordion.hasClass('open') ) {
+			// Close other open accordions
+			accordion.parent()
+				.find('.accordion-section.open')
+				.find('.accordion-content')
+				.velocity('slideUp', {
+					duration : 300,
+					complete : function() {
+						$(this).parents('.accordion-section').removeClass('open');
+					}
+			});
+
+			// Open clicked accordion
+			accordion.addClass('open');
+			menu.velocity('slideDown', {
+				duration : 300,
+				easing   : 'spring',
+				complete : function() {
+					scrollToEl(el);
+				}
+			});
+
+		} else {
+			// Close Clicked Accordion
+			accordion.removeClass('open');
+			menu.velocity('slideUp', {
+				duration : 300
+			});
+		}
+	});
+
+	$('.accordion-section').not('.open').find('.accordion-content').hide();
+*/
+/* ==== /Accordion ==== */

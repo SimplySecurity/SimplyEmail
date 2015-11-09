@@ -82,7 +82,7 @@ class Conducter:
                         print helpers.color(Length, status=True)
                         for Email in Emails:
                             Results_queue.put(Email)
-                        Task_queue.task_done()
+                        #Task_queue.task_done()
                     else:
                         Message = "[*] " + Module.name + \
                             " has completed with no Email(s)"
@@ -199,12 +199,20 @@ class Conducter:
         # 4) once finshed, than release by a break
         # 5) finally the Results_queue would be empty
         # 6) All procs can finally join!
+        t = threading.Thread(target=self.Consumer, args=(Results_queue,))
+        t.daemon = True
+        t.start()
+        # Enter this loop so we know when to terminate the Consumer thread
+        # This multiprocessing.active_children() is also Joining!
         while True:
             LeftOver = multiprocessing.active_children()
-            time.sleep(2)
-            print LeftOver
+            time.sleep(1)
+            # We want to wait till we have no procs left, before we join
             if len(LeftOver) == 0:
+                # Block untill all results are consumed
+                time.sleep(5)
                 Results_queue.put(None)
+                # t.join()
                 try:
                     FinalEmailList = self.CleanResults(domain)
                 except Exception as e:
@@ -228,7 +236,7 @@ class Conducter:
         for p in procs:
             p.join()
         Task_queue.close()
-
+        # Launches a single thread to output results
         self.CompletedScreen(FinalCount, domain)
 
     # This is the Test version of the multi proc above, this function
