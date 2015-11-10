@@ -93,5 +93,7 @@ class ClassName:
 
     def get_emails(self):
         Parse = Parser.Parser(self.Html)
+        Parse.genericClean()
+        Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
         return FinalOutput
