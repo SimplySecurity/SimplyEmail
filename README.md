@@ -111,6 +111,32 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 	10)	Modules/GitHubGistSearch.py
 	11)	Modules/FlickrSearch.py 
 ```
+##Current Email Evasion Techniques
+The following will be built into the Parser Soon:
+shinichiro.hamaji _at_ gmail.com
+shinichiro.hamaji _AT_ gmail.com
+simohayha.bobo at gmail.com
+"jeffreytgilbert" => "gmail.com"
+felix021 # gmail.com
+hirokidaichi[at]gmail.com
+hirokidaichi[@]gmail.com 
+hirokidaichi[#]gmail.com
+xaicron{ at }gmail.com
+xaicron{at}gmail.com
+xaicron{@}gmail.com
+xaicron(@)gmail.com
+xaicron + gmail.com
+xaicron ++ gmail.com
+xaicron ## gmail.com
+bekt17[@]gmail.com
+billy3321 -AT- gmail.com
+billy3321[AT]gmail.com
+ybenjo.repose [[[at]]] gmail.com
+sudhindra.r.rao (at) gmail.com
+sudhindra.r.rao nospam gmail.com
+shinichiro.hamaji (.) gmail.com
+shinichiro.hamaji--at--gmail.com
+
 ##Build Log:
 ####Changelog in 0.1:
 ```
