@@ -138,7 +138,7 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 - shinichiro.hamaji--at--gmail.com
 
 ##Build Log:
-####Changelog in of v0.2:
+####Changelog (Current v0.2):
 ```
 Modules Added in v0.2:
 -----------------------------
