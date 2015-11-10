@@ -112,7 +112,7 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 	11)	Modules/FlickrSearch.py 
 ```
 ##Build Log:
-####Changelog in 0.1:
+####Changelog in of v0.2:
 ```
 Modules Added in v0.2:
 -----------------------------
