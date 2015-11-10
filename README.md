@@ -14,7 +14,7 @@ Work Conducted by:
 ## Scrape EVERYTHING - Simply 
 
 A few small benfits:
-- Easy for you to write modules (All you need is 1 required Class options and your up and running)
+- Easy for you to write modules (All you need is 1 required Class option and your up and running)
 - Use the built in Parsers for most raw results
 - Multiprocessing Queue for modules and Result Queue for easy handling of Email data 
 - Simple intergration of theHarvester Modules and new ones to come
@@ -138,7 +138,7 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 - shinichiro.hamaji--at--gmail.com
 
 ##Build Log:
-####Changelog in of v0.2:
+####Changelog (Current v0.2):
 ```
 Modules Added in v0.2:
 -----------------------------
