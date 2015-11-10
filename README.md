@@ -144,6 +144,7 @@ Modules Added in v0.2:
 -----------------------------
 (x) EmailHunter Trial API
 (x) OnionStagram (Instagram User Search)
+(x) AskSearch - Port from theHarvester
 
 Issues Fixed in v0.2:
 -----------------------------
