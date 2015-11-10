@@ -140,6 +140,16 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 ##Build Log:
 ####Changelog (Current v0.2):
 ```
+Modules Added in v0.3:
+-----------------------------
+(x) OnionStagram (Instagram User Search)
+(x) AskSearch - Port from theHarvester
+
+Issues Fixed in v0.3:
+----------------------------
+(x) Added Parser to GitHubCode Search
+(x) Moved wget to 2 sec timeout
+
 Modules Added in v0.2:
 -----------------------------
 (x) EmailHunter Trial API
@@ -148,6 +158,7 @@ Issues Fixed in v0.2:
 -----------------------------
 (x) Fixed Issues with SetupScript 
 (x) Changes Output Text file name
+
 
 Modules Added in v0.1:
 -----------------------------
