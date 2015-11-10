@@ -210,7 +210,7 @@ class Conducter:
             # We want to wait till we have no procs left, before we join
             if len(LeftOver) == 0:
                 # Block untill all results are consumed
-                time.sleep(2
+                time.sleep(2)
                 Results_queue.put(None)
                 # t.join()
                 try:
