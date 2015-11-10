@@ -33,7 +33,7 @@ class Conducter:
         self.Emails = []
         self.ConsumerList = []
         self.Tasks = []
-        self.version = "0.1"
+        self.version = "0.2"
         self.ResultsList = []
 
     def ConfigSectionMap(section):
@@ -107,7 +107,7 @@ class Conducter:
             item = item + "\n"
             if x == 0:
                 try:
-                    with open('Email_list.txt', "a") as myfile:
+                    with open('Email_List.txt', "a") as myfile:
                         myfile.write(PrintTitle)
                 except Exception as e:
                     print e
@@ -210,7 +210,7 @@ class Conducter:
             # We want to wait till we have no procs left, before we join
             if len(LeftOver) == 0:
                 # Block untill all results are consumed
-                time.sleep(5)
+                time.sleep(2)
                 Results_queue.put(None)
                 # t.join()
                 try:

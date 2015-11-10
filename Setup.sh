@@ -39,6 +39,8 @@ func_install_requests(){
   #sudo apt-get -q update
   #sudo apt-get -q upgrade 
   sudo git pull
+  sudo apt-get install wget -y
+  sudo apt-get grep wget -y
   sudo pip install --upgrade requests 
   sudo pip install configparser --upgrade
   sudo pip install BeautifulSoup --upgrade

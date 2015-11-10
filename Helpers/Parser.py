@@ -78,3 +78,9 @@ class Parser:
             for item in output:
                 FinalOutput.append(item.rstrip("\n"))
         return FinalOutput
+
+    def CleanListOutput(self):
+        FinalOutput = []
+        for item in self.InputData:
+            FinalOutput.append(item.rstrip("\n"))
+        return FinalOutput
