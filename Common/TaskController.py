@@ -8,6 +8,7 @@ import configparser
 import os
 import warnings
 import time
+import subprocess
 from Helpers import helpers
 from Helpers import HtmlBootStrapTheme
 
@@ -376,3 +377,10 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
         Line += "   Domain Performed:\t\t" + str(domain) + "\n"
         self.title()
         print Line
+
+        # Ask user to open report on CLI
+        Question = "[>] Would you like to launch the HTML report?: "
+        Answer = raw_input(helpers.color(Question, bold=False))
+        if Answer == "yes" or "Yes" or "YES" or "Y" or "y":
+            # gnome-open cisco.doc
+            subprocess.Popen(("gnome-open",HtmlSaveFile), stdout=subprocess.PIPE)
