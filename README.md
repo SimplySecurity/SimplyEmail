@@ -114,6 +114,15 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 ##Build Log:
 ####Changelog in 0.1:
 ```
+Modules Added in v0.2:
+-----------------------------
+(x) EmailHunter Trial API
+
+Issues Fixed in v0.2:
+-----------------------------
+(x) Fixed Issues with SetupScript 
+(x) Changes Output Text file name
+
 Modules Added in v0.1:
 -----------------------------
 (x) HtmlScrape Added to Modules 
