@@ -143,11 +143,13 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 Modules Added in v0.2:
 -----------------------------
 (x) EmailHunter Trial API
+(x) OnionStagram (Instagram User Search)
 
 Issues Fixed in v0.2:
 -----------------------------
 (x) Fixed Issues with SetupScript 
 (x) Changes Output Text file name
+(x) Added Parser to GitHubCode Search
 
 Modules Added in v0.1:
 -----------------------------
