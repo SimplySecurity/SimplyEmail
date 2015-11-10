@@ -1,4 +1,10 @@
- #!/usr/bin/env python
+#!/usr/bin/env python
+# Port from theHarvester! Shout out to him for the code:
+# https://github.com/laramies/theHarvester/blob/master/discovery/asksearch.py
+import configparser
+import requests
+from Helpers import Parser
+from Helpers import helpers
 
 # Class will have the following properties:
 # 1) name / description
@@ -6,46 +12,34 @@
 # 3) execute function (calls everthing it neeeds)
 # 4) places the findings into a queue
 
-# Adapted from theHarvester:
-# https://github.com/laramies/theHarvester/blob/master/discovery/yahoosearch.py
-# https://emailhunter.co
-
-import configparser
-import requests
-import time
-from Helpers import helpers
-from Helpers import Parser
-
 
 class ClassName:
 
     def __init__(self, Domain):
-        self.name = "Yahoo Search for Emails"
-        self.description = "Uses Yahoo to search for emails, parses them out of the Html"
+        self.name = "Ask Search for Emails"
+        self.description = "Simple Ask Search for Emails"
         config = configparser.ConfigParser()
         try:
             config.read('Common/SimplyEmail.ini')
-            self.Domain = Domain
-            self.Quanity = int(config['YahooSearch']['StartQuantity'])
             self.UserAgent = {
                 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
-            self.PageLimit = int(config['YahooSearch']['QueryPageLimit'])
-            self.Counter = int(config['YahooSearch']['QueryStart'])
+            self.PageLimit = int(config['AskSearch']['QueryPageLimit'])
+            self.Counter = int(config['AskSearch']['QueryStart'])
+            self.Domain = Domain
             self.Html = ""
         except:
-            print helpers.color("[*] Major Settings for YahooSearch are missing, EXITING!\n", warning=True)
+            print helpers.color("[*] Major Settings for Ask Search are missing, EXITING!\n", warning=True)
 
     def execute(self):
-        self.search()
+        self.process()
         FinalOutput = self.get_emails()
         return FinalOutput
 
-    def search(self):
-        while self.Counter <= self.Limit and self.Counter <= 1000:
-            time.sleep(1)
+    def process(self):
+        while self.Counter <= self.PageLimit:
             try:
-                url = 'https://search.yahoo.com/search?p=' + str(self.Domain) + \
-                    '&b=' + str(self.Counter) + "&pz=" + str(self.Quanity)
+                url = 'http://www.ask.com/web?q=@' + str(self.Domain) + \
+                    '&pu=10&page=' + str(self.Counter)
             except Exception as e:
                 error = "[!] Major issue with Yahoo Search:" + str(e)
                 print helpers.color(error, warning=True)
@@ -57,11 +51,12 @@ class ClassName:
                 print helpers.color(error, warning=True)
             results = r.content
             self.Html += results
-            self.Counter += 100
+            self.Counter += 1
 
     def get_emails(self):
         Parse = Parser.Parser(self.Html)
         Parse.genericClean()
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
+        print FinalOutput
         return FinalOutput

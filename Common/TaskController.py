@@ -6,6 +6,7 @@ import Queue
 import threading
 import configparser
 import os
+import sys
 import warnings
 import time
 import subprocess
@@ -283,7 +284,7 @@ class Conducter:
             # We want to wait till we have no procs left, before we join
             if len(LeftOver) == 0:
                 # Block untill all results are consumed
-                time.sleep(5)
+                time.sleep(2)
                 Results_queue.put(None)
                 # t.join()
                 try:
@@ -381,6 +382,9 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
         # Ask user to open report on CLI
         Question = "[>] Would you like to launch the HTML report?: "
         Answer = raw_input(helpers.color(Question, bold=False))
-        if Answer == "yes" or "Yes" or "YES" or "Y" or "y":
+        Answer = Answer.upper()
+        if Answer in "NO":
+            sys.exit(0)
+        if Answer in "YES":
             # gnome-open cisco.doc
             subprocess.Popen(("gnome-open",HtmlSaveFile), stdout=subprocess.PIPE)
