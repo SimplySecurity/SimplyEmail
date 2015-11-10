@@ -36,8 +36,8 @@ func_check_env(){
 func_install_requests(){
   echo ' [*] Installing and updating requests libary'
   #Insure we have the latest requests module in python
-  sudo apt-get -q update
-  sudo apt-get -q upgrade 
+  #sudo apt-get -q update
+  #sudo apt-get -q upgrade 
   sudo git pull
   sudo pip install --upgrade requests 
   sudo pip install configparser --upgrade
