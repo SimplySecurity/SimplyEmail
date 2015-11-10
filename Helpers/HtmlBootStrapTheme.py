@@ -12,6 +12,7 @@ class HtmlBuilder:
     def __init__(self, Emails, Domain):
         self.Emails = Emails
         self.Domain = Domain
+        self.Source = ""
         self.HTML = ""
         reload(sys)  
         sys.setdefaultencoding('utf8')
@@ -84,6 +85,7 @@ function AnchorJS(a){"use strict";this.options=a||{},this._applyRemainingDefault
             line += "\t\t\t<td>" + str(x) + "</td>\n"
             line += "\t\t\t<td>" + str(self.Domain) + "</td>\n"
             line += "\t\t\t<td>" + str(Email) + "</td>\n"
+            line += "\t\t\t<td>" + str(self.Source) + ",/td>\n"
             line += "\t\t</tr>\n"
             x += 1
             EmailTables += str(line)
