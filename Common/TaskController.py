@@ -107,7 +107,7 @@ class Conducter:
             item = item + "\n"
             if x == 0:
                 try:
-                    with open('Email_list.txt', "a") as myfile:
+                    with open('Email_List.txt', "a") as myfile:
                         myfile.write(PrintTitle)
                 except Exception as e:
                     print e
