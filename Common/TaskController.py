@@ -112,7 +112,7 @@ class Conducter:
                 except Exception as e:
                     print e
             try:
-                with open('Email_list.txt', "a") as myfile:
+                with open('Email_List.txt', "a") as myfile:
                     myfile.write(item)
                 x += 1
             except Exception as e:
