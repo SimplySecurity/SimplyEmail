@@ -110,6 +110,40 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 	12)	Modules/OnionStagram.py 
 	13)	Modules/FlickrSearch.py 
 ```
+## Understanding Reporting Options:
+One of the most frustrating aspects of Pen-testing is the tools ability
+to report the findings and make those easily readable. This may be for the data
+provided to a customer or just the ability to report on source of the data.
+
+So I’m making it my goal for my tools to take that work off your back and make it as simple as possible!
+Let’s cover the two different reports generated.
+### Text Output:
+With this option results are generated and appended to a running text file called Email_List.txt. 
+this makes it easy to find past searches or export to tool of choice. Example:
+```
+	----------------------------------
+	Email Recon: 11/11/2015 05:13:32
+	----------------------------------
+bo@mandiant.com
+in@mandiant.com
+sc@mandiant.com
+je@mandiant.com
+su@mandiant.com
+----------------------------------
+	Email Recon: 11/11/2015 05:15:42
+	----------------------------------
+bo@mandiant.com
+in@mandiant.com
+sc@mandiant.com
+je@mandiant.com
+su@mandiant.com
+```
+### HTML Output:
+As I mentioned before a powerful function that I wanted to integrate was the ability to produce a visually appealing and rich report for the user and potentially something that could be part of data provided to a client. Please let me know with suggestions! 
+#### Email Source:
+![Alt text](/bootstrap-3.3.5/Screen Shot 2015-11-11 at 5.27.15 PM.png?raw=true "Report")
+#### Email Section:
+![Alt text](/bootstrap-3.3.5/Screen Shot 2015-11-11 at 5.27.31 PM.png?raw=true "Report Html")
 ##Current Email Evasion Techniques
 - The following will be built into the Parser Soon:
 - shinichiro.hamaji _at_ gmail.com
