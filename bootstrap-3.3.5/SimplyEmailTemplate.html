@@ -77,7 +77,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Bootstrap theme</a>
+          <a class="navbar-brand" href="#">SimplyEmail</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -92,16 +92,146 @@
 
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron">
-        <h1>SimplyEmail Recon</h1>
-        <p>This is the output of SimplyEmails Recon gatherd Emails:</p>
+        <h1>SimplyEmail Report</h1>
+        <p>This is the auto generated report of SimplyEmail, providing you with source of 
+        collection and domain performed on.</p>
       </div>
-        <div class="col-md-6">
+      <div class="page-header">
+        <h1>Email Source Description</h1>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Ask Search</h3>
+            </div>
+            <div class="panel-body">
+              Using simple search operators we 
+              are able to simply pull Email data from
+              search results.
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Canary Search</h3>
+            </div>
+            <div class="panel-body">
+              Canary Search is a site that uses multiple
+              PasteBin like sources to scrape and recover 
+              PII and store it for monitoring purposes.
+              This may contain a major source of DOXs and Data 
+              Dumps.
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">HTML Scrape</h3>
+            </div>
+            <div class="panel-body">
+              A great way to recover emails from raw Html
+              of your targets Web-Site. This can be a great way
+              to find hidden emails as well as locations
+              not indexed by google!
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Whoisology</h3>
+            </div>
+            <div class="panel-body">
+               May only provided you with a few emails, but 
+               this is a great source for distro list based email
+               to IT.
+            </div>
+          </div>
+        </div><!-- /.col-sm-4 -->
+        <div class="col-sm-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Email Hunter</h3>
+            </div>
+            <div class="panel-body">
+              Using Email hunters trial API we can enumerate 
+              multiple emails they have recovered from multiple
+              sources. You may want to use their JSON API to gather
+              the exact source they found the email if needed. 
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Flickr Search</h3>
+            </div>
+            <div class="panel-body">
+              Using the static front page of Flickr I have found 
+              tags and usernames as emails in the past. It never hurts
+              to check fast right?
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">OnionStagram</h3>
+            </div>
+            <div class="panel-body">
+              Using a simple HTML parse we can pull
+              Emails from Instagram users using their 
+              API. 
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Yahoo Search</h3>
+            </div>
+            <div class="panel-body">
+              While the Search engine is not
+              as easy to use as google. It is a
+              great back up source to google when 
+              they captcha you!
+            </div>
+          </div>
+        </div><!-- /.col-sm-4 -->
+        <div class="col-sm-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">GitHub/Gist Code Search</h3>
+            </div>
+            <div class="panel-body">
+              Often coders will place emails in their license file
+              and in other parts of the code for contact info.
+              This can be dangerous when open source. Also seen this
+              during HTML Dev quite often.
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Google Search</h3>
+            </div>
+            <div class="panel-body">
+              Using common Regex for Emails we 
+              can easily find a email in the source 
+              Html of the search.
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Search PGP</h3>
+            </div>
+            <div class="panel-body">
+              While Searching PGP public keys 
+              is easy, they seem to block large
+              queries like Gmail.com. Great source to 
+              check!
+            </div>
+          </div>
+        </div><!-- /.col-sm-4 -->
+      </div>
+        <div class="col-md-10">
           <table class="table table-striped">
             <thead>
               <tr>
                 <th>#</th>
                 <th>Domain</th>
                 <th>Email</th>
+                <th>Email Source</th>
               </tr>
             </thead>
             <tbody>

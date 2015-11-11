@@ -34,8 +34,9 @@ class Conducter:
         # create required array
         self.Emails = []
         self.ConsumerList = []
+        self.HtmlList = []
         self.Tasks = []
-        self.version = "0.3"
+        self.version = "0.4"
         self.ResultsList = []
 
     def ConfigSectionMap(section):
@@ -60,7 +61,7 @@ class Conducter:
         module.execute()
 
     # Handler for each Process that will call all the modules in the Queue
-    def ExecuteModule(self, Task_queue, Results_queue, domain):
+    def ExecuteModule(self, Task_queue, Results_queue, Html_queue, domain):
         while True:
             Task = Task_queue.get()
             # If the queue is emepty exit this proc
@@ -76,7 +77,7 @@ class Conducter:
                 # Try to start the module
                 try:
                     # Emails will be returned as a list
-                    Emails = Module.execute()
+                    Emails, HtmlResults = Module.execute()
                     if Emails:
                         count = len(Emails)
                         Length = "[*] " + Module.name + \
@@ -84,7 +85,9 @@ class Conducter:
                         print helpers.color(Length, status=True)
                         for Email in Emails:
                             Results_queue.put(Email)
-                        #Task_queue.task_done()
+                        for Email in HtmlResults:
+                            Html_queue.put(Email)
+                        # Task_queue.task_done()
                     else:
                         Message = "[*] " + Module.name + \
                             " has completed with no Email(s)"
@@ -101,7 +104,7 @@ class Conducter:
         # Building out the Text file that will be outputted
         Date = time.strftime("%d/%m/%Y")
         Time = time.strftime("%I:%M:%S")
-        PrintTitle =  "\t----------------------------------\n"
+        PrintTitle = "\t----------------------------------\n"
         PrintTitle += "\tEmail Recon: " + Date + " " + Time + "\n"
         PrintTitle += "\t----------------------------------\n"
         x = 0
@@ -122,10 +125,10 @@ class Conducter:
         print helpers.color("[*] Completed output!", status=True)
         return x
 
-    def HtmlPrinter(self, FinalEmailList, Domain):
+    def HtmlPrinter(self, HtmlFinalEmailList, Domain):
         # Builds the HTML file
         # try:
-        Html = HtmlBootStrapTheme.HtmlBuilder(FinalEmailList, Domain)
+        Html = HtmlBootStrapTheme.HtmlBuilder(HtmlFinalEmailList, Domain)
         Html.BuildHtml()
         Html.OutPutHTML()
         # except Exception as e:
@@ -136,12 +139,18 @@ class Conducter:
         # Clean Up results, remove dupplicates and enforce strict Domain reuslts (future)
         # Set Timeout or you wont leave the While loop
         SecondList = []
+        HtmlSecondList = []
         # Validate the domain.. this can mess up but i dont want to miss
         # anything
         for item in self.ConsumerList:
             if domain in item:
                 SecondList.append(item)
         FinalList = []
+        HtmlFinalList = []
+        # now the same for Html Results with magic
+        for item in self.HtmlList:
+            if domain in item:
+                HtmlSecondList.append(item)
         # Itt over all items in the list
         for item in SecondList:
             # Check if the value is in the new list
@@ -149,8 +158,13 @@ class Conducter:
                 # Add item to list and put back in the Queue
                 FinalList.append(item)
                 # results_queue.put(item)
+        # Check to see we have dups (we will have dup emails)
+        # But no Dup Sources (which we want)
+        for item in HtmlSecondList:
+            if item not in HtmlFinalList:
+                HtmlFinalList.append(item)
         print helpers.color("[*] Completed Cleaning Results", status=True)
-        return FinalList
+        return FinalList, HtmlFinalList
 
     def Consumer(self, Results_queue):
         while True:
@@ -162,6 +176,16 @@ class Conducter:
             except:
                 pass
 
+    def HtmlConsumer(self, Html_queue):
+        while True:
+            try:
+                item = Html_queue.get()
+                if item is None:
+                    break
+                self.HtmlList.append(item)
+            except:
+                pass
+
     def TaskSelector(self, domain):
         # Here it will check the Que for the next task to be completed
         # Using the Dynamic loaded modules we can easly select which module is up
@@ -170,6 +194,7 @@ class Conducter:
         # Build our Queue of work for emails that we will gather
         Task_queue = multiprocessing.Queue()
         Results_queue = multiprocessing.Queue()
+        Html_queue = multiprocessing.Queue()
 
         # How many proc will we have, pull from config file, setting up the
         # config file handler
@@ -187,7 +212,7 @@ class Conducter:
         procs = []
         for thread in range(total_proc):
             procs.append(multiprocessing.Process(
-                target=self.ExecuteModule, args=(Task_queue, Results_queue, domain)))
+                target=self.ExecuteModule, args=(Task_queue, Results_queue, Html_queue, domain)))
         for p in procs:
             p.daemon = True
             p.start()
@@ -204,6 +229,10 @@ class Conducter:
         t = threading.Thread(target=self.Consumer, args=(Results_queue,))
         t.daemon = True
         t.start()
+        # Start Html Consumer / Trying to keep these seprate
+        t2 = threading.Thread(target=self.HtmlConsumer, args=(Html_queue,))
+        t2.daemon = True
+        t2.start()
         # Enter this loop so we know when to terminate the Consumer thread
         # This multiprocessing.active_children() is also Joining!
         while True:
@@ -212,11 +241,13 @@ class Conducter:
             # We want to wait till we have no procs left, before we join
             if len(LeftOver) == 0:
                 # Block untill all results are consumed
-                time.sleep(2)
+                time.sleep(1)
                 Results_queue.put(None)
+                Html_queue.put(None)
                 # t.join()
                 try:
-                    FinalEmailList = self.CleanResults(domain)
+                    FinalEmailList, HtmlFinalEmailList = self.CleanResults(
+                        domain)
                 except Exception as e:
                     error = "[!] Something went wrong with parsing results:" + \
                         str(e)
@@ -229,7 +260,7 @@ class Conducter:
                     print helpers.color(error, warning=True)
                 Results_queue.close()
                 try:
-                    self.HtmlPrinter(FinalEmailList, domain)
+                    self.HtmlPrinter(HtmlFinalEmailList, domain)
                 except Exception as e:
                     error = "[!] Something went wrong with HTML results:" + \
                         str(e)
@@ -241,6 +272,7 @@ class Conducter:
         # Launches a single thread to output results
         self.CompletedScreen(FinalCount, domain)
 
+
     # This is the Test version of the multi proc above, this function
     # Helps with testing only one module at a time. Helping with proper
     # Module Dev and testing before intergration
@@ -250,6 +282,8 @@ class Conducter:
         total_proc = int(1)
         Task_queue = multiprocessing.JoinableQueue()
         Results_queue = multiprocessing.Queue()
+        Html_queue = multiprocessing.Queue()
+
         for Task in self.modules:
             if module in Task:
                 Task_queue.put(Task)
@@ -259,7 +293,7 @@ class Conducter:
         procs = []
         for thread in range(total_proc):
             procs.append(multiprocessing.Process(
-                target=self.ExecuteModule, args=(Task_queue, Results_queue, domain)))
+                target=self.ExecuteModule, args=(Task_queue, Results_queue, Html_queue, domain)))
         for p in procs:
             p.daemon = True
             p.start()
@@ -276,6 +310,10 @@ class Conducter:
         t = threading.Thread(target=self.Consumer, args=(Results_queue,))
         t.daemon = True
         t.start()
+        # Start Html Consumer / Trying to keep these seprate
+        t2 = threading.Thread(target=self.HtmlConsumer, args=(Html_queue,))
+        t2.daemon = True
+        t2.start()
         # Enter this loop so we know when to terminate the Consumer thread
         # This multiprocessing.active_children() is also Joining!
         while True:
@@ -284,11 +322,13 @@ class Conducter:
             # We want to wait till we have no procs left, before we join
             if len(LeftOver) == 0:
                 # Block untill all results are consumed
-                time.sleep(2)
+                time.sleep(1)
                 Results_queue.put(None)
+                Html_queue.put(None)
                 # t.join()
                 try:
-                    FinalEmailList = self.CleanResults(domain)
+                    FinalEmailList, HtmlFinalEmailList = self.CleanResults(
+                        domain)
                 except Exception as e:
                     error = "[!] Something went wrong with parsing results:" + \
                         str(e)
@@ -301,7 +341,7 @@ class Conducter:
                     print helpers.color(error, warning=True)
                 Results_queue.close()
                 try:
-                    self.HtmlPrinter(FinalEmailList, domain)
+                    self.HtmlPrinter(HtmlFinalEmailList, domain)
                 except Exception as e:
                     error = "[!] Something went wrong with HTML results:" + \
                         str(e)
@@ -387,4 +427,5 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
             sys.exit(0)
         if Answer in "YES":
             # gnome-open cisco.doc
-            subprocess.Popen(("gnome-open",HtmlSaveFile), stdout=subprocess.PIPE)
+            subprocess.Popen(
+                ("gnome-open", HtmlSaveFile), stdout=subprocess.PIPE)

@@ -84,3 +84,15 @@ class Parser:
         for item in self.InputData:
             FinalOutput.append(item.rstrip("\n"))
         return FinalOutput
+
+    def BuildResults(self,InputList,ModuleName):
+        # Will use a generator expression to assign 
+        # emails to Keys and place into a list
+        FinalOutput = []
+        ModuleName =  '"' + str(ModuleName) + '"'
+        # build dict and append to list
+        for email in InputList:
+            email = '"' + str(email) + '"'
+            ListItem = "{'Email': " + email + ", 'Source': " + ModuleName + "}"
+            FinalOutput.append(ListItem)
+        return FinalOutput

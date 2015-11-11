@@ -29,8 +29,8 @@ class ClassName:
 
     def execute(self):
         self.process()
-        FinalOutput = self.get_emails()
-        return FinalOutput
+        FinalOutput, HtmlResults = self.get_emails()
+        return FinalOutput, HtmlResults
 
     def process(self):
         try:
@@ -57,4 +57,5 @@ class ClassName:
         # Make sure you remove any newlines
         Parse = Parser.Parser(self.results)
         FinalOutput = Parse.CleanListOutput()
-        return FinalOutput
+        HtmlResults = Parse.BuildResults(FinalOutput,self.name)
+        return FinalOutput, HtmlResults

@@ -32,8 +32,8 @@ class ClassName:
 
     def execute(self):
         self.search()
-        FinalOutput = self.get_emails()
-        return FinalOutput
+        FinalOutput, HtmlResults = self.get_emails()
+        return FinalOutput, HtmlResults
 
     def search(self):
         while self.Counter <= self.Limit and self.Counter <= 1000:
@@ -64,4 +64,5 @@ class ClassName:
         Parse.genericClean()
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
-        return FinalOutput
+        HtmlResults = Parse.BuildResults(FinalOutput,self.name)
+        return FinalOutput, HtmlResults
