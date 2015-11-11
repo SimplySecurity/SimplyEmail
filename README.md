@@ -138,8 +138,23 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 - shinichiro.hamaji--at--gmail.com
 
 ##Build Log:
-####Changelog (Current v0.2):
+####Changelog (Current v0.4):
 ```
+Modules Added in v0.4
+-----------------------------
+
+
+Issues Fixed in v0.4:
+-----------------------------
+(x) Setup File Fix
+
+Framework Improvements v0.4:
+-----------------------------
+(x) Added Source of email collection
+	to final report in bootstrap.
+
+
+===================================
 Modules Added in v0.3:
 -----------------------------
 (x) OnionStagram (Instagram User Search)
@@ -150,6 +165,7 @@ Issues Fixed in v0.3:
 (x) Added Parser to GitHubCode Search
 (x) Moved wget to 2 sec timeout
 
+===================================
 Modules Added in v0.2:
 -----------------------------
 (x) EmailHunter Trial API
