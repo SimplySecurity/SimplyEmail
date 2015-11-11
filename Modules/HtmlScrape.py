@@ -43,8 +43,8 @@ class ClassName:
     def execute(self):
         try:
             self.search()
-            Emails = self.get_emails()
-            return Emails
+            Emails, HtmlResults = self.get_emails()
+            return Emails, HtmlResults
         except Exception as e:
             print e
 
@@ -98,4 +98,6 @@ class ClassName:
             shutil.rmtree(directory)
         # using PIPE output/input to avoid using "shell=True",
         # which can leave major security holes if script has certain permisions
-        return FinalOutput
+        Parse = Parser.Parser(FinalOutput)
+        HtmlResults = Parse.BuildResults(FinalOutput,self.name)
+        return FinalOutput, HtmlResults

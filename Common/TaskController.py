@@ -194,6 +194,7 @@ class Conducter:
         # Build our Queue of work for emails that we will gather
         Task_queue = multiprocessing.Queue()
         Results_queue = multiprocessing.Queue()
+        Html_queue = multiprocessing.Queue()
 
         # How many proc will we have, pull from config file, setting up the
         # config file handler
@@ -211,7 +212,7 @@ class Conducter:
         procs = []
         for thread in range(total_proc):
             procs.append(multiprocessing.Process(
-                target=self.ExecuteModule, args=(Task_queue, Results_queue, domain)))
+                target=self.ExecuteModule, args=(Task_queue, Results_queue, Html_queue, domain)))
         for p in procs:
             p.daemon = True
             p.start()
@@ -228,6 +229,10 @@ class Conducter:
         t = threading.Thread(target=self.Consumer, args=(Results_queue,))
         t.daemon = True
         t.start()
+        # Start Html Consumer / Trying to keep these seprate
+        t2 = threading.Thread(target=self.HtmlConsumer, args=(Html_queue,))
+        t2.daemon = True
+        t2.start()
         # Enter this loop so we know when to terminate the Consumer thread
         # This multiprocessing.active_children() is also Joining!
         while True:
@@ -236,11 +241,13 @@ class Conducter:
             # We want to wait till we have no procs left, before we join
             if len(LeftOver) == 0:
                 # Block untill all results are consumed
-                time.sleep(2)
+                time.sleep(1)
                 Results_queue.put(None)
+                Html_queue.put(None)
                 # t.join()
                 try:
-                    FinalEmailList = self.CleanResults(domain)
+                    FinalEmailList, HtmlFinalEmailList = self.CleanResults(
+                        domain)
                 except Exception as e:
                     error = "[!] Something went wrong with parsing results:" + \
                         str(e)
@@ -253,7 +260,7 @@ class Conducter:
                     print helpers.color(error, warning=True)
                 Results_queue.close()
                 try:
-                    self.HtmlPrinter(FinalEmailList, domain)
+                    self.HtmlPrinter(HtmlFinalEmailList, domain)
                 except Exception as e:
                     error = "[!] Something went wrong with HTML results:" + \
                         str(e)
@@ -264,6 +271,7 @@ class Conducter:
         Task_queue.close()
         # Launches a single thread to output results
         self.CompletedScreen(FinalCount, domain)
+
 
     # This is the Test version of the multi proc above, this function
     # Helps with testing only one module at a time. Helping with proper

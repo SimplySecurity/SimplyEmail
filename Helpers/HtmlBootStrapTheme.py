@@ -2,6 +2,7 @@
 # encoding=utf8 
 import sys
 from Helpers import helpers
+import ast
 
 # This Classes main goal is to build the HTML output file using all self
 # contained CSS and JS
@@ -81,11 +82,14 @@ function AnchorJS(a){"use strict";this.options=a||{},this._applyRemainingDefault
         x = 1
 
         for Email in self.Emails:
+            # This converts a List of Dict from String
+            # To a actual Dict item
+            Email = ast.literal_eval(Email)
             line = "\t\t<tr>\n"
             line += "\t\t\t<td>" + str(x) + "</td>\n"
             line += "\t\t\t<td>" + str(self.Domain) + "</td>\n"
-            line += "\t\t\t<td>" + str(Email) + "</td>\n"
-            line += "\t\t\t<td>" + str(self.Source) + "</td>\n"
+            line += "\t\t\t<td>" + str(Email['Email']) + "</td>\n"
+            line += "\t\t\t<td>" + str(Email['Source']) + "</td>\n"
             line += "\t\t</tr>\n"
             x += 1
             EmailTables += str(line)
