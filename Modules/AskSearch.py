@@ -58,5 +58,4 @@ class ClassName:
         Parse.genericClean()
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
-        print FinalOutput
         return FinalOutput
