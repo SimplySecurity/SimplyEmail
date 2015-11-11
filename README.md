@@ -35,12 +35,12 @@ root@kali:~/Desktop/SimplyEmail# ./Setup.sh
 ### Standard Help
 ```
  ============================================================
- Curent Version: 0.1 | Website: CyberSyndicates.com
+ Curent Version: 0.4 | Website: CyberSyndicates.com
  ============================================================
  Twitter: @real_slacker007 |  Twitter: @Killswitch_gui
  ============================================================
------------------------------------------------------------------------------
-   ______  ________                       __ __ 
+------------------------------------------------------------
+   ______  ________                       __ __
  /      \/        |                     /  /  |
 /$$$$$$  $$$$$$$$/ _____  ____   ______ $$/$$ |
 $$ \__$$/$$ |__   /     \/    \ /      \/  $$ |
@@ -50,9 +50,8 @@ $$      \$$    |  $$$$$$ $$$$  |$$$$$$  $$ $$ |
 $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
  $$$$$$/ $$$$$$$$/$$/  $$/  $$/ $$$$$$$/$$/$$/
 
------------------------------------------------------------------------------
-usage: SimplyEmail.py [-all] [-e company.com] [-s] [-l]
-                      [-t html / flickr / google]
+------------------------------------------------------------
+usage: SimplyEmail.py [-all] [-e company.com] [-l] [-t html / flickr / google]
 
 Email enumeration is a important phase of so many operation that a pen-tester
 or Red Teamer goes through. There are tons of applications that do this but I
@@ -62,10 +61,8 @@ gets. (You may want to run -h)
 optional arguments:
   -all                  Use all non API methods to obtain Emails
   -e company.com        Set required email addr user, ex ale@email.com
-  -s                    Show only emils matching your domain (We may want to
-                        collect all emails for potential connections)
   -l                    List the current Modules Loaded
-  -t Html / Flickr / Google
+  -t html / flickr / google
                         Test individual module (For Linting)
 ```
 
@@ -81,7 +78,7 @@ This will run ALL modules that are have API Key placed in the SimpleEmail.ini fi
 root@vapt-kali:~/Desktop/SimplyEmail# ./SimplyEmail.py -l
 
  ============================================================
- Curent Version: 0.1 | Website: CyberSyndicates.com
+ Curent Version: 0.4 | Website: CyberSyndicates.com
  ============================================================
  Twitter: @real_slacker007 |  Twitter: @Killswitch_gui
  ============================================================
@@ -104,12 +101,14 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 	3)	Modules/CanaryBinSearch.py
 	4)	Modules/YahooSearch.py  
 	5)	Modules/GitHubCodeSearch.py
-	6)	Modules/EmailHunter.py  
-	7)	Modules/WhoisAPISearch.py
-	8)	Modules/SearchPGP.py    
-	9)	Modules/GoogleSearch.py 
-	10)	Modules/GitHubGistSearch.py
-	11)	Modules/FlickrSearch.py 
+	6)	Modules/AskSearch.py    
+	7)	Modules/EmailHunter.py  
+	8)	Modules/WhoisAPISearch.py
+	9)	Modules/SearchPGP.py    
+	10)	Modules/GoogleSearch.py 
+	11)	Modules/GitHubGistSearch.py
+	12)	Modules/OnionStagram.py 
+	13)	Modules/FlickrSearch.py 
 ```
 ##Current Email Evasion Techniques
 - The following will be built into the Parser Soon:
@@ -140,9 +139,9 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 ##Build Log:
 ####Changelog (Current v0.4):
 ```
+===================================
 Modules Added in v0.4
 -----------------------------
-
 
 Issues Fixed in v0.4:
 -----------------------------
@@ -152,7 +151,6 @@ Framework Improvements v0.4:
 -----------------------------
 (x) Added Source of email collection
 	to final report in bootstrap.
-
 
 ===================================
 Modules Added in v0.3:
@@ -175,7 +173,7 @@ Issues Fixed in v0.2:
 (x) Fixed Issues with SetupScript 
 (x) Changes Output Text file name
 
-
+===================================
 Modules Added in v0.1:
 -----------------------------
 (x) HtmlScrape Added to Modules 
