@@ -151,7 +151,9 @@ As I mentioned before a powerful function that I wanted to integrate was the abi
 ![Alt text](/bootstrap-3.3.5/Screen Shot 2015-11-11 at 5.27.15 PM.png?raw=true "Report")
 #### Email Section:
 - Html report now shows Alerts for Canary Search Results!
+- 
 ![Alt text](/bootstrap-3.3.5/Screen Shot 2015-11-11 at 5.27.31 PM.png?raw=true "Report Html")
+
 ##Current Email Evasion Techniques
 - The following will be built into the Parser Soon:
 - shinichiro.hamaji _at_ gmail.com
