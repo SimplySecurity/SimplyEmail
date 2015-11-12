@@ -103,18 +103,19 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
  [*] Available Modules are:
 
 	1)	Modules/HtmlScrape.py   
-	2)	Modules/Whoisolgy.py    
-	3)	Modules/CanaryBinSearch.py
-	4)	Modules/YahooSearch.py  
-	5)	Modules/GitHubCodeSearch.py
-	6)	Modules/AskSearch.py    
-	7)	Modules/EmailHunter.py  
-	8)	Modules/WhoisAPISearch.py
-	9)	Modules/SearchPGP.py    
-	10)	Modules/GoogleSearch.py 
-	11)	Modules/GitHubGistSearch.py
-	12)	Modules/OnionStagram.py 
-	13)	Modules/FlickrSearch.py 
+	2)	Modules/GitHubUserSearch.py
+	3)	Modules/Whoisolgy.py    
+	4)	Modules/CanaryBinSearch.py
+	5)	Modules/YahooSearch.py  
+	6)	Modules/GitHubCodeSearch.py
+	7)	Modules/AskSearch.py    
+	8)	Modules/EmailHunter.py  
+	9)	Modules/WhoisAPISearch.py
+	10)	Modules/SearchPGP.py    
+	11)	Modules/GoogleSearch.py 
+	12)	Modules/GitHubGistSearch.py
+	13)	Modules/OnionStagram.py 
+	14)	Modules/FlickrSearch.py 
 ```
 ## Understanding Reporting Options:
 One of the most frustrating aspects of Pen-testing is the tools ability
