@@ -4,7 +4,7 @@
 What is the simple email recon tool? This tool was based off the work of theHarvester and kind of a port of the functionality. This was just an expansion of what was used to build theHarvester and will incorporate his work but allow users to easily build Modules for the Framework. Which I felt was desperately needed after building my first module for theHarvester.
 
 MAJOR CALLOUTS:
-@laramies - Devloper of theHarvester tool https://github.com/laramies/theHarvester
+@laramies - Developer of theHarvester tool https://github.com/laramies/theHarvester
 
 Work Conducted by:
 ----------------------------------------------
@@ -13,8 +13,8 @@ Work Conducted by:
 
 ## Scrape EVERYTHING - Simply 
 
-A few small benfits:
-- Easy for you to write modules (All you need is 1 required Class option and your up and running)
+A few small benefits:
+- Easy for you to write modules (All you need is 1 required Class option and you're up and running)
 - Use the built in Parsers for most raw results
 - Multiprocessing Queue for modules and Result Queue for easy handling of Email data 
 - Simple intergration of theHarvester Modules and new ones to come
@@ -71,7 +71,7 @@ optional arguments:
 
 ### Run SimplyEmail
 
-Lets say your target is cybersyndicates.com
+Let's say your target is cybersyndicates.com
 ```python
 ./SimplyEmail.py -all -e cybersyndicates.com
 or in verbose
@@ -118,12 +118,12 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 	14)	Modules/FlickrSearch.py 
 ```
 ## Understanding Reporting Options:
-One of the most frustrating aspects of Pen-testing is the tools ability
+One of the most frustrating aspects of Pen-testing is the tools' ability
 to report the findings and make those easily readable. This may be for the data
 provided to a customer or just the ability to report on source of the data.
 
-So I’m making it my goal for my tools to take that work off your back and make it as simple as possible!
-Let’s cover the two different reports generated.
+So I'm making it my goal for my tools to take that work off your back and make it as simple as possible!
+Let's cover the two different reports generated.
 ### Text Output:
 With this option results are generated and appended to a running text file called Email_List.txt. 
 this makes it easy to find past searches or export to tool of choice. Example:
