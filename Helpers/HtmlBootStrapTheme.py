@@ -80,7 +80,19 @@ function AnchorJS(a){"use strict";this.options=a||{},this._applyRemainingDefault
 
         EmailTables = ""
         x = 1
-
+        # Build Table Struc
+        tables =  '\t\t<div class="col-md-10">'
+        tables += '\t\t\t<table class="table table-striped">'
+        tables += '\t\t\t<thead>'
+        tables += '\t\t\t<tr>'
+        tables += '\t\t\t\t<th>#</th>'
+        tables += '\t\t\t\t<th>Domain</th>'
+        tables += '\t\t\t\t<th>Email</th>'
+        tables += '\t\t\t<th>Email Source</th>'
+        tables += '\t\t\t</tr>'
+        tables += '\t\t\t</thead>'
+        tables += '\t\t<tbody>'
+        self.HTML += tables
         for Email in self.Emails:
             # This converts a List of Dict from String
             # To a actual Dict item
@@ -93,7 +105,18 @@ function AnchorJS(a){"use strict";this.options=a||{},this._applyRemainingDefault
             line += "\t\t</tr>\n"
             x += 1
             EmailTables += str(line)
-        self.HTML = EmailTables
+        self.HTML += EmailTables
+        if "Canary Paste Bin" in self.HTML:
+            # We will add an alert for canary searches returned.
+            #<div class="alert alert-warning" role="alert">
+            #   <strong>Warning!</strong> Best check yo self, you're not looking too good.
+            #</div>
+            alert =  '\t\t<div class="alert alert-danger" role="alert">'
+            alert += "\t\t\t<strong>Warning!</strong> Canary (PasteBin) search detected Email(s), this search is indicative of a data breach!."
+            alert += '\t\t</div>'
+            temp = self.HTML
+            self.HTML =  alert
+            self.HTML += temp
         self.HTML += BottomHtml
 
     def OutPutHTML(self):

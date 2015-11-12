@@ -194,6 +194,8 @@ Framework Improvements v0.4:
 	to final report in bootstrap.
 (x) Added Verbose options for Modules
 	to handle Vebose printing.
+(x) Added Alerts to HTML report
+	when emails are gathered from canary.
 
 ===================================
 Modules Added in v0.3:
