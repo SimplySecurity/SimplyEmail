@@ -41,12 +41,13 @@ import time
 
 class ClassName:
 
-    def __init__(self, domain):
+    def __init__(self, domain, verbose=False):
         self.name = "Searching GitHub Code"
         self.description = "Search GitHub code for emails using a large pool of code searches"
         self.domain = domain
         config = configparser.ConfigParser()
         self.Html = ""
+        self.verbose = verbose
         try:
             config.read('Common/SimplyEmail.ini')
             self.Depth = int(config['GitHubSearch']['PageDepth'])
@@ -64,6 +65,9 @@ class ClassName:
         # https://github.com/search?p=2&q=enron.com+&ref=searchresults&type=Code&utf8=✓
         UrlList = []
         while self.Counter <= self.Depth:
+            if self.verbose:
+                p = '[*] GitHub Code Search on page: ' + str(self.Counter)
+                print helpers.color(p, firewall=True)
             try:
                 url = "https://github.com/search?p=" + str(self.Counter) + "&q=" + \
                     str(self.domain) + "+&ref=searchresults&type=Code&utf8=✓"

@@ -28,20 +28,22 @@ def cli_parser():
         "-l", action='store_true', help="List the current Modules Loaded")
     parser.add_argument(
         "-t", metavar="html / flickr / google", help="Test individual module (For Linting)")
+    parser.add_argument(
+        "-v", action='store_true', help="Set this switch for verbose output of modules")
     parser.add_argument('-h', '-?', '--h', '-help',
                         '--help', action="store_true", help=argparse.SUPPRESS)
     args = parser.parse_args()
     if args.h:
         parser.print_help()
         sys.exit()
-    return args.all, args.e, args.l, args.t
+    return args.all, args.e, args.l, args.t, args.v
 
 
 def TaskControler():
     # Get all the options passed and pass it to the TaskConducter, this will
     # keep all the prcessing on the side.
     # need to pass the store true somehow to tell printer to restrict output
-    cli_all, cli_domain, cli_list, cli_test = cli_parser()
+    cli_all, cli_domain, cli_list, cli_test, cli_verbose = cli_parser()
     cli_domain = cli_domain.lower()
     Task = TaskController.Conducter()
     Task.load_modules()
@@ -53,9 +55,9 @@ def TaskControler():
         sys.exit(0)
     if cli_test:
         # setup a small easy test to activate certain modules
-        Task.TestModule(cli_domain, cli_test)
+        Task.TestModule(cli_domain, cli_test, verbose=cli_verbose)
     if cli_all:
-        Task.TaskSelector(cli_domain)
+        Task.TaskSelector(cli_domain, verbose=cli_verbose)
 
 
 # def GenerateReport():

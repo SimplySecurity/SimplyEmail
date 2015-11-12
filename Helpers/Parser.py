@@ -30,6 +30,7 @@ class Parser:
         self.InputData = re.sub('</strong>', '', self.InputData)
         self.InputData = re.sub('<tr>', ' ', self.InputData)
         self.InputData = re.sub('</tr>', ' ', self.InputData)
+        self.InputData = re.sub('</a>', ' ', self.InputData)
 
         for e in ('>', ':', '=', '<', '/', '\\', ';', '&', '%3A', '%3D', '%3C', '&#34'):
             self.InputData = string.replace(self.InputData, e, ' ')
@@ -68,6 +69,7 @@ class Parser:
                                           stdin=ps.stdout)
         except Exception as e:
             pass
+        # Remove this line for Debuging pages
         os.remove(str(StartFileName))
         if len(val) > 0:
             with open(str(EndFileName), "w") as myfile:

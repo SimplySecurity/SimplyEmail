@@ -14,11 +14,12 @@ from Helpers import helpers
 
 class ClassName:
 
-    def __init__(self, domain):
+    def __init__(self, domain, verbose=False):
         self.name = "Searching Whois"
         self.description = "Search the Whois database for potential POC emails"
         self.domain = domain
         config = configparser.ConfigParser()
+        self.verbose = verbose
         self.results = ""
         try:
             config.read('Common/SimplyEmail.ini')
@@ -33,6 +34,9 @@ class ClassName:
 
     def process(self):
         try:
+            if self.verbose:
+                p = '[*] Requesting API on HackerTarget whois' 
+                print helpers.color(p, firewall=True)
             url = "http://api.hackertarget.com/whois/?q=" + \
                 self.domain
             r = requests.get(url)

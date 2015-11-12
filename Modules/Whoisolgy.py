@@ -13,7 +13,7 @@ from Helpers import helpers
 #https://whoisology.com/archive_11/microsoft.com
 class ClassName:
 
-    def __init__(self, domain):
+    def __init__(self, domain, verbose=False):
         self.name = "Searching Whoisology"
         self.description = "Search the Whoisology database for potential POC emails"
         self.domain = domain
@@ -22,6 +22,7 @@ class ClassName:
         try:
             config.read('Common/SimplyEmail.ini')
             self.UserAgent = str(config['GlobalSettings']['UserAgent'])
+            self.verbose = verbose
         except:
             print helpers.color("[*] Major Settings for Search Whoisology are missing, EXITING!\n", warning=True)
 
@@ -32,6 +33,9 @@ class ClassName:
 
     def process(self):
         try:
+            if self.verbose:
+                p = '[*] Yahoo Whoisology request underway'
+                print helpers.color(p, firewall=True)
             url = "https://whoisology.com/archive_11/" + \
                 self.domain
             r = requests.get(url)

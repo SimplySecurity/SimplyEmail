@@ -14,7 +14,7 @@ from Helpers import Parser
 
 class ClassName:
 
-    def __init__(self, Domain):
+    def __init__(self, Domain, verbose=False):
         self.name = "Google Search for Emails"
         self.description = "Uses google to search for emails, parses them out of the"
         config = configparser.ConfigParser()
@@ -26,6 +26,7 @@ class ClassName:
                 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
             self.Limit = int(config['GoogleSearch']['QueryLimit'])
             self.Counter = int(config['GoogleSearch']['QueryStart'])
+            self.verbose = verbose
             self.Html = ""
         except:
             print helpers.color("[*] Major Settings for GoogleSearch are missing, EXITING!\n", warning=True)
@@ -38,6 +39,9 @@ class ClassName:
     def search(self):
         while self.Counter <= self.Limit and self.Counter <= 1000:
             time.sleep(1)
+            if self.verbose:
+                p = '[*] Google Search on page: ' + str(self.Counter)
+                print helpers.color(p, firewall=True)
             try:
                 url = "http://www.google.com/search?num=" + str(self.Quanity) + \
                     "&start=" + str(self.Counter) + \

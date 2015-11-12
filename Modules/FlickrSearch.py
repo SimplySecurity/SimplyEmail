@@ -14,12 +14,13 @@ from Helpers import helpers
 
 class ClassName:
 
-    def __init__(self, domain):
+    def __init__(self, domain, verbose=False):
         self.name = "Searching Flicker"
         self.description = "Search the Flicker top relvant results for emails"
         self.domain = domain
         config = configparser.ConfigParser()
         self.results = ""
+        self.verbose = verbose
         try:
             config.read('Common/SimplyEmail.ini')
             self.HostName = str(config['FlickrSearch']['Hostname'])
@@ -40,6 +41,9 @@ class ClassName:
             error = "[!] Major issue with Flickr Search:" + str(e)
             print helpers.color(error, warning=True)
         self.results = r.content
+        if self.verbose:
+                p = '[*] FlickrSearch has completed'
+                print helpers.color(p, firewall=True)
         # https://www.flickr.com/search/?text=%40microsoft.com
         # is an example of a complete request for "@microsoft.com"
 

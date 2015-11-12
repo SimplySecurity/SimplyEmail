@@ -13,7 +13,7 @@ from Helpers import helpers
 
 class ClassName:
 
-    def __init__(self, domain):
+    def __init__(self, domain, verbose=False):
         self.name = "Searching PGP"
         self.description = "Search the PGP database for potential emails"
         self.domain = domain
@@ -24,6 +24,7 @@ class ClassName:
             self.server = str(config['SearchPGP']['KeyServer'])
             self.hostname = str(config['SearchPGP']['Hostname'])
             self.UserAgent = str(config['GlobalSettings']['UserAgent'])
+            self.verbose = verbose
         except:
             print helpers.color("[*] Major Settings for SearchPGP are missing, EXITING!\n", warning=True)
 
@@ -40,6 +41,9 @@ class ClassName:
         except Exception as e:
             error = "[!] Major issue with PGP Search:" + str(e)
             print helpers.color(error, warning=True)
+        if self.verbose:
+            p = '[*] Searching PGP Complete'
+            print helpers.color(p, firewall=True)
         self.results = r.content
 
     def get_emails(self):

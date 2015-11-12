@@ -19,7 +19,7 @@ from Helpers import Parser
 
 class ClassName:
 
-    def __init__(self, Domain):
+    def __init__(self, Domain, verbose=False):
         self.name = "Yahoo Search for Emails"
         self.description = "Uses Yahoo to search for emails, parses them out of the Html"
         config = configparser.ConfigParser()
@@ -31,6 +31,7 @@ class ClassName:
                 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
             self.Limit = int(config['YahooSearch']['QueryLimit'])
             self.Counter = int(config['YahooSearch']['QueryStart'])
+            self.verbose = verbose
             self.Html = ""
         except:
             print helpers.color("[*] Major Settings for YahooSearch are missing, EXITING!\n", warning=True)
@@ -43,6 +44,9 @@ class ClassName:
     def search(self):
         while self.Counter <= self.Limit and self.Counter <= 1000:
             time.sleep(1)
+            if self.verbose:
+                p = '[*] Yahoo Search on page: ' + str(self.Counter)
+                print helpers.color(p, firewall=True)
             try:
                 url = 'https://search.yahoo.com/search?p=' + str(self.Domain) + \
                     '&b=' + str(self.Counter) + "&pz=" + str(self.Quanity)

@@ -2,7 +2,7 @@
 
 import os, sys, types, string, textwrap
 
-def color(string, status=True, warning=False, bold=True, blue=False):
+def color(string, status=True, warning=False, bold=True, blue=False, firewall=False):
     """
     Change text color for the linux terminal, defaults to green.
     Set "warning=True" for red.
@@ -17,6 +17,8 @@ def color(string, status=True, warning=False, bold=True, blue=False):
         attr.append('31')
     if bold:
         attr.append('1')
+    if firewall:
+        attr.append('33')
     if blue:
         #blue
         attr.append('34')

@@ -52,6 +52,7 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 
 ------------------------------------------------------------
 usage: SimplyEmail.py [-all] [-e company.com] [-l] [-t html / flickr / google]
+                      [-v]
 
 Email enumeration is a important phase of so many operation that a pen-tester
 or Red Teamer goes through. There are tons of applications that do this but I
@@ -64,6 +65,8 @@ optional arguments:
   -l                    List the current Modules Loaded
   -t html / flickr / google
                         Test individual module (For Linting)
+  -v                    Set this switch for verbose output of modules
+
 ```
 
 ### Run SimplyEmail
@@ -71,8 +74,11 @@ optional arguments:
 Lets say your target is cybersyndicates.com
 ```python
 ./SimplyEmail.py -all -e cybersyndicates.com
+or in verbose
+./SimplyEmail.py -all -v -e cybersyndicates.com
 ```
 This will run ALL modules that are have API Key placed in the SimpleEmail.ini file and will run all non-API based modules. 
+
 ### List Modules SimpleEmail
 ```
 root@vapt-kali:~/Desktop/SimplyEmail# ./SimplyEmail.py -l
@@ -176,6 +182,7 @@ As I mentioned before a powerful function that I wanted to integrate was the abi
 ===================================
 Modules Added in v0.4
 -----------------------------
+(x) GitHubUser added
 
 Issues Fixed in v0.4:
 -----------------------------
@@ -185,6 +192,8 @@ Framework Improvements v0.4:
 -----------------------------
 (x) Added Source of email collection
 	to final report in bootstrap.
+(x) Added Verbose options for Modules
+	to handle Vebose printing.
 
 ===================================
 Modules Added in v0.3:

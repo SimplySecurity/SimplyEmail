@@ -17,7 +17,7 @@ from Helpers import *
 
 class ClassName:
 
-    def __init__(self, Domain):
+    def __init__(self, Domain, verbose=False):
         self.name = "OnionStagram Search For Instagram Users"
         self.description = "Uses OnionStagrams search engine"
         config = configparser.ConfigParser()
@@ -25,6 +25,7 @@ class ClassName:
             config.read('Common/SimplyEmail.ini')
             self.Domain = Domain
             self.Html = ""
+            self.verbose = verbose
         except:
             print helpers.color("[*] Major Settings for OnionStagram are missing, EXITING!\n", warning=True)
 
@@ -42,6 +43,9 @@ class ClassName:
         except Exception as e:
             error = "[!] Major issue with OnionStagram Search:" + str(e)
             print helpers.color(error, warning=True)
+        if self.verbose:
+            p = '[*] Instagram search Complete'
+            print helpers.color(p, firewall=True)
         self.Html = r.content
 
     def get_emails(self):

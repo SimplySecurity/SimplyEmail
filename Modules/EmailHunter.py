@@ -15,12 +15,13 @@ from Helpers import helpers
 
 class ClassName:
 
-    def __init__(self, domain):
+    def __init__(self, domain, verbose=False):
         self.name = "EmailHunter Trial API"
         self.description = "Search the EmailHunter DB for potential emails"
         self.domain = domain
         config = configparser.ConfigParser()
         self.results = []
+        self.verbose = verbose
         try:
             config.read('Common/SimplyEmail.ini')
             self.UserAgent = str(config['GlobalSettings']['UserAgent'])
@@ -52,6 +53,9 @@ class ClassName:
             while x < EmailCount:
                 self.results.append(results['emails'][int(x)]['value'])
                 x += 1
+        if self.verbose:
+            p = '[*] TEmal Hunter completed JSON request'
+            print helpers.color(p, firewall=True)
 
     def get_emails(self):
         # Make sure you remove any newlines

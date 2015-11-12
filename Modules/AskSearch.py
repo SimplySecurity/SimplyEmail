@@ -15,7 +15,7 @@ from Helpers import helpers
 
 class ClassName:
 
-    def __init__(self, Domain):
+    def __init__(self, Domain, verbose=False):
         self.name = "Ask Search for Emails"
         self.description = "Simple Ask Search for Emails"
         config = configparser.ConfigParser()
@@ -26,6 +26,7 @@ class ClassName:
             self.PageLimit = int(config['AskSearch']['QueryPageLimit'])
             self.Counter = int(config['AskSearch']['QueryStart'])
             self.Domain = Domain
+            self.verbose = verbose
             self.Html = ""
         except:
             print helpers.color("[*] Major Settings for Ask Search are missing, EXITING!\n", warning=True)
@@ -37,6 +38,9 @@ class ClassName:
 
     def process(self):
         while self.Counter <= self.PageLimit:
+            if self.verbose:
+                p = '[*] AskSearch on page: ' + str(self.Counter)
+                print helpers.color(p, firewall=True)
             try:
                 url = 'http://www.ask.com/web?q=@' + str(self.Domain) + \
                     '&pu=10&page=' + str(self.Counter)

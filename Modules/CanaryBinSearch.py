@@ -30,7 +30,7 @@ from Helpers import helpers
 
 class ClassName:
 
-    def __init__(self, domain):
+    def __init__(self, domain, verbose=False):
         self.name = "Searching Canary Paste Bin"
         self.description = "Search Canary for paste potential data dumps, this can take a bit but a great source"
         self.domain = domain
@@ -40,6 +40,7 @@ class ClassName:
             config.read('Common/SimplyEmail.ini')
             self.Depth = int(config['CanaryPasteBin']['PageDepth'])
             self.Counter = int(config['CanaryPasteBin']['QueryStart'])
+            self.verbose = verbose
         except:
             print helpers.color("[*] Major Settings for Canary PasteBin Search are missing, EXITING!\n", warning=True)
 
@@ -53,6 +54,9 @@ class ClassName:
         # https://canary.pw/search/?q=earthlink.net&page=3
         UrlList = []
         while self.Counter <= self.Depth:
+            if self.verbose:
+                p = '[*] Canary Search on page: ' + str(self.Counter)
+                print helpers.color(p, firewall=True)
             try:
                 url = "https://canary.pw/search/?q=" + str(self.domain) + "&page=" + \
                     str(self.Counter)

@@ -4,7 +4,8 @@ import subprocess
 import configparser
 import os
 import shutil
-from Helpers import *
+from Helpers import helpers
+from Helpers import Parser
 
 
 # Class will have the following properties:
@@ -16,15 +17,16 @@ from Helpers import *
 # Use the same class name so we can easily start up each module the same ways
 class ClassName:
 
-    def __init__(self, domain):
+    def __init__(self, domain, verbose=False):
         # Descriptions that are required!!!
-        self.name = "HTML Scape of Taget Website"
-        self.description = "Html Scape the target website for emails and data"
+        self.name = "HTML Scrape of Taget Website"
+        self.description = "Html Scrape the target website for emails and data"
         # Settings we will pull from config file (We need required options in
         # config file)
         config = configparser.ConfigParser()
         try:
             config.read('Common/SimplyEmail.ini')
+            self.verbose = verbose
             self.domain = domain
             self.useragent = "--user-agent=" + \
                 str(config['GlobalSettings']['UserAgent'])
@@ -56,6 +58,9 @@ class ClassName:
             # Using subprocess, more or less because of the rebust HTML miroring ability
             # And also allows proxy / VPN Support
             # "--convert-links"
+            if self.verbose:
+                p = '[*] HTML scrape underway [This can take a bit!]'
+                print helpers.color(p, firewall=True)
             subprocess.call(["wget", "-q", "--header=""Accept: text/html""", self.useragent,
                              "--recursive", self.depth, self.wait, self.limit_rate, self.save,
                              self.timeout, "--page-requisites", "-R gif,jpg,pdf,png,css", 

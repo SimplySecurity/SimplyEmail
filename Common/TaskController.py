@@ -61,7 +61,7 @@ class Conducter:
         module.execute()
 
     # Handler for each Process that will call all the modules in the Queue
-    def ExecuteModule(self, Task_queue, Results_queue, Html_queue, domain):
+    def ExecuteModule(self, Task_queue, Results_queue, Html_queue, domain, verbose=False):
         while True:
             Task = Task_queue.get()
             # If the queue is emepty exit this proc
@@ -71,7 +71,7 @@ class Conducter:
             try:
                 ModuleName = Task
                 Task = self.modules[Task]
-                Module = Task.ClassName(domain)
+                Module = Task.ClassName(domain, verbose=verbose)
                 name = "[*] Starting: " + Module.name
                 print helpers.color(name, status=True)
                 # Try to start the module
@@ -186,7 +186,7 @@ class Conducter:
             except:
                 pass
 
-    def TaskSelector(self, domain):
+    def TaskSelector(self, domain, verbose=False):
         # Here it will check the Que for the next task to be completed
         # Using the Dynamic loaded modules we can easly select which module is up
         # Rather than using If statment on every task that needs to be done
@@ -212,7 +212,7 @@ class Conducter:
         procs = []
         for thread in range(total_proc):
             procs.append(multiprocessing.Process(
-                target=self.ExecuteModule, args=(Task_queue, Results_queue, Html_queue, domain)))
+                target=self.ExecuteModule, args=(Task_queue, Results_queue, Html_queue, domain, verbose)))
         for p in procs:
             p.daemon = True
             p.start()
@@ -276,7 +276,7 @@ class Conducter:
     # This is the Test version of the multi proc above, this function
     # Helps with testing only one module at a time. Helping with proper
     # Module Dev and testing before intergration
-    def TestModule(self, domain, module):
+    def TestModule(self, domain, module, verbose=False):
         Config = configparser.ConfigParser()
         Config.read("Common/SimplyEmail.ini")
         total_proc = int(1)
@@ -293,7 +293,7 @@ class Conducter:
         procs = []
         for thread in range(total_proc):
             procs.append(multiprocessing.Process(
-                target=self.ExecuteModule, args=(Task_queue, Results_queue, Html_queue, domain)))
+                target=self.ExecuteModule, args=(Task_queue, Results_queue, Html_queue, domain, verbose)))
         for p in procs:
             p.daemon = True
             p.start()
