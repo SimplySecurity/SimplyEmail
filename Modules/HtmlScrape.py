@@ -73,7 +73,7 @@ class ClassName:
         output = []
         FinalOutput = []
         val = ""
-        directory = self.save.strip("--directory-prefix=")
+        directory = self.save.replace("--directory-prefix=", "")
         # directory = "www." + directory
         # Grep for any data containing "@", sorting out binary files as well
         # Pass list of Dirs to a regex, and read that path for emails
