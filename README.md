@@ -190,6 +190,7 @@ Modules Added in v0.4
 Issues Fixed in v0.4:
 -----------------------------
 (x) Setup File Fix
+(x) issues with strip in Html
 
 Framework Improvements v0.4:
 -----------------------------
