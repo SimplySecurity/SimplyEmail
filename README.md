@@ -186,6 +186,7 @@ As I mentioned before a powerful function that I wanted to integrate was the abi
 Modules Added in v0.4
 -----------------------------
 (x) GitHubUser added
+(x) Reddit Post Search added
 
 Issues Fixed in v0.4:
 -----------------------------
