@@ -35,7 +35,7 @@ root@kali:~/Desktop/SimplyEmail# ./Setup.sh
 ### Standard Help
 ```
  ============================================================
- Curent Version: 0.4 | Website: CyberSyndicates.com
+ Curent Version: 0.5 | Website: CyberSyndicates.com
  ============================================================
  Twitter: @real_slacker007 |  Twitter: @Killswitch_gui
  ============================================================
@@ -45,7 +45,7 @@ root@kali:~/Desktop/SimplyEmail# ./Setup.sh
 /$$$$$$  $$$$$$$$/ _____  ____   ______ $$/$$ |
 $$ \__$$/$$ |__   /     \/    \ /      \/  $$ |
 $$      \$$    |  $$$$$$ $$$$  |$$$$$$  $$ $$ |
- $$$$$$  $$$$$/   $$ | $$ | $$ |/     $$ $$ $$ |
+ $$$$$$  $$$$$/   $$ | $$ | $$ |/    $$ $$ $$ |
 /  \__$$ $$ |_____$$ | $$ | $$ /$$$$$$$ $$ $$ |
 $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
  $$$$$$/ $$$$$$$$/$$/  $$/  $$/ $$$$$$$/$$/$$/
@@ -84,7 +84,7 @@ This will run ALL modules that are have API Key placed in the SimpleEmail.ini fi
 root@vapt-kali:~/Desktop/SimplyEmail# ./SimplyEmail.py -l
 
  ============================================================
- Curent Version: 0.4 | Website: CyberSyndicates.com
+ Curent Version: 0.5 | Website: CyberSyndicates.com
  ============================================================
  Twitter: @real_slacker007 |  Twitter: @Killswitch_gui
  ============================================================
@@ -94,7 +94,7 @@ root@vapt-kali:~/Desktop/SimplyEmail# ./SimplyEmail.py -l
 /$$$$$$  $$$$$$$$/ _____  ____   ______ $$/$$ |
 $$ \__$$/$$ |__   /     \/    \ /      \/  $$ |
 $$      \$$    |  $$$$$$ $$$$  |$$$$$$  $$ $$ |
- $$$$$$  $$$$$/   $$ | $$ | $$ |/     $$ $$ $$ |
+ $$$$$$  $$$$$/   $$ | $$ | $$ |/    $$ $$ $$ |
 /  \__$$ $$ |_____$$ | $$ | $$ /$$$$$$$ $$ $$ |
 $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
  $$$$$$/ $$$$$$$$/$$/  $$/  $$/ $$$$$$$/$$/$$/
@@ -102,20 +102,22 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 ------------------------------------------------------------
  [*] Available Modules are:
 
-	1)	Modules/HtmlScrape.py   
-	2)	Modules/GitHubUserSearch.py
-	3)	Modules/Whoisolgy.py    
-	4)	Modules/CanaryBinSearch.py
-	5)	Modules/YahooSearch.py  
-	6)	Modules/GitHubCodeSearch.py
-	7)	Modules/AskSearch.py    
-	8)	Modules/EmailHunter.py  
-	9)	Modules/WhoisAPISearch.py
-	10)	Modules/SearchPGP.py    
-	11)	Modules/GoogleSearch.py 
-	12)	Modules/GitHubGistSearch.py
-	13)	Modules/OnionStagram.py 
-	14)	Modules/FlickrSearch.py 
+  1)  Modules/GooglePDFSearch.py
+  2)  Modules/HtmlScrape.py   
+  3)  Modules/GitHubUserSearch.py
+  4)  Modules/Whoisolgy.py    
+  5)  Modules/CanaryBinSearch.py
+  6)  Modules/YahooSearch.py  
+  7)  Modules/GitHubCodeSearch.py
+  8)  Modules/OnionStagram.py 
+  9)  Modules/AskSearch.py    
+  10) Modules/EmailHunter.py  
+  11) Modules/WhoisAPISearch.py
+  12) Modules/SearchPGP.py    
+  13) Modules/GoogleSearch.py 
+  14) Modules/GitHubGistSearch.py
+  15) Modules/RedditPostSearch.py
+  16) Modules/FlickrSearch.py 
 ```
 ## Understanding Reporting Options:
 One of the most frustrating aspects of Pen-testing is the tools' ability
@@ -180,13 +182,18 @@ As I mentioned before a powerful function that I wanted to integrate was the abi
 - shinichiro.hamaji--at--gmail.com
 
 ##Build Log:
-####Changelog (Current v0.4):
+####Changelog (Current v0.5):
 ```
+===================================
+Modules Added in v0.5
+-----------------------------
+(x) Reddit Post Search added
+(x) Google PDF search
+
 ===================================
 Modules Added in v0.4
 -----------------------------
 (x) GitHubUser added
-(x) Reddit Post Search added
 
 Issues Fixed in v0.4:
 -----------------------------
@@ -257,7 +264,6 @@ Modules Under Dev:
 ( ) StartPage Search (can help with captcha issues)
 ( ) GitHub User Search
 ( ) Searching SEC Data
-( ) PDFMiner 
 ( ) Exalead Search - Port from theHarvester
 ( ) PwnBin Search 
 ( ) PasteBin Searches 
