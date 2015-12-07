@@ -185,7 +185,7 @@ As I mentioned before a powerful function that I wanted to integrate was the abi
 ####Changelog (Current v0.5):
 ```
 ===================================
-Modules Added in v0.5
+Modules Added in v0.6
 -----------------------------
 (x) Google Doc Search
 
