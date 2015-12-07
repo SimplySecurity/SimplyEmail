@@ -187,6 +187,11 @@ As I mentioned before a powerful function that I wanted to integrate was the abi
 ===================================
 Modules Added in v0.5
 -----------------------------
+(x) Google Doc Search
+
+===================================
+Modules Added in v0.5
+-----------------------------
 (x) Reddit Post Search added
 (x) Google PDF search
 

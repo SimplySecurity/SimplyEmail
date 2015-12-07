@@ -36,7 +36,7 @@ class Conducter:
         self.ConsumerList = []
         self.HtmlList = []
         self.Tasks = []
-        self.version = "0.5"
+        self.version = "0.6"
         self.ResultsList = []
 
     def ConfigSectionMap(section):
