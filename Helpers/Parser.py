@@ -32,7 +32,7 @@ class Parser:
         self.InputData = re.sub('</tr>', ' ', self.InputData)
         self.InputData = re.sub('</a>', ' ', self.InputData)
 
-        for e in ('>', ':', '=', '<', '/', '\\', ';', '&', '%3A', '%3D', '%3C', '&#34'):
+        for e in (',', '>', ':', '=', '<', '/', '\\', ';', '&', '%3A', '%3D', '%3C', '&#34'):
             self.InputData = string.replace(self.InputData, e, ' ')
 
     # A really good url clean by theHarvester at : 

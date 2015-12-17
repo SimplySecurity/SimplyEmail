@@ -41,6 +41,7 @@ func_install_requests(){
   sudo git pull
   sudo apt-get -y install wget grep antiword odt2txt
   sudo pip install --upgrade requests 
+  sudo pip install xlsx2csv --upgrade
   sudo pip install configparser --upgrade
   sudo pip install BeautifulSoup --upgrade
   sudo pip install pdfminer --upgrade
