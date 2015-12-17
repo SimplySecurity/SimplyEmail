@@ -182,12 +182,13 @@ As I mentioned before a powerful function that I wanted to integrate was the abi
 - shinichiro.hamaji--at--gmail.com
 
 ##Build Log:
-####Changelog (Current v0.5):
+####Changelog (Current v0.6):
 ```
 ===================================
 Modules Added in v0.6
 -----------------------------
 (x) Google Doc Search
+(x) Google Xlsx Search
 
 ===================================
 Modules Added in v0.5
@@ -267,13 +268,11 @@ Imprrovements in v0.1:
 Modules Under Dev:
 -----------------------------
 ( ) StartPage Search (can help with captcha issues)
-( ) GitHub User Search
 ( ) Searching SEC Data
 ( ) Exalead Search - Port from theHarvester
 ( ) PwnBin Search 
 ( ) PasteBin Searches 
 ( ) Past Data Dumps
-( ) Canary API based and non API
 ( ) psbdmp API Based and non Alert
 
 Framework Under Dev:
