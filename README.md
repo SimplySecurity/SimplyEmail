@@ -1,9 +1,4 @@
 [![Build Status](https://travis-ci.org/killswitch-GUI/SimplyEmail.svg?branch=master)](https://travis-ci.org/killswitch-GUI/SimplyEmail)
-
-Current Platforms Supported:
-* Kali Linux 2.0
-* Kali Linux 1.0
-
 # SimplyEmail
 
 What is the simple email recon tool? This tool was based off the work of theHarvester and kind of a port of the functionality. This was just an expansion of what was used to build theHarvester and will incorporate his work but allow users to easily build Modules for the Framework. Which I felt was desperately needed after building my first module for theHarvester.
@@ -17,6 +12,10 @@ Work Conducted by:
 * Keelyn Roberts [Twitter] @real_slacker007 -- [Web] [CyberSydicates.com](http://cybersyndicates.com)
 
 ## Scrape EVERYTHING - Simply 
+
+Current Platforms Supported:
+* Kali Linux 2.0
+* Kali Linux 1.0
 
 A few small benefits:
 - Easy for you to write modules (All you need is 1 required Class option and you're up and running)
