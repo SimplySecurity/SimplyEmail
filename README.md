@@ -192,7 +192,7 @@ As I mentioned before a powerful function that I wanted to integrate was the abi
 Framework Improvements v0.4:
 -----------------------------
 (x) Add unicode / UT8 Decoding to the parser options
-(x)
+(x) Added Version Check
 
 Modules Added in v0.7
 -----------------------------
