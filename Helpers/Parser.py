@@ -94,8 +94,9 @@ class Parser:
         # This will be a seprate func to handle the lager sets of data
             EvasionVal = self.EmailEvasionCheck(ps) 
         except Exception as e:
-            p = '[!] Pattern Matching Issue: ' + str(e)
-            print helpers.color(p, firewall=True)
+            pass
+            #p = '[!] Pattern Matching Issue: ' + str(e)
+            #print helpers.color(p, firewall=True)
         # Remove this line for Debuging pages
         os.remove(str(StartFileName))
         if len(val) > 0:

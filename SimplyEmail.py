@@ -10,6 +10,7 @@ import os
 import argparse
 import sys
 from Helpers import helpers
+from Helpers import VersionCheck
 from Common import TaskController
 
 
@@ -39,7 +40,7 @@ def cli_parser():
     return args.all, args.e, args.l, args.t, args.v
 
 
-def TaskControler():
+def TaskControler(version):
     # Get all the options passed and pass it to the TaskConducter, this will
     # keep all the prcessing on the side.
     # need to pass the store true somehow to tell printer to restrict output
@@ -49,14 +50,20 @@ def TaskControler():
     Task.load_modules()
     if cli_list:
         Task.ListModules()
+        V = VersionCheck.VersionCheck(version)
+        V.VersionRequest()
         sys.exit(0)
     if not len(cli_domain) > 1:
         print helpers.color("[*] No Domain Supplied to start up!\n", warning=True)
         sys.exit(0)
     if cli_test:
         # setup a small easy test to activate certain modules
+        V = VersionCheck.VersionCheck(version)
+        V.VersionRequest()
         Task.TestModule(cli_domain, cli_test, verbose=cli_verbose)
     if cli_all:
+        V = VersionCheck.VersionCheck(version)
+        V.VersionRequest()
         Task.TaskSelector(cli_domain, verbose=cli_verbose)
 
 
@@ -67,11 +74,11 @@ def TaskControler():
 
 def main():
     # instatiate the class
+    version = "v0.7"
     orc = TaskController.Conducter()
     orc.title()
     orc.title_screen()
-
-    TaskControler()
+    TaskControler(version)
 
 
 if __name__ == "__main__":
