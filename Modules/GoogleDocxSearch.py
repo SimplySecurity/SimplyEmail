@@ -1,4 +1,5 @@
- #!/usr/bin/env python
+#!/usr/bin/env python
+# encoding=utf8 
 
 # Class will have the following properties:
 # 1) name / description
@@ -11,8 +12,9 @@ import urlparse
 import os
 import configparser
 import requests
+import docx2txt
 import time
-from subprocess import Popen, PIPE
+# from subprocess import Popen, PIPE
 from Helpers import helpers
 from Helpers import Parser
 from BeautifulSoup import BeautifulSoup
@@ -21,22 +23,22 @@ from cStringIO import StringIO
 class ClassName:
 
     def __init__(self, Domain, verbose=False):
-        self.name = "Google XLSX Search for Emails"
+        self.name = "Google DOCX Search for Emails"
         self.description = "Uses google Dorking to search for emails"
         config = configparser.ConfigParser()
         try:
             config.read('Common/SimplyEmail.ini')
             self.Domain = Domain
-            self.Quanity = int(config['GoogleXlsxSearch']['StartQuantity'])
+            self.Quanity = int(config['GoogleDocxSearch']['StartQuantity'])
             self.UserAgent = {
                 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
-            self.Limit = int(config['GoogleXlsxSearch']['QueryLimit'])
-            self.Counter = int(config['GoogleXlsxSearch']['QueryStart'])
+            self.Limit = int(config['GoogleDocxSearch']['QueryLimit'])
+            self.Counter = int(config['GoogleDocxSearch']['QueryStart'])
             self.verbose = verbose
             self.urlList = []
             self.Text = ""
         except:
-            print helpers.color("[*] Major Settings for GoogleXlsxSearch are missing, EXITING!\n", warning=True)
+            print helpers.color("[*] Major Settings for GoogleDocxSearch are missing, EXITING!\n", warning=True)
 
     def execute(self):
         self.search()
@@ -44,13 +46,11 @@ class ClassName:
         return FinalOutput, HtmlResults
 
 
-    def convert_Xlsx_to_Csv(self, path):
-        # Using the Xlsx2csv tool seemed easy and was in python anyhow
-        # it also supported custom delim :)
-        cmd = ['xlsx2csv', path]
-        p = Popen(cmd, stdout=PIPE)
-        stdout, stderr = p.communicate()
-        return stdout.decode('ascii', 'ignore')
+    def convert_docx_to_txt(self, path):
+        # https://github.com/ankushshah89/python-docx2txt
+        # Very simple setup of python-docx to text
+        text = docx2txt.process(path)
+        return unicode(text)
 
 
     def download_file(self, url):
@@ -69,10 +69,10 @@ class ClassName:
         while self.Counter <= self.Limit and self.Counter <= 100:
             time.sleep(1)
             if self.verbose:
-                p = '[*] Google XLSX Search on page: ' + str(self.Counter)
+                p = '[*] Google DOC Search on page: ' + str(self.Counter)
                 print helpers.color(p, firewall=True)
             try:
-                urly = "https://www.google.com/search?q=site:" + self.Domain + "+filetype:xlsx&start=" + str(self.Counter)
+                urly = "https://www.google.com/search?q=site:" + self.Domain + "+filetype:docx&start=" + str(self.Counter)
             except Exception as e:
                 error = "[!] Major issue with Google Search:" + str(e)
                 print helpers.color(error, warning=True)
@@ -101,14 +101,14 @@ class ClassName:
         try:
             for url in self.urlList:
                 if self.verbose:
-                    p = '[*] Google XLSX search downloading: ' + str(url)
+                    p = '[*] Google DOC search downloading: ' + str(url)
                     print helpers.color(p, firewall=True)
                 try:
                     FileName = self.download_file(url)
-                    self.Text += self.convert_Xlsx_to_Csv(FileName)
+                    self.Text += self.convert_docx_to_txt(FileName)
                     # print self.Text
                 except Exception as e:
-                    print helpers.color("[!] Issue with opening Xlsx Files\n", firewall=True)
+                    print helpers.color("[!] Issue with Converting Docx Files\n", firewall=True)
                 try:
                     os.remove(FileName)
                 except Exception as e:
@@ -116,11 +116,12 @@ class ClassName:
         except:
           print helpers.color("[*] No DOC's to download from google!\n", firewall=True)
 
-
     def get_emails(self):
         Parse = Parser.Parser(self.Text)
+        Parse.RemoveUnicode()
         Parse.genericClean()
         Parse.urlClean()
+        # Unicode issues here:
         FinalOutput = Parse.GrepFindEmails()
         HtmlResults = Parse.BuildResults(FinalOutput,self.name)
         return FinalOutput, HtmlResults

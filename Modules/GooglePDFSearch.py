@@ -127,7 +127,7 @@ class ClassName:
             except Exception as e:
               pass
         except:
-          print helpers.color("[*] No PDF's to download from google!\n", firewall=true)
+          print helpers.color("[*] No PDF's to download from google!\n", firewall=True)
 
 
     def get_emails(self):

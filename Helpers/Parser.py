@@ -1,10 +1,12 @@
 #!/usr/bin/env python
+# encoding=utf8 
 
 import os
 import re
 import string
 import subprocess
 from random import randint
+import helpers
 
 # Simple Parser Options for email enumeration.
 
@@ -45,6 +47,27 @@ class Parser:
         for e in ('<', '>', ':', '=', ';', '&', '%3A', '%3D', '%3C'):
             self.InputData = string.replace(self.InputData, e, ' ')
 
+    # http://stackoverflow.com/questions/32747648/
+    # ascii-codec-cant-encode-character-u-u2019-ordinal-out-of-range128
+    def RemoveUnicode(self):
+        """ (str|unicode) -> (str|unicode)
+
+        recovers ascii content from string_data
+        """
+        try:
+            string_data = self.InputData
+            if string_data is None:
+                return string_data
+            if isinstance(string_data, str):
+                string_data = str(string_data.decode('ascii', 'ignore'))
+            else:
+                string_data = string_data.encode('ascii', 'ignore')
+            remove_ctrl_chars_regex = re.compile(r'[^\x20-\x7e]')
+            self.InputData = remove_ctrl_chars_regex.sub('', string_data)
+        except Exception as e:
+            p = '[!] UTF8 Decoding issues Matching: ' + str(e)
+            print helpers.color(p, firewall=True)
+
     def FindEmails(self):
         Result = []
         match = re.findall('[\w\.-]+@[\w\.-]+', self.InputData)
@@ -60,15 +83,19 @@ class Parser:
         StartFileName = randint(1000,999999)
         EndFileName = randint(1000,999999)
         val = ""
-        with open(str(StartFileName), "wr") as myfile:
-            myfile.write(self.InputData)
-        ps = subprocess.Popen(
-            ('grep', "@", str(StartFileName)), stdout=subprocess.PIPE)
         try:
+            with open(str(StartFileName), "wr") as myfile:
+                myfile.write(self.InputData)
+            ps = subprocess.Popen(
+                ('grep', "@", str(StartFileName)), stdout=subprocess.PIPE)
             val = subprocess.check_output(("grep", "-i", "-o", '[A-Z0-9._%+-]\+@[A-Z0-9.-]\+\.[A-Z]\{2,4\}'),
                                           stdin=ps.stdout)
+        # Start Email Evasion Check
+        # This will be a seprate func to handle the lager sets of data
+            EvasionVal = self.EmailEvasionCheck(ps) 
         except Exception as e:
-            pass
+            p = '[!] Pattern Matching Issue: ' + str(e)
+            print helpers.color(p, firewall=True)
         # Remove this line for Debuging pages
         os.remove(str(StartFileName))
         if len(val) > 0:
@@ -81,6 +108,12 @@ class Parser:
                 FinalOutput.append(item.rstrip("\n"))
         return FinalOutput
 
+    def EmailEvasionCheck(self, data):
+        try:
+            val = subprocess.check_output(("grep", "-i", "-o", '[A-Z0-9._%+-]\+\s+@+\s[A-Z0-9.-]\+\.[A-Z]\{2,4\}'),
+                                          stdin=data.stdout)
+        except:
+            pass
     def CleanListOutput(self):
         FinalOutput = []
         for item in self.InputData:

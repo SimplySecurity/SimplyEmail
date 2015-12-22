@@ -106,13 +106,13 @@ class ClassName:
                     self.Text += self.convert_doc_to_txt(FileName)
                     # print self.Text
                 except Exception as e:
-                    print helpers.color("[!] Issue with opening Doc Files\n", firewall=true)
+                    print helpers.color("[!] Issue with opening Doc Files\n", firewall=True)
                 try:
                     os.remove(FileName)
                 except Exception as e:
                     print e
         except:
-          print helpers.color("[*] No DOC's to download from google!\n", firewall=true)
+          print helpers.color("[*] No DOC's to download from google!\n", firewall=True)
 
 
     def get_emails(self):
