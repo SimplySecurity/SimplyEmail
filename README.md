@@ -189,7 +189,7 @@ As I mentioned before a powerful function that I wanted to integrate was the abi
 ####Changelog (Current v0.6):
 ```
 ===================================
-Framework Improvements v0.4:
+Framework Improvements v0.7:
 -----------------------------
 (x) Add unicode / UT8 Decoding to the parser options
 (x) Added Version Check
