@@ -26,6 +26,6 @@ class VersionCheck:
             p = " [!] Newer Version Available, Re-Run Setup.sh to update!"
             print helpers.color(p, warning=True,bold=False)
         except Exception as e:
-          error = "[!] Fail during Request to Update/Version Check (Check Connection):" + str(e)
+          error = "[!] Fail during Request to Update/Version Check (Check Connection)"
           print helpers.color(error, warning=True)
 
