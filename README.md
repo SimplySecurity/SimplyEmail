@@ -201,6 +201,7 @@ Modules Added in v0.7
 Issues Fixed in v0.7:
 -----------------------------
 (x) Fixed issues with Except statement in a few modules
+(x) Fixed Case Mathcing Issues with target Domain
 
 ===================================
 Modules Added in v0.6
