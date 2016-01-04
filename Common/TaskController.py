@@ -143,20 +143,20 @@ class Conducter:
         # Validate the domain.. this can mess up but i dont want to miss
         # anything
         for item in self.ConsumerList:
-            if domain in item:
+            if domain.lower() in item.lower():
                 SecondList.append(item)
         FinalList = []
         HtmlFinalList = []
         # now the same for Html Results with magic
         for item in self.HtmlList:
-            if domain in item:
+            if domain.lower() in item.lower():
                 HtmlSecondList.append(item)
         # Itt over all items in the list
         for item in SecondList:
             # Check if the value is in the new list
-            if item not in FinalList:
+            if item.lower() not in FinalList:
                 # Add item to list and put back in the Queue
-                FinalList.append(item)
+                FinalList.append(item.lower())
                 # results_queue.put(item)
         # Check to see we have dups (we will have dup emails)
         # But no Dup Sources (which we want)

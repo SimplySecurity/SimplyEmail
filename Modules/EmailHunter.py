@@ -40,19 +40,22 @@ class ClassName:
                 self.domain + "&format=json"
             r = requests.get(url)
         except Exception as e:
-            error = "[!] Major issue with PGP Search:" + str(e)
+            error = "[!] Major issue with EmailHunter Search:" + str(e)
             print helpers.color(error, warning=True)
-        results = r.json()
-        # pprint(results)
-        # Check to make sure we got data back from the API
-        if results['status'] == "success":
-            # The API starts at 0 for the first value
-            x = 0
-            EmailCount = int(results['results'])
-            # We will itirate of the Json object for the index objects
-            while x < EmailCount:
-                self.results.append(results['emails'][int(x)]['value'])
-                x += 1
+        try:
+            results = r.json()
+            # pprint(results)
+            # Check to make sure we got data back from the API
+            if results['status'] == "success":
+                # The API starts at 0 for the first value
+                x = 0
+                EmailCount = int(results['results'])
+                # We will itirate of the Json object for the index objects
+                while x < EmailCount:
+                    self.results.append(results['emails'][int(x)]['value'])
+                    x += 1
+        except Exception as e:
+            pass
         if self.verbose:
             p = '[*] TEmal Hunter completed JSON request'
             print helpers.color(p, firewall=True)
