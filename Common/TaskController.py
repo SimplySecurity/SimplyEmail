@@ -135,22 +135,34 @@ class Conducter:
         #error =  "[!] Error building HTML file:" + e
         # print helpers.color(error, warning=True)
 
-    def CleanResults(self, domain):
+    def CleanResults(self, domain, scope=False):
         # Clean Up results, remove dupplicates and enforce strict Domain reuslts (future)
         # Set Timeout or you wont leave the While loop
         SecondList = []
         HtmlSecondList = []
         # Validate the domain.. this can mess up but i dont want to miss
         # anything
-        for item in self.ConsumerList:
-            if domain.lower() in item.lower():
+        # scope will allow you to return all found emails
+        # this will allow a user to scrape for all emails non related
+        if scope:
+            for item in self.ConsumerList:
                 SecondList.append(item)
+        else:
+            for item in self.ConsumerList:
+                if domain.lower() in item.lower():
+                    SecondList.append(item)
         FinalList = []
         HtmlFinalList = []
         # now the same for Html Results with magic
-        for item in self.HtmlList:
-            if domain.lower() in item.lower():
+        # scope will allow you to return all found emails
+        # this will allow a user to scrape for all emails non related
+        if scope:
+            for item in self.HtmlList:
                 HtmlSecondList.append(item)
+        else:
+            for item in self.HtmlList:
+                if domain.lower() in item.lower():
+                    HtmlSecondList.append(item)
         # Itt over all items in the list
         for item in SecondList:
             # Check if the value is in the new list
@@ -186,7 +198,7 @@ class Conducter:
             except:
                 pass
 
-    def TaskSelector(self, domain, verbose=False):
+    def TaskSelector(self, domain, verbose=False, scope=False):
         # Here it will check the Que for the next task to be completed
         # Using the Dynamic loaded modules we can easly select which module is up
         # Rather than using If statment on every task that needs to be done
@@ -247,7 +259,7 @@ class Conducter:
                 # t.join()
                 try:
                     FinalEmailList, HtmlFinalEmailList = self.CleanResults(
-                        domain)
+                        domain, scope)
                 except Exception as e:
                     error = "[!] Something went wrong with parsing results:" + \
                         str(e)
@@ -276,7 +288,7 @@ class Conducter:
     # This is the Test version of the multi proc above, this function
     # Helps with testing only one module at a time. Helping with proper
     # Module Dev and testing before intergration
-    def TestModule(self, domain, module, verbose=False):
+    def TestModule(self, domain, module, verbose=False, scope=False):
         Config = configparser.ConfigParser()
         Config.read("Common/SimplyEmail.ini")
         total_proc = int(1)
@@ -328,7 +340,7 @@ class Conducter:
                 # t.join()
                 try:
                     FinalEmailList, HtmlFinalEmailList = self.CleanResults(
-                        domain)
+                        domain, scope)
                 except Exception as e:
                     error = "[!] Something went wrong with parsing results:" + \
                         str(e)

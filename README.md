@@ -38,8 +38,8 @@ root@kali:~/Desktop/SimplyEmail# ./Setup.sh
 
 ### Standard Help
 ```
- ============================================================
- Curent Version: 0.5 | Website: CyberSyndicates.com
+  ============================================================
+ Curent Version: v0.7 | Website: CyberSyndicates.com
  ============================================================
  Twitter: @real_slacker007 |  Twitter: @Killswitch_gui
  ============================================================
@@ -56,7 +56,7 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 
 ------------------------------------------------------------
 usage: SimplyEmail.py [-all] [-e company.com] [-l] [-t html / flickr / google]
-                      [-v]
+                      [-s] [-v]
 
 Email enumeration is a important phase of so many operation that a pen-tester
 or Red Teamer goes through. There are tons of applications that do this but I
@@ -69,6 +69,7 @@ optional arguments:
   -l                    List the current Modules Loaded
   -t html / flickr / google
                         Test individual module (For Linting)
+  -s                    Set this to enable 'No-Scope' of the email parsing
   -v                    Set this switch for verbose output of modules
 
 ```
@@ -80,6 +81,8 @@ Let's say your target is cybersyndicates.com
 ./SimplyEmail.py -all -e cybersyndicates.com
 or in verbose
 ./SimplyEmail.py -all -v -e cybersyndicates.com
+or in verbose and no "Scope"
+./SimplyEmail.py -all -v -e cybersyndicates.com -s
 ```
 This will run ALL modules that are have API Key placed in the SimpleEmail.ini file and will run all non-API based modules. 
 
@@ -186,8 +189,15 @@ As I mentioned before a powerful function that I wanted to integrate was the abi
 - shinichiro.hamaji--at--gmail.com
 
 ##Build Log:
-####Changelog (Current v0.6):
+####Changelog (Current v0.8):
 ```
+===================================
+Framework Improvements v0.8:
+-----------------------------
+(x) Added in "Scope Option" to remove domain name checks
+    This will allow users to collect as much data as possible 
+    and T-Shoot issues.
+
 ===================================
 Framework Improvements v0.7:
 -----------------------------

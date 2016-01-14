@@ -30,6 +30,8 @@ def cli_parser():
     parser.add_argument(
         "-t", metavar="html / flickr / google", help="Test individual module (For Linting)")
     parser.add_argument(
+        "-s", action='store_true', help="Set this to enable 'No-Scope' of the email parsing")
+    parser.add_argument(
         "-v", action='store_true', help="Set this switch for verbose output of modules")
     parser.add_argument('-h', '-?', '--h', '-help',
                         '--help', action="store_true", help=argparse.SUPPRESS)
@@ -37,14 +39,14 @@ def cli_parser():
     if args.h:
         parser.print_help()
         sys.exit()
-    return args.all, args.e, args.l, args.t, args.v
+    return args.all, args.e, args.l, args.t, args.s, args.v
 
 
 def TaskControler(version):
     # Get all the options passed and pass it to the TaskConducter, this will
     # keep all the prcessing on the side.
     # need to pass the store true somehow to tell printer to restrict output
-    cli_all, cli_domain, cli_list, cli_test, cli_verbose = cli_parser()
+    cli_all, cli_domain, cli_list, cli_test, cli_scope, cli_verbose = cli_parser()
     cli_domain = cli_domain.lower()
     Task = TaskController.Conducter()
     Task.load_modules()
@@ -60,11 +62,11 @@ def TaskControler(version):
         # setup a small easy test to activate certain modules
         V = VersionCheck.VersionCheck(version)
         V.VersionRequest()
-        Task.TestModule(cli_domain, cli_test, verbose=cli_verbose)
+        Task.TestModule(cli_domain, cli_test, verbose=cli_verbose, scope=cli_scope)
     if cli_all:
         V = VersionCheck.VersionCheck(version)
         V.VersionRequest()
-        Task.TaskSelector(cli_domain, verbose=cli_verbose)
+        Task.TaskSelector(cli_domain, verbose=cli_verbose, scope=cli_scope)
 
 
 # def GenerateReport():
