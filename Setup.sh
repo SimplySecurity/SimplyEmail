@@ -39,7 +39,7 @@ func_install_requests(){
   #sudo apt-get -q update
   #sudo apt-get -q upgrade 
   sudo git pull
-  sudo apt-get -y install wget grep antiword odt2txt
+  sudo apt-get -y install wget grep antiword odt2txt python-dev libxml2-dev libxslt1-dev
   sudo pip install docx2txt --upgrade
   sudo pip install --upgrade requests 
   sudo pip install xlsx2csv --upgrade

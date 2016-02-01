@@ -116,18 +116,21 @@ class ClassName:
             self.Counter += 10
         # now download the required files
         try:
-          for url in self.urlList:
-            if self.verbose:
-              p = '[*] Google PDF search downloading: ' + str(url)
-              print helpers.color(p, firewall=True)
-            try:
-              FileName = self.download_file(url)
-              self.Text += self.convert_pdf_to_txt(FileName)
-              os.remove(FileName)
-            except Exception as e:
-              pass
+            for url in self.urlList:
+                if self.verbose:
+                    p = '[*] Google PDF search downloading: ' + str(url)
+                    print helpers.color(p, firewall=True)
+                try:
+                    FileName = self.download_file(url)
+                    self.Text += self.convert_pdf_to_txt(FileName)
+                except Exception as e:
+                    pass
+                try:
+                    os.remove(FileName)
+                except Exception as e:
+                    print e
         except:
-          print helpers.color("[*] No PDF's to download from google!\n", firewall=True)
+	    print helpers.color("[*] No PDF's to download from google!\n", firewall=True)
 
 
     def get_emails(self):
