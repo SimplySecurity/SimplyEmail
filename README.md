@@ -88,10 +88,9 @@ This will run ALL modules that are have API Key placed in the SimpleEmail.ini fi
 
 ### List Modules SimpleEmail
 ```
-root@vapt-kali:~/Desktop/SimplyEmail# ./SimplyEmail.py -l
-
+root@kali:~/Tools/SimplyEmail# ./SimplyEmail.py -l
  ============================================================
- Curent Version: 0.5 | Website: CyberSyndicates.com
+ Curent Version: v0.7 | Website: CyberSyndicates.com
  ============================================================
  Twitter: @real_slacker007 |  Twitter: @Killswitch_gui
  ============================================================
@@ -109,22 +108,26 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 ------------------------------------------------------------
  [*] Available Modules are:
 
-  1)  Modules/GooglePDFSearch.py
-  2)  Modules/HtmlScrape.py   
-  3)  Modules/GitHubUserSearch.py
-  4)  Modules/Whoisolgy.py    
-  5)  Modules/CanaryBinSearch.py
-  6)  Modules/YahooSearch.py  
-  7)  Modules/GitHubCodeSearch.py
-  8)  Modules/OnionStagram.py 
-  9)  Modules/AskSearch.py    
-  10) Modules/EmailHunter.py  
-  11) Modules/WhoisAPISearch.py
-  12) Modules/SearchPGP.py    
-  13) Modules/GoogleSearch.py 
-  14) Modules/GitHubGistSearch.py
-  15) Modules/RedditPostSearch.py
-  16) Modules/FlickrSearch.py 
+	1)	Modules/GooglePDFSearch.py
+	2)	Modules/HtmlScrape.py   
+	3)	Modules/GitHubUserSearch.py
+	4)	Modules/Whoisolgy.py    
+	5)	Modules/CanaryBinSearch.py
+	6)	Modules/YahooSearch.py  
+	7)	Modules/GitHubCodeSearch.py
+	8)	Modules/GoogleXLSXSearch.py
+	9)	Modules/AskSearch.py    
+	10)	Modules/EmailHunter.py  
+	11)	Modules/WhoisAPISearch.py
+	12)	Modules/GoogleDocSearch.py
+	13)	Modules/SearchPGP.py    
+	14)	Modules/GoogleSearch.py 
+	15)	Modules/OnionStagram.py 
+	16)	Modules/GitHubGistSearch.py
+	17)	Modules/RedditPostSearch.py
+	18)	Modules/FlickrSearch.py 
+	19)	Modules/PasteBinSearch.py
+	20)	Modules/GoogleDocxSearch.py
 ```
 ## Understanding Reporting Options:
 One of the most frustrating aspects of Pen-testing is the tools' ability
