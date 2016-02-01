@@ -189,8 +189,18 @@ As I mentioned before a powerful function that I wanted to integrate was the abi
 - shinichiro.hamaji--at--gmail.com
 
 ##Build Log:
-####Changelog (Current v0.8):
+####Changelog (Current v0.9):
 ```
+===================================
+Framework Improvements v0.9:
+-----------------------------
+(x) Fixed a import error for base debian images (Th3gundy)
+(x) Fixed an issue where PDF wouldnt delete if it didnt download 100% (Th3gundy)
+
+Modules Added in v0.9
+-----------------------------
+(x) PasteBin Search - Thanks to the (Th3gundy)
+
 ===================================
 Framework Improvements v0.8:
 -----------------------------
