@@ -313,7 +313,6 @@ Modules Under Dev:
 ( ) Searching SEC Data
 ( ) Exalead Search - Port from theHarvester
 ( ) PwnBin Search 
-( ) PasteBin Searches 
 ( ) Past Data Dumps
 ( ) psbdmp API Based and non Alert
 
