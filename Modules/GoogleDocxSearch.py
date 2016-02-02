@@ -24,7 +24,7 @@ class ClassName:
 
     def __init__(self, Domain, verbose=False):
         self.name = "Google DOCX Search for Emails"
-        self.description = "Uses google Dorking to search for emails"
+        self.description = "Uses Google Dorking to search for emails"
         config = configparser.ConfigParser()
         try:
             config.read('Common/SimplyEmail.ini')
@@ -69,7 +69,7 @@ class ClassName:
         while self.Counter <= self.Limit and self.Counter <= 100:
             time.sleep(1)
             if self.verbose:
-                p = '[*] Google DOC Search on page: ' + str(self.Counter)
+                p = '[*] Google DOCX Search on page: ' + str(self.Counter)
                 print helpers.color(p, firewall=True)
             try:
                 urly = "https://www.google.com/search?q=site:" + self.Domain + "+filetype:docx&start=" + str(self.Counter)
@@ -101,7 +101,7 @@ class ClassName:
         try:
             for url in self.urlList:
                 if self.verbose:
-                    p = '[*] Google DOC search downloading: ' + str(url)
+                    p = '[*] Google DOCX search downloading: ' + str(url)
                     print helpers.color(p, firewall=True)
                 try:
                     FileName = self.download_file(url)
@@ -114,7 +114,7 @@ class ClassName:
                 except Exception as e:
                     print e
         except:
-          print helpers.color("[*] No DOC's to download from google!\n", firewall=True)
+          print helpers.color("[*] No DOCX's to download from Google!\n", firewall=True)
 
     def get_emails(self):
         Parse = Parser.Parser(self.Text)

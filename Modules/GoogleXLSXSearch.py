@@ -22,7 +22,7 @@ class ClassName:
 
     def __init__(self, Domain, verbose=False):
         self.name = "Google XLSX Search for Emails"
-        self.description = "Uses google Dorking to search for emails"
+        self.description = "Uses Google Dorking to search for emails"
         config = configparser.ConfigParser()
         try:
             config.read('Common/SimplyEmail.ini')
@@ -114,7 +114,7 @@ class ClassName:
                 except Exception as e:
                     print e
         except:
-          print helpers.color("[*] No DOC's to download from google!\n", firewall=True)
+          print helpers.color("[*] No XLSX's to download from google!\n", firewall=True)
 
 
     def get_emails(self):
