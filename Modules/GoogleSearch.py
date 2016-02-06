@@ -16,7 +16,7 @@ class ClassName:
 
     def __init__(self, Domain, verbose=False):
         self.name = "Google Search for Emails"
-        self.description = "Uses google to search for emails, parses them out of the"
+        self.description = "Uses Google to search for emails, parses them out of the"
         config = configparser.ConfigParser()
         try:
             config.read('Common/SimplyEmail.ini')

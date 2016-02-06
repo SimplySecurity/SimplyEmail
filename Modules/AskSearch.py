@@ -45,12 +45,12 @@ class ClassName:
                 url = 'http://www.ask.com/web?q=@' + str(self.Domain) + \
                     '&pu=10&page=' + str(self.Counter)
             except Exception as e:
-                error = "[!] Major issue with Yahoo Search:" + str(e)
+                error = "[!] Major issue with Ask Search:" + str(e)
                 print helpers.color(error, warning=True)
             try:
                 r = requests.get(url, headers=self.UserAgent)
             except Exception as e:
-                error = "[!] Fail during Request to Yahoo (Check Connection):" + \
+                error = "[!] Fail during Request to Ask (Check Connection):" + \
                     str(e)
                 print helpers.color(error, warning=True)
             results = r.content
