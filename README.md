@@ -192,8 +192,21 @@ As I mentioned before a powerful function that I wanted to integrate was the abi
 - shinichiro.hamaji--at--gmail.com
 
 ##Build Log:
-####Changelog (Current v0.9):
+####Changelog (Current v1.0):
 ```
+===================================
+Framework Improvements v1.0:
+-----------------------------
+(x) Fixed some text issues (Th3gundy)
+
+Modules Added in v1.0
+-----------------------------
+(x) ExaleadSearch (Th3gundy)
+(x) ExaleadXLSXSearch (Th3gundy)
+(x) ExaleadDOCXSearch (Th3gundy)
+(x) ExaleadDOCSearch (Th3gundy)
+(x) ExaleadPDFSearch (Th3gundy)
+
 ===================================
 Framework Improvements v0.9:
 -----------------------------
