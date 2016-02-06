@@ -108,26 +108,31 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 ------------------------------------------------------------
  [*] Available Modules are:
 
-	1)	Modules/GooglePDFSearch.py
-	2)	Modules/HtmlScrape.py   
-	3)	Modules/GitHubUserSearch.py
-	4)	Modules/Whoisolgy.py    
-	5)	Modules/CanaryBinSearch.py
-	6)	Modules/YahooSearch.py  
-	7)	Modules/GitHubCodeSearch.py
-	8)	Modules/GoogleXLSXSearch.py
-	9)	Modules/AskSearch.py    
-	10)	Modules/EmailHunter.py  
-	11)	Modules/WhoisAPISearch.py
-	12)	Modules/GoogleDocSearch.py
-	13)	Modules/SearchPGP.py    
-	14)	Modules/GoogleSearch.py 
-	15)	Modules/OnionStagram.py 
-	16)	Modules/GitHubGistSearch.py
-	17)	Modules/RedditPostSearch.py
-	18)	Modules/FlickrSearch.py 
-	19)	Modules/PasteBinSearch.py
-	20)	Modules/GoogleDocxSearch.py
+	1)	Modules/HtmlScrape.py   
+	2)	Modules/PasteBinSearch.py
+	3)	Modules/ExaleadSearch.py
+	4)	Modules/SearchPGP.py    
+	5)	Modules/ExaleadXLSXSearch.py
+	6)	Modules/ExaleadDOCXSearch.py
+	7)	Modules/OnionStagram.py 
+	8)	Modules/GooglePDFSearch.py
+	9)	Modules/RedditPostSearch.py
+	10)	Modules/AskSearch.py    
+	11)	Modules/EmailHunter.py  
+	12)	Modules/WhoisAPISearch.py
+	13)	Modules/Whoisolgy.py    
+	14)	Modules/GoogleDocxSearch.py
+	15)	Modules/GitHubUserSearch.py
+	16)	Modules/YahooSearch.py  
+	17)	Modules/GitHubCodeSearch.py
+	18)	Modules/ExaleadPDFSearch.py
+	19)	Modules/GoogleSearch.py 
+	20)	Modules/FlickrSearch.py 
+	21)	Modules/GoogleDocSearch.py
+	22)	Modules/CanaryBinSearch.py
+	23)	Modules/ExaleadDOCSearch.py
+	24)	Modules/GoogleXLSXSearch.py
+	25)	Modules/GitHubGistSearch.py
 ```
 ## Understanding Reporting Options:
 One of the most frustrating aspects of Pen-testing is the tools' ability
