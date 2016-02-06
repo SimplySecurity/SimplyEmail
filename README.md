@@ -324,7 +324,6 @@ Modules Under Dev:
 -----------------------------
 ( ) StartPage Search (can help with captcha issues)
 ( ) Searching SEC Data
-( ) Exalead Search - Port from theHarvester
 ( ) PwnBin Search 
 ( ) Past Data Dumps
 ( ) psbdmp API Based and non Alert
