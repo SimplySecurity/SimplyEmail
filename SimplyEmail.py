@@ -76,7 +76,7 @@ def TaskControler(version):
 
 def main():
     # instatiate the class
-    version = "v0.7"
+    version = "v1.0"
     orc = TaskController.Conducter()
     orc.title()
     orc.title_screen()
