@@ -12,6 +12,7 @@ import time
 import subprocess
 from Helpers import helpers
 from Helpers import HtmlBootStrapTheme
+from Helpers import VerifyEmails
 
 
 class Conducter:
@@ -100,30 +101,49 @@ class Conducter:
                 error = "[!] Error Loading Module: " + str(e)
                 print helpers.color(error, warning=True)
 
-    def printer(self, FinalEmailList):
+    def printer(self, FinalEmailList, VerifyEmail=False):
         # Building out the Text file that will be outputted
         Date = time.strftime("%d/%m/%Y")
         Time = time.strftime("%I:%M:%S")
         PrintTitle = "\t----------------------------------\n"
         PrintTitle += "\tEmail Recon: " + Date + " " + Time + "\n"
         PrintTitle += "\t----------------------------------\n"
-        x = 0
-        for item in FinalEmailList:
-            item = item + "\n"
-            if x == 0:
+        if VerifyEmail:
+            x = 0
+            for item in FinalEmailList:
+                item = item + "\n"
+                if x == 0:
+                    try:
+                        with open('Email_List_Verified.txt', "a") as myfile:
+                            myfile.write(PrintTitle)
+                    except Exception as e:
+                        print e
                 try:
-                    with open('Email_List.txt', "a") as myfile:
-                        myfile.write(PrintTitle)
+                    with open('Email_List_Verified.txt', "a") as myfile:
+                        myfile.write(item)
+                    x += 1
                 except Exception as e:
                     print e
-            try:
-                with open('Email_List.txt', "a") as myfile:
-                    myfile.write(item)
-                x += 1
-            except Exception as e:
-                print e
-        print helpers.color("[*] Completed output!", status=True)
-        return x
+            print helpers.color("[*] Completed output!", status=True)
+            return x
+        else:
+            x = 0
+            for item in FinalEmailList:
+                item = item + "\n"
+                if x == 0:
+                    try:
+                        with open('Email_List.txt', "a") as myfile:
+                            myfile.write(PrintTitle)
+                    except Exception as e:
+                        print e
+                try:
+                    with open('Email_List.txt', "a") as myfile:
+                        myfile.write(item)
+                    x += 1
+                except Exception as e:
+                    print e
+            print helpers.color("[*] Completed output!", status=True)
+            return x
 
     def HtmlPrinter(self, HtmlFinalEmailList, Domain):
         # Builds the HTML file
@@ -358,11 +378,23 @@ class Conducter:
                     error = "[!] Something went wrong with HTML results:" + \
                         str(e)
                     print helpers.color(error, warning=True)
+                # Check for valid emails if user wants
                 break
         for p in procs:
             p.join()
         Task_queue.close()
         # Launches a single thread to output results
+        try:
+            val = self.VerifyScreen()
+            if val:
+                email = VerifyEmails.VerifyEmail(FinalEmailList, domain)
+                VerifiedList = email.ExecuteVerify()
+                if VerifiedList:
+                    self.printer(FinalEmailList, VerifyEmail=True)
+                    # save Seprate file for verified emails
+        except Exception as e:
+            print e
+
         self.CompletedScreen(FinalCount, domain)
 
     def load_modules(self):
@@ -441,3 +473,22 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
             # gnome-open cisco.doc
             subprocess.Popen(
                 ("gnome-open", HtmlSaveFile), stdout=subprocess.PIPE)
+
+    def VerifyScreen(self):
+        # Ask user to open report on CLI
+        self.title()
+        line = " [*] Email reconnaissance has been completed:\n\n"
+        line += "    Email verification will allow you to use common methods\n"
+        line += "    to attempt to enumerate if the email is valid.\n"
+        line += "    This grabs the MX records, sorts and attempts to check\n"
+        line += "    if the SMTP server sends a code other than 250 for known bad addresses\n"
+
+        print line
+        Question = " [>] Would you like to verify email(s)?: "
+        Answer = raw_input(helpers.color(Question, bold=False))
+        Answer = Answer.upper()
+        if Answer in "NO":
+            return False
+        if Answer in "YES":
+            # gnome-open cisco.doc
+            return True

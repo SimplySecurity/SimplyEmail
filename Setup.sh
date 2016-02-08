@@ -48,6 +48,7 @@ func_install_requests(){
   sudo pip install BeautifulSoup --upgrade
   sudo pip install pdfminer --upgrade
   sudo pip install python-docx --upgrade
+  sudo pip install dnspython --upgrade
   chmod 755 SimplyEmail.py
 
 }

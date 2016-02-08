@@ -134,6 +134,35 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 	24)	Modules/GoogleXLSXSearch.py
 	25)	Modules/GitHubGistSearch.py
 ```
+## Verifying Emails via target SMTP server:
+More often than not you will have at least a few invalid emails gathered from recon. SimplyEmail now supports
+the ability to verify and check if the email is valid.
+- Looks up MX records
+- Sorts based on priority 
+- Checks if SMTP server will respond other than 250
+- If the server is suitable, checks for 250 codes
+- Outputs a (.txt) file with verified emails. 
+
+```
+============================================================
+ Curent Version: v1.0 | Website: CyberSyndicates.com
+ ============================================================
+ Twitter: @real_slacker007 |  Twitter: @Killswitch_gui
+ ============================================================
+ [*] Email reconnaissance has been completed:
+
+    Email verification will allow you to use common methods
+    to attempt to enumerate if the email is valid.
+    This grabs the MX records, sorts and attempts to check
+    if the SMTP server sends a code other than 250 for known bad addresses
+
+ [>] Would you like to verify email(s)?: y
+ [*] Attempting to resolve MX records!
+ [*] MX Host: gmail-smtp-in.l.google.com.
+ [*] Checking for valid email: alwathiqlegaltranslation@gmail.com
+ [!] Email seems valid: alwathiqlegaltranslation@gmail.co
+```
+
 ## Understanding Reporting Options:
 One of the most frustrating aspects of Pen-testing is the tools' ability
 to report the findings and make those easily readable. This may be for the data
