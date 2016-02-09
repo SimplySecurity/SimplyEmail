@@ -301,6 +301,17 @@ class Conducter:
         for p in procs:
             p.join()
         Task_queue.close()
+        try:
+            val = self.VerifyScreen()
+            if val:
+                email = VerifyEmails.VerifyEmail(FinalEmailList, domain)
+                VerifiedList = email.ExecuteVerify()
+                if VerifiedList:
+                    self.printer(FinalEmailList, VerifyEmail=True)
+                    # save Seprate file for verified emails
+        except Exception as e:
+            print e
+
         # Launches a single thread to output results
         self.CompletedScreen(FinalCount, domain)
 
@@ -394,7 +405,7 @@ class Conducter:
                     # save Seprate file for verified emails
         except Exception as e:
             print e
-
+            
         self.CompletedScreen(FinalCount, domain)
 
     def load_modules(self):
