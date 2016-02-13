@@ -13,6 +13,9 @@ import subprocess
 from Helpers import helpers
 from Helpers import HtmlBootStrapTheme
 from Helpers import VerifyEmails
+from Helpers import Connect6
+from Helpers import EmailFormat
+from Helpers import LinkedinNames
 
 
 class Conducter:
@@ -101,14 +104,32 @@ class Conducter:
                 error = "[!] Error Loading Module: " + str(e)
                 print helpers.color(error, warning=True)
 
-    def printer(self, FinalEmailList, VerifyEmail=False):
+    def printer(self, FinalEmailList, VerifyEmail=False, NameEmails=True):
         # Building out the Text file that will be outputted
         Date = time.strftime("%d/%m/%Y")
         Time = time.strftime("%I:%M:%S")
         PrintTitle = "\t----------------------------------\n"
         PrintTitle += "\tEmail Recon: " + Date + " " + Time + "\n"
         PrintTitle += "\t----------------------------------\n"
-        if VerifyEmail:
+        if NameEmails:
+            x = 0
+            for item in FinalEmailList:
+                item = item + "\n"
+                if x == 0:
+                    try:
+                        with open('Email_List_Built.txt', "a") as myfile:
+                            myfile.write(PrintTitle)
+                    except Exception as e:
+                        print e
+                try:
+                    with open('Email_List_Built.txt', "a") as myfile:
+                        myfile.write(item)
+                    x += 1
+                except Exception as e:
+                    print e
+            print helpers.color("[*] Completed output!", status=True)
+            return x
+        elif VerifyEmail:
             x = 0
             for item in FinalEmailList:
                 item = item + "\n"
@@ -218,7 +239,7 @@ class Conducter:
             except:
                 pass
 
-    def TaskSelector(self, domain, verbose=False, scope=False):
+    def TaskSelector(self, domain, verbose=False, scope=False, Names=False, Verify=False):
         # Here it will check the Que for the next task to be completed
         # Using the Dynamic loaded modules we can easly select which module is up
         # Rather than using If statment on every task that needs to be done
@@ -301,25 +322,36 @@ class Conducter:
         for p in procs:
             p.join()
         Task_queue.close()
+        BuiltNameCount = 0
         try:
-            val = self.VerifyScreen()
-            if val:
-                email = VerifyEmails.VerifyEmail(FinalEmailList, domain)
-                VerifiedList = email.ExecuteVerify()
-                if VerifiedList:
-                    self.printer(FinalEmailList, VerifyEmail=True)
-                    # save Seprate file for verified emails
+            # If names is True
+            if Names:
+                BuiltNames = self.NameBuilder(domain, FinalEmailList, Verbose=verbose)
+                BuiltNameCount = len(BuiltNames)
+            if Verify:
+                val = self.VerifyScreen()
+                if val:
+                    email = VerifyEmails.VerifyEmail(FinalEmailList,BuiltNames, domain)
+                    VerifiedList = email.ExecuteVerify()
+                    if VerifiedList:
+                        self.printer(FinalEmailList, VerifyEmail=True)
+                        # save Seprate file for verified emails
         except Exception as e:
             print e
-
-        # Launches a single thread to output results
-        self.CompletedScreen(FinalCount, domain)
+        try:
+            self.printer(BuiltNames, NameEmails=True)
+        except Exception as e:
+            error = "[!] Something went wrong with outputixng results of Built Names:" + \
+                str(e)
+            print helpers.color(error, warning=True)
+            
+        self.CompletedScreen(FinalCount, BuiltNameCount, domain)
 
 
     # This is the Test version of the multi proc above, this function
     # Helps with testing only one module at a time. Helping with proper
     # Module Dev and testing before intergration
-    def TestModule(self, domain, module, verbose=False, scope=False):
+    def TestModule(self, domain, module, verbose=False, scope=False, Names=False, Verify=False):
         Config = configparser.ConfigParser()
         Config.read("Common/SimplyEmail.ini")
         total_proc = int(1)
@@ -395,18 +427,147 @@ class Conducter:
             p.join()
         Task_queue.close()
         # Launches a single thread to output results
+        BuiltNameCount = 0
         try:
+            # If names is True
+            if Names:
+                BuiltNames = self.NameBuilder(domain, FinalEmailList, Verbose=verbose)
+                BuiltNameCount = len(BuiltNames)
             val = self.VerifyScreen()
-            if val:
-                email = VerifyEmails.VerifyEmail(FinalEmailList, domain)
-                VerifiedList = email.ExecuteVerify()
-                if VerifiedList:
-                    self.printer(FinalEmailList, VerifyEmail=True)
-                    # save Seprate file for verified emails
+            if Verify:
+                if val:
+                    email = VerifyEmails.VerifyEmail(FinalEmailList, BuiltNames, domain)
+                    VerifiedList = email.ExecuteVerify()
+                    if VerifiedList:
+                        self.printer(FinalEmailList, VerifyEmail=True)
+                        # save Seprate file for verified emails
         except Exception as e:
             print e
+        try:
+            self.printer(BuiltNames, NameEmails=True)
+        except Exception as e:
+            error = "[!] Something went wrong with outputixng results of Built Names:" + \
+                str(e)
+            print helpers.color(error, warning=True)
             
-        self.CompletedScreen(FinalCount, domain)
+        self.CompletedScreen(FinalCount, BuiltNameCount, domain)
+
+    def NameBuilder(self, domain, emaillist, Verbose=False):
+        '''
+        Takes in Domain Names, returns List
+        of names in indiviual lists.
+        All the basic logic is here.
+        '''
+        self.title()
+        ValidFormat = ['{first}.{last}', '{first}{last}', '{f}{last}', '{f}.{last}', '{first}{l}', '{first}_{last}']
+        line =  " [*] Now attempting to build Names:\n"
+        print line
+        CleanNames = []
+        # Query for Linkedin Names - Adapted from https://github.com/pan0pt1c0n/PhishBait
+        Li = LinkedinNames.LinkedinScraper(domain, Verbose=Verbose)
+        LNames = Li.LinkedInNames()
+        if LNames:
+            e = ' [*] LinkedinScraper has Gathred: ' + str(len(LNames)) + ' Names'
+            print helpers.color(e, status=True)
+            for raw in LNames:
+                try:
+                    name = Li.LinkedInClean(raw)
+                    if name:
+                        CleanNames.append(name)
+                except Exception as e:
+                    print e
+        # Query for Connect6 Names
+        c6 = Connect6.Connect6Scraper(domain, Verbose=Verbose)
+        urllist = c6.Connect6AutoUrl()
+        self.title()
+        print helpers.color(" [*] Now Starting Connect6 Scrape:")
+        line = " [*] SimplyEmail has attempted to find correct URL for Connect6:\n"
+        line +="     URL detected: " + helpers.color(urllist[0], status=True) 
+        print line
+        Question = " [>] Is this URL correct?: "
+        Answer = raw_input(helpers.color(Question, bold=False))
+        if Answer.upper() in "YES":
+            Names = c6.Connect6Download(urllist[0])
+            if Names:
+              e = ' [*] Connect6 has Gathred: ' + str(len(Names)) + ' Names'
+              print helpers.color(e, status=True)
+              for raw in Names:
+                name = c6.Connect6ParseName(raw)
+                if name:
+                  CleanNames.append(name)
+            print CleanNames
+        else:
+            while True:
+                for item in urllist:
+                    print "    Potential URL: " + item
+                e = ' [!] GoogleDork This: site:connect6.com "'+str(domain)+'"'
+                print helpers.color(e, bold=False)
+                print " [-] Commands Supported: (B) ack - (R) etry"
+                Question = " [>] Please Provid a URL: "
+                Answer = raw_input(helpers.color(Question, bold=False))
+                if Answer.upper() in "BACK":
+                    e = " [!] Skiping Connect6 Scrape!"
+                    print helpers.color(e, firewall=True)
+                    break
+                if Answer:
+                    break
+            if Answer.upper() != "B":
+                Names = c6.Connect6Download(Answer)
+                if Names:
+                    e = ' [*] Connect6 has Gathred: ' + str(len(Names)) + ' Names'
+                    print helpers.color(e, status=True)
+                    for raw in Names:
+                        name = c6.Connect6ParseName(raw)
+                        if name:
+                            CleanNames.append(name)
+        self.title()
+        print helpers.color(' [*] Names have been built:', status=True)
+        print helpers.color(' [*] Attempting to resolve email format', status=True)
+        Em = EmailFormat.EmailFormat(domain, Verbose=Verbose)
+        Format = Em.EmailHunterDetect()
+        if Format:
+            e = ' [!] Auto detected the fromat: ' + str(Format)
+            print helpers.color(e, status=True)
+        if not Format:
+            print helpers.color(' [!] Failed to resolve format of email', firewall=True)
+            line =  helpers.color(' [*] Available formats supported:\n', status=True)
+            line += '     {first}.{last} = alex.alex@domain.com\n'
+            line += '     {first}{last} = jamesharvey@domain.com\n'
+            line += '     {f}{last} = ajames@domain.com\n'
+            line += '     {f}.{last} = a.james@domain.com\n'
+            line += '     {first}{l} = jamesh@domain.com\n\n'
+            line += '     {first}.{l} = j.amesh@domain.com\n\n'
+            line += '     {first}_{last} = james_amesh@domain.com\n\n'
+            print line
+            if len(emaillist) > 0:
+                line =      ' [*] Here are a few samples of the emails obtained:\n'
+                line +=     '      1)' + emaillist[0] +'\n'
+                if emaillist[1]:
+                    line += '      2)' + emaillist[1] +'\n'
+                if emaillist[2]:
+                    line += '      3)' + emaillist[2]
+                print line
+            else:
+                line = ' [*] No unique emails discovered to display (May have to go manual)!\n'
+                print helpers.color(line, firewall=True)
+            while True:
+                s = False
+                Question = " [>] Please Provid a valid Format: "
+                Answer = raw_input(helpers.color(Question, bold=False))
+                try:
+                    for item in ValidFormat:
+                        if str(Answer) == str(item):
+                            Format = str(Answer)
+                            s = True
+                except:
+                    pass
+                if s:
+                    break
+
+        # Now build the emails!
+        BuiltEmails = Em.EmailBuilder(CleanNames, domain, Format, Verbose=Verbose)
+        if BuiltEmails:
+            return BuiltEmails
 
     def load_modules(self):
         # loop and assign key and name
@@ -459,17 +620,22 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 ------------------------------------------------------------"""
         print helpers.color(offtext, bold=False)
 
-    def CompletedScreen(self, FinalCount, domain):
+    def CompletedScreen(self, FinalCount, EmailsBuilt, domain):
         Config = configparser.ConfigParser()
         Config.read("Common/SimplyEmail.ini")
         TextSaveFile = str(Config['GlobalSettings']['SaveFile'])
         HtmlSaveFile = str(Config['GlobalSettings']['HtmlFile'])
+        FinalEmailCount = int(EmailsBuilt) + int(FinalCount)
 
         Line = " [*] Email reconnaissance has been completed:\n\n"
         Line += "   File Location: \t\t" + os.getcwd() + "\n"
         Line += "   Unique Emails Found:\t\t" + str(FinalCount) + "\n"
+        Line += "   Emails Built from Names:\t" + str(EmailsBuilt) + "\n"
+        Line += "   Total Emails:\t\t" + str(FinalEmailCount) + "\n"
         Line += "   Raw Email File:\t\t" + str(TextSaveFile) + "\n"
         Line += "   HTML Email File:\t\t" + str(HtmlSaveFile) + "\n"
+        Line += "   Built Email File:\t\tEmail_List_Built.txt\n"
+        Line += "   Verified Email File:\t\tEmail_List_Verified.txt\n"
         Line += "   Domain Performed:\t\t" + str(domain) + "\n"
         self.title()
         print Line

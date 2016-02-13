@@ -38,8 +38,8 @@ root@kali:~/Desktop/SimplyEmail# ./Setup.sh
 
 ### Standard Help
 ```
-  ============================================================
- Curent Version: v0.7 | Website: CyberSyndicates.com
+ ============================================================
+ Curent Version: v1.0 | Website: CyberSyndicates.com
  ============================================================
  Twitter: @real_slacker007 |  Twitter: @Killswitch_gui
  ============================================================
@@ -56,7 +56,7 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 
 ------------------------------------------------------------
 usage: SimplyEmail.py [-all] [-e company.com] [-l] [-t html / flickr / google]
-                      [-s] [-v]
+                      [-s] [-n] [-verify] [-v]
 
 Email enumeration is a important phase of so many operation that a pen-tester
 or Red Teamer goes through. There are tons of applications that do this but I
@@ -70,8 +70,9 @@ optional arguments:
   -t html / flickr / google
                         Test individual module (For Linting)
   -s                    Set this to enable 'No-Scope' of the email parsing
+  -n                    Set this to enable name generated emails
+  -verify               Set to enable email SMTP checks.
   -v                    Set this switch for verbose output of modules
-
 ```
 
 ### Run SimplyEmail
@@ -142,6 +143,8 @@ the ability to verify and check if the email is valid.
 - Checks if SMTP server will respond other than 250
 - If the server is suitable, checks for 250 codes
 - Outputs a (.txt) file with verified emails. 
+
+Provide SimpleEmail the (-verify) Flag to enable this feature!
 
 ```
 ============================================================

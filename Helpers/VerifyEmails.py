@@ -11,28 +11,29 @@ class VerifyEmail:
     '''
     Takes a domain name and a Array of emails
     '''
-    def __init__(self, email, domain, Verbose=False):
+    def __init__(self, email, email2, domain, Verbose=False):
       config = configparser.ConfigParser()
       try:
         config.read('Common/SimplyEmail.ini')
         self.UserAgent = {
           'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
         self.domain = domain
-        self.email = email
+        self.email = email + email2
         self.mxhost = ""
         self.FinalList = []
         self.verbose = True
       except Exception as e:
         print e
 
-    def VerifyEmail(self, email):
+    def VerifyEmail(self, email, email2):
       '''
       Takes one email and checks if it is valid.
       '''
       # Idea from:
       # https://www.scottbrady91.com/Email-Verification/Python-Email-Verification-Script
       hostname = socket.gethostname()
-      server = smtplib.SMTP()
+      socket.setdefaulttimeout(10)
+      server = smtplib.SMTP(timeout=10)
       server.set_debuglevel(0)
       try:
         if self.verbose:
@@ -58,7 +59,8 @@ class VerifyEmail:
       # Idea from:
       # https://www.scottbrady91.com/Email-Verification/Python-Email-Verification-Script
       hostname = socket.gethostname()
-      server = smtplib.SMTP()
+      socket.setdefaulttimeout(10)
+      server = smtplib.SMTP(timeout=10)
       server.set_debuglevel(0)
       addressToVerify = "There.Is.Knowwaythiswillwork1234567@" + str(self.domain)
       try:

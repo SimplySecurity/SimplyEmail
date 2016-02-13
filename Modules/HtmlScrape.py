@@ -19,7 +19,7 @@ class ClassName:
 
     def __init__(self, domain, verbose=False):
         # Descriptions that are required!!!
-        self.name = "HTML Scrape of Taget Website"
+        self.name = "HTML Scrape of Target Website"
         self.description = "Html Scrape the target website for emails and data"
         # Settings we will pull from config file (We need required options in
         # config file)

@@ -49,6 +49,7 @@ func_install_requests(){
   sudo pip install pdfminer --upgrade
   sudo pip install python-docx --upgrade
   sudo pip install dnspython --upgrade
+  sudo pip install mechanize --upgrade
   chmod 755 SimplyEmail.py
 
 }
