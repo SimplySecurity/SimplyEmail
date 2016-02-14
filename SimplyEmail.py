@@ -32,9 +32,9 @@ def cli_parser():
     parser.add_argument(
         "-s", action='store_true', help="Set this to enable 'No-Scope' of the email parsing")
     parser.add_argument(
-        "-n", action='store_true', help="Set this to enable name generated emails")
+        "-n", action='store_true', help="Set this to enable Name Generation")
     parser.add_argument(
-        "-verify", action='store_true', help="Set to enable email SMTP checks.")
+        "-verify", action='store_true', help="Set this to enable SMTP server email verify")
     parser.add_argument(
         "-v", action='store_true', help="Set this switch for verbose output of modules")
     parser.add_argument('-h', '-?', '--h', '-help',
@@ -70,7 +70,7 @@ def TaskControler(version):
     if cli_all:
         V = VersionCheck.VersionCheck(version)
         V.VersionRequest()
-        Task.TaskSelector(cli_domain, verbose=cli_verbose, scope=cli_scope, Names=cli_names, Verify=cli_verify)
+        Task.TaskSelector(cli_domain, verbose=cli_verbose, scope=cli_scope, Names=cli_names, Vferify=cli_verify)
 
 
 # def GenerateReport():

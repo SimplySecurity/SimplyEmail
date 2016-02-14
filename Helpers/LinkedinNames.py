@@ -36,6 +36,8 @@ class LinkedinScraper:
       try:
         br = mechanize.Browser()
         br.set_handle_robots(False)
+        self.domain = self.domain.split('.')
+        self.domain = self.domain[0]
         r = br.open('http://www.bing.com/search?q=(site%3A%22www.linkedin.com%2Fin%2F%22%20OR%20site%3A%22www.linkedin.com%2Fpub%2F%22)%20%26%26%20(NOT%20site%3A%22www.linkedin.com%2Fpub%2Fdir%2F%22)%20%26%26%20%22'+self.domain+'%22&qs=n&form=QBRE&pq=(site%3A%22www.linkedin.com%2Fin%2F%22%20or%20site%3A%22www.linkedin.com%2Fpub%2F%22)%20%26%26%20(not%20site%3A%22www.linkedin.com%2Fpub%2Fdir%2F%22)%20%26%26%20%22'+self.domain+'%22')
         soup = BeautifulSoup(r)
         if soup:
@@ -55,7 +57,7 @@ class LinkedinScraper:
                 name = (((((definition.replace('<strong>','')).replace('</strong>','')).split('>')[1]).split('|')[0]).rstrip()).split(',')[0]
                 name = name.split(' ')
                 if self.verbose:
-                  e = 'LinkedIn Name Found: ' + str(name)
+                  e = ' LinkedIn Name Found: ' + str(name)
                   print helpers.color(e, firewall=True)
                 NameList.append(name)
             for link in br.links():

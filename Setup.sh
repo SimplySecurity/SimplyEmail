@@ -41,6 +41,7 @@ func_install_requests(){
   sudo git pull
   sudo apt-get -y install wget grep antiword odt2txt python-dev libxml2-dev libxslt1-dev
   sudo pip install beautifulsoup4
+  sudo pip install mechanize --upgrade
   sudo pip install docx2txt --upgrade
   sudo pip install --upgrade requests 
   sudo pip install xlsx2csv --upgrade
@@ -49,7 +50,6 @@ func_install_requests(){
   sudo pip install pdfminer --upgrade
   sudo pip install python-docx --upgrade
   sudo pip install dnspython --upgrade
-  sudo pip install mechanize --upgrade
   chmod 755 SimplyEmail.py
 
 }

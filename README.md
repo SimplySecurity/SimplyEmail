@@ -38,8 +38,8 @@ root@kali:~/Desktop/SimplyEmail# ./Setup.sh
 
 ### Standard Help
 ```
- ============================================================
- Curent Version: v1.0 | Website: CyberSyndicates.com
+  ============================================================
+ Curent Version: v0.7 | Website: CyberSyndicates.com
  ============================================================
  Twitter: @real_slacker007 |  Twitter: @Killswitch_gui
  ============================================================
@@ -56,7 +56,7 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 
 ------------------------------------------------------------
 usage: SimplyEmail.py [-all] [-e company.com] [-l] [-t html / flickr / google]
-                      [-s] [-n] [-verify] [-v]
+                      [-s] [-v]
 
 Email enumeration is a important phase of so many operation that a pen-tester
 or Red Teamer goes through. There are tons of applications that do this but I
@@ -70,9 +70,8 @@ optional arguments:
   -t html / flickr / google
                         Test individual module (For Linting)
   -s                    Set this to enable 'No-Scope' of the email parsing
-  -n                    Set this to enable name generated emails
-  -verify               Set to enable email SMTP checks.
   -v                    Set this switch for verbose output of modules
+
 ```
 
 ### Run SimplyEmail
@@ -109,31 +108,31 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 ------------------------------------------------------------
  [*] Available Modules are:
 
-	1)	Modules/HtmlScrape.py   
-	2)	Modules/PasteBinSearch.py
-	3)	Modules/ExaleadSearch.py
-	4)	Modules/SearchPGP.py    
-	5)	Modules/ExaleadXLSXSearch.py
-	6)	Modules/ExaleadDOCXSearch.py
-	7)	Modules/OnionStagram.py 
-	8)	Modules/GooglePDFSearch.py
-	9)	Modules/RedditPostSearch.py
-	10)	Modules/AskSearch.py    
-	11)	Modules/EmailHunter.py  
-	12)	Modules/WhoisAPISearch.py
-	13)	Modules/Whoisolgy.py    
-	14)	Modules/GoogleDocxSearch.py
-	15)	Modules/GitHubUserSearch.py
-	16)	Modules/YahooSearch.py  
-	17)	Modules/GitHubCodeSearch.py
-	18)	Modules/ExaleadPDFSearch.py
-	19)	Modules/GoogleSearch.py 
-	20)	Modules/FlickrSearch.py 
-	21)	Modules/GoogleDocSearch.py
-	22)	Modules/CanaryBinSearch.py
-	23)	Modules/ExaleadDOCSearch.py
-	24)	Modules/GoogleXLSXSearch.py
-	25)	Modules/GitHubGistSearch.py
+  1)  Modules/HtmlScrape.py   
+  2)  Modules/PasteBinSearch.py
+  3)  Modules/ExaleadSearch.py
+  4)  Modules/SearchPGP.py    
+  5)  Modules/ExaleadXLSXSearch.py
+  6)  Modules/ExaleadDOCXSearch.py
+  7)  Modules/OnionStagram.py 
+  8)  Modules/GooglePDFSearch.py
+  9)  Modules/RedditPostSearch.py
+  10) Modules/AskSearch.py    
+  11) Modules/EmailHunter.py  
+  12) Modules/WhoisAPISearch.py
+  13) Modules/Whoisolgy.py    
+  14) Modules/GoogleDocxSearch.py
+  15) Modules/GitHubUserSearch.py
+  16) Modules/YahooSearch.py  
+  17) Modules/GitHubCodeSearch.py
+  18) Modules/ExaleadPDFSearch.py
+  19) Modules/GoogleSearch.py 
+  20) Modules/FlickrSearch.py 
+  21) Modules/GoogleDocSearch.py
+  22) Modules/CanaryBinSearch.py
+  23) Modules/ExaleadDOCSearch.py
+  24) Modules/GoogleXLSXSearch.py
+  25) Modules/GitHubGistSearch.py
 ```
 ## Verifying Emails via target SMTP server:
 More often than not you will have at least a few invalid emails gathered from recon. SimplyEmail now supports
@@ -143,8 +142,6 @@ the ability to verify and check if the email is valid.
 - Checks if SMTP server will respond other than 250
 - If the server is suitable, checks for 250 codes
 - Outputs a (.txt) file with verified emails. 
-
-Provide SimpleEmail the (-verify) Flag to enable this feature!
 
 ```
 ============================================================
@@ -177,17 +174,17 @@ Let's cover the two different reports generated.
 With this option results are generated and appended to a running text file called Email_List.txt. 
 this makes it easy to find past searches or export to tool of choice. Example:
 ```
-	----------------------------------
-	Email Recon: 11/11/2015 05:13:32
-	----------------------------------
+  ----------------------------------
+  Email Recon: 11/11/2015 05:13:32
+  ----------------------------------
 bo@mandiant.com
 in@mandiant.com
 sc@mandiant.com
 je@mandiant.com
 su@mandiant.com
 ----------------------------------
-	Email Recon: 11/11/2015 05:15:42
-	----------------------------------
+  Email Recon: 11/11/2015 05:15:42
+  ----------------------------------
 bo@mandiant.com
 in@mandiant.com
 sc@mandiant.com
@@ -301,11 +298,11 @@ Issues Fixed in v0.4:
 Framework Improvements v0.4:
 -----------------------------
 (x) Added Source of email collection
-	to final report in bootstrap.
+  to final report in bootstrap.
 (x) Added Verbose options for Modules
-	to handle Vebose printing.
+  to handle Vebose printing.
 (x) Added Alerts to HTML report
-	when emails are gathered from canary.
+  when emails are gathered from canary.
 
 ===================================
 Modules Added in v0.3:

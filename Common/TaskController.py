@@ -40,7 +40,7 @@ class Conducter:
         self.ConsumerList = []
         self.HtmlList = []
         self.Tasks = []
-        self.version = "v1.0"
+        self.version = "v1.1"
         self.ResultsList = []
 
     def ConfigSectionMap(section):
@@ -104,7 +104,7 @@ class Conducter:
                 error = "[!] Error Loading Module: " + str(e)
                 print helpers.color(error, warning=True)
 
-    def printer(self, FinalEmailList, VerifyEmail=False, NameEmails=True):
+    def printer(self, FinalEmailList, VerifyEmail=False, NameEmails=False):
         # Building out the Text file that will be outputted
         Date = time.strftime("%d/%m/%Y")
         Time = time.strftime("%I:%M:%S")
@@ -334,7 +334,7 @@ class Conducter:
                     email = VerifyEmails.VerifyEmail(FinalEmailList,BuiltNames, domain)
                     VerifiedList = email.ExecuteVerify()
                     if VerifiedList:
-                        self.printer(FinalEmailList, VerifyEmail=True)
+                        self.printer(FinalEmailList, VerifyEmail=Verify)
                         # save Seprate file for verified emails
         except Exception as e:
             print e
@@ -433,13 +433,13 @@ class Conducter:
             if Names:
                 BuiltNames = self.NameBuilder(domain, FinalEmailList, Verbose=verbose)
                 BuiltNameCount = len(BuiltNames)
-            val = self.VerifyScreen()
             if Verify:
+                val = self.VerifyScreen()
                 if val:
                     email = VerifyEmails.VerifyEmail(FinalEmailList, BuiltNames, domain)
                     VerifiedList = email.ExecuteVerify()
                     if VerifiedList:
-                        self.printer(FinalEmailList, VerifyEmail=True)
+                        self.printer(FinalEmailList, VerifyEmail=Verify)
                         # save Seprate file for verified emails
         except Exception as e:
             print e
@@ -495,7 +495,6 @@ class Conducter:
                 name = c6.Connect6ParseName(raw)
                 if name:
                   CleanNames.append(name)
-            print CleanNames
         else:
             while True:
                 for item in urllist:
