@@ -63,6 +63,16 @@ class EmailFormat:
       except:
         pass
 
+    def EmailDetect(self, CleanNames, Domain, FinalEmails):
+      '''
+      if EmailHunterDetect cant find a 
+      format this function will build everytype of
+      email and compare for a stat model.
+      '''
+      print "here"
+
+
+
     def EmailBuilder(self, CleanNames, Domain, Format, Verbose=True):
       '''
       Builds emails and returns a list of emails.
