@@ -70,7 +70,7 @@ def TaskControler(version):
     if cli_all:
         V = VersionCheck.VersionCheck(version)
         V.VersionRequest()
-        Task.TaskSelector(cli_domain, verbose=cli_verbose, scope=cli_scope, Names=cli_names, Vferify=cli_verify)
+        Task.TaskSelector(cli_domain, verbose=cli_verbose, scope=cli_scope, Names=cli_names, Verify=cli_verify)
 
 
 # def GenerateReport():
