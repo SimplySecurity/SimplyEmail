@@ -19,13 +19,13 @@ Current Platforms Supported:
 
 A few small benefits:
 - Easy for you to write modules (All you need is 1 required Class option and you're up and running)
-- Use the built in Parsers for most raw results
+- Use the built in Parsers for rawest results
 - Multiprocessing Queue for modules and Result Queue for easy handling of Email data 
-- Simple intergration of theHarvester Modules and new ones to come
+- Simple integration  of theHarvester Modules and new ones to come
 - Also the ability to change major settings fast without diving into the code
 
 API Based Searches:
-- When API based searches become avaliable, no need to add them to the Command line
+- When API based searches become available, no need to add them to the Command line
 - API keys will be auto pulled from the SimpleEmail.ini, this will activate the module for use
  
 ## Get Started
@@ -38,8 +38,8 @@ root@kali:~/Desktop/SimplyEmail# ./Setup.sh
 
 ### Standard Help
 ```
-  ============================================================
- Curent Version: v0.7 | Website: CyberSyndicates.com
+ ============================================================
+ Curent Version: v1.1 | Website: CyberSyndicates.com
  ============================================================
  Twitter: @real_slacker007 |  Twitter: @Killswitch_gui
  ============================================================
@@ -56,7 +56,7 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 
 ------------------------------------------------------------
 usage: SimplyEmail.py [-all] [-e company.com] [-l] [-t html / flickr / google]
-                      [-s] [-v]
+                      [-s] [-n] [-verify] [-v]
 
 Email enumeration is a important phase of so many operation that a pen-tester
 or Red Teamer goes through. There are tons of applications that do this but I
@@ -70,8 +70,9 @@ optional arguments:
   -t html / flickr / google
                         Test individual module (For Linting)
   -s                    Set this to enable 'No-Scope' of the email parsing
+  -n                    Set this to enable Name Generation
+  -verify               Set this to enable SMTP server email verify
   -v                    Set this switch for verbose output of modules
-
 ```
 
 ### Run SimplyEmail
@@ -79,10 +80,18 @@ optional arguments:
 Let's say your target is cybersyndicates.com
 ```python
 ./SimplyEmail.py -all -e cybersyndicates.com
+
 or in verbose
 ./SimplyEmail.py -all -v -e cybersyndicates.com
+
 or in verbose and no "Scope"
 ./SimplyEmail.py -all -v -e cybersyndicates.com -s
+
+or with email verification
+./SimplyEmail.py -all -v -verify -e cybersyndicates.com 
+
+or with email verification & Name Creation
+./SimplyEmail.py -all -v -verify -n -e cybersyndicates.com 
 ```
 This will run ALL modules that are have API Key placed in the SimpleEmail.ini file and will run all non-API based modules. 
 
@@ -90,7 +99,7 @@ This will run ALL modules that are have API Key placed in the SimpleEmail.ini fi
 ```
 root@kali:~/Tools/SimplyEmail# ./SimplyEmail.py -l
  ============================================================
- Curent Version: v0.7 | Website: CyberSyndicates.com
+ Current Version: v0.7 | Website: CyberSyndicates.com
  ============================================================
  Twitter: @real_slacker007 |  Twitter: @Killswitch_gui
  ============================================================
@@ -134,6 +143,36 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
   24) Modules/GoogleXLSXSearch.py
   25) Modules/GitHubGistSearch.py
 ```
+## Name Generation
+Some times SimplyEmail will only find the standard email addresses or just a few emails. In this case email creation may be your saving grace. Using name generation can allow you not only scrape names from diffrent sites but allow you to auto detect the format to some accuracy. 
+
+### LinkedIn Name Generation
+Using Bing and work from PhishBait I was able to implement LinkedIn name lookups from the company name. 
+
+### Connect6.com Name Generation
+Connect6 is also a great source for names, and also a bit flaky to find the source. Using a AutoUrl function I built I do attempt to find the correct URL for you. If not I provide you with a few more to pick from.
+
+```
+ ============================================================
+ Current Version: v1.1 | Website: CyberSyndicates.com
+ ============================================================
+ Twitter: @real_slacker007 |  Twitter: @Killswitch_gui
+ ============================================================
+ [*] Now Starting Connect6 Scrape:
+ [*] SimplyEmail has attempted to find correct URL for Connect6:
+     URL detected: www.connect6.com/Vfffffff,%20LLC/c 
+ [>] Is this URL correct?: n
+    Potential URL: www.connect6.com/Vffffffff,%20LLC/c 
+    Potential URL: www.connect6.com/fffffff/p/181016043240247014147078237069133079124017210127108009097255039209172025193089206212192166241042174198072085028234035215132077249038065254013074 
+    Potential URL: www.connect6.com/Cfffff/p/034097047081090085111147210185030172009078049169022098212236211095220195001177030045187199131226210223245205084079141193247011181189036140240023 
+    Potential URL: www.connect6.com/Jfffffff/p/102092136035048036136024218227078226242230121102078233031208236153124239181008089103120004217018 
+    Potential URL: www.connect6.com/Adam-Salerno/p/021252074213080142144144173151186084054192089124012168233122054057047043085086050013217026242085213002224084036030244077024184140161144046156080 
+ [!] GoogleDork This: site:connect6.com "Vfffff.com"
+ [-] Commands Supported: (B) ack - (R) etry
+ [>] Please Provid a URL: b
+
+```
+
 ## Verifying Emails via target SMTP server:
 More often than not you will have at least a few invalid emails gathered from recon. SimplyEmail now supports
 the ability to verify and check if the email is valid.
