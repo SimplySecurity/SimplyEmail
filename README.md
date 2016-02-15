@@ -80,10 +80,18 @@ optional arguments:
 Let's say your target is cybersyndicates.com
 ```python
 ./SimplyEmail.py -all -e cybersyndicates.com
+
 or in verbose
 ./SimplyEmail.py -all -v -e cybersyndicates.com
+
 or in verbose and no "Scope"
 ./SimplyEmail.py -all -v -e cybersyndicates.com -s
+
+or with email verification
+./SimplyEmail.py -all -v -verify -e cybersyndicates.com 
+
+or with email verification & Name Creation
+./SimplyEmail.py -all -v -verify -n -e cybersyndicates.com 
 ```
 This will run ALL modules that are have API Key placed in the SimpleEmail.ini file and will run all non-API based modules. 
 
