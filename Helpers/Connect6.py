@@ -53,10 +53,11 @@ class Connect6Scraper:
         return urllist
       except Exception as e:
         print e
-    '''
-    Downloads raw source of Connects6 page.
-    '''
+
     def Connect6Download(self, url):
+      '''
+      Downloads raw source of Connects6 page.
+      '''
       NameList = []
       try:
         if url.startswith('http') or url.startswith('https'):

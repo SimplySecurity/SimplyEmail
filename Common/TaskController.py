@@ -599,7 +599,7 @@ class Conducter:
         os.system('clear')
         # stolen from Veil :)
         print " ============================================================"
-        print " Curent Version: " + self.version + " | Website: CyberSyndicates.com"
+        print " Current Version: " + self.version + " | Website: CyberSyndicates.com"
         print " ============================================================"
         print " Twitter: @real_slacker007 |  Twitter: @Killswitch_gui"
         print " ============================================================"
