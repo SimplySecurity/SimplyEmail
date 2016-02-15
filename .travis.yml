@@ -4,3 +4,8 @@ python:
 script:
   - "sudo sh Setup.sh"
   - "sudo ./SimplyEmail.py -l"
+  - "sudo ./SimplyEmail.py -h"
+  - "sudo ./SimplyEmail.py -n"
+  - "sudo ./SimplyEmail.py -verify"
+  - "sudo ./SimplyEmail.py -s"
+  - "sudo ./SimplyEmail.py -s -e cybersyndicates.com"
