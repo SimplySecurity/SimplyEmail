@@ -19,13 +19,13 @@ Current Platforms Supported:
 
 A few small benefits:
 - Easy for you to write modules (All you need is 1 required Class option and you're up and running)
-- Use the built in Parsers for most raw results
+- Use the built in Parsers for rawest results
 - Multiprocessing Queue for modules and Result Queue for easy handling of Email data 
-- Simple intergration of theHarvester Modules and new ones to come
+- Simple integration  of theHarvester Modules and new ones to come
 - Also the ability to change major settings fast without diving into the code
 
 API Based Searches:
-- When API based searches become avaliable, no need to add them to the Command line
+- When API based searches become available, no need to add them to the Command line
 - API keys will be auto pulled from the SimpleEmail.ini, this will activate the module for use
  
 ## Get Started
@@ -99,7 +99,7 @@ This will run ALL modules that are have API Key placed in the SimpleEmail.ini fi
 ```
 root@kali:~/Tools/SimplyEmail# ./SimplyEmail.py -l
  ============================================================
- Curent Version: v0.7 | Website: CyberSyndicates.com
+ Current Version: v0.7 | Website: CyberSyndicates.com
  ============================================================
  Twitter: @real_slacker007 |  Twitter: @Killswitch_gui
  ============================================================
@@ -147,14 +147,14 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 Some times SimplyEmail will only find the standard email addresses or just a few emails. In this case email creation may be your saving grace. Using name generation can allow you not only scrape names from diffrent sites but allow you to auto detect the format to some accuracy. 
 
 ### LinkedIn Name Generation
-Using bing and work from PhishBait I was able to implment LinkedIn name lookups from the compnay name. 
+Using Bing and work from PhishBait I was able to implement LinkedIn name lookups from the company name. 
 
 ### Connect6.com Name Generation
-Connect6 is also a great source for names, and also a bit flaky to find the source. Using a AutoUrl function I built I do attempt to find the correct URL for you. If not i provide you with a few more to pick from.
+Connect6 is also a great source for names, and also a bit flaky to find the source. Using a AutoUrl function I built I do attempt to find the correct URL for you. If not I provide you with a few more to pick from.
 
 ```
  ============================================================
- Curent Version: v1.1 | Website: CyberSyndicates.com
+ Current Version: v1.1 | Website: CyberSyndicates.com
  ============================================================
  Twitter: @real_slacker007 |  Twitter: @Killswitch_gui
  ============================================================
