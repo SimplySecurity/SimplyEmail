@@ -339,7 +339,8 @@ class Conducter:
         except Exception as e:
             print e
         try:
-            self.printer(BuiltNames, NameEmails=True)
+            if Names:
+                self.printer(BuiltNames, NameEmails=True)
         except Exception as e:
             error = "[!] Something went wrong with outputixng results of Built Names:" + \
                 str(e)
@@ -444,7 +445,8 @@ class Conducter:
         except Exception as e:
             print e
         try:
-            self.printer(BuiltNames, NameEmails=True)
+            if Names:
+                self.printer(BuiltNames, NameEmails=True)
         except Exception as e:
             error = "[!] Something went wrong with outputixng results of Built Names:" + \
                 str(e)
@@ -502,7 +504,7 @@ class Conducter:
                 e = ' [!] GoogleDork This: site:connect6.com "'+str(domain)+'"'
                 print helpers.color(e, bold=False)
                 print " [-] Commands Supported: (B) ack - (R) etry"
-                Question = " [>] Please Provid a URL: "
+                Question = " [>] Please Provide a URL: "
                 Answer = raw_input(helpers.color(Question, bold=False))
                 if Answer.upper() in "BACK":
                     e = " [!] Skiping Connect6 Scrape!"
@@ -527,6 +529,38 @@ class Conducter:
         if Format:
             e = ' [!] Auto detected the fromat: ' + str(Format)
             print helpers.color(e, status=True)
+        if not Format:
+            print helpers.color(" [*] Now attempting to manualy detect format (slow)!")
+            Format = Em.EmailDetect(CleanNames, domain, emaillist)
+            # Now check if we have more than one result in the list
+            # This due to how I perform checks, in rare cases I had more than one format.
+            if len(Format) > 1:
+                line =  helpers.color(' [*] More than one email format was detected!\n')
+                for item in Format:
+                    line += '   * Format: ' + item + '\n'
+                print line
+                line =      ' [*] Here are a few samples of the emails obtained:\n'
+                line +=     '      1)' + emaillist[0] +'\n'
+                if emaillist[1]:
+                    line += '      2)' + emaillist[1] +'\n'
+                if emaillist[2]:
+                    line += '      3)' + emaillist[2]
+                print line
+                while True:
+                    s = False
+                    Question = " [>] Please Provid a valid Format: "
+                    Answer = raw_input(helpers.color(Question, bold=False))
+                    try:
+                        for item in ValidFormat:
+                            if str(Answer) == str(item):
+                                Format = str(Answer)
+                                s = True
+                    except:
+                        pass
+                    if s:
+                        break
+            else:
+                Format = str(Format[0])
         if not Format:
             print helpers.color(' [!] Failed to resolve format of email', firewall=True)
             line =  helpers.color(' [*] Available formats supported:\n', status=True)

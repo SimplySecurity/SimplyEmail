@@ -57,7 +57,7 @@ class LinkedinScraper:
                 name = (((((definition.replace('<strong>','')).replace('</strong>','')).split('>')[1]).split('|')[0]).rstrip()).split(',')[0]
                 name = name.split(' ')
                 if self.verbose:
-                  e = ' LinkedIn Name Found: ' + str(name)
+                  e = ' [*] LinkedIn Name Found: ' + str(name)
                   print helpers.color(e, firewall=True)
                 NameList.append(name)
             for link in br.links():
@@ -120,7 +120,8 @@ class LinkedinScraper:
           except Exception as e:
             pass
           if self.verbose:
-            print ' [*] Name Cleaned: ' + str([FirstName, Lastname])
+            e = ' [*] Name Cleaned: ' + str([FirstName, Lastname])
+            print helpers.color(e, firewall=True)
           return [FirstName, Lastname]
       except Exception as e:
         if self.verbose:
