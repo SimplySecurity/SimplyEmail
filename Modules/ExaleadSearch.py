@@ -23,6 +23,7 @@ from cStringIO import StringIO
 class ClassName:
 
     def __init__(self, Domain, verbose=False):
+        self.apikey = False
         self.name = "Exalead Search for Emails"
         self.description = "Uses Exalead to search for emails and parses them out of the Html"
         config = configparser.ConfigParser()

@@ -14,6 +14,7 @@ from Helpers import helpers
 class ClassName:
 
     def __init__(self, domain, verbose=False):
+        self.apikey = False
         self.name = "Searching Whoisology"
         self.description = "Search the Whoisology database for potential POC emails"
         self.domain = domain

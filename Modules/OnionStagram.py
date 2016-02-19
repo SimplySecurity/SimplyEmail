@@ -18,6 +18,7 @@ from Helpers import *
 class ClassName:
 
     def __init__(self, Domain, verbose=False):
+        self.apikey = False
         self.name = "OnionStagram Search For Instagram Users"
         self.description = "Uses OnionStagrams search engine"
         config = configparser.ConfigParser()

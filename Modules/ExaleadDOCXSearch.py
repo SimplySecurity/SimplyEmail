@@ -26,6 +26,7 @@ sys.setdefaultencoding("utf-8")
 class ClassName:
 
     def __init__(self, Domain, verbose=False):
+        self.apikey = False
         self.name = "Exalead DOCX Search for Emails"
         self.description = "Uses Exalead Dorking to search DOCXs for emails"
         config = configparser.ConfigParser()

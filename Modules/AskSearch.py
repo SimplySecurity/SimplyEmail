@@ -16,6 +16,7 @@ from Helpers import helpers
 class ClassName:
 
     def __init__(self, Domain, verbose=False):
+        self.apikey = False
         self.name = "Ask Search for Emails"
         self.description = "Simple Ask Search for Emails"
         config = configparser.ConfigParser()

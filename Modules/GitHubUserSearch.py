@@ -15,6 +15,7 @@ from Helpers import helpers
 class ClassName:
 
     def __init__(self, domain, verbose=False):
+        self.apikey = False
         self.name = "Searching GitHubUser Search"
         self.description = "Search GitHubUser for emails the user search function"
         self.domain = domain

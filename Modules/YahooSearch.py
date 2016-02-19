@@ -20,6 +20,7 @@ from Helpers import Parser
 class ClassName:
 
     def __init__(self, Domain, verbose=False):
+        self.apikey = False
         self.name = "Yahoo Search for Emails"
         self.description = "Uses Yahoo to search for emails, parses them out of the Html"
         config = configparser.ConfigParser()

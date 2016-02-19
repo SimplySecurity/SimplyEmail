@@ -18,6 +18,7 @@ from Helpers import Parser
 class ClassName:
 
     def __init__(self, domain, verbose=False):
+        self.apikey = False
         # Descriptions that are required!!!
         self.name = "HTML Scrape of Target Website"
         self.description = "Html Scrape the target website for emails and data"

@@ -21,6 +21,7 @@ from cStringIO import StringIO
 class ClassName:
 
     def __init__(self, Domain, verbose=False):
+        self.apikey = False
         self.name = "Google DOC Search for Emails"
         self.description = "Uses Google Dorking to search for emails"
         config = configparser.ConfigParser()

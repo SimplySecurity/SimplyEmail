@@ -31,6 +31,7 @@ from Helpers import helpers
 class ClassName:
 
     def __init__(self, domain, verbose=False):
+        self.apikey = False
         self.name = "Searching Canary Paste Bin"
         self.description = "Search Canary for paste potential data dumps, this can take a bit but a great source"
         self.domain = domain

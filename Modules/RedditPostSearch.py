@@ -15,6 +15,7 @@ from Helpers import Parser
 class ClassName:
 
     def __init__(self, Domain, verbose=False):
+        self.apikey = False
         self.name = "RedditPost Search for Emails"
         self.description = "Uses RedditPosts to search for emails, and Parse the raw results ATM"
         config = configparser.ConfigParser()

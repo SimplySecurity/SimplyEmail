@@ -16,6 +16,7 @@ from Helpers import helpers
 class ClassName:
 
     def __init__(self, domain, verbose=False):
+        self.apikey = False
         self.name = "EmailHunter Trial API"
         self.description = "Search the EmailHunter DB for potential emails"
         self.domain = domain

@@ -19,6 +19,7 @@ import time
 class ClassName:
 
     def __init__(self, domain, verbose=False):
+        self.apikey = False
         self.name = "Searching GitHubGist Code"
         self.description = "Search GitHubGist code for emails using a large pool of code searches"
         self.domain = domain

@@ -14,6 +14,7 @@ from Helpers import helpers
 class ClassName:
 
     def __init__(self, domain, verbose=False):
+        self.apikey = False
         self.name = "Searching PGP"
         self.description = "Search the PGP database for potential emails"
         self.domain = domain

@@ -15,6 +15,7 @@ from bs4 import BeautifulSoup
 class ClassName:
 
     def __init__(self, Domain, verbose=False):
+        self.apikey = False
         self.name = "PasteBin Search for Emails"
         self.description = "Uses pastebin to search for emails, parses them out of the"
         config = configparser.ConfigParser()

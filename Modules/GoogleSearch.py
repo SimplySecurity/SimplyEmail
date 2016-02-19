@@ -15,6 +15,7 @@ from Helpers import Parser
 class ClassName:
 
     def __init__(self, Domain, verbose=False):
+        self.apikey = False
         self.name = "Google Search for Emails"
         self.description = "Uses Google to search for emails, parses them out of the"
         config = configparser.ConfigParser()
