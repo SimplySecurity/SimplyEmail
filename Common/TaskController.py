@@ -345,7 +345,8 @@ class Conducter:
             print e
         try:
             if Names:
-                self.printer(BuiltNames, NameEmails=True)
+                if BuiltNames:
+                    self.printer(BuiltNames, NameEmails=True)
         except Exception as e:
             error = "[!] Something went wrong with outputixng results of Built Names:" + \
                 str(e)
@@ -451,7 +452,8 @@ class Conducter:
             print e
         try:
             if Names:
-                self.printer(BuiltNames, NameEmails=True)
+                if BuiltNames:
+                    self.printer(BuiltNames, NameEmails=True)
         except Exception as e:
             error = "[!] Something went wrong with outputixng results of Built Names:" + \
                 str(e)
@@ -564,6 +566,8 @@ class Conducter:
                         pass
                     if s:
                         break
+            if len(Format) < 1:
+                Format = False
             else:
                 Format = str(Format[0])
         if not Format:
@@ -573,8 +577,8 @@ class Conducter:
             line += '     {first}{last} = jamesharvey@domain.com\n'
             line += '     {f}{last} = ajames@domain.com\n'
             line += '     {f}.{last} = a.james@domain.com\n'
-            line += '     {first}{l} = jamesh@domain.com\n\n'
-            line += '     {first}.{l} = j.amesh@domain.com\n\n'
+            line += '     {first}{l} = jamesh@domain.com\n'
+            line += '     {first}.{l} = j.amesh@domain.com\n'
             line += '     {first}_{last} = james_amesh@domain.com\n\n'
             print line
             if len(emaillist) > 0:
