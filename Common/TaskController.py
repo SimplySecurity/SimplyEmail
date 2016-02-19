@@ -40,8 +40,13 @@ class Conducter:
         self.ConsumerList = []
         self.HtmlList = []
         self.Tasks = []
-        self.version = "v1.1"
         self.ResultsList = []
+        try:
+            config = configparser.ConfigParser()
+            config.read('Common/SimplyEmail.ini')
+            self.version = str(config['GlobalSettings']['Version'])
+        except Exception as e:
+            print e
 
     def ConfigSectionMap(section):
         dict1 = {}

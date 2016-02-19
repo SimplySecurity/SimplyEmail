@@ -9,6 +9,7 @@
 import os
 import argparse
 import sys
+import configparser
 from Helpers import helpers
 from Helpers import VersionCheck
 from Common import TaskController
@@ -80,7 +81,12 @@ def TaskControler(version):
 
 def main():
     # instatiate the class
-    version = "v1.1"
+    try:
+        config = configparser.ConfigParser()
+        config.read('Common/SimplyEmail.ini')
+        version = str(config['GlobalSettings']['Version'])
+    except Exception as e:
+            print e
     orc = TaskController.Conducter()
     orc.title()
     orc.title_screen()
