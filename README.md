@@ -268,6 +268,17 @@ As I mentioned before a powerful function that I wanted to integrate was the abi
 ####Changelog (Current v1.0):
 ```
 ===================================
+Framework Improvements v1.2:
+-----------------------------
+(x) Fixed some small text issues
+(x) Added in Manual email format detect
+(x) cleaned up how email detect fails
+
+Modules Added in v1.2
+-----------------------------
+(x) Canar.io API based search
+
+===================================
 Framework Improvements v1.0:
 -----------------------------
 (x) Fixed some text issues (Th3gundy)
