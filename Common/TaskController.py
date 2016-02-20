@@ -81,15 +81,25 @@ class Conducter:
                 ModuleName = Task
                 Task = self.modules[Task]
                 Module = Task.ClassName(domain, verbose=verbose)
-                name = "[*] Starting: " + Module.name
+                name = " [*] Starting: " + Module.name
                 print helpers.color(name, status=True)
                 # Try to start the module
                 try:
+                    # Check for API key to ensure its in .ini
+                    if Module.apikey:
+                        if Module.apikeyv:
+                            e = " [*] API module key loaded for: " +  Module.name
+                            print helpers.color(e, status=True)
+                        else:
+                            e = " [*] No API module key loaded for: " +  Module.name
+                            print helpers.color(e, firewall=True)
+                            # Exit a API module with out a key
+                            break
                     # Emails will be returned as a list
                     Emails, HtmlResults = Module.execute()
                     if Emails:
                         count = len(Emails)
-                        Length = "[*] " + Module.name + \
+                        Length = " [*] " + Module.name + \
                             ": Gathered " + str(count) + " Email(s)!"
                         print helpers.color(Length, status=True)
                         for Email in Emails:
@@ -98,15 +108,15 @@ class Conducter:
                             Html_queue.put(Email)
                         # Task_queue.task_done()
                     else:
-                        Message = "[*] " + Module.name + \
+                        Message = " [*] " + Module.name + \
                             " has completed with no Email(s)"
                         print helpers.color(Message, status=True)
                 except Exception as e:
-                    error = "[!] Error During Runtime in Module " + \
+                    error = " [!] Error During Runtime in Module " + \
                         Module.name + ": " + str(e)
                     print helpers.color(error, warning=True)
             except Exception as e:
-                error = "[!] Error Loading Module: " + str(e)
+                error = " [!] Error Loading Module: " + str(e)
                 print helpers.color(error, warning=True)
 
     def printer(self, FinalEmailList, VerifyEmail=False, NameEmails=False):
@@ -132,7 +142,7 @@ class Conducter:
                     x += 1
                 except Exception as e:
                     print e
-            print helpers.color("[*] Completed output!", status=True)
+            print helpers.color(" [*] Completed output!", status=True)
             return x
         elif VerifyEmail:
             x = 0
@@ -150,7 +160,7 @@ class Conducter:
                     x += 1
                 except Exception as e:
                     print e
-            print helpers.color("[*] Completed output!", status=True)
+            print helpers.color(" [*] Completed output!", status=True)
             return x
         else:
             x = 0
@@ -168,7 +178,7 @@ class Conducter:
                     x += 1
                 except Exception as e:
                     print e
-            print helpers.color("[*] Completed output!", status=True)
+            print helpers.color(" [*] Completed output!", status=True)
             return x
 
     def HtmlPrinter(self, HtmlFinalEmailList, Domain):
@@ -221,7 +231,7 @@ class Conducter:
         for item in HtmlSecondList:
             if item not in HtmlFinalList:
                 HtmlFinalList.append(item)
-        print helpers.color("[*] Completed Cleaning Results", status=True)
+        print helpers.color(" [*] Completed Cleaning Results", status=True)
         return FinalList, HtmlFinalList
 
     def Consumer(self, Results_queue):
