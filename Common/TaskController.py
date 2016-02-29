@@ -343,6 +343,8 @@ class Conducter:
             if Names:
                 BuiltNames = self.NameBuilder(domain, FinalEmailList, Verbose=verbose)
                 BuiltNameCount = len(BuiltNames)
+            if not Names:
+                BuiltNames = []
             if Verify:
                 val = self.VerifyScreen()
                 if val:
@@ -450,6 +452,8 @@ class Conducter:
             if Names:
                 BuiltNames = self.NameBuilder(domain, FinalEmailList, Verbose=verbose)
                 BuiltNameCount = len(BuiltNames)
+            if not Names:
+                BuiltNames = []
             if Verify:
                 val = self.VerifyScreen()
                 if val:
