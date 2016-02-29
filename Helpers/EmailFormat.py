@@ -62,6 +62,47 @@ class EmailFormat:
             return False
       except:
         pass
+    def BuildName(self, CleanName, Format, Raw=False):
+      '''
+      Will help build names and return 
+      all required name formats for the email
+      to be built.
+      '''
+      # Names are always [First, Last] List 
+      Name = ""
+      try:
+        FirstName = str(CleanName[0])
+        FirstIntial = str(FirstName[0])
+        LastName = str(CleanName[1])
+        LastInitial = str(LastName[0])
+      except:
+        # not major if one name isnt built
+        pass
+      try:
+        if Format == '{f}.{last}':
+          Name = FirstIntial + '.' + LastName 
+        if Format == '{f}{last}':
+          Name = FirstIntial + LastName
+        if Format == '{first}{last}':
+          Name = FirstName + LastName
+        if Format == '{first}.{last}':
+          Name = FirstName + '.' + LastName
+        if Format == '{first}{l}':
+          Name = FirstName + LastInitial
+        if Format == '{first},{l}':
+          Name = FirstName + '.' + LastInitial
+        if Format == '{first}_{last}':
+          Name = FirstName + "_" + LastName
+        if Format == '{first}':
+          Name = FirstName
+      except:
+        # not major if one name isnt built
+        pass
+      if Raw:
+        return FirstName,FirstIntial,LastName,LastInitial
+      if not Raw:
+        return Name
+
 
     def EmailDetect(self, CleanNames, Domain, FinalEmails):
       '''
@@ -78,6 +119,7 @@ class EmailFormat:
           FirstName = str(name[0])
           FirstIntial = str(FirstName[0])
           LastName = str(name[1])
+          self.BuildName
           BuiltEmail = FirstIntial + LastName + "@" + Domain
           # now use a list count method (Seems to be fater than nested for loops)
           Count = FinalEmails.count(BuiltEmail.lower())
@@ -201,6 +243,24 @@ class EmailFormat:
           if Count > 0:
             if self.verbose:
               r = " [*] Email format matched {first}_{last}: " + BuiltEmail
+              print helpers.color(r, firewall=True)
+              if not Set:
+                FinalResult.append(Format)
+              Set = True
+      except Exception as e:
+        print e
+      try:
+        Set = False
+        Format = '{first}'
+        for name in CleanNames:
+          FirstName = str(name[0])
+          LastName = str(name[1])
+          BuiltEmail = FirstName + "@" + Domain
+          # now use a list count method (Seems to be fater than nested for loops)
+          Count = FinalEmails.count(BuiltEmail.lower())
+          if Count > 0:
+            if self.verbose:
+              r = " [*] Email format matched {first}: " + BuiltEmail
               print helpers.color(r, firewall=True)
               if not Set:
                 FinalResult.append(Format)
@@ -354,6 +414,20 @@ class EmailFormat:
             if FirstName and LastName:
               # now build foramt
               BuiltName = str(FirstName) + "_" + str(LastName) + "@" + Domain
+              if Verbose:
+                e = ' [*] Email built: ' + str(BuiltName)
+                print helpers.color(e, firewall=True)
+              if BuiltName:
+                BuiltEmails.append(BuiltName)
+          except Exception as e:
+            print e
+      elif Format == '{first}':
+        for name in CleanNames:
+          try:
+            Name = self.BuiltName(name, Format)
+            if Name:
+              # now build foramt
+              BuiltName = Name + "@" + Domain
               if Verbose:
                 e = ' [*] Email built: ' + str(BuiltName)
                 print helpers.color(e, firewall=True)

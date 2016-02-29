@@ -428,7 +428,7 @@ class Conducter:
                 try:
                     FinalCount = self.printer(FinalEmailList)
                 except Exception as e:
-                    error = "[!] Something went wrong with outputixng results:" + \
+                    error = "[!] Something went wrong with outputing results:" + \
                         str(e)
                     print helpers.color(error, warning=True)
                 Results_queue.close()
@@ -465,7 +465,7 @@ class Conducter:
                 if BuiltNames:
                     self.printer(BuiltNames, NameEmails=True)
         except Exception as e:
-            error = "[!] Something went wrong with outputixng results of Built Names:" + \
+            error = "[!] Something went wrong with outputing results of Built Names:" + \
                 str(e)
             print helpers.color(error, warning=True)
             
@@ -478,7 +478,7 @@ class Conducter:
         All the basic logic is here.
         '''
         self.title()
-        ValidFormat = ['{first}.{last}', '{first}{last}', '{f}{last}', '{f}.{last}', '{first}{l}', '{first}_{last}']
+        ValidFormat = ['{first}.{last}', '{first}{last}', '{f}{last}', '{f}.{last}', '{first}{l}', '{first}_{last}', '{first}']
         line =  " [*] Now attempting to build Names:\n"
         print line
         CleanNames = []
@@ -557,11 +557,11 @@ class Conducter:
                     line += '   * Format: ' + item + '\n'
                 print line
                 line =      ' [*] Here are a few samples of the emails obtained:\n'
-                line +=     '      1)' + emaillist[0] +'\n'
-                if emaillist[1]:
-                    line += '      2)' + emaillist[1] +'\n'
-                if emaillist[2]:
-                    line += '      3)' + emaillist[2]
+                for i in range(1, 6, 1):
+                    try:
+                        line += '      %s) %s \n' % (i, emaillist[i])
+                    except:
+                        pass
                 print line
                 while True:
                     s = False
@@ -589,7 +589,8 @@ class Conducter:
             line += '     {f}.{last} = a.james@domain.com\n'
             line += '     {first}{l} = jamesh@domain.com\n'
             line += '     {first}.{l} = j.amesh@domain.com\n'
-            line += '     {first}_{last} = james_amesh@domain.com\n\n'
+            line += '     {first}_{last} = james_amesh@domain.com\n'
+            line += '     {first} = james@domain.com\n\n'
             print line
             if len(emaillist) > 0:
                 line =      ' [*] Here are a few samples of the emails obtained:\n'
