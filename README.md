@@ -16,6 +16,7 @@ Work Conducted by:
 Current Platforms Supported:
 * Kali Linux 2.0
 * Kali Linux 1.0
+* Debian (deb8u3)
 
 A few small benefits:
 - Easy for you to write modules (All you need is 1 required Class option and you're up and running)
