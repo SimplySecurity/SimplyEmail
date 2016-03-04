@@ -43,6 +43,7 @@ func_install_requests(){
   sudo pip install beautifulsoup4
   sudo pip install mechanize --upgrade
   sudo pip install docx2txt --upgrade
+  sudo pip install BeautifulSoup --upgrade
   sudo pip install --upgrade requests 
   sudo pip install xlsx2csv --upgrade
   sudo pip install configparser --upgrade
