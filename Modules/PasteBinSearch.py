@@ -59,7 +59,7 @@ class ClassName:
                 print helpers.color(error, warning=True)
             try:
                 RawHtml = r.content
-                soup = BeautifulSoup(RawHtml)
+                soup = BeautifulSoup(RawHtml, "lxml")
                 for a in soup.select('.r a'):
                     if "/u/" not in str(a['href']): # remove urls like pastebin.com/u/Anonymous
                         self.urlList.append(a['href'])

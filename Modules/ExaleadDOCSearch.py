@@ -90,7 +90,7 @@ class ClassName:
             try:
                 RawHtml = r.content
                 self.Text += RawHtml # sometimes url is broken but exalead search results contain e-mail
-                soup = BeautifulSoup(RawHtml)
+                soup = BeautifulSoup(RawHtml, "lxml")
                 self.urlList = [h2.a["href"] for h2 in soup.findAll('h4', class_='media-heading')]
             except Exception as e:
                 error = "[!] Fail during parsing result: " + str(e)
