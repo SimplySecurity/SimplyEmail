@@ -13,6 +13,7 @@ import urlparse
 import os
 from Helpers import helpers
 from Helpers import Parser
+from Helpers import Download
 from bs4 import BeautifulSoup
 import docx2txt
 from cStringIO import StringIO
@@ -104,13 +105,19 @@ class ClassName:
                     p = '[*] Exalead DOCX search downloading: ' + str(url)
                     print helpers.color(p, firewall=True)
                 try:
-                    FileName = self.download_file(url)
-                    self.Text += self.convert_docx_to_txt(FileName)
+                    filetype = ".docx"
+                    dl = Download.Download(self.verbose)
+                    FileName, FileDownload = dl.download_file(url, filetype)
+                    if FileDownload:
+                        if self.verbose:
+                            p = '[*] Exalead DOCX file was downloaded: ' + str(url)
+                            print helpers.color(p, firewall=True)
+                        self.Text += self.convert_docx_to_txt(FileName)
                 except Exception as e:
                     error = "[!] Issue with opening DOCX Files:%s\n" %(str(e))
                     print helpers.color(error, warning=True)
                 try:
-                    os.remove(FileName)
+                    dl.delete_file(FileName)
                 except Exception as e:
                     print e
         except:

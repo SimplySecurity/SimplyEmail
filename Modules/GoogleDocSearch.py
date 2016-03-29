@@ -13,6 +13,7 @@ import configparser
 import requests
 import time
 from subprocess import Popen, PIPE
+from Helpers import Download
 from Helpers import helpers
 from Helpers import Parser
 from BeautifulSoup import BeautifulSoup
@@ -52,19 +53,8 @@ class ClassName:
         return stdout.decode('ascii', 'ignore')
 
 
-    def download_file(self, url):
-        local_filename = url.split('/')[-1]
-        # NOTE the stream=True parameter
-        r = requests.get(url, stream=True)
-        with open(local_filename, 'wb') as f:
-            for chunk in r.iter_content(chunk_size=1024): 
-                if chunk: # filter out keep-alive new chunks
-                    f.write(chunk)
-                    #f.flush() commented by recommendation from J.F.Sebastian
-        return local_filename
-
-
     def search(self):
+        dl = Download.Download(self.verbose)
         while self.Counter <= self.Limit and self.Counter <= 100:
             time.sleep(1)
             if self.verbose:
@@ -82,6 +72,12 @@ class ClassName:
                     str(e)
                 print helpers.color(error, warning=True)
             RawHtml = r.content
+            # check for captcha
+            try:
+                Url = r.url
+                Captcha = dl.GoogleCaptchaDetection(RawHtml, Url)
+            except Exception as e:
+                print e
             soup = BeautifulSoup(RawHtml)
             # I use this to parse my results, for URLS to follow
             for a in soup.findAll('a'):
@@ -103,13 +99,18 @@ class ClassName:
                     p = '[*] Google DOC search downloading: ' + str(url)
                     print helpers.color(p, firewall=True)
                 try:
-                    FileName = self.download_file(url)
-                    self.Text += self.convert_doc_to_txt(FileName)
+                    filetype = ".doc"
+                    FileName, FileDownload = dl.download_file(url, filetype)
+                    if FileDownload:
+                        if self.verbose:
+                            p = '[*] Google DOC file was downloaded: ' + str(url)
+                            print helpers.color(p, firewall=True)
+                        self.Text += self.convert_doc_to_txt(FileName)
                     # print self.Text
                 except Exception as e:
                     print helpers.color("[!] Issue with opening Doc Files\n", firewall=True)
                 try:
-                    os.remove(FileName)
+                    dl.delete_file(FileName)
                 except Exception as e:
                     print e
         except:

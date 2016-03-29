@@ -280,6 +280,14 @@ As I mentioned before a powerful function that I wanted to integrate was the abi
 ####Changelog (Current v1.0):
 ```
 ===================================
+Framework Improvements v1.3:
+-----------------------------
+(x) Added in download class
+(x) Improve download stability
+(x) Added google captcha Alerts
+
+
+===================================
 Framework Improvements v1.2:
 -----------------------------
 (x) Fixed some small text issues

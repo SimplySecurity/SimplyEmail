@@ -13,6 +13,7 @@ import urlparse
 import os
 from Helpers import helpers
 from Helpers import Parser
+from Helpers import Download
 from bs4 import BeautifulSoup
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.converter import TextConverter
@@ -65,17 +66,6 @@ class ClassName:
         retstr.close()
         return text
 
-    def download_file(self, url):
-        local_filename = url.split('/')[-1]
-        # NOTE the stream=True parameter
-        r = requests.get(url, stream=True)
-        with open(local_filename, 'wb') as f:
-            for chunk in r.iter_content(chunk_size=1024):
-                if chunk:  # filter out keep-alive new chunks
-                    f.write(chunk)
-                    # f.flush() commented by recommendation from J.F.Sebastian
-        return local_filename
-
     def execute(self):
         self.search()
         FinalOutput, HtmlResults = self.get_emails()
@@ -115,12 +105,18 @@ class ClassName:
                     p = '[*] Exalead PDF search downloading: ' + str(url)
                     print helpers.color(p, firewall=True)
                 try:
-                    FileName = self.download_file(url)
-                    self.Text += self.convert_pdf_to_txt(FileName)
+                    filetype = ".pdf"
+                    dl = Download.Download(self.verbose)
+                    FileName, FileDownload = dl.download_file(url, filetype)
+                    if FileDownload:
+                        if self.verbose:
+                            p = '[*] Exalead PDF file was downloaded: ' + str(url)
+                            print helpers.color(p, firewall=True)
+                        self.Text += self.convert_pdf_to_txt(FileName)
                 except Exception as e:
                     pass
                 try:
-                    os.remove(FileName)
+                    dl.delete_file(FileName)
                 except Exception as e:
                     print e
         except:

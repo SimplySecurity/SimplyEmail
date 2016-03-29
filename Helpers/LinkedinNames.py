@@ -39,7 +39,7 @@ class LinkedinScraper:
         self.domain = self.domain.split('.')
         self.domain = self.domain[0]
         r = br.open('http://www.bing.com/search?q=(site%3A%22www.linkedin.com%2Fin%2F%22%20OR%20site%3A%22www.linkedin.com%2Fpub%2F%22)%20%26%26%20(NOT%20site%3A%22www.linkedin.com%2Fpub%2Fdir%2F%22)%20%26%26%20%22'+self.domain+'%22&qs=n&form=QBRE&pq=(site%3A%22www.linkedin.com%2Fin%2F%22%20or%20site%3A%22www.linkedin.com%2Fpub%2F%22)%20%26%26%20(not%20site%3A%22www.linkedin.com%2Fpub%2Fdir%2F%22)%20%26%26%20%22'+self.domain+'%22')
-        soup = BeautifulSoup(r)
+        soup = BeautifulSoup(r, 'lxml')
         if soup:
           link_list = []
           NameList = []

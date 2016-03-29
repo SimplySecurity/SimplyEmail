@@ -14,6 +14,7 @@ import requests
 import time
 from Helpers import helpers
 from Helpers import Parser
+from Helpers import Download
 from BeautifulSoup import BeautifulSoup
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.converter import TextConverter
@@ -40,7 +41,7 @@ class ClassName:
             self.urlList = []
             self.Text = ""
         except:
-            print helpers.color("[*] Major Settings for GooglePDFSearch are missing, EXITING!\n", warning=True)
+            print helpers.color(" [*] Major Settings for GooglePDFSearch are missing, EXITING!\n", warning=True)
 
     def execute(self):
         self.search()
@@ -71,37 +72,29 @@ class ClassName:
         retstr.close()
         return text
 
-
-    def download_file(self, url):
-        local_filename = url.split('/')[-1]
-        # NOTE the stream=True parameter
-        r = requests.get(url, stream=True)
-        with open(local_filename, 'wb') as f:
-            for chunk in r.iter_content(chunk_size=1024): 
-                if chunk: # filter out keep-alive new chunks
-                    f.write(chunk)
-                    #f.flush() commented by recommendation from J.F.Sebastian
-        return local_filename
-
-
     def search(self):
+        # setup for helpers in the download class
+        dl = Download.Download(self.verbose)
         while self.Counter <= self.Limit and self.Counter <= 100:
             time.sleep(1)
             if self.verbose:
-                p = '[*] Google PDF Search on page: ' + str(self.Counter)
+                p = ' [*] Google PDF Search on page: ' + str(self.Counter)
                 print helpers.color(p, firewall=True)
             try:
                 urly = "https://www.google.com/search?q=site:" + self.Domain + "+filetype:pdf&start=" + str(self.Counter)
             except Exception as e:
-                error = "[!] Major issue with Google Search:" + str(e)
+                error = " [!] Major issue with Google Search:" + str(e)
                 print helpers.color(error, warning=True)
             try:
                 r = requests.get(urly)
             except Exception as e:
-                error = "[!] Fail during Request to Google (Check Connection):" + \
+                error = " [!] Fail during Request to Google (Check Connection):" + \
                     str(e)
                 print helpers.color(error, warning=True)
             RawHtml = r.content
+            # get redirect URL
+            Url = r.url
+            Captcha = dl.GoogleCaptchaDetection(RawHtml, Url)
             soup = BeautifulSoup(RawHtml)
             for a in soup.findAll('a'):
                   try:
@@ -119,19 +112,27 @@ class ClassName:
         try:
             for url in self.urlList:
                 if self.verbose:
-                    p = '[*] Google PDF search downloading: ' + str(url)
+                    p = ' [*] Google PDF search downloading: ' + str(url)
                     print helpers.color(p, firewall=True)
                 try:
-                    FileName = self.download_file(url)
-                    self.Text += self.convert_pdf_to_txt(FileName)
+                    filetype = ".pdf"
+                    # use new helper class to download file
+                    FileName, FileDownload = dl.download_file(url, filetype)
+                    # check if the file was downloaded
+                    if FileDownload:
+                        if self.verbose:
+                            p = ' [*] Google PDF file was downloaded: ' + str(url)
+                            print helpers.color(p, firewall=True)
+                        self.Text += self.convert_pdf_to_txt(FileName)
                 except Exception as e:
                     pass
                 try:
-                    os.remove(FileName)
+                    # now remove any files left behind
+                    dl.delete_file(FileName)
                 except Exception as e:
                     print e
         except:
-	    print helpers.color("[*] No PDF's to download from Google!\n", firewall=True)
+	       print helpers.color(" [*] No PDF's to download from Google!\n", firewall=True)
 
 
     def get_emails(self):

@@ -2,6 +2,7 @@
 
 import os, sys, types, string, textwrap
 
+
 def color(string, status=True, warning=False, bold=True, blue=False, firewall=False):
     """
     Change text color for the linux terminal, defaults to green.

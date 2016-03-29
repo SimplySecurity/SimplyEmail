@@ -13,6 +13,7 @@ import configparser
 import requests
 import time
 from subprocess import Popen, PIPE
+from Helpers import Download
 from Helpers import helpers
 from Helpers import Parser
 from bs4 import BeautifulSoup
@@ -57,17 +58,6 @@ class ClassName:
         stdout, stderr = p.communicate()
         return stdout.decode('ascii', 'ignore')
 
-    def download_file(self, url):
-        local_filename = url.split('/')[-1]
-        # NOTE the stream=True parameter
-        r = requests.get(url, stream=True)
-        with open(local_filename, 'wb') as f:
-            for chunk in r.iter_content(chunk_size=1024):
-                if chunk:  # filter out keep-alive new chunks
-                    f.write(chunk)
-                    # f.flush() commented by recommendation from J.F.Sebastian
-        return local_filename
-
     def search(self):
         while self.Counter <= self.Limit:
             time.sleep(1)
@@ -102,13 +92,19 @@ class ClassName:
                     p = '[*] Exalead XLSX search downloading: ' + str(url)
                     print helpers.color(p, firewall=True)
                 try:
-                    FileName = self.download_file(url)
-                    self.Text += self.convert_Xlsx_to_Csv(FileName)
+                    filetype = ".xlsx"
+                    dl = Download.Download(self.verbose)
+                    FileName, FileDownload = dl.download_file(url, filetype)
+                    if FileDownload:
+                        if self.verbose:
+                            p = '[*] Exalead XLSX file was downloaded: ' + str(url)
+                            print helpers.color(p, firewall=True)
+                        self.Text += self.convert_Xlsx_to_Csv(FileName)
                 except Exception as e:
                     error = "[!] Issue with opening Xlsx Files:%s\n" % (str(e))
                     print helpers.color(error, warning=True)
                 try:
-                    os.remove(FileName)
+                    dl.delete_file(FileName)
                 except Exception as e:
                     print e
         except:
