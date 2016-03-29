@@ -3,9 +3,6 @@ import requests
 import os
 import configparser
 import helpers
-from captcha_solver import CaptchaSolver
-from captcha_solver.contrib.grab.captcha import solve_captcha
-from grab import Grab
 from bs4 import BeautifulSoup
 from random import randint
 
