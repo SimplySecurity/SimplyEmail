@@ -594,9 +594,13 @@ class Conducter:
             # This due to how I perform checks, in rare cases I had more than one format.
             if len(Format) > 1:
                 line =  helpers.color(' [*] More than one email format was detected!\n')
-                for item in Format:
-                    line += '   * Format: ' + item + '\n'
-                print line
+                try:
+                    for item in Format:
+                        line += '   * Format: ' + item + '\n'
+                    print line
+                except:
+                    p = " [*] No email samples gathred to show."
+                    print helpers.color(p, firewall=True)
                 line =      ' [*] Here are a few samples of the emails obtained:\n'
                 for i in range(1, 6, 1):
                     try:

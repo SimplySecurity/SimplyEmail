@@ -74,6 +74,9 @@ class Connect6Scraper:
           r = requests.get(url, headers=self.UserAgent)
         else:
           url = 'http://' + str(url)
+          if self.verbose:
+            p = " [*] Now downloading Connect6 Source: " + str(url)
+            print helpers.color(p, firewall=True)
           r = requests.get(url, headers=self.UserAgent)
       except Exception as e:
         error = " [!] Major issue with Downloading Connect6 source:" + str(e)
@@ -86,6 +89,9 @@ class Connect6Scraper:
             for utag in soup.findAll("ul", { "class" : "directoryList" }):
               for litag in utag.findAll('li'):
                 NameList.append(litag.text)
+                if self.verbose:
+                  p = " [*] Connect6 Name Found: " + str(litag.text)
+                  print helpers.color(p, firewall=True)
           except:
             pass
           return NameList
