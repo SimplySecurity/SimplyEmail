@@ -440,6 +440,8 @@ class EmailFormat:
         else:
           print helpers.color(' [!] NO Names built, please do a sanity check!', warning=True)
           return False
+      else:
+        print "Nothing here"
 
 
 
