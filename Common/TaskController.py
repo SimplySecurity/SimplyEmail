@@ -69,7 +69,7 @@ class Conducter:
         ModuleName = module
         module = self.modules[module]
         module = module.ClassName(domain)
-        name = "[*]" + module.name
+        name = " [*]" + module.name
         print name
         module.execute()
 
@@ -328,20 +328,20 @@ class Conducter:
                     FinalEmailList, HtmlFinalEmailList = self.CleanResults(
                         domain, scope)
                 except Exception as e:
-                    error = "[!] Something went wrong with parsing results:" + \
+                    error = " [!] Something went wrong with parsing results:" + \
                         str(e)
                     print helpers.color(error, warning=True)
                 try:
                     FinalCount = self.printer(FinalEmailList, domain)
                 except Exception as e:
-                    error = "[!] Something went wrong with outputixng results:" + \
+                    error = " [!] Something went wrong with outputixng results:" + \
                         str(e)
                     print helpers.color(error, warning=True)
                 Results_queue.close()
                 try:
                     self.HtmlPrinter(HtmlFinalEmailList, domain)
                 except Exception as e:
-                    error = "[!] Something went wrong with HTML results:" + \
+                    error = " [!] Something went wrong with HTML results:" + \
                         str(e)
                     print helpers.color(error, warning=True)
                 break
@@ -371,7 +371,7 @@ class Conducter:
                 if BuiltNames:
                     self.printer(BuiltNames, domain, NameEmails=True)
         except Exception as e:
-            error = "[!] Something went wrong with outputixng results of Built Names:" + \
+            error = " [!] Something went wrong with outputixng results of Built Names:" + \
                 str(e)
             print helpers.color(error, warning=True)
             
@@ -435,20 +435,20 @@ class Conducter:
                     FinalEmailList, HtmlFinalEmailList = self.CleanResults(
                         domain, scope)
                 except Exception as e:
-                    error = "[!] Something went wrong with parsing results:" + \
+                    error = " [!] Something went wrong with parsing results:" + \
                         str(e)
                     print helpers.color(error, warning=True)
                 try:
                     FinalCount = self.printer(FinalEmailList, domain)
                 except Exception as e:
-                    error = "[!] Something went wrong with outputing results:" + \
+                    error = " [!] Something went wrong with outputing results:" + \
                         str(e)
                     print helpers.color(error, warning=True)
                 Results_queue.close()
                 try:
                     self.HtmlPrinter(HtmlFinalEmailList, domain)
                 except Exception as e:
-                    error = "[!] Something went wrong with HTML results:" + \
+                    error = " [!] Something went wrong with HTML results:" + \
                         str(e)
                     print helpers.color(error, warning=True)
                 # Check for valid emails if user wants
@@ -480,7 +480,7 @@ class Conducter:
                 if BuiltNames:
                     self.printer(BuiltNames, domain, NameEmails=True)
         except Exception as e:
-            error = "[!] Something went wrong with outputing results of Built Names:" + \
+            error = " [!] Something went wrong with outputing results of Built Names:" + \
                 str(e)
             print helpers.color(error, warning=True)
             

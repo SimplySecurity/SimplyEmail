@@ -424,7 +424,7 @@ class EmailFormat:
       elif Format == '{first}':
         for name in CleanNames:
           try:
-            Name = self.BuiltName(name, Format)
+            Name = self.BuildName(name, Format)
             if Name:
               # now build foramt
               BuiltName = Name + "@" + Domain
@@ -440,8 +440,6 @@ class EmailFormat:
         else:
           print helpers.color(' [!] NO Names built, please do a sanity check!', warning=True)
           return False
-      else:
-        print "Nothing here"
 
 
 

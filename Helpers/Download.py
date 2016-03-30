@@ -34,7 +34,7 @@ class Download:
         download = os.path.isfile(local_filename)
       except Exception as e:
         if self.verbose:
-          p = '[*] Download of file failed: ' + str(url)
+          p = ' [*] Download of file failed: ' + str(url)
           print helpers.color(p, firewall=True)
       return local_filename, download
 
@@ -45,11 +45,10 @@ class Download:
           os.remove(local_filename)
         else:
           if self.verbose:
-            p = '[*] File not found to remove : ' + str(url)
-            print 
+            p = ' [*] File not found to remove : ' + str(url)
+            print p
       except Exception as e:
-        if self.verbose:
-          print("Error: %s file removal failed" % local_filename)
+        pass
 
     def GoogleCaptchaDetection(self, RawHtml, Url):
       soup = BeautifulSoup(RawHtml, "lxml")
