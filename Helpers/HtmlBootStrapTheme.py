@@ -119,7 +119,7 @@ function AnchorJS(a){"use strict";this.options=a||{},this._applyRemainingDefault
             self.HTML += temp
         self.HTML += BottomHtml
 
-    def OutPutHTML(self):
+    def OutPutHTML(self, Path):
         try:
             with open('bootstrap-3.3.5/SimplyEmailTemplate.html', "r") as myfile:
                 SourceHtml = unicode(myfile.read())
@@ -127,8 +127,9 @@ function AnchorJS(a){"use strict";this.options=a||{},this._applyRemainingDefault
             print e
         # Add my tables to the bottom of the HTML and CSS
         SourceHtml += unicode(self.HTML)
+        buildpath = Path + '/Email_List.html'
         try:
-            with open('Email_List.html', "w") as myfile:
+            with open(buildpath, "w") as myfile:
                 myfile.write(SourceHtml)
         except Exception as e:
             print e

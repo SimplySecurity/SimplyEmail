@@ -10,6 +10,7 @@ import sys
 import warnings
 import time
 import subprocess
+import datetime
 from Helpers import helpers
 from Helpers import HtmlBootStrapTheme
 from Helpers import VerifyEmails
@@ -45,6 +46,9 @@ class Conducter:
             config = configparser.ConfigParser()
             config.read('Common/SimplyEmail.ini')
             self.version = str(config['GlobalSettings']['Version'])
+            # setup working dir for results
+            t = datetime.datetime.now()
+            self.TimeDate = str(t.strftime("%Y%m%d-%H%M"))
         except Exception as e:
             print e
 
@@ -119,25 +123,29 @@ class Conducter:
                 error = " [!] Error Loading Module: " + str(e)
                 print helpers.color(error, warning=True)
 
-    def printer(self, FinalEmailList, VerifyEmail=False, NameEmails=False):
+    def printer(self, FinalEmailList, Domain, VerifyEmail=False, NameEmails=False):
         # Building out the Text file that will be outputted
         Date = time.strftime("%d/%m/%Y")
         Time = time.strftime("%I:%M:%S")
+        buildpath = str(Domain) + "-" + self.TimeDate
+        if not os.path.exists(buildpath):
+            os.makedirs(buildpath)
         PrintTitle = "\t----------------------------------\n"
         PrintTitle += "\tEmail Recon: " + Date + " " + Time + "\n"
         PrintTitle += "\t----------------------------------\n"
         if NameEmails:
             x = 0
+            NamePath = buildpath + "/Email_List_Built.txt"
             for item in FinalEmailList:
                 item = item + "\n"
                 if x == 0:
                     try:
-                        with open('Email_List_Built.txt', "a") as myfile:
+                        with open(NamePath, "a") as myfile:
                             myfile.write(PrintTitle)
                     except Exception as e:
                         print e
                 try:
-                    with open('Email_List_Built.txt', "a") as myfile:
+                    with open(NamePath, "a") as myfile:
                         myfile.write(item)
                     x += 1
                 except Exception as e:
@@ -146,16 +154,17 @@ class Conducter:
             return x
         elif VerifyEmail:
             x = 0
+            VerPath = buildpath + "/Email_List_Verified.txt"
             for item in FinalEmailList:
                 item = item + "\n"
                 if x == 0:
                     try:
-                        with open('Email_List_Verified.txt', "a") as myfile:
+                        with open(VerPath, "a") as myfile:
                             myfile.write(PrintTitle)
                     except Exception as e:
                         print e
                 try:
-                    with open('Email_List_Verified.txt', "a") as myfile:
+                    with open(VerPath, "a") as myfile:
                         myfile.write(item)
                     x += 1
                 except Exception as e:
@@ -164,16 +173,17 @@ class Conducter:
             return x
         else:
             x = 0
+            ListPath = buildpath + "/Email_List.txt"
             for item in FinalEmailList:
                 item = item + "\n"
                 if x == 0:
                     try:
-                        with open('Email_List.txt', "a") as myfile:
+                        with open(ListPath, "a") as myfile:
                             myfile.write(PrintTitle)
                     except Exception as e:
                         print e
                 try:
-                    with open('Email_List.txt', "a") as myfile:
+                    with open(ListPath, "a") as myfile:
                         myfile.write(item)
                     x += 1
                 except Exception as e:
@@ -184,9 +194,10 @@ class Conducter:
     def HtmlPrinter(self, HtmlFinalEmailList, Domain):
         # Builds the HTML file
         # try:
+        buildpath = str(Domain) + "-" + self.TimeDate
         Html = HtmlBootStrapTheme.HtmlBuilder(HtmlFinalEmailList, Domain)
         Html.BuildHtml()
-        Html.OutPutHTML()
+        Html.OutPutHTML(buildpath)
         # except Exception as e:
         #error =  "[!] Error building HTML file:" + e
         # print helpers.color(error, warning=True)
@@ -321,7 +332,7 @@ class Conducter:
                         str(e)
                     print helpers.color(error, warning=True)
                 try:
-                    FinalCount = self.printer(FinalEmailList)
+                    FinalCount = self.printer(FinalEmailList, domain)
                 except Exception as e:
                     error = "[!] Something went wrong with outputixng results:" + \
                         str(e)
@@ -351,14 +362,14 @@ class Conducter:
                     email = VerifyEmails.VerifyEmail(FinalEmailList,BuiltNames, domain)
                     VerifiedList = email.ExecuteVerify()
                     if VerifiedList:
-                        self.printer(FinalEmailList, VerifyEmail=Verify)
+                        self.printer(FinalEmailList, domain, VerifyEmail=Verify)
                         # save Seprate file for verified emails
         except Exception as e:
             print e
         try:
             if Names:
                 if BuiltNames:
-                    self.printer(BuiltNames, NameEmails=True)
+                    self.printer(BuiltNames, domain, NameEmails=True)
         except Exception as e:
             error = "[!] Something went wrong with outputixng results of Built Names:" + \
                 str(e)
@@ -428,7 +439,7 @@ class Conducter:
                         str(e)
                     print helpers.color(error, warning=True)
                 try:
-                    FinalCount = self.printer(FinalEmailList)
+                    FinalCount = self.printer(FinalEmailList, domain)
                 except Exception as e:
                     error = "[!] Something went wrong with outputing results:" + \
                         str(e)
@@ -460,14 +471,14 @@ class Conducter:
                     email = VerifyEmails.VerifyEmail(FinalEmailList, BuiltNames, domain)
                     VerifiedList = email.ExecuteVerify()
                     if VerifiedList:
-                        self.printer(FinalEmailList, VerifyEmail=Verify)
+                        self.printer(FinalEmailList, domain, VerifyEmail=Verify)
                         # save Seprate file for verified emails
         except Exception as e:
             print e
         try:
             if Names:
                 if BuiltNames:
-                    self.printer(BuiltNames, NameEmails=True)
+                    self.printer(BuiltNames, domain, NameEmails=True)
         except Exception as e:
             error = "[!] Something went wrong with outputing results of Built Names:" + \
                 str(e)
@@ -625,10 +636,13 @@ class Conducter:
             if len(emaillist) > 0:
                 line =      ' [*] Here are a few samples of the emails obtained:\n'
                 line +=     '      1)' + emaillist[0] +'\n'
-                if emaillist[1]:
-                    line += '      2)' + emaillist[1] +'\n'
-                if emaillist[2]:
-                    line += '      3)' + emaillist[2]
+                try:
+                    if emaillist[1]:
+                        line += '      2)' + emaillist[1] +'\n'
+                    if emaillist[2]:
+                        line += '      3)' + emaillist[2]
+                except:
+                    pass
                 print line
             else:
                 line = ' [*] No unique emails discovered to display (May have to go manual)!\n'
@@ -711,7 +725,7 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
         FinalEmailCount = int(EmailsBuilt) + int(FinalCount)
 
         Line = " [*] Email reconnaissance has been completed:\n\n"
-        Line += "   File Location: \t\t" + os.getcwd() + "\n"
+        Line += "   File Location: \t\t" + os.getcwd() + str(domain) + "-" + str(self.TimeDate) + "\n"
         Line += "   Unique Emails Found:\t\t" + str(FinalCount) + "\n"
         Line += "   Emails Built from Names:\t" + str(EmailsBuilt) + "\n"
         Line += "   Total Emails:\t\t" + str(FinalEmailCount) + "\n"
@@ -730,6 +744,7 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
         if Answer in "NO":
             sys.exit(0)
         if Answer in "YES":
+            HtmlSaveFile = str(domain) + "-" + str(self.TimeDate) + "/" + HtmlSaveFile
             # gnome-open cisco.doc
             subprocess.Popen(
                 ("gnome-open", HtmlSaveFile), stdout=subprocess.PIPE)
