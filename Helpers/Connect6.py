@@ -34,7 +34,8 @@ class Connect6Scraper:
       try:
         # This returns a JSON object
         urllist = []
-        url = "https://www.google.com/search?q=site:connect6.com+%22" + self.domain + '%22'
+        domain = self.domain.split('.')
+        url = "https://www.google.com/search?q=site:connect6.com+%22" + domain[0] + '%22'
         r = requests.get(url, headers=self.UserAgent)
       except Exception as e:
         error = "[!] Major issue with Google Search: for Connect6 URL" + str(e)
@@ -50,9 +51,18 @@ class Connect6Scraper:
               urllist.append(l[2])
           except:
             pass
+        if urllist:
+          y = 0
+          s = 0
+          for x in urllist:
+            if "/c" in x:
+              urllist.insert(s, urllist.pop(y))
+              s += 1
+            y += 1
         return urllist
       except Exception as e:
         print e
+        return urllist
 
     def Connect6Download(self, url):
       '''

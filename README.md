@@ -285,6 +285,7 @@ Framework Improvements v1.3:
 (x) Added in download class
 (x) Improve download stability
 (x) Added google captcha Alerts
+(x) Improved Connect6 Parser / AutoURL
 
 
 ===================================

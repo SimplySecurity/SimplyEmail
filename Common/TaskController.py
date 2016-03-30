@@ -504,26 +504,52 @@ class Conducter:
         urllist = c6.Connect6AutoUrl()
         self.title()
         print helpers.color(" [*] Now Starting Connect6 Scrape:")
-        line = " [*] SimplyEmail has attempted to find correct URL for Connect6:\n"
-        line +="     URL detected: " + helpers.color(urllist[0], status=True) 
-        print line
-        Question = " [>] Is this URL correct?: "
-        Answer = raw_input(helpers.color(Question, bold=False))
-        if Answer.upper() in "YES":
-            Names = c6.Connect6Download(urllist[0])
-            if Names:
-              e = ' [*] Connect6 has Gathred: ' + str(len(Names)) + ' Names'
-              print helpers.color(e, status=True)
-              for raw in Names:
-                name = c6.Connect6ParseName(raw)
-                if name:
-                  CleanNames.append(name)
+        if urllist:
+            line = " [*] SimplyEmail has attempted to find correct URL for Connect6:\n"
+            line +="     URL detected: " + helpers.color(urllist[0], status=True) 
+            print line
+            Question = " [>] Is this URL correct?: "
+            Answer = raw_input(helpers.color(Question, bold=False))
+            if Answer.upper() in "YES":
+                Names = c6.Connect6Download(urllist[0])
+                if Names:
+                  e = ' [*] Connect6 has Gathred: ' + str(len(Names)) + ' Names'
+                  print helpers.color(e, status=True)
+                  for raw in Names:
+                    name = c6.Connect6ParseName(raw)
+                    if name:
+                      CleanNames.append(name)
+            else:
+                while True:
+                    for item in urllist:
+                        print "    Potential URL: " + item
+                    e = ' [!] GoogleDork This: site:connect6.com "'+str(domain)+'"'
+                    print helpers.color(e, bold=False)
+                    print " [-] Commands Supported: (B) ack - (R) etry"
+                    Question = " [>] Please Provide a URL: "
+                    Answer = raw_input(helpers.color(Question, bold=False))
+                    if Answer.upper() in "BACK":
+                        e = " [!] Skiping Connect6 Scrape!"
+                        print helpers.color(e, firewall=True)
+                        break
+                    if Answer:
+                        break
+                if Answer.upper() != "B":
+                    Names = c6.Connect6Download(Answer)
+                    if Names:
+                        e = ' [*] Connect6 has Gathred: ' + str(len(Names)) + ' Names'
+                        print helpers.color(e, status=True)
+                        for raw in Names:
+                            name = c6.Connect6ParseName(raw)
+                            if name:
+                                CleanNames.append(name)
         else:
+            line = " [*] SimplyEmail has attempted to find correct URL for Connect6:\n"
+            line +="     URL was not detected!"
+            print line 
+            e = ' [!] GoogleDork This: site:connect6.com "'+str(domain)+'"'
+            print helpers.color(e, bold=False)
             while True:
-                for item in urllist:
-                    print "    Potential URL: " + item
-                e = ' [!] GoogleDork This: site:connect6.com "'+str(domain)+'"'
-                print helpers.color(e, bold=False)
                 print " [-] Commands Supported: (B) ack - (R) etry"
                 Question = " [>] Please Provide a URL: "
                 Answer = raw_input(helpers.color(Question, bold=False))
