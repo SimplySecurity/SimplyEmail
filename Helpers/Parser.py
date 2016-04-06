@@ -84,7 +84,7 @@ class Parser:
         EndFileName = randint(1000,999999)
         val = ""
         try:
-            with open(str(StartFileName), "wr") as myfile:
+            with open(str(StartFileName), "w+") as myfile:
                 myfile.write(self.InputData)
             ps = subprocess.Popen(
                 ('grep', "@", str(StartFileName)), stdout=subprocess.PIPE)
