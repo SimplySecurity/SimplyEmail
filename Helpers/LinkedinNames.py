@@ -82,48 +82,48 @@ class LinkedinScraper:
         '''
         try:
             if raw:
-                FirstName = raw[0]
-                Lastname = raw[1]
+                firstname = raw[0]
+                lastname = raw[1]
                 try:
-                    if "'" in FirstName:
-                        FirstName = FirstName.replace("'", "")
-                    if "-" in FirstName:
-                        FirstName = FirstName.replace("-", "")
-                    if " " in FirstName:
-                        FirstName = FirstName.replace(" ", "")
-                    if "," in FirstName:
-                        FirstName = FirstName.replace(",", "")
-                    if "(" in FirstName:
-                        FirstName = FirstName.replace("(", "")
-                    if ")" in FirstName:
-                        FirstName = FirstName.replace(")", "")
-                    if "'" in Lastname:
-                        Lastname = Lastname.replace("'", "")
-                    if "-" in Lastname:
-                        Lastname = Lastname.replace("-", "")
-                    if " " in Lastname:
-                        Lastname = Lastname.replace(" ", "")
-                    if "," in Lastname:
-                        Lastname = Lastname.replace(",", "")
-                    if "(" in Lastname:
-                        Lastname = Lastname.replace("(", "")
-                    if ")" in Lastname:
-                        Lastname = Lastname.replace(")", "")
-                    if ("@" in FirstName) or ("@" in Lastname):
+                    if "'" in firstname:
+                        firstname = firstname.replace("'", "")
+                    if "-" in firstname:
+                        firstname = firstname.replace("-", "")
+                    if " " in firstname:
+                        firstname = firstname.replace(" ", "")
+                    if "," in firstname:
+                        firstname = firstname.replace(",", "")
+                    if "(" in firstname:
+                        firstname = firstname.replace("(", "")
+                    if ")" in firstname:
+                        firstname = firstname.replace(")", "")
+                    if "'" in lastname:
+                        lastname = lastname.replace("'", "")
+                    if "-" in lastname:
+                        lastname = lastname.replace("-", "")
+                    if " " in lastname:
+                        lastname = lastname.replace(" ", "")
+                    if "," in lastname:
+                        lastname = lastname.replace(",", "")
+                    if "(" in lastname:
+                        lastname = lastname.replace("(", "")
+                    if ")" in lastname:
+                        lastname = lastname.replace(")", "")
+                    if ("@" in firstname) or ("@" in lastname):
                         return None
                 except Exception as e:
                     pass
                 try:
                     if raw[3]:
-                        FirstName = raw[0]
-                        Lastname = raw[3]
-                        return [FirstName, Lastname]
+                        firstname = raw[0]
+                        lastname = raw[3]
+                        return [firstname, lastname]
                 except Exception as e:
                     pass
                 if self.verbose:
-                    e = ' [*] Name Cleaned: ' + str([FirstName, Lastname])
+                    e = ' [*] Name Cleaned: ' + str([firstname, lastname])
                     print helpers.color(e, firewall=True)
-                return [FirstName, Lastname]
+                return [firstname, lastname]
         except Exception as e:
             if self.verbose:
                 h = " [!] Error during name building: " + str(e)
