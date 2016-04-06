@@ -68,7 +68,6 @@ class Conducter:
                 break
             # Inst the class
             try:
-                ModuleName = Task
                 Task = self.modules[Task]
                 Module = Task.ClassName(domain, verbose=verbose)
                 name = " [*] Starting: " + Module.name
@@ -238,7 +237,9 @@ class Conducter:
                 if item is None:
                     break
                 self.ConsumerList.append(item)
-            except:
+            except Exception as e:
+                if self.Verbose:
+                    print e
                 pass
 
     def HtmlConsumer(self, Html_queue):
@@ -248,7 +249,9 @@ class Conducter:
                 if item is None:
                     break
                 self.HtmlList.append(item)
-            except:
+            except Exception as e:
+                if self.Verbose:
+                    print e
                 pass
 
     def TaskSelector(self, domain, verbose=False, scope=False, Names=False, Verify=False):
