@@ -37,7 +37,7 @@ class ClassName:
 
     def process(self):
         try:
-        	# page seems to dynamicaly expand :)
+            # page seems to dynamicaly expand :)
             url = "http://www.oninstagram.com/profile/search?query=" + \
                 self.Domain
             r = requests.get(url)
