@@ -51,13 +51,13 @@ class Conducter:
         except Exception as e:
             print e
 
-    def TestModule(self, module, domain):
-        ModuleName = module
-        module = self.modules[module]
-        module = module.ClassName(domain)
-        name = " [*]" + module.name
-        print name
-        module.execute()
+    # def TestModule(self, module, domain):
+    #     ModuleName = module
+    #     module = self.modules[module]
+    #     module = module.ClassName(domain)
+    #     name = " [*]" + module.name
+    #     print name
+    #     module.execute()
 
     # Handler for each Process that will call all the modules in the Queue
     def ExecuteModule(self, Task_queue, Results_queue, Html_queue, domain, verbose=False):
@@ -274,8 +274,10 @@ class Conducter:
             total_proc = len(self.modules)
         for i in xrange(total_proc):
             Task_queue.put(None)
+            i = i
         procs = []
         for thread in range(total_proc):
+            thread = thread
             procs.append(multiprocessing.Process(
                 target=self.ExecuteModule, args=(Task_queue, Results_queue, Html_queue, domain, verbose)))
         for p in procs:
