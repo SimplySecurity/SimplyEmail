@@ -34,7 +34,7 @@ class Download:
         download = os.path.isfile(local_filename)
       except Exception as e:
         if self.verbose:
-          p = ' [*] Download of file failed: ' + url
+          p = ' [*] Download of file failed: ' + e
           print helpers.color(p, firewall=True)
       return local_filename, download
 
