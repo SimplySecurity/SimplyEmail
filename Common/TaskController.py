@@ -2,7 +2,6 @@
 import imp
 import glob
 import multiprocessing
-import Queue
 import threading
 import configparser
 import os

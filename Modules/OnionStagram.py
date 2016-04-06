@@ -3,7 +3,7 @@
 import requests
 import configparser
 import os
-from Helpers import *
+from Helpers import helpers
 
 
 # Class will have the following properties:
