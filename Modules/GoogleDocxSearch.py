@@ -11,7 +11,6 @@ import requests
 import urlparse
 import os
 import configparser
-import requests
 import docx2txt
 import time
 # from subprocess import Popen, PIPE
