@@ -75,7 +75,7 @@ class ClassName:
                 print helpers.color(error, warning=True)
 
     def get_emails(self):
-    	Parse = Parser.Parser(self.Html)
+        Parse = Parser.Parser(self.Html)
         Parse.genericClean()
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()

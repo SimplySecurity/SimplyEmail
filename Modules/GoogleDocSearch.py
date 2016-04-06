@@ -48,9 +48,13 @@ class ClassName:
 
     def convert_doc_to_txt(self, path):
         cmd = ['antiword', path]
-        p = Popen(cmd, stdout=PIPE)
-        stdout, stderr = p.communicate()
-        return stdout.decode('ascii', 'ignore')
+        try:
+            p = Popen(cmd, stdout=PIPE)
+            stdout, stderr = p.communicate()
+            return stdout.decode('ascii', 'ignore')
+        except Exception as e:
+            error = " [!] Unable to convert doc to text: " + str(e)
+            print helpers.color(error, warning=True)
 
 
     def search(self):
@@ -58,17 +62,17 @@ class ClassName:
         while self.Counter <= self.Limit and self.Counter <= 100:
             time.sleep(1)
             if self.verbose:
-                p = '[*] Google DOC Search on page: ' + str(self.Counter)
+                p = ' [*] Google DOC Search on page: ' + str(self.Counter)
                 print helpers.color(p, firewall=True)
             try:
                 urly = "https://www.google.com/search?q=site:" + self.Domain + "+filetype:doc&start=" + str(self.Counter)
             except Exception as e:
-                error = "[!] Major issue with Google Search:" + str(e)
+                error = " [!] Major issue with Google Search:" + str(e)
                 print helpers.color(error, warning=True)
             try:
                 r = requests.get(urly)
             except Exception as e:
-                error = "[!] Fail during Request to Google (Check Connection):" + \
+                error = " [!] Fail during Request to Google (Check Connection):" + \
                     str(e)
                 print helpers.color(error, warning=True)
             RawHtml = r.content
@@ -96,7 +100,7 @@ class ClassName:
         try:
             for url in self.urlList:
                 if self.verbose:
-                    p = '[*] Google DOC search downloading: ' + str(url)
+                    p = ' [*] Google DOC search downloading: ' + str(url)
                     print helpers.color(p, firewall=True)
                 try:
                     filetype = ".doc"
@@ -108,13 +112,13 @@ class ClassName:
                         self.Text += self.convert_doc_to_txt(FileName)
                     # print self.Text
                 except Exception as e:
-                    print helpers.color("[!] Issue with opening Doc Files\n", firewall=True)
+                    print helpers.color(" [!] Issue with opening Doc Files\n", firewall=True)
                 try:
                     dl.delete_file(FileName)
                 except Exception as e:
                     print e
         except:
-          print helpers.color("[*] No DOC's to download from Google!\n", firewall=True)
+          print helpers.color(" [*] No DOC's to download from Google!\n", firewall=True)
 
 
     def get_emails(self):
