@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # encoding=utf8 
 import sys
-from Helpers import helpers
 import ast
 
 # This Classes main goal is to build the HTML output file using all self
