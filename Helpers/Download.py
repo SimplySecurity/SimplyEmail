@@ -48,9 +48,10 @@ class Download:
                     p = ' [*] File not found to remove : ' + local_filename
                 print p
         except Exception as e:
-            pass
+            if self.verbose:
+              print e
 
-    def GoogleCaptchaDetection(self, RawHtml, Url):
+    def GoogleCaptchaDetection(self, RawHtml):
         soup = BeautifulSoup(RawHtml, "lxml")
         if "Our systems have detected unusual traffic" in soup.text:
             p = " [!] Google Captcha was detected! (For best results stop/resolve/restart)"
