@@ -1,14 +1,12 @@
 #!/usr/bin/env python
 import helpers
 import configparser
-import urllib
 import mechanize
 from bs4 import BeautifulSoup
 
-'''
-This class has been adapted from (@pan0pt1c0n):
-https://github.com/pan0pt1c0n/PhishBait/blob/master/Bing_Scraper.py
-'''
+
+# This class has been adapted from (@pan0pt1c0n):
+# https://github.com/pan0pt1c0n/PhishBait/blob/master/Bing_Scraper.py
 
 class LinkedinScraper:
     '''
