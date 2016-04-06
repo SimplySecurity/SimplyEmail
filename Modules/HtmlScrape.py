@@ -91,7 +91,7 @@ class ClassName:
             # Supper "hack" since the data returned is from Pipelin /n and all
             # in var
             if val:
-                with open('temp.txt', "wr+") as myfile:
+                with open('temp.txt', "w+") as myfile:
                     myfile.write(str(val))
                 with open('temp.txt', "r") as myfile:
                     output = myfile.readlines()
