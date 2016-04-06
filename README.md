@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/killswitch-GUI/SimplyEmail.svg?branch=master)](https://travis-ci.org/killswitch-GUI/SimplyEmail)
 # SimplyEmail
+[![Code Health](https://landscape.io/github/killswitch-GUI/SimplyEmail/master/landscape.svg?style=flat)](https://landscape.io/github/killswitch-GUI/SimplyEmail/master)
 
 What is the simple email recon tool? This tool was based off the work of theHarvester and kind of a port of the functionality. This was just an expansion of what was used to build theHarvester and will incorporate his work but allow users to easily build Modules for the Framework. Which I felt was desperately needed after building my first module for theHarvester.
 
