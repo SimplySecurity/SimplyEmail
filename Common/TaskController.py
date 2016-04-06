@@ -240,7 +240,6 @@ class Conducter:
             except Exception as e:
                 if self.Verbose:
                     print e
-                pass
 
     def HtmlConsumer(self, Html_queue):
         while True:
@@ -252,7 +251,6 @@ class Conducter:
             except Exception as e:
                 if self.Verbose:
                     print e
-                pass
 
     def TaskSelector(self, domain, verbose=False, scope=False, Names=False, Verify=False):
         # Here it will check the Que for the next task to be completed
