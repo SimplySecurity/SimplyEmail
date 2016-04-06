@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
-import requests
 import json
+import requests
+
 # https://github.com/CanaryPW/Canary-Python
 
 # Canary-Python - A framework for the Canary API
@@ -24,9 +24,10 @@ import json
 
 
 class canary():
+
     def __init__(s, api_key, host=None, debug=False):
         s.api_key = api_key
-        if debug: # This is really for me and nothing else.
+        if debug:  # This is really for me and nothing else.
             s.url = 'http://%s/_api/?key=%s' % (host, api_key)
         else:
             s.url = 'https://canar.io/_api/?key=%s' % api_key
@@ -43,7 +44,7 @@ class canary():
 
     # 'data' must be in the form of a dictionary
     def build_url(s, data):
-        d = [ '%s=%s' % (x, y) for x, y in data.iteritems() ]
+        d = ['%s=%s' % (x, y) for x, y in data.iteritems()]
         return '%s&%s' % (s.url, '&'.join(d))
 
     # Does a search--whee. Bangs can be specified via separate argument. This is due to plan to make changes to the search for API users
@@ -51,20 +52,22 @@ class canary():
     def search(s, query, bang=None):
         if bang != None:
             query = '!%s %s' % (bang, query)
-        url = s.build_url({ 'action': 'search', 'query': query })
+        url = s.build_url({'action': 'search', 'query': query})
         s.retrieve(url=url)
         return s.data
 
     # Views a reference ID. Nothing special.
     def view(s, item):
-        url = s.build_url({ 'action': 'view', 'item': item })
+        url = s.build_url({'action': 'view', 'item': item})
         s.retrieve(url=url)
         return s.data
 
-    # Users with the ability to submit data can use this to send. This is not documented.
+    # Users with the ability to submit data can use this to send. This is not
+    # documented.
     def store(s, title, text, source, source_url):
         if title == None:
             title = 'Untitled'
-        data = { 'title': title, 'text': text, 'source': source, 'source_url': source_url }
-        url = s.build_url({ 'action': 'store' })
+        data = {'title': title, 'text': text,
+                'source': source, 'source_url': source_url}
+        url = s.build_url({'action': 'store'})
         s.retrieve(url=url, data=data, post=True)
