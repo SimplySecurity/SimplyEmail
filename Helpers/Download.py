@@ -45,7 +45,7 @@ class Download:
           os.remove(local_filename)
         else:
           if self.verbose:
-            p = ' [*] File not found to remove : ' + url
+            p = ' [*] File not found to remove : ' + local_filename
             print p
       except Exception as e:
         pass
