@@ -92,8 +92,8 @@ class ClassName:
                 print helpers.color(error, warning=True)
             RawHtml = r.content
             # get redirect URL
-            Url = r.url
-            Captcha = dl.GoogleCaptchaDetection(RawHtml, Url)
+            # Url = r.url
+            Captcha = dl.GoogleCaptchaDetection(RawHtml)
             soup = BeautifulSoup(RawHtml)
             for a in soup.findAll('a'):
                   try:

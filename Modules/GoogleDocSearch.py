@@ -77,8 +77,8 @@ class ClassName:
             RawHtml = r.content
             # check for captcha
             try:
-                Url = r.url
-                Captcha = dl.GoogleCaptchaDetection(RawHtml, Url)
+                # Url = r.url
+                Captcha = dl.GoogleCaptchaDetection(RawHtml)
             except Exception as e:
                 print e
             soup = BeautifulSoup(RawHtml)
