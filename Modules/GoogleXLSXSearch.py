@@ -10,7 +10,6 @@ import requests
 import urlparse
 import os
 import configparser
-import requests
 import time
 from Helpers import Download
 from subprocess import Popen, PIPE
