@@ -13,7 +13,7 @@ from Helpers import helpers
 # https://emailhunter.co/trial/v1/search?offset=0&domain=any.com&format=json
 
 
-class ClassName:
+class ClassName(object):
 
     def __init__(self, domain, verbose=False):
         self.apikey = False
