@@ -15,7 +15,7 @@ from Helpers import Parser
 # 4) places the findings into a queue
 
 # Use the same class name so we can easily start up each module the same ways
-class ClassName:
+class ClassName(object):
 
     def __init__(self, domain, verbose=False):
         self.apikey = False
