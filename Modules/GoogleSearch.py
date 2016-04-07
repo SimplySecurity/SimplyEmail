@@ -10,6 +10,7 @@ import requests
 import time
 from Helpers import helpers
 from Helpers import Parser
+from Helpers import Download
 
 
 class ClassName:
@@ -24,13 +25,13 @@ class ClassName:
             self.Domain = Domain
             self.Quanity = int(config['GoogleSearch']['StartQuantity'])
             self.UserAgent = {
-                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+                'User-Agent': helpers.getua()}
             self.Limit = int(config['GoogleSearch']['QueryLimit'])
             self.Counter = int(config['GoogleSearch']['QueryStart'])
             self.verbose = verbose
             self.Html = ""
         except:
-            print helpers.color("[*] Major Settings for GoogleSearch are missing, EXITING!\n", warning=True)
+            print helpers.color(" [*] Major Settings for GoogleSearch are missing, EXITING!\n", warning=True)
 
     def execute(self):
         self.search()
@@ -41,26 +42,28 @@ class ClassName:
         while self.Counter <= self.Limit and self.Counter <= 1000:
             time.sleep(1)
             if self.verbose:
-                p = '[*] Google Search on page: ' + str(self.Counter)
+                p = ' [*] Google Search on page: ' + str(self.Counter)
                 print helpers.color(p, firewall=True)
             try:
-                url = "http://www.google.com/search?num=" + str(self.Quanity) + \
-                    "&start=" + str(self.Counter) + \
-                    '&hl=en&meta=&q="%40' + self.Domain + '"'
-
                 urly = "http://www.google.com/search?num=" + str(self.Quanity) + "&start=" + \
                     str(self.Counter) + "&hl=en&meta=&q=%40\"" + \
                     self.Domain + "\""
             except Exception as e:
-                error = "[!] Major issue with Google Search:" + str(e)
+                error = " [!] Major issue with Google Search:" + str(e)
                 print helpers.color(error, warning=True)
             try:
                 r = requests.get(urly, headers=self.UserAgent)
             except Exception as e:
-                error = "[!] Fail during Request to Google (Check Connection):" + \
+                error = " [!] Fail during Request to Google (Check Connection):" + \
                     str(e)
                 print helpers.color(error, warning=True)
             results = r.content
+            try:
+                # Url = r.url
+                dl = Download.Download(self.verbose)
+                dl.GoogleCaptchaDetection(results)
+            except Exception as e:
+                print e
             self.Html += results
             self.Counter += 100
 

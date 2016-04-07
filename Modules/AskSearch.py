@@ -23,7 +23,7 @@ class ClassName:
         try:
             config.read('Common/SimplyEmail.ini')
             self.UserAgent = {
-                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+                'User-Agent': helpers.getua()}
             self.PageLimit = int(config['AskSearch']['QueryPageLimit'])
             self.Counter = int(config['AskSearch']['QueryStart'])
             self.Domain = Domain

@@ -30,9 +30,9 @@ class ClassName:
             config.read('Common/SimplyEmail.ini')
             self.Domain = Domain
             self.Quanity = int(config['ExaleadPDFSearch']['StartQuantity'])
-            self.UserAgent = {
-                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
             self.Limit = int(config['ExaleadPDFSearch']['QueryLimit'])
+            self.UserAgent = {
+                'User-Agent': helpers.getua()}
             self.Counter = int(config['ExaleadPDFSearch']['QueryStart'])
             self.verbose = verbose
             self.urlList = []

@@ -23,7 +23,7 @@ class ClassName:
             config.read('Common/SimplyEmail.ini')
             self.Domain = Domain
             self.UserAgent = {
-                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+                'User-Agent': helpers.getua()}
             self.Limit = int(config['RedditPostSearch']['QueryLimit'])
             self.Counter = int(config['RedditPostSearch']['QueryStart'])
             self.verbose = verbose

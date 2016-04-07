@@ -2,6 +2,7 @@
 
 import os
 import textwrap
+from fake_useragent import UserAgent
 
 
 def color(string, status=True, warning=False, bold=True, blue=False, firewall=False):
@@ -60,3 +61,8 @@ def DirectoryListing(directory):
             if os.path.exists(path):
                 dirs.append(path)
     return dirs
+
+def getua():
+    # gets a random useragent and returns the UA
+    ua = UserAgent()
+    return ua.random

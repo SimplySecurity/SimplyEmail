@@ -29,7 +29,7 @@ class ClassName:
             self.Domain = Domain
             self.Quanity = int(config['YahooSearch']['StartQuantity'])
             self.UserAgent = {
-                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+                'User-Agent': helpers.getua()}
             self.Limit = int(config['YahooSearch']['QueryLimit'])
             self.Counter = int(config['YahooSearch']['QueryStart'])
             self.verbose = verbose
