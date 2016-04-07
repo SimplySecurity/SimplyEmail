@@ -13,7 +13,7 @@ from Helpers import helpers
 # 4) places the findings into a queue
 
 
-class ClassName:
+class ClassName(object):
 
     def __init__(self, Domain, verbose=False):
         self.apikey = False
