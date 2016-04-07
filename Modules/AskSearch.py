@@ -63,5 +63,5 @@ class ClassName:
         Parse.genericClean()
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
-        HtmlResults = Parse.BuildResults(FinalOutput,self.name)
+        HtmlResults = Parse.BuildResults(FinalOutput, self.name)
         return FinalOutput, HtmlResults

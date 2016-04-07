@@ -1,4 +1,4 @@
- #!/usr/bin/env python
+#!/usr/bin/env python
 
 # Class will have the following properties:
 # 1) name / description
@@ -20,6 +20,7 @@ from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
 from pdfminer.pdfpage import PDFPage
 from cStringIO import StringIO
+
 
 class ClassName:
 
@@ -47,7 +48,6 @@ class ClassName:
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults
 
-
     def convert_pdf_to_txt(self, path):
         rsrcmgr = PDFResourceManager()
         retstr = StringIO()
@@ -59,9 +59,9 @@ class ClassName:
         password = ""
         maxpages = 0
         caching = True
-        pagenos=set()
+        pagenos = set()
 
-        for page in PDFPage.get_pages(fp, pagenos, maxpages=maxpages, password=password,caching=caching, check_extractable=True):
+        for page in PDFPage.get_pages(fp, pagenos, maxpages=maxpages, password=password, caching=caching, check_extractable=True):
             interpreter.process_page(page)
 
         text = retstr.getvalue()
@@ -80,7 +80,8 @@ class ClassName:
                 p = ' [*] Google PDF Search on page: ' + str(self.Counter)
                 print helpers.color(p, firewall=True)
             try:
-                urly = "https://www.google.com/search?q=site:" + self.Domain + "+filetype:pdf&start=" + str(self.Counter)
+                urly = "https://www.google.com/search?q=site:" + \
+                    self.Domain + "+filetype:pdf&start=" + str(self.Counter)
             except Exception as e:
                 error = " [!] Major issue with Google Search:" + str(e)
                 print helpers.color(error, warning=True)
@@ -96,15 +97,16 @@ class ClassName:
             Captcha = dl.GoogleCaptchaDetection(RawHtml)
             soup = BeautifulSoup(RawHtml)
             for a in soup.findAll('a'):
-                  try:
+                try:
                     # https://stackoverflow.com/questions/21934004/not-getting-proper-links-
                     # from-google-search-results-using-mechanize-and-beautifu/22155412#22155412?
                     # newreg=01f0ed80771f4dfaa269b15268b3f9a9
-                    l = urlparse.parse_qs(urlparse.urlparse(a['href']).query)['q'][0]
+                    l = urlparse.parse_qs(
+                        urlparse.urlparse(a['href']).query)['q'][0]
                     if l.startswith('http') or l.startswith('www'):
-                      if "webcache.googleusercontent.com" not in l:
-                        self.urlList.append(l)
-                  except:
+                        if "webcache.googleusercontent.com" not in l:
+                            self.urlList.append(l)
+                except:
                     pass
             self.Counter += 10
         # now download the required files
@@ -120,7 +122,8 @@ class ClassName:
                     # check if the file was downloaded
                     if FileDownload:
                         if self.verbose:
-                            p = ' [*] Google PDF file was downloaded: ' + str(url)
+                            p = ' [*] Google PDF file was downloaded: ' + \
+                                str(url)
                             print helpers.color(p, firewall=True)
                         self.Text += self.convert_pdf_to_txt(FileName)
                 except Exception as e:
@@ -131,13 +134,12 @@ class ClassName:
                 except Exception as e:
                     print e
         except:
-           print helpers.color(" [*] No PDF's to download from Google!\n", firewall=True)
-
+            print helpers.color(" [*] No PDF's to download from Google!\n", firewall=True)
 
     def get_emails(self):
         Parse = Parser.Parser(self.Text)
         Parse.genericClean()
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
-        HtmlResults = Parse.BuildResults(FinalOutput,self.name)
+        HtmlResults = Parse.BuildResults(FinalOutput, self.name)
         return FinalOutput, HtmlResults

@@ -23,6 +23,7 @@ from cStringIO import StringIO
 
 
 class ClassName:
+
     def __init__(self, Domain, verbose=False):
         self.apikey = False
         self.name = "Exalead PDF Search for Emails"
@@ -79,20 +80,25 @@ class ClassName:
                 print helpers.color(p, firewall=True)
             try:
                 url = 'http://www.exalead.com/search/web/results/?q="%40' + self.Domain + \
-                      '"+filetype:pdf&elements_per_page=' + str(self.Quanity) + '&start_index=' + str(self.Counter)
+                      '"+filetype:pdf&elements_per_page=' + \
+                    str(self.Quanity) + '&start_index=' + str(self.Counter)
             except Exception as e:
                 error = " [!] Major issue with Exalead PDF Search: " + str(e)
                 print helpers.color(error, warning=True)
             try:
                 r = requests.get(url, headers=self.UserAgent)
             except Exception as e:
-                error = " [!] Fail during Request to Exalead (Check Connection):" + str(e)
+                error = " [!] Fail during Request to Exalead (Check Connection):" + str(
+                    e)
                 print helpers.color(error, warning=True)
             try:
                 RawHtml = r.content
-                self.Text += RawHtml  # sometimes url is broken but exalead search results contain e-mail
+                # sometimes url is broken but exalead search results contain
+                # e-mail
+                self.Text += RawHtml
                 soup = BeautifulSoup(RawHtml, "lxml")
-                self.urlList = [h2.a["href"] for h2 in soup.findAll('h4', class_='media-heading')]
+                self.urlList = [h2.a["href"]
+                                for h2 in soup.findAll('h4', class_='media-heading')]
             except Exception as e:
                 error = " [!] Fail during parsing result: " + str(e)
                 print helpers.color(error, warning=True)
@@ -110,7 +116,8 @@ class ClassName:
                     FileName, FileDownload = dl.download_file(url, filetype)
                     if FileDownload:
                         if self.verbose:
-                            p = ' [*] Exalead PDF file was downloaded: ' + str(url)
+                            p = ' [*] Exalead PDF file was downloaded: ' + \
+                                str(url)
                             print helpers.color(p, firewall=True)
                         self.Text += self.convert_pdf_to_txt(FileName)
                 except Exception as e:

@@ -44,7 +44,8 @@ class ClassName:
         UrlList = []
         while self.Counter <= self.Depth:
             if self.verbose:
-                p = '[*] GitHub Gist Search Search on page: ' + str(self.Counter)
+                p = '[*] GitHub Gist Search Search on page: ' + \
+                    str(self.Counter)
                 print helpers.color(p, firewall=True)
             try:
                 # search?p=2&q=%40enron.com&ref=searchresults&utf8=✓
@@ -54,7 +55,8 @@ class ClassName:
                 if r.status_code != 200:
                     break
             except Exception as e:
-                error = "[!] Major isself.Counter += 1sue with GitHubGist Search:" + str(e)
+                error = "[!] Major isself.Counter += 1sue with GitHubGist Search:" + \
+                    str(e)
                 print helpers.color(error, warning=True)
             RawHtml = r.content
             # Parse the results for our URLS)
@@ -71,7 +73,8 @@ class ClassName:
                 html = requests.get(Url, timeout=2)
                 self.Html += html.content
             except Exception as e:
-                error = "[!] Connection Timed out on GithubGist Search:" + str(e)
+                error = "[!] Connection Timed out on GithubGist Search:" + \
+                    str(e)
                 print helpers.color(error, warning=True)
 
     def get_emails(self):
@@ -79,5 +82,5 @@ class ClassName:
         Parse.genericClean()
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
-        HtmlResults = Parse.BuildResults(FinalOutput,self.name)
+        HtmlResults = Parse.BuildResults(FinalOutput, self.name)
         return FinalOutput, HtmlResults

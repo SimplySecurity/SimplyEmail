@@ -28,6 +28,7 @@ from Helpers import CanarioAPI
 
 
 class ClassName:
+
     def __init__(self, domain, verbose=False):
         self.apikey = True
         self.name = "Canar.io API PasteBin search"
@@ -73,7 +74,7 @@ class ClassName:
                     # We need to make this a setting ?
                     for i in range(0, count, 1):
                         try:
-                            result = re[i] 
+                            result = re[i]
                             refid.append(str(result['referenceid']))
                         except Exception as e:
                             print e
@@ -90,16 +91,19 @@ class ClassName:
                                 for em in emails:
                                     self.Html += str(em) + " "
                             except:
-                                # just for weired cases where their is no values
+                                # just for weired cases where their is no
+                                # values
                                 pass
                             try:
                                 body = view['data']['text_data']['body']
                                 self.Html += str(body) + ' '
                             except:
-                                # just for weired cases where their is no values
+                                # just for weired cases where their is no
+                                # values
                                 pass
                         except Exception as e:
-                            p = " [!] Unable to enumerate Canario ref ID: " + str(e)
+                            p = " [!] Unable to enumerate Canario ref ID: " + \
+                                str(e)
                             print helpers.color(p, warning=True)
             else:
                 # logic to see if the key is bad
@@ -116,5 +120,5 @@ class ClassName:
         Parse.genericClean()
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
-        HtmlResults = Parse.BuildResults(FinalOutput,self.name)
+        HtmlResults = Parse.BuildResults(FinalOutput, self.name)
         return FinalOutput, HtmlResults

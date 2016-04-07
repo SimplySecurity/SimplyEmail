@@ -10,7 +10,9 @@ from Helpers import helpers
 # 3) execute function (calls everthing it neeeds)
 # 4) places the findings into a queue
 
-#https://whoisology.com/archive_11/microsoft.com
+# https://whoisology.com/archive_11/microsoft.com
+
+
 class ClassName:
 
     def __init__(self, domain, verbose=False):
@@ -50,5 +52,5 @@ class ClassName:
         Parse.genericClean()
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
-        HtmlResults = Parse.BuildResults(FinalOutput,self.name)
+        HtmlResults = Parse.BuildResults(FinalOutput, self.name)
         return FinalOutput, HtmlResults

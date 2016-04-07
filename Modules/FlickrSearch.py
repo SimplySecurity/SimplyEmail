@@ -43,13 +43,13 @@ class ClassName:
             print helpers.color(error, warning=True)
         self.results = r.content
         if self.verbose:
-                p = '[*] FlickrSearch has completed'
-                print helpers.color(p, firewall=True)
+            p = '[*] FlickrSearch has completed'
+            print helpers.color(p, firewall=True)
         # https://www.flickr.com/search/?text=%40microsoft.com
         # is an example of a complete request for "@microsoft.com"
 
     def get_emails(self):
         Parse = Parser.Parser(self.results)
         FinalOutput = Parse.GrepFindEmails()
-        HtmlResults = Parse.BuildResults(FinalOutput,self.name)
+        HtmlResults = Parse.BuildResults(FinalOutput, self.name)
         return FinalOutput, HtmlResults

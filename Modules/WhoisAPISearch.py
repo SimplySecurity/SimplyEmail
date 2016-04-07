@@ -1,4 +1,4 @@
-#http://api.hackertarget.com/whois/?q=verisgroup.com
+# http://api.hackertarget.com/whois/?q=verisgroup.com
 #!/usr/bin/env python
 import requests
 import configparser
@@ -36,7 +36,7 @@ class ClassName:
     def process(self):
         try:
             if self.verbose:
-                p = '[*] Requesting API on HackerTarget whois' 
+                p = '[*] Requesting API on HackerTarget whois'
                 print helpers.color(p, firewall=True)
             url = "http://api.hackertarget.com/whois/?q=" + \
                 self.domain
@@ -49,5 +49,5 @@ class ClassName:
     def get_emails(self):
         Parse = Parser.Parser(self.results)
         FinalOutput = Parse.GrepFindEmails()
-        HtmlResults = Parse.BuildResults(FinalOutput,self.name)
+        HtmlResults = Parse.BuildResults(FinalOutput, self.name)
         return FinalOutput, HtmlResults

@@ -13,6 +13,7 @@ from Helpers import helpers
 
 # https://emailhunter.co/trial/v1/search?offset=0&domain=any.com&format=json
 
+
 class ClassName:
 
     def __init__(self, domain, verbose=False):
@@ -65,5 +66,5 @@ class ClassName:
         # Make sure you remove any newlines
         Parse = Parser.Parser(self.results)
         FinalOutput = Parse.CleanListOutput()
-        HtmlResults = Parse.BuildResults(FinalOutput,self.name)
+        HtmlResults = Parse.BuildResults(FinalOutput, self.name)
         return FinalOutput, HtmlResults

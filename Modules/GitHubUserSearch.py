@@ -8,7 +8,7 @@ from Helpers import helpers
 
 # https://github.com/search?p=1&q=gmail.com&ref=searchresults&type=Users&utf8=
 # Main goal is to search for potential users
-# on this you can eaily setoff abuse rate limiting 
+# on this you can eaily setoff abuse rate limiting
 # so lets add a 5 sec sleep per request
 
 

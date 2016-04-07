@@ -76,7 +76,8 @@ class ClassName:
                     UrlList.append(a)
             self.Counter += 1
         # Now take all gathered URL's and gather the HTML content needed
-        Status = "[*] Canary found " + str(len(UrlList)) + " PasteBin(s) to Search!"
+        Status = "[*] Canary found " + \
+            str(len(UrlList)) + " PasteBin(s) to Search!"
         print helpers.color(Status, status=True)
         for item in UrlList:
             try:
@@ -84,7 +85,7 @@ class ClassName:
                 # They can be massive!
                 rawhtml = urllib2.urlopen(item, timeout=20)
                 try:
-                    self.Html +=  rawhtml.read()
+                    self.Html += rawhtml.read()
                 except:
                     pass
             except Exception as e:
@@ -101,5 +102,5 @@ class ClassName:
         Parse.genericClean()
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
-        HtmlResults = Parse.BuildResults(FinalOutput,self.name)
+        HtmlResults = Parse.BuildResults(FinalOutput, self.name)
         return FinalOutput, HtmlResults

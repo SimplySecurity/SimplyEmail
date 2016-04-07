@@ -76,7 +76,8 @@ class ClassName:
                 if r.status_code != 200:
                     break
             except Exception as e:
-                error = "[!] Major isself.Counter += 1sue with GitHub Search:" + str(e)
+                error = "[!] Major isself.Counter += 1sue with GitHub Search:" + \
+                    str(e)
                 print helpers.color(error, warning=True)
             RawHtml = r.content
             # Parse the results for our URLS)
@@ -101,5 +102,5 @@ class ClassName:
         Parse.genericClean()
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
-        HtmlResults = Parse.BuildResults(FinalOutput,self.name)
+        HtmlResults = Parse.BuildResults(FinalOutput, self.name)
         return FinalOutput, HtmlResults

@@ -12,6 +12,7 @@ from Helpers import helpers
 from Helpers import Parser
 from bs4 import BeautifulSoup
 
+
 class ClassName:
 
     def __init__(self, Domain, verbose=False):
@@ -38,30 +39,34 @@ class ClassName:
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults
 
-
     def search(self):
         while self.Counter <= self.Limit and self.Counter <= 100:
             time.sleep(1)
             if self.verbose:
-                p = '[*] Google Search for PasteBin on page: ' + str(self.Counter)
+                p = '[*] Google Search for PasteBin on page: ' + \
+                    str(self.Counter)
                 print helpers.color(p, firewall=True)
             try:
                 url = "http://www.google.com/search?num=" + str(self.Quanity) + "&start=" + str(self.Counter) + \
-                      '&hl=en&meta=&q=site:pastebin.com+"%40' + self.Domain + '"'
+                      '&hl=en&meta=&q=site:pastebin.com+"%40' + \
+                    self.Domain + '"'
             except Exception as e:
-                error = "[!] Major issue with Google Search for PasteBin:" + str(e)
+                error = "[!] Major issue with Google Search for PasteBin:" + \
+                    str(e)
                 print helpers.color(error, warning=True)
 
             try:
                 r = requests.get(url, headers=self.UserAgent)
             except Exception as e:
-                error = "[!] Fail during Request to PasteBin (Check Connection):" + str(e)
+                error = "[!] Fail during Request to PasteBin (Check Connection):" + str(
+                    e)
                 print helpers.color(error, warning=True)
             try:
                 RawHtml = r.content
                 soup = BeautifulSoup(RawHtml, "lxml")
                 for a in soup.select('.r a'):
-                    if "/u/" not in str(a['href']): # remove urls like pastebin.com/u/Anonymous
+                    # remove urls like pastebin.com/u/Anonymous
+                    if "/u/" not in str(a['href']):
                         self.urlList.append(a['href'])
             except Exception as e:
                 error = "[!] Fail during parsing result: " + str(e)

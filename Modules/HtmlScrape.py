@@ -64,7 +64,7 @@ class ClassName:
                 print helpers.color(p, firewall=True)
             subprocess.call(["wget", "-q", "--header=""Accept: text/html""", self.useragent,
                              "--recursive", self.depth, self.wait, self.limit_rate, self.save,
-                             self.timeout, "--page-requisites", "-R gif,jpg,pdf,png,css", 
+                             self.timeout, "--page-requisites", "-R gif,jpg,pdf,png,css",
                              "--no-clobber", "--domains", self.domain, TempDomain])
         except:
             print "[!] ERROR during Wget Request"
@@ -105,5 +105,5 @@ class ClassName:
         # using PIPE output/input to avoid using "shell=True",
         # which can leave major security holes if script has certain permisions
         Parse = Parser.Parser(FinalOutput)
-        HtmlResults = Parse.BuildResults(FinalOutput,self.name)
+        HtmlResults = Parse.BuildResults(FinalOutput, self.name)
         return FinalOutput, HtmlResults

@@ -50,5 +50,5 @@ class ClassName:
     def get_emails(self):
         Parse = Parser.Parser(self.results)
         FinalOutput = Parse.GrepFindEmails()
-        HtmlResults = Parse.BuildResults(FinalOutput,self.name)
+        HtmlResults = Parse.BuildResults(FinalOutput, self.name)
         return FinalOutput, HtmlResults

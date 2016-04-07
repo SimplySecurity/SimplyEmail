@@ -1,4 +1,4 @@
- #!/usr/bin/env python
+#!/usr/bin/env python
 
 # Class will have the following properties:
 # 1) name / description
@@ -17,6 +17,7 @@ from Helpers import helpers
 from Helpers import Parser
 from BeautifulSoup import BeautifulSoup
 from cStringIO import StringIO
+
 
 class ClassName:
 
@@ -44,7 +45,6 @@ class ClassName:
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults
 
-
     def convert_Xlsx_to_Csv(self, path):
         # Using the Xlsx2csv tool seemed easy and was in python anyhow
         # it also supported custom delim :)
@@ -53,7 +53,6 @@ class ClassName:
         stdout, stderr = p.communicate()
         return stdout.decode('ascii', 'ignore')
 
-
     def search(self):
         while self.Counter <= self.Limit and self.Counter <= 100:
             time.sleep(1)
@@ -61,7 +60,8 @@ class ClassName:
                 p = '[*] Google XLSX Search on page: ' + str(self.Counter)
                 print helpers.color(p, firewall=True)
             try:
-                urly = "https://www.google.com/search?q=site:" + self.Domain + "+filetype:xlsx&start=" + str(self.Counter)
+                urly = "https://www.google.com/search?q=site:" + \
+                    self.Domain + "+filetype:xlsx&start=" + str(self.Counter)
             except Exception as e:
                 error = "[!] Major issue with Google Search:" + str(e)
                 print helpers.color(error, warning=True)
@@ -75,15 +75,16 @@ class ClassName:
             soup = BeautifulSoup(RawHtml)
             # I use this to parse my results, for URLS to follow
             for a in soup.findAll('a'):
-                  try:
+                try:
                     # https://stackoverflow.com/questions/21934004/not-getting-proper-links-
                     # from-google-search-results-using-mechanize-and-beautifu/22155412#22155412?
                     # newreg=01f0ed80771f4dfaa269b15268b3f9a9
-                    l = urlparse.parse_qs(urlparse.urlparse(a['href']).query)['q'][0]
+                    l = urlparse.parse_qs(
+                        urlparse.urlparse(a['href']).query)['q'][0]
                     if l.startswith('http') or l.startswith('www'):
-                      if "webcache.googleusercontent.com" not in l:
-                        self.urlList.append(l)
-                  except:
+                        if "webcache.googleusercontent.com" not in l:
+                            self.urlList.append(l)
+                except:
                     pass
             self.Counter += 10
         # now download the required files
@@ -98,7 +99,8 @@ class ClassName:
                     FileName, FileDownload = dl.download_file(url, filetype)
                     if FileDownload:
                         if self.verbose:
-                            p = '[*] Google PDF file was downloaded: ' + str(url)
+                            p = '[*] Google PDF file was downloaded: ' + \
+                                str(url)
                             print helpers.color(p, firewall=True)
                         self.Text += self.convert_Xlsx_to_Csv(FileName)
                     # print self.Text
@@ -111,11 +113,10 @@ class ClassName:
         except:
             print helpers.color("[*] No XLSX's to download from google!\n", firewall=True)
 
-
     def get_emails(self):
         Parse = Parser.Parser(self.Text)
         Parse.genericClean()
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
-        HtmlResults = Parse.BuildResults(FinalOutput,self.name)
+        HtmlResults = Parse.BuildResults(FinalOutput, self.name)
         return FinalOutput, HtmlResults

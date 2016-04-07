@@ -20,6 +20,7 @@ from pdfminer.layout import LAParams
 from pdfminer.pdfpage import PDFPage
 from cStringIO import StringIO
 
+
 class ClassName:
 
     def __init__(self, Domain, verbose=False):
@@ -41,12 +42,10 @@ class ClassName:
         except:
             print helpers.color("[*] Major Settings for Exalead are missing, EXITING!\n", warning=True)
 
-
     def execute(self):
         self.search()
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults
-
 
     def search(self):
         while self.Counter <= self.Limit:
@@ -63,13 +62,17 @@ class ClassName:
             try:
                 r = requests.get(url, headers=self.UserAgent)
             except Exception as e:
-                error = "[!] Fail during Request to Exalead (Check Connection):" + str(e)
+                error = "[!] Fail during Request to Exalead (Check Connection):" + str(
+                    e)
                 print helpers.color(error, warning=True)
             try:
                 RawHtml = r.content
-                self.Text += RawHtml # sometimes url is broken but exalead search results contain e-mail
+                # sometimes url is broken but exalead search results contain
+                # e-mail
+                self.Text += RawHtml
                 soup = BeautifulSoup(RawHtml, "lxml")
-                self.urlList = [h2.a["href"] for h2 in soup.findAll('h4', class_='media-heading')]
+                self.urlList = [h2.a["href"]
+                                for h2 in soup.findAll('h4', class_='media-heading')]
             except Exception as e:
                 error = "[!] Fail during parsing result: " + str(e)
                 print helpers.color(error, warning=True)

@@ -24,6 +24,7 @@ reload(sys)
 sys.setdefaultencoding("utf-8")
 # import for "'ascii' codec can't decode byte" error
 
+
 class ClassName:
 
     def __init__(self, Domain, verbose=False):
@@ -45,12 +46,10 @@ class ClassName:
         except:
             print helpers.color("[*] Major Settings for ExaleadDOCXSearch are missing, EXITING!\n", warning=True)
 
-
     def execute(self):
         self.search()
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults
-
 
     def convert_docx_to_txt(self, path):
         # https://github.com/ankushshah89/python-docx2txt
@@ -58,18 +57,16 @@ class ClassName:
         text = docx2txt.process(path)
         return unicode(text)
 
-
     def download_file(self, url):
         local_filename = url.split('/')[-1]
         # NOTE the stream=True parameter
         r = requests.get(url, stream=True)
         with open(local_filename, 'wb') as f:
             for chunk in r.iter_content(chunk_size=1024):
-                if chunk: # filter out keep-alive new chunks
+                if chunk:  # filter out keep-alive new chunks
                     f.write(chunk)
-                    #f.flush() commented by recommendation from J.F.Sebastian
+                    # f.flush() commented by recommendation from J.F.Sebastian
         return local_filename
-
 
     def search(self):
         while self.Counter <= self.Limit:
@@ -79,20 +76,25 @@ class ClassName:
                 print helpers.color(p, firewall=True)
             try:
                 url = 'http://www.exalead.com/search/web/results/?q="%40' + self.Domain + \
-                      '"+filetype:docx&elements_per_page=' + str(self.Quanity) + '&start_index=' + str(self.Counter)
+                      '"+filetype:docx&elements_per_page=' + \
+                    str(self.Quanity) + '&start_index=' + str(self.Counter)
             except Exception as e:
                 error = "[!] Major issue with Exalead DOCX Search: " + str(e)
                 print helpers.color(error, warning=True)
             try:
                 r = requests.get(url, headers=self.UserAgent)
             except Exception as e:
-                error = "[!] Fail during Request to Exalead (Check Connection):" + str(e)
+                error = "[!] Fail during Request to Exalead (Check Connection):" + str(
+                    e)
                 print helpers.color(error, warning=True)
             try:
                 RawHtml = r.content
-                self.Text += RawHtml # sometimes url is broken but exalead search results contain e-mail
+                # sometimes url is broken but exalead search results contain
+                # e-mail
+                self.Text += RawHtml
                 soup = BeautifulSoup(RawHtml, "lxml")
-                self.urlList = [h2.a["href"] for h2 in soup.findAll('h4', class_='media-heading')]
+                self.urlList = [h2.a["href"]
+                                for h2 in soup.findAll('h4', class_='media-heading')]
             except Exception as e:
                 error = "[!] Fail during parsing result: " + str(e)
                 print helpers.color(error, warning=True)
@@ -110,19 +112,19 @@ class ClassName:
                     FileName, FileDownload = dl.download_file(url, filetype)
                     if FileDownload:
                         if self.verbose:
-                            p = '[*] Exalead DOCX file was downloaded: ' + str(url)
+                            p = '[*] Exalead DOCX file was downloaded: ' + \
+                                str(url)
                             print helpers.color(p, firewall=True)
                         self.Text += self.convert_docx_to_txt(FileName)
                 except Exception as e:
-                    error = "[!] Issue with opening DOCX Files:%s\n" %(str(e))
+                    error = "[!] Issue with opening DOCX Files:%s\n" % (str(e))
                     print helpers.color(error, warning=True)
                 try:
                     dl.delete_file(FileName)
                 except Exception as e:
                     print e
         except:
-          print helpers.color("[*] No DOCX's to download from Exalead!\n", firewall=True)
-        
+            print helpers.color("[*] No DOCX's to download from Exalead!\n", firewall=True)
 
         if self.verbose:
             p = '[*] Searching DOCX from Exalead Complete'
