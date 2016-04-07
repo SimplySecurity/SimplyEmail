@@ -47,27 +47,34 @@ class ClassName(object):
         return FinalOutput, HtmlResults
 
     def convert_pdf_to_txt(self, path):
-        rsrcmgr = PDFResourceManager()
-        retstr = StringIO()
-        codec = 'utf-8'
-        laparams = LAParams()
-        device = TextConverter(rsrcmgr, retstr, codec=codec, laparams=laparams)
-        fp = file(path, 'rb')
-        interpreter = PDFPageInterpreter(rsrcmgr, device)
-        password = ""
-        maxpages = 0
-        caching = True
-        pagenos = set()
+        try:
+            text = ""
+            rsrcmgr = PDFResourceManager()
+            retstr = StringIO()
+            codec = 'utf-8'
+            laparams = LAParams()
+            device = TextConverter(
+                rsrcmgr, retstr, codec=codec, laparams=laparams)
+            fp = file(path, 'rb')
+            interpreter = PDFPageInterpreter(rsrcmgr, device)
+            password = ""
+            maxpages = 0
+            caching = True
+            pagenos = set()
 
-        for page in PDFPage.get_pages(fp, pagenos, maxpages=maxpages, password=password, caching=caching, check_extractable=True):
-            interpreter.process_page(page)
+            for page in PDFPage.get_pages(fp, pagenos, maxpages=maxpages, password=password, caching=caching, check_extractable=True):
+                interpreter.process_page(page)
 
-        text = retstr.getvalue()
+            text = retstr.getvalue()
 
-        fp.close()
-        device.close()
-        retstr.close()
-        return text
+            fp.close()
+            device.close()
+            retstr.close()
+            return text
+        except Exception as e:
+            if self.verbose:
+                p = ' [*] Google PDF failed to convert: ' + str(e)
+                print helpers.color(p, firewall=True)
 
     def search(self):
         # setup for helpers in the download class
