@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 
 import os
-import sys
-import types
-import string
 import textwrap
 
 
@@ -35,23 +32,23 @@ def formatLong(title, message, frontTab=True, spacing=16):
     """
 
     lines = textwrap.wrap(textwrap.dedent(message).strip(), width=50)
-    returnString = ""
+    returnstring = ""
 
     i = 1
     if len(lines) > 0:
         if frontTab:
-            returnString += "\t%s%s" % (('{0: <%s}' %
+            returnstring += "\t%s%s" % (('{0: <%s}' %
                                          spacing).format(title), lines[0])
         else:
-            returnString += " %s%s" % (('{0: <%s}' %
+            returnstring += " %s%s" % (('{0: <%s}' %
                                         (spacing-1)).format(title), lines[0])
     while i < len(lines):
         if frontTab:
-            returnString += "\n\t"+' '*spacing+lines[i]
+            returnstring += "\n\t"+' '*spacing+lines[i]
         else:
-            returnString += "\n"+' '*spacing+lines[i]
+            returnstring += "\n"+' '*spacing+lines[i]
         i += 1
-    return returnString
+    return returnstring
 
 
 def DirectoryListing(directory):
