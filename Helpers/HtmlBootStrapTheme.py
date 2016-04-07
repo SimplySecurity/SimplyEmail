@@ -7,7 +7,7 @@ import ast
 # contained CSS and JS
 
 
-class HtmlBuilder:
+class HtmlBuilder(object):
 
     def __init__(self, Emails, Domain):
         self.Emails = Emails
