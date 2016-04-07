@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-import imp
+import configparser
 import glob
+import imp
+import os
 import multiprocessing
 import threading
-import configparser
-import os
 import sys
 import warnings
 import time
@@ -77,10 +77,12 @@ class Conducter:
                     # Check for API key to ensure its in .ini
                     if Module.apikey:
                         if Module.apikeyv:
-                            e = " [*] API module key loaded for: " +  Module.name
+                            e = " [*] API module key loaded for: " + \
+                                Module.name
                             print helpers.color(e, status=True)
                         else:
-                            e = " [*] No API module key loaded for: " +  Module.name
+                            e = " [*] No API module key loaded for: " + \
+                                Module.name
                             print helpers.color(e, firewall=True)
                             # Exit a API module with out a key
                             break
@@ -341,17 +343,20 @@ class Conducter:
         try:
             # If names is True
             if Names:
-                BuiltNames = self.NameBuilder(domain, FinalEmailList, Verbose=verbose)
+                BuiltNames = self.NameBuilder(
+                    domain, FinalEmailList, Verbose=verbose)
                 BuiltNameCount = len(BuiltNames)
             if not Names:
                 BuiltNames = []
             if Verify:
                 val = self.VerifyScreen()
                 if val:
-                    email = VerifyEmails.VerifyEmail(FinalEmailList,BuiltNames, domain)
+                    email = VerifyEmails.VerifyEmail(
+                        FinalEmailList, BuiltNames, domain)
                     VerifiedList = email.ExecuteVerify()
                     if VerifiedList:
-                        self.printer(FinalEmailList, domain, VerifyEmail=Verify)
+                        self.printer(
+                            FinalEmailList, domain, VerifyEmail=Verify)
                         # save Seprate file for verified emails
         except Exception as e:
             print e
@@ -363,9 +368,8 @@ class Conducter:
             error = " [!] Something went wrong with outputixng results of Built Names:" + \
                 str(e)
             print helpers.color(error, warning=True)
-            
-        self.CompletedScreen(FinalCount, BuiltNameCount, domain)
 
+        self.CompletedScreen(FinalCount, BuiltNameCount, domain)
 
     # This is the Test version of the multi proc above, this function
     # Helps with testing only one module at a time. Helping with proper
@@ -450,17 +454,20 @@ class Conducter:
         try:
             # If names is True
             if Names:
-                BuiltNames = self.NameBuilder(domain, FinalEmailList, Verbose=verbose)
+                BuiltNames = self.NameBuilder(
+                    domain, FinalEmailList, Verbose=verbose)
                 BuiltNameCount = len(BuiltNames)
             if not Names:
                 BuiltNames = []
             if Verify:
                 val = self.VerifyScreen()
                 if val:
-                    email = VerifyEmails.VerifyEmail(FinalEmailList, BuiltNames, domain)
+                    email = VerifyEmails.VerifyEmail(
+                        FinalEmailList, BuiltNames, domain)
                     VerifiedList = email.ExecuteVerify()
                     if VerifiedList:
-                        self.printer(FinalEmailList, domain, VerifyEmail=Verify)
+                        self.printer(
+                            FinalEmailList, domain, VerifyEmail=Verify)
                         # save Seprate file for verified emails
         except Exception as e:
             print e
@@ -472,7 +479,7 @@ class Conducter:
             error = " [!] Something went wrong with outputing results of Built Names:" + \
                 str(e)
             print helpers.color(error, warning=True)
-            
+
         self.CompletedScreen(FinalCount, BuiltNameCount, domain)
 
     def NameBuilder(self, domain, emaillist, Verbose=False):
@@ -482,15 +489,18 @@ class Conducter:
         All the basic logic is here.
         '''
         self.title()
-        ValidFormat = ['{first}.{last}', '{first}{last}', '{f}{last}', '{f}.{last}', '{first}{l}', '{first}_{last}', '{first}']
-        line =  " [*] Now attempting to build Names:\n"
+        ValidFormat = ['{first}.{last}', '{first}{last}', '{f}{last}',
+                       '{f}.{last}', '{first}{l}', '{first}_{last}', '{first}']
+        line = " [*] Now attempting to build Names:\n"
         print line
         CleanNames = []
-        # Query for Linkedin Names - Adapted from https://github.com/pan0pt1c0n/PhishBait
+        # Query for Linkedin Names - Adapted from
+        # https://github.com/pan0pt1c0n/PhishBait
         Li = LinkedinNames.LinkedinScraper(domain, Verbose=Verbose)
         LNames = Li.LinkedInNames()
         if LNames:
-            e = ' [*] LinkedinScraper has Gathred: ' + str(len(LNames)) + ' Names'
+            e = ' [*] LinkedinScraper has Gathred: ' + \
+                str(len(LNames)) + ' Names'
             print helpers.color(e, status=True)
             for raw in LNames:
                 try:
@@ -506,24 +516,27 @@ class Conducter:
         print helpers.color(" [*] Now Starting Connect6 Scrape:")
         if urllist:
             line = " [*] SimplyEmail has attempted to find correct URL for Connect6:\n"
-            line +="     URL detected: " + helpers.color(urllist[0], status=True) 
+            line += "     URL detected: " + \
+                helpers.color(urllist[0], status=True)
             print line
             Question = " [>] Is this URL correct?: "
             Answer = raw_input(helpers.color(Question, bold=False))
             if Answer.upper() in "YES":
                 Names = c6.Connect6Download(urllist[0])
                 if Names:
-                  e = ' [*] Connect6 has Gathred: ' + str(len(Names)) + ' Names'
-                  print helpers.color(e, status=True)
-                  for raw in Names:
-                    name = c6.Connect6ParseName(raw)
-                    if name:
-                      CleanNames.append(name)
+                    e = ' [*] Connect6 has Gathred: ' + \
+                        str(len(Names)) + ' Names'
+                    print helpers.color(e, status=True)
+                    for raw in Names:
+                        name = c6.Connect6ParseName(raw)
+                        if name:
+                            CleanNames.append(name)
             else:
                 while True:
                     for item in urllist:
                         print "    Potential URL: " + item
-                    e = ' [!] GoogleDork This: site:connect6.com "'+str(domain)+'"'
+                    e = ' [!] GoogleDork This: site:connect6.com "' + \
+                        str(domain)+'"'
                     print helpers.color(e, bold=False)
                     print " [-] Commands Supported: (B) ack - (R) etry"
                     Question = " [>] Please Provide a URL: "
@@ -537,7 +550,8 @@ class Conducter:
                 if Answer.upper() != "B":
                     Names = c6.Connect6Download(Answer)
                     if Names:
-                        e = ' [*] Connect6 has Gathred: ' + str(len(Names)) + ' Names'
+                        e = ' [*] Connect6 has Gathred: ' + \
+                            str(len(Names)) + ' Names'
                         print helpers.color(e, status=True)
                         for raw in Names:
                             name = c6.Connect6ParseName(raw)
@@ -545,8 +559,8 @@ class Conducter:
                                 CleanNames.append(name)
         else:
             line = " [*] SimplyEmail has attempted to find correct URL for Connect6:\n"
-            line +="     URL was not detected!"
-            print line 
+            line += "     URL was not detected!"
+            print line
             e = ' [!] GoogleDork This: site:connect6.com "'+str(domain)+'"'
             print helpers.color(e, bold=False)
             while True:
@@ -562,7 +576,8 @@ class Conducter:
             if Answer.upper() != "B":
                 Names = c6.Connect6Download(Answer)
                 if Names:
-                    e = ' [*] Connect6 has Gathred: ' + str(len(Names)) + ' Names'
+                    e = ' [*] Connect6 has Gathred: ' + \
+                        str(len(Names)) + ' Names'
                     print helpers.color(e, status=True)
                     for raw in Names:
                         name = c6.Connect6ParseName(raw)
@@ -580,9 +595,11 @@ class Conducter:
             print helpers.color(" [*] Now attempting to manualy detect format (slow)!")
             Format = Em.EmailDetect(CleanNames, domain, emaillist)
             # Now check if we have more than one result in the list
-            # This due to how I perform checks, in rare cases I had more than one format.
+            # This due to how I perform checks, in rare cases I had more than
+            # one format.
             if len(Format) > 1:
-                line =  helpers.color(' [*] More than one email format was detected!\n')
+                line = helpers.color(
+                    ' [*] More than one email format was detected!\n')
                 try:
                     for item in Format:
                         line += '   * Format: ' + item + '\n'
@@ -590,7 +607,7 @@ class Conducter:
                 except:
                     p = " [*] No email samples gathred to show."
                     print helpers.color(p, firewall=True)
-                line =      ' [*] Here are a few samples of the emails obtained:\n'
+                line = ' [*] Here are a few samples of the emails obtained:\n'
                 for i in range(1, 6, 1):
                     try:
                         line += '      %s) %s \n' % (i, emaillist[i])
@@ -616,7 +633,8 @@ class Conducter:
                 Format = str(Format[0])
         if not Format:
             print helpers.color(' [!] Failed to resolve format of email', firewall=True)
-            line =  helpers.color(' [*] Available formats supported:\n', status=True)
+            line = helpers.color(
+                ' [*] Available formats supported:\n', status=True)
             line += '     {first}.{last} = alex.alex@domain.com\n'
             line += '     {first}{last} = jamesharvey@domain.com\n'
             line += '     {f}{last} = ajames@domain.com\n'
@@ -627,11 +645,11 @@ class Conducter:
             line += '     {first} = james@domain.com\n\n'
             print line
             if len(emaillist) > 0:
-                line =      ' [*] Here are a few samples of the emails obtained:\n'
-                line +=     '      1)' + emaillist[0] +'\n'
+                line = ' [*] Here are a few samples of the emails obtained:\n'
+                line += '      1)' + emaillist[0] + '\n'
                 try:
                     if emaillist[1]:
-                        line += '      2)' + emaillist[1] +'\n'
+                        line += '      2)' + emaillist[1] + '\n'
                     if emaillist[2]:
                         line += '      3)' + emaillist[2]
                 except:
@@ -655,7 +673,8 @@ class Conducter:
                     break
 
         # Now build the emails!
-        BuiltEmails = Em.EmailBuilder(CleanNames, domain, Format, Verbose=Verbose)
+        BuiltEmails = Em.EmailBuilder(
+            CleanNames, domain, Format, Verbose=Verbose)
         if BuiltEmails:
             return BuiltEmails
 
@@ -718,7 +737,8 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
         FinalEmailCount = int(EmailsBuilt) + int(FinalCount)
 
         Line = " [*] Email reconnaissance has been completed:\n\n"
-        Line += "   File Location: \t\t" + os.getcwd() + str(domain) + "-" + str(self.TimeDate) + "\n"
+        Line += "   File Location: \t\t" + \
+            os.getcwd() + str(domain) + "-" + str(self.TimeDate) + "\n"
         Line += "   Unique Emails Found:\t\t" + str(FinalCount) + "\n"
         Line += "   Emails Built from Names:\t" + str(EmailsBuilt) + "\n"
         Line += "   Total Emails:\t\t" + str(FinalEmailCount) + "\n"
@@ -737,7 +757,8 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
         if Answer in "NO":
             sys.exit(0)
         if Answer in "YES":
-            HtmlSaveFile = str(domain) + "-" + str(self.TimeDate) + "/" + HtmlSaveFile
+            HtmlSaveFile = str(
+                domain) + "-" + str(self.TimeDate) + "/" + HtmlSaveFile
             # gnome-open cisco.doc
             subprocess.Popen(
                 ("gnome-open", HtmlSaveFile), stdout=subprocess.PIPE)
