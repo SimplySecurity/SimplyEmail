@@ -14,7 +14,7 @@ from bs4 import BeautifulSoup
 from cStringIO import StringIO
 
 
-class ClassName:
+class ClassName(object):
 
     def __init__(self, Domain, verbose=False):
         self.apikey = False
