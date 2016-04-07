@@ -118,8 +118,6 @@ class ClassName:
                     filetype = ".pdf"
                     # use new helper class to download file
                     FileName, FileDownload = dl.download_file(url, filetype)
-                    print FileName
-                    print FileDownload
                     # check if the file was downloaded
                     if FileDownload:
                         if self.verbose:
