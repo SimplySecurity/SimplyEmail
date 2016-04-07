@@ -13,7 +13,7 @@ import configparser
 # {first}_{last} = james_amesh@domain.com
 
 
-class EmailFormat:
+class EmailFormat(object):
 
     '''
     A simple class to detect Email Format.
