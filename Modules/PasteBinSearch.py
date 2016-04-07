@@ -13,7 +13,7 @@ from Helpers import Parser
 from bs4 import BeautifulSoup
 
 
-class ClassName:
+class ClassName(object):
 
     def __init__(self, Domain, verbose=False):
         self.apikey = False
