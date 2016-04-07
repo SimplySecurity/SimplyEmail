@@ -23,7 +23,7 @@ import requests
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-class canary():
+class canary(object):
 
     def __init__(s, api_key, host=None, debug=False):
         s.api_key = api_key
