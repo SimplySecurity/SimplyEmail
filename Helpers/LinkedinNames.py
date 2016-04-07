@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 # This class has been adapted from (@pan0pt1c0n):
 # https://github.com/pan0pt1c0n/PhishBait/blob/master/Bing_Scraper.py
 
-class LinkedinScraper:
+class LinkedinScraper(object):
 
     '''
     A simple class to scrape names from bing.com for
