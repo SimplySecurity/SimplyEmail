@@ -13,7 +13,7 @@ from Helpers import Parser
 from Helpers import Download
 
 
-class ClassName:
+class ClassName(object):
 
     def __init__(self, Domain, verbose=False):
         self.apikey = False
