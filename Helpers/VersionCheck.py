@@ -4,7 +4,7 @@ import configparser
 import helpers
 
 
-class VersionCheck:
+class VersionCheck(object):
 
     def __init__(self, version):
         config = configparser.ConfigParser()
