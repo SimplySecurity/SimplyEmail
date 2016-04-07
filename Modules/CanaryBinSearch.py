@@ -28,7 +28,7 @@ from Helpers import helpers
 # Still having some major python errors
 
 
-class ClassName:
+class ClassName(object):
 
     def __init__(self, domain, verbose=False):
         self.apikey = False
