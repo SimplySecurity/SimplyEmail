@@ -20,7 +20,7 @@ from pdfminer.pdfpage import PDFPage
 from cStringIO import StringIO
 
 
-class ClassName:
+class ClassName(object):
 
     def __init__(self, Domain, verbose=False):
         self.apikey = False
