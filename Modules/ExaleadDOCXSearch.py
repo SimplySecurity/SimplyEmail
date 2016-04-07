@@ -8,14 +8,11 @@
 import configparser
 import requests
 import time
-import re
-import os
 from Helpers import helpers
 from Helpers import Parser
 from Helpers import Download
 from bs4 import BeautifulSoup
 import docx2txt
-from cStringIO import StringIO
 
 # import for "'ascii' codec can't decode byte" error
 import sys
@@ -42,8 +39,9 @@ class ClassName:
             self.verbose = verbose
             self.urlList = []
             self.Text = ""
-        except:
-            print helpers.color("[*] Major Settings for ExaleadDOCXSearch are missing, EXITING!\n", warning=True)
+        except Exception as e:
+            p = "[*] Major Settings for ExaleadDOCXSearch are missing, EXITING: " + e
+            print helpers.color(p, warning=True)
 
     def execute(self):
         self.search()
@@ -122,8 +120,9 @@ class ClassName:
                     dl.delete_file(FileName)
                 except Exception as e:
                     print e
-        except:
-            print helpers.color("[*] No DOCX's to download from Exalead!\n", firewall=True)
+        except Exception as e:
+            p = "[*] No DOCX's to download from Exalead: " +  e
+            print helpers.color(p, firewall=True)
 
         if self.verbose:
             p = '[*] Searching DOCX from Exalead Complete'
