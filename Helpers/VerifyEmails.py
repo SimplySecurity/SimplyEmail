@@ -6,7 +6,7 @@ import socket
 import smtplib
 
 
-class VerifyEmail:
+class VerifyEmail(object):
 
     '''
     Takes a domain name and a Array of emails
