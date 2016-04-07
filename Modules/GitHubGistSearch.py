@@ -15,7 +15,7 @@ from Helpers import helpers
 
 # https://gist.github.com/search?utf8=✓&q=%40enron.com&ref=searchresults
 
-class ClassName:
+class ClassName(object):
 
     def __init__(self, domain, verbose=False):
         self.apikey = False
