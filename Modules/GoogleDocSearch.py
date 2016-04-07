@@ -16,7 +16,7 @@ from Helpers import Parser
 from BeautifulSoup import BeautifulSoup
 
 
-class ClassName:
+class ClassName(object):
 
     def __init__(self, Domain, verbose=False):
         self.apikey = False
