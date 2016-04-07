@@ -2,7 +2,6 @@
 import helpers
 import requests
 import configparser
-import urllib
 import urlparse
 from BeautifulSoup import BeautifulSoup
 

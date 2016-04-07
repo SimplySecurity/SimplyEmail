@@ -6,8 +6,6 @@
 # 3) execute function (calls everthing it neeeds)
 # 4) places the findings into a queue
 import requests
-import urlparse
-import os
 import configparser
 import time
 from subprocess import Popen, PIPE
@@ -15,7 +13,6 @@ from Helpers import Download
 from Helpers import helpers
 from Helpers import Parser
 from bs4 import BeautifulSoup
-from cStringIO import StringIO
 
 # import for "'ascii' codec can't decode byte" error
 import sys

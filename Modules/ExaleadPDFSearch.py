@@ -8,8 +8,6 @@
 import configparser
 import requests
 import time
-import re
-import os
 from Helpers import helpers
 from Helpers import Parser
 from Helpers import Download

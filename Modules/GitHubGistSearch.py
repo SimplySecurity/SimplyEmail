@@ -5,7 +5,6 @@ import configparser
 from BeautifulSoup import BeautifulSoup
 from Helpers import Parser
 from Helpers import helpers
-import time
 
 # Class will have the following properties:
 # 1) name / description

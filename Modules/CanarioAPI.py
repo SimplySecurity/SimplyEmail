@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import configparser
-from BeautifulSoup import BeautifulSoup
 from Helpers import Parser
 from Helpers import helpers
 from Helpers import CanarioAPI

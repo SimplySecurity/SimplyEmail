@@ -7,7 +7,6 @@
 # 4) places the findings into a queue
 import requests
 import urlparse
-import os
 import configparser
 import time
 from subprocess import Popen, PIPE
@@ -15,7 +14,6 @@ from Helpers import Download
 from Helpers import helpers
 from Helpers import Parser
 from BeautifulSoup import BeautifulSoup
-from cStringIO import StringIO
 
 
 class ClassName:

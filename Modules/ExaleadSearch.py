@@ -8,13 +8,9 @@
 import configparser
 import requests
 import time
-import re
-import os
 from Helpers import helpers
 from Helpers import Parser
 from bs4 import BeautifulSoup
-from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
-from pdfminer.converter import TextConverter
 from cStringIO import StringIO
 
 
