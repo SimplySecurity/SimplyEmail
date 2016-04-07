@@ -18,7 +18,7 @@ from Helpers import EmailFormat
 from Helpers import LinkedinNames
 
 
-class Conducter:
+class Conducter(object):
 
     # We are going to do the following in this order:
     # 1) Load Modules
