@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 from random import randint
 
 
-class Download:
+class Download(object):
 
     def __init__(self, verbose=False):
         config = configparser.ConfigParser()
