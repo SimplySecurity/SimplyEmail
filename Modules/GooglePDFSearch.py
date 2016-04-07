@@ -7,7 +7,6 @@
 # 4) places the findings into a queue
 import requests
 import urlparse
-import os
 import configparser
 import time
 from Helpers import helpers
