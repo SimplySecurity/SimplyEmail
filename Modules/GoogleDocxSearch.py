@@ -18,7 +18,7 @@ from Helpers import Download
 from BeautifulSoup import BeautifulSoup
 
 
-class ClassName:
+class ClassName(object):
 
     def __init__(self, Domain, verbose=False):
         self.apikey = False
