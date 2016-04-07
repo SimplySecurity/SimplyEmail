@@ -13,7 +13,7 @@ import helpers
 # Taken from theHarvester
 
 
-class Parser:
+class Parser(object):
 
     def __init__(self, InputData):
         self.InputData = InputData
