@@ -6,7 +6,7 @@ import urlparse
 from BeautifulSoup import BeautifulSoup
 
 
-class Connect6Scraper:
+class Connect6Scraper(object):
 
     '''
     A simple class to scrape names from connect6.com
