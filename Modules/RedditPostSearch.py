@@ -12,7 +12,7 @@ from Helpers import helpers
 from Helpers import Parser
 
 
-class ClassName:
+class ClassName(object):
 
     def __init__(self, Domain, verbose=False):
         self.apikey = False
