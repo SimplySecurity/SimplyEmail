@@ -38,7 +38,7 @@ from Helpers import helpers
 #     output = myfile.write(FinalHtml)
 
 
-class ClassName:
+class ClassName(object):
 
     def __init__(self, domain, verbose=False):
         self.apikey = False
