@@ -443,4 +443,9 @@ Framework Under Dev:
 ( ) Add Threading/Multi to GitHub Search
 ( ) Add Source of collection to HTML Output
 
+Current Issues:
+-----------------------------
+( ) PDF miner Text Extraction Error
+( ) Verify Emails function and only one name list raises errors
+
 ```
