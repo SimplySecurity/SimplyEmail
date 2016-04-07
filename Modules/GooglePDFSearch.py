@@ -72,6 +72,7 @@ class ClassName(object):
             retstr.close()
             return text
         except Exception as e:
+            return text
             if self.verbose:
                 p = ' [*] Google PDF failed to convert: ' + str(e)
                 print helpers.color(p, firewall=True)
