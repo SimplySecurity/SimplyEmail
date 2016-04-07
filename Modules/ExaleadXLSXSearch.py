@@ -21,7 +21,7 @@ sys.setdefaultencoding("utf-8")
 # import for "'ascii' codec can't decode byte" error
 
 
-class ClassName:
+class ClassName(object):
 
     def __init__(self, Domain, verbose=False):
         self.apikey = False
