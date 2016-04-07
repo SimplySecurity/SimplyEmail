@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import requests
 import configparser
 import helpers
 import dns.resolver
