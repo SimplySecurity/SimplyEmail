@@ -9,15 +9,12 @@ import configparser
 import requests
 import time
 import re
-import urlparse
 import os
 from Helpers import helpers
 from Helpers import Parser
 from bs4 import BeautifulSoup
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.converter import TextConverter
-from pdfminer.layout import LAParams
-from pdfminer.pdfpage import PDFPage
 from cStringIO import StringIO
 
 

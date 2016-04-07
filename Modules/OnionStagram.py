@@ -2,7 +2,6 @@
 
 import requests
 import configparser
-import os
 from Helpers import helpers
 from Helpers import Parser
 

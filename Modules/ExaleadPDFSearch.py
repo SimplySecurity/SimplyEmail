@@ -9,7 +9,6 @@ import configparser
 import requests
 import time
 import re
-import urlparse
 import os
 from Helpers import helpers
 from Helpers import Parser

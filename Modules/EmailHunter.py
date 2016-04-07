@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import requests
 import configparser
-from pprint import pprint
 from Helpers import Parser
 from Helpers import helpers
 

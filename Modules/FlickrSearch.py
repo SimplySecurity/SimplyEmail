@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import string
 import requests
 import configparser
 from Helpers import Parser

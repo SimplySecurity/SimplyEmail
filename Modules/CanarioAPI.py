@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import requests
 import configparser
 from BeautifulSoup import BeautifulSoup
 from Helpers import Parser

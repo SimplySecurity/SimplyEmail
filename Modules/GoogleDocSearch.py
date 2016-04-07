@@ -5,7 +5,6 @@
 # 2) main name called "ClassName"
 # 3) execute function (calls everthing it neeeds)
 # 4) places the findings into a queue
-import re
 import requests
 import urlparse
 import os
