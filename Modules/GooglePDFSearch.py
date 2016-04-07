@@ -118,6 +118,8 @@ class ClassName:
                     filetype = ".pdf"
                     # use new helper class to download file
                     FileName, FileDownload = dl.download_file(url, filetype)
+                    print FileName
+                    print FileDownload
                     # check if the file was downloaded
                     if FileDownload:
                         if self.verbose:
@@ -126,7 +128,7 @@ class ClassName:
                             print helpers.color(p, firewall=True)
                         self.Text += self.convert_pdf_to_txt(FileName)
                 except Exception as e:
-                    pass
+                    print e
                 try:
                     # now remove any files left behind
                     dl.delete_file(FileName)

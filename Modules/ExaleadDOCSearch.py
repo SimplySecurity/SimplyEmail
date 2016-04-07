@@ -25,6 +25,7 @@ reload(sys)
 sys.setdefaultencoding("utf-8")
 # import for "'ascii' codec can't decode byte" error
 
+
 class ClassName:
 
     def __init__(self, Domain, verbose=False):
@@ -51,13 +52,11 @@ class ClassName:
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults
 
-
     def convert_doc_to_txt(self, path):
         cmd = ['antiword', path]
         p = Popen(cmd, stdout=PIPE)
         stdout, stderr = p.communicate()
         return stdout.decode('ascii', 'ignore')
-
 
     def search(self):
         while self.Counter <= self.Limit and self.Counter <= 10:
@@ -67,20 +66,25 @@ class ClassName:
                 print helpers.color(p, firewall=True)
             try:
                 url = 'http://www.exalead.com/search/web/results/?q="%40' + self.Domain + \
-                      '"+filetype:word&elements_per_page=' + str(self.Quanity) + '&start_index=' + str(self.Counter)
+                      '"+filetype:word&elements_per_page=' + \
+                    str(self.Quanity) + '&start_index=' + str(self.Counter)
             except Exception as e:
                 error = "[!] Major issue with Exalead DOC Search: " + str(e)
                 print helpers.color(error, warning=True)
             try:
                 r = requests.get(url, headers=self.UserAgent)
             except Exception as e:
-                error = "[!] Fail during Request to Exalead (Check Connection):" + str(e)
+                error = "[!] Fail during Request to Exalead (Check Connection):" + str(
+                    e)
                 print helpers.color(error, warning=True)
             try:
                 RawHtml = r.content
-                self.Text += RawHtml # sometimes url is broken but exalead search results contain e-mail
+                # sometimes url is broken but exalead search results contain
+                # e-mail
+                self.Text += RawHtml
                 soup = BeautifulSoup(RawHtml, "lxml")
-                self.urlList = [h2.a["href"] for h2 in soup.findAll('h4', class_='media-heading')]
+                self.urlList = [h2.a["href"]
+                                for h2 in soup.findAll('h4', class_='media-heading')]
             except Exception as e:
                 error = "[!] Fail during parsing result: " + str(e)
                 print helpers.color(error, warning=True)
@@ -98,18 +102,19 @@ class ClassName:
                     FileName, FileDownload = dl.download_file(url, filetype)
                     if FileDownload:
                         if self.verbose:
-                            p = '[*] Google PDF file was downloaded: ' + str(url)
+                            p = '[*] Exalead PDF file was downloaded: ' + \
+                                str(url)
                             print helpers.color(p, firewall=True)
                         self.Text += self.convert_doc_to_txt(FileName)
                 except Exception as e:
-                    error = "[!] Issue with opening DOC Files:%s\n" %(str(e))
+                    error = "[!] Issue with opening DOC Files:%s\n" % (str(e))
                     print helpers.color(error, warning=True)
                 try:
                     dl.delete_file(FileName)
                 except Exception as e:
                     print e
         except:
-          print helpers.color("[*] No DOC's to download from Exalead!\n", firewall=True)
+            print helpers.color("[*] No DOC's to download from Exalead!\n", firewall=True)
 
         if self.verbose:
             p = '[*] Searching DOC from Exalead Complete'
