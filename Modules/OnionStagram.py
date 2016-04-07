@@ -15,7 +15,7 @@ from Helpers import Parser
 # http://www.oninstagram.com/profile/search?query=@gmail.com
 # this allows raw query, even major like @gmail
 
-class ClassName:
+class ClassName(object):
 
     def __init__(self, Domain, verbose=False):
         self.apikey = False
