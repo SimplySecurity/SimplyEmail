@@ -25,7 +25,7 @@ from Helpers import CanarioAPI
 # Still having some major python errors
 
 
-class ClassName:
+class ClassName(object):
 
     def __init__(self, domain, verbose=False):
         self.apikey = True
