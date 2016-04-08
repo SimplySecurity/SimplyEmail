@@ -23,9 +23,12 @@ class Conducter(object):
     # We are going to do the following in this order:
     # 1) Load Modules
     # 2) Add them to an array
-    # 3) Task selector will take all those module names and place them into a queue
-    # 4) The Threading function will call and pop from the queue and will instanciate that module
-    # 5) The module will than can be dynamic in nature and we can add to the framework easily and effectily
+    # 3) Task selector will take all those module names and place them into a
+    #   queue
+    # 4) The Threading function will call and pop from the queue and will
+    #   instanciate that module
+    # 5) The module will than can be dynamic in nature and we can add to the
+    #   framework easily and effectily
     # 6) The module will place the results (emails) into a results queue in
     # memmory so we can output to Sqlite or WebPage or Console
 
@@ -459,6 +462,8 @@ class Conducter(object):
                 BuiltNameCount = len(BuiltNames)
             if not Names:
                 BuiltNames = []
+            if not FinalEmailList:
+                FinalEmailList = []
             if Verify:
                 val = self.VerifyScreen()
                 if val:
@@ -575,6 +580,7 @@ class Conducter(object):
                     break
             if Answer.upper() != "B":
                 Names = c6.Connect6Download(Answer)
+                print Names
                 if Names:
                     e = ' [*] Connect6 has Gathred: ' + \
                         str(len(Names)) + ' Names'
