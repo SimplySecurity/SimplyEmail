@@ -51,27 +51,35 @@ def TaskControler(version):
     # Get all the options passed and pass it to the TaskConducter, this will
     # keep all the prcessing on the side.
     # need to pass the store true somehow to tell printer to restrict output
+    log = helpers.log()
+    log.start()
     cli_all, cli_domain, cli_list, cli_test, cli_scope, cli_names, cli_verify, cli_verbose = cli_parser()
     cli_domain = cli_domain.lower()
     Task = TaskController.Conducter()
     Task.load_modules()
     if cli_list:
+        log.infomsg("Tasked to List Modules", "Main")
         Task.ListModules()
         V = VersionCheck.VersionCheck(version)
         V.VersionRequest()
         sys.exit(0)
     if not len(cli_domain) > 1:
+        log.warningmsg("Domain not supplied", "Main")
         print helpers.color("[*] No Domain Supplied to start up!\n", warning=True)
         sys.exit(0)
     if cli_test:
         # setup a small easy test to activate certain modules
+        log.infomsg("Tasked to Test Module: " + cli_test, "Main")
         V = VersionCheck.VersionCheck(version)
         V.VersionRequest()
-        Task.TestModule(cli_domain, cli_test, verbose=cli_verbose, scope=cli_scope, Names=cli_names, Verify=cli_verify)
+        Task.TestModule(cli_domain, cli_test, verbose=cli_verbose,
+                        scope=cli_scope, Names=cli_names, Verify=cli_verify)
     if cli_all:
+        log.infomsg("Tasked to run all modules on domain: " + cli_domain, "Main")
         V = VersionCheck.VersionCheck(version)
         V.VersionRequest()
-        Task.TaskSelector(cli_domain, verbose=cli_verbose, scope=cli_scope, Names=cli_names, Verify=cli_verify)
+        Task.TaskSelector(cli_domain, verbose=cli_verbose,
+                          scope=cli_scope, Names=cli_names, Verify=cli_verify)
 
 
 # def GenerateReport():
@@ -86,7 +94,7 @@ def main():
         config.read('Common/SimplyEmail.ini')
         version = str(config['GlobalSettings']['Version'])
     except Exception as e:
-            print e
+        print e
     orc = TaskController.Conducter()
     orc.title()
     orc.title_screen()

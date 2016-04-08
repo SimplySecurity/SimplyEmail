@@ -3,6 +3,7 @@ import helpers
 import requests
 import configparser
 import urlparse
+import logging
 from BeautifulSoup import BeautifulSoup
 
 
@@ -15,6 +16,7 @@ class Connect6Scraper(object):
     def __init__(self, domain, Verbose=False):
         config = configparser.ConfigParser()
         try:
+            self.logger = logging.getLogger("SimplyEmail.Connect6")
             config.read('Common/SimplyEmail.ini')
             self.UserAgent = {
                 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}

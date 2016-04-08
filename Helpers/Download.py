@@ -3,6 +3,7 @@ import requests
 import os
 import configparser
 import helpers
+import logging
 from bs4 import BeautifulSoup
 from random import randint
 
@@ -12,6 +13,7 @@ class Download(object):
     def __init__(self, verbose=False):
         config = configparser.ConfigParser()
         try:
+            self.logger = logging.getLogger("SimplyEmail.VersionCheck")
             self.verbose = verbose
             config.read('Common/SimplyEmail.ini')
             self.UserAgent = {

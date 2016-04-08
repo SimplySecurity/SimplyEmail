@@ -2,6 +2,7 @@
 import requests
 import configparser
 import helpers
+import logging
 
 
 class VersionCheck(object):
@@ -9,6 +10,7 @@ class VersionCheck(object):
     def __init__(self, version):
         config = configparser.ConfigParser()
         try:
+            self.logger = logging.getLogger("SimplyEmail.VersionCheck")
             self.version = str(version)
             config.read('Common/SimplyEmail.ini')
             self.Start = config['GlobalSettings']['VersionRepoCheck']
@@ -21,6 +23,7 @@ class VersionCheck(object):
 
     def VersionRequest(self):
         if self.Start == "Yes":
+            self.logger.info("Verison / Update request started")
             try:
                 r = requests.get(self.RepoLocation, headers=self.UserAgent)
                 results = r.content
@@ -28,6 +31,11 @@ class VersionCheck(object):
                 if str(results) != str(self.version):
                     p = " [!] Newer Version Available, Re-Run Setup.sh to update!"
                     print helpers.color(p, warning=True, bold=False)
+                    self.logger.info(
+                        "Verison / Update returned newer Version Available")
+                self.logger.info("Verison / Update request completed OK")
             except Exception as e:
                 error = "[!] Fail during Request to Update/Version Check (Check Connection)"
+                self.logger.error(
+                    "Fail during Request to Update/Version Check (Check Connection)" + e)
                 print helpers.color(error, warning=True)

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import json
 import requests
+import logging
 
 # https://github.com/CanaryPW/Canary-Python
 

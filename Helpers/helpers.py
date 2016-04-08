@@ -2,6 +2,7 @@
 
 import os
 import textwrap
+import logging
 from fake_useragent import UserAgent
 
 
@@ -62,7 +63,46 @@ def DirectoryListing(directory):
                 dirs.append(path)
     return dirs
 
+
 def getua():
     # gets a random useragent and returns the UA
     ua = UserAgent()
     return ua.random
+
+
+######################
+#Setup Logging Class #
+######################
+
+class log(object):
+
+    """simple logging testing and dev"""
+
+    def __init__(self):
+        self.name = ".SimplyEmail.log"
+
+    def start(self):
+        logger = logging.getLogger("SimplyEmail")
+        logger.setLevel(logging.INFO)
+        fh = logging.FileHandler(self.name)
+        formatter = logging.Formatter(
+            '%(asctime)s-[%(name)s]-[%(levelname)s]- %(message)s')
+        fh.setFormatter(formatter)
+        logger.addHandler(fh)
+        logger.info("Program started")
+
+    def infomsg(self, message, modulename):
+        try:
+            msg = 'SimplyEmail.' + str(modulename)
+            logger = logging.getLogger(msg)
+            logger.info(str(message))
+        except Exception as e:
+            print e
+
+    def warningmsg(self, message, modulename):
+        try:
+            msg = 'SimplyEmail.' + str(modulename)
+            logger = logging.getLogger(msg)
+            logger.warning(str(message))
+        except Exception as e:
+            print e

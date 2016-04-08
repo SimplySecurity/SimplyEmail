@@ -23,7 +23,7 @@ class Conducter(object):
     # We are going to do the following in this order:
     # 1) Load Modules
     # 2) Add them to an array
-    # 3) Task selector will take all those module names and place them into a
+    # 3) Task selector will take all those module names and place them into a 
     #   queue
     # 4) The Threading function will call and pop from the queue and will
     #   instanciate that module
