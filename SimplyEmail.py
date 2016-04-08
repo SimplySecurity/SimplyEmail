@@ -75,7 +75,7 @@ def TaskControler(version):
         Task.TestModule(cli_domain, cli_test, verbose=cli_verbose,
                         scope=cli_scope, Names=cli_names, Verify=cli_verify)
     if cli_all:
-        log.infomsg("Tasked to run all modules on domain: " + cli_domain, "Main")
+        log.infomsg("Tasked to run all Modules on domain: " + cli_domain, "Main")
         V = VersionCheck.VersionCheck(version)
         V.VersionRequest()
         Task.TaskSelector(cli_domain, verbose=cli_verbose,

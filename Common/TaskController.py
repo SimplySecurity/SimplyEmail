@@ -9,6 +9,7 @@ import sys
 import warnings
 import time
 import subprocess
+import logging
 import datetime
 from Helpers import helpers
 from Helpers import HtmlBootStrapTheme
@@ -44,13 +45,16 @@ class Conducter(object):
         self.HtmlList = []
         self.Tasks = []
         self.ResultsList = []
+        self.logger = logging.getLogger("SimplyEmail.TaskController")
         try:
             config = configparser.ConfigParser()
             config.read('Common/SimplyEmail.ini')
             self.version = str(config['GlobalSettings']['Version'])
+            self.logger.info("SimplyEmail Verison set to: " + self.version)
             # setup working dir for results
             t = datetime.datetime.now()
             self.TimeDate = str(t.strftime("%Y%m%d-%H%M"))
+            self.logger.info("SimplyEmail started at: " + self.TimeDate)
         except Exception as e:
             print e
 
@@ -141,6 +145,7 @@ class Conducter(object):
                 except Exception as e:
                     print e
             print helpers.color(" [*] Completed output!", status=True)
+            self.logger.info("Verison / Update request started")
             return x
         elif VerifyEmail:
             x = 0
@@ -184,6 +189,7 @@ class Conducter(object):
     def HtmlPrinter(self, HtmlFinalEmailList, Domain):
         # Builds the HTML file
         # try:
+        self.logger.debug("HTML Printer started")
         buildpath = str(Domain) + "-" + self.TimeDate
         Html = HtmlBootStrapTheme.HtmlBuilder(HtmlFinalEmailList, Domain)
         Html.BuildHtml()
@@ -195,6 +201,7 @@ class Conducter(object):
     def CleanResults(self, domain, scope=False):
         # Clean Up results, remove dupplicates and enforce strict Domain reuslts (future)
         # Set Timeout or you wont leave the While loop
+        self.logger.debug("Clean Results started")
         SecondList = []
         HtmlSecondList = []
         # Validate the domain.. this can mess up but i dont want to miss
@@ -232,7 +239,8 @@ class Conducter(object):
         for item in HtmlSecondList:
             if item not in HtmlFinalList:
                 HtmlFinalList.append(item)
-        print helpers.color(" [*] Completed Cleaning Results", status=True)
+        print helpers.color(" [*] Completed cleaning results", status=True)
+        self.logger.info("Completed cleaning results")
         return FinalList, HtmlFinalList
 
     def Consumer(self, Results_queue):
@@ -263,6 +271,7 @@ class Conducter(object):
         # Rather than using If statment on every task that needs to be done
 
         # Build our Queue of work for emails that we will gather
+        self.logger.debug("Starting TaskSelector for: " + str(domain))
         Task_queue = multiprocessing.Queue()
         Results_queue = multiprocessing.Queue()
         Html_queue = multiprocessing.Queue()
@@ -272,6 +281,7 @@ class Conducter(object):
         Config = configparser.ConfigParser()
         Config.read("Common/SimplyEmail.ini")
         total_proc = int(Config['ProcessConfig']['TottalProcs'])
+        self.logger.debug("TaskSelector processor set to: " + str(total_proc))
         # Place our email tasks in a queue
         for Task in self.modules:
             Task_queue.put(Task)
@@ -325,12 +335,14 @@ class Conducter(object):
                     error = " [!] Something went wrong with parsing results:" + \
                         str(e)
                     print helpers.color(error, warning=True)
+                    self.logger.critical("Something went wrong with parsing results: " + str(e))
                 try:
                     FinalCount = self.printer(FinalEmailList, domain)
                 except Exception as e:
                     error = " [!] Something went wrong with outputixng results:" + \
                         str(e)
                     print helpers.color(error, warning=True)
+                    self.logger.critical("Something went wrong with outputixng results: " + str(e))
                 Results_queue.close()
                 try:
                     self.HtmlPrinter(HtmlFinalEmailList, domain)
@@ -338,9 +350,11 @@ class Conducter(object):
                     error = " [!] Something went wrong with HTML results:" + \
                         str(e)
                     print helpers.color(error, warning=True)
+                    self.logger.critical("Something went wrong with HTML results:: " + str(e))
                 break
         for p in procs:
             p.join()
+            self.logger.debug("TaskSelector processes joined!")
         Task_queue.close()
         BuiltNameCount = 0
         try:
@@ -378,9 +392,11 @@ class Conducter(object):
     # Helps with testing only one module at a time. Helping with proper
     # Module Dev and testing before intergration
     def TestModule(self, domain, module, verbose=False, scope=False, Names=False, Verify=False):
+        self.logger.debug("Starting TaskSelector for: " + str(domain))
         Config = configparser.ConfigParser()
         Config.read("Common/SimplyEmail.ini")
         total_proc = int(1)
+        self.logger.debug("Test TaskSelector processor set to: " + str(total_proc))
         Task_queue = multiprocessing.JoinableQueue()
         Results_queue = multiprocessing.Queue()
         Html_queue = multiprocessing.Queue()
@@ -434,12 +450,14 @@ class Conducter(object):
                     error = " [!] Something went wrong with parsing results:" + \
                         str(e)
                     print helpers.color(error, warning=True)
+                    self.logger.critical("Something went wrong with parsing results: " + str(e))
                 try:
                     FinalCount = self.printer(FinalEmailList, domain)
                 except Exception as e:
                     error = " [!] Something went wrong with outputing results:" + \
                         str(e)
                     print helpers.color(error, warning=True)
+                    self.logger.critical("Something went wrong with outputixng results: " + str(e))
                 Results_queue.close()
                 try:
                     self.HtmlPrinter(HtmlFinalEmailList, domain)
@@ -447,6 +465,7 @@ class Conducter(object):
                     error = " [!] Something went wrong with HTML results:" + \
                         str(e)
                     print helpers.color(error, warning=True)
+                    self.logger.critical("Something went wrong with HTML results:: " + str(e))
                 # Check for valid emails if user wants
                 break
         for p in procs:
@@ -493,6 +512,7 @@ class Conducter(object):
         of names in indiviual lists.
         All the basic logic is here.
         '''
+        self.logger.debug("Starting NameBuilder")
         self.title()
         ValidFormat = ['{first}.{last}', '{first}{last}', '{f}{last}',
                        '{f}.{last}', '{first}{l}', '{first}_{last}', '{first}']
@@ -501,12 +521,14 @@ class Conducter(object):
         CleanNames = []
         # Query for Linkedin Names - Adapted from
         # https://github.com/pan0pt1c0n/PhishBait
+        self.logger.debug("Starting LinkedinScraper for names")
         Li = LinkedinNames.LinkedinScraper(domain, Verbose=Verbose)
         LNames = Li.LinkedInNames()
         if LNames:
             e = ' [*] LinkedinScraper has Gathred: ' + \
                 str(len(LNames)) + ' Names'
             print helpers.color(e, status=True)
+            self.logger.info("LinkedinScraper has Gathred: " + str(len(LNames)))
             for raw in LNames:
                 try:
                     name = Li.LinkedInClean(raw)
@@ -514,11 +536,13 @@ class Conducter(object):
                         CleanNames.append(name)
                 except Exception as e:
                     print e
+                    self.logger.error("Issue cleaning LinkedInNames: " + str(e))
         # Query for Connect6 Names
         c6 = Connect6.Connect6Scraper(domain, Verbose=Verbose)
         urllist = c6.Connect6AutoUrl()
         self.title()
         print helpers.color(" [*] Now Starting Connect6 Scrape:")
+        self.logger.info("Now starting Connect6 scrape")
         if urllist:
             line = " [*] SimplyEmail has attempted to find correct URL for Connect6:\n"
             line += "     URL detected: " + \
@@ -692,6 +716,7 @@ class Conducter(object):
             if name.endswith(".py") and ("__init__" not in name):
                 loaded_modules = imp.load_source(
                     name.replace("/", ".").rstrip('.py'), name)
+                self.logger.debug("Loading Module: " + str(loaded_modules))
                 self.modules[name] = loaded_modules
                 self.dmodules[x] = loaded_modules
                 x += 1
@@ -700,6 +725,7 @@ class Conducter(object):
 
     def ListModules(self):
         print helpers.color(" [*] Available Modules are:\n", blue=True)
+        self.logger.debug("User Executed ListModules")
         lastBase = None
         x = 1
         for name in self.modules:
@@ -714,6 +740,7 @@ class Conducter(object):
     def title(self):
         os.system('clear')
         # stolen from Veil :)
+        self.logger.debug("Title executed")
         print " ============================================================"
         print " Current Version: " + self.version + " | Website: CyberSyndicates.com"
         print " ============================================================"
@@ -721,6 +748,7 @@ class Conducter(object):
         print " ============================================================"
 
     def title_screen(self):
+        self.logger.debug("Title_screen executed")
         offtext = """------------------------------------------------------------
    ______  ________                       __ __
  /      \/        |                     /  /  |
@@ -772,6 +800,7 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
     def VerifyScreen(self):
         # Ask user to open report on CLI
         self.title()
+        self.logger.debug("VerifyScreen executed")
         line = " [*] Email reconnaissance has been completed:\n\n"
         line += "    Email verification will allow you to use common methods\n"
         line += "    to attempt to enumerate if the email is valid.\n"
@@ -783,7 +812,9 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
         Answer = raw_input(helpers.color(Question, bold=False))
         Answer = Answer.upper()
         if Answer in "NO":
+            self.logger.info("User declined to run verify emails")
             return False
         if Answer in "YES":
             # gnome-open cisco.doc
+            self.logger.info("User opted verify emails")
             return True

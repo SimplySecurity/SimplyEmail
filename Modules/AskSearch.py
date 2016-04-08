@@ -3,6 +3,7 @@
 # https://github.com/laramies/theHarvester/blob/master/discovery/asksearch.py
 import configparser
 import requests
+import logging
 from Helpers import Parser
 from Helpers import helpers
 
@@ -17,6 +18,7 @@ class ClassName(object):
 
     def __init__(self, Domain, verbose=False):
         self.apikey = False
+        self.logger = logging.getLogger("SimplyEmail.AskSearch")
         self.name = "Ask Search for Emails"
         self.description = "Simple Ask Search for Emails"
         config = configparser.ConfigParser()
@@ -29,10 +31,13 @@ class ClassName(object):
             self.Domain = Domain
             self.verbose = verbose
             self.Html = ""
-        except:
+        except Exception as e:
+            self.logger.critical(
+                'AskSearch module failed to load: ' + str(self.e))
             print helpers.color("[*] Major Settings for Ask Search are missing, EXITING!\n", warning=True)
 
     def execute(self):
+        self.logger.info("AskSearch module started")
         self.process()
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults
@@ -42,17 +47,21 @@ class ClassName(object):
             if self.verbose:
                 p = '[*] AskSearch on page: ' + str(self.Counter)
                 print helpers.color(p, firewall=True)
+                self.logger.info('AskSearch on page: ' + str(self.Counter))
             try:
                 url = 'http://www.ask.com/web?q=@' + str(self.Domain) + \
                     '&pu=10&page=' + str(self.Counter)
             except Exception as e:
                 error = "[!] Major issue with Ask Search:" + str(e)
+                self.logger.error('Major issue with Ask Search: ' + str(e))
                 print helpers.color(error, warning=True)
             try:
                 r = requests.get(url, headers=self.UserAgent)
             except Exception as e:
                 error = "[!] Fail during Request to Ask (Check Connection):" + \
                     str(e)
+                self.logger.error(
+                    'Fail during Request to Ask (Check Connection): ' + str(e))
                 print helpers.color(error, warning=True)
             results = r.content
             self.Html += results
@@ -64,4 +73,5 @@ class ClassName(object):
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
+        self.logger.debug('Fail during')
         return FinalOutput, HtmlResults
