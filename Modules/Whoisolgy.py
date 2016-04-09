@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import requests
 import configparser
+import logging
 from Helpers import Parser
 from Helpers import helpers
 
@@ -18,6 +19,7 @@ class ClassName(object):
     def __init__(self, domain, verbose=False):
         self.apikey = False
         self.name = "Searching Whoisology"
+        self.logger = logging.getLogger("SimplyEmail.Whoisology")
         self.description = "Search the Whoisology database for potential POC emails"
         self.domain = domain
         config = configparser.ConfigParser()
@@ -26,7 +28,9 @@ class ClassName(object):
             config.read('Common/SimplyEmail.ini')
             self.UserAgent = str(config['GlobalSettings']['UserAgent'])
             self.verbose = verbose
-        except:
+        except Exception as e:
+            self.logger.critical(
+                'Whoisology module failed to load: ' + str(e))
             print helpers.color("[*] Major Settings for Search Whoisology are missing, EXITING!\n", warning=True)
 
     def execute(self):

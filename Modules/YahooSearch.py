@@ -38,7 +38,7 @@ class ClassName(object):
             self.Html = ""
         except Exception as e:
             self.logger.critical(
-                'YahooSearch module failed to load: ' + str(self.e))
+                'YahooSearch module failed to load: ' + str(e))
             print helpers.color("[*] Major Settings for YahooSearch are missing, EXITING!\n", warning=True)
 
     def execute(self):
