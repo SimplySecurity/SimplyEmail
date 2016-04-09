@@ -59,7 +59,7 @@ class ClassName(object):
                     '&b=' + str(self.Counter) + "&pz=" + str(self.Quanity)
             except Exception as e:
                 error = "[!] Major issue with Yahoo Search:" + str(e)
-                self.logger.error("Yahoo Search can not creat URL:")
+                self.logger.error("Yahoo Search can not create URL:")
                 print helpers.color(error, warning=True)
             try:
                 self.logger.debug("YahooSearch starting request on: " + str(url))
