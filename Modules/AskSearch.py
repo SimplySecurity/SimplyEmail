@@ -37,7 +37,7 @@ class ClassName(object):
             print helpers.color("[*] Major Settings for Ask Search are missing, EXITING!\n", warning=True)
 
     def execute(self):
-        self.logger.info("AskSearch module started")
+        self.logger.debug("AskSearch module started")
         self.process()
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults
@@ -73,5 +73,5 @@ class ClassName(object):
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
-        self.logger.debug('Fail during')
+        self.logger.debug('AskSearch completed search')
         return FinalOutput, HtmlResults

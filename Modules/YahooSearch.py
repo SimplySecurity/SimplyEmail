@@ -13,6 +13,7 @@
 import configparser
 import requests
 import time
+import logging
 from Helpers import helpers
 from Helpers import Parser
 
@@ -26,6 +27,7 @@ class ClassName(object):
         config = configparser.ConfigParser()
         try:
             config.read('Common/SimplyEmail.ini')
+            self.logger = logging.getLogger("SimplyEmail.YahooSearch")
             self.Domain = Domain
             self.Quanity = int(config['YahooSearch']['StartQuantity'])
             self.UserAgent = {
@@ -34,10 +36,13 @@ class ClassName(object):
             self.Counter = int(config['YahooSearch']['QueryStart'])
             self.verbose = verbose
             self.Html = ""
-        except:
+        except Exception as e:
+            self.logger.critical(
+                'YahooSearch module failed to load: ' + str(self.e))
             print helpers.color("[*] Major Settings for YahooSearch are missing, EXITING!\n", warning=True)
 
     def execute(self):
+        self.logger.debug("AskSearch Started")
         self.search()
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults
@@ -47,18 +52,22 @@ class ClassName(object):
             time.sleep(1)
             if self.verbose:
                 p = '[*] Yahoo Search on page: ' + str(self.Counter)
+                self.logger.info("YahooSearch on page:" + str(self.Counter))
                 print helpers.color(p, firewall=True)
             try:
                 url = 'https://search.yahoo.com/search?p=' + str(self.Domain) + \
                     '&b=' + str(self.Counter) + "&pz=" + str(self.Quanity)
             except Exception as e:
                 error = "[!] Major issue with Yahoo Search:" + str(e)
+                self.logger.error("Yahoo Search can not creat URL:")
                 print helpers.color(error, warning=True)
             try:
+                self.logger.debug("YahooSearch starting request on: " + str(url))
                 r = requests.get(url, headers=self.UserAgent)
             except Exception as e:
                 error = "[!] Fail during Request to Yahoo (Check Connection):" + \
                     str(e)
+                self.logger.error("YahooSearch failed to request (Check Connection)")
                 print helpers.color(error, warning=True)
             results = r.content
             self.Html += results
@@ -70,4 +79,5 @@ class ClassName(object):
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
+        self.logger.debug('YahooSearch completed search')
         return FinalOutput, HtmlResults
