@@ -2,6 +2,7 @@
 #!/usr/bin/env python
 import requests
 import configparser
+import logging
 from Helpers import Parser
 from Helpers import helpers
 
@@ -23,12 +24,16 @@ class ClassName(object):
         self.verbose = verbose
         self.results = ""
         try:
+            self.logger = logging.getLogger("SimplyEmail.WhoisAPISearch")
             config.read('Common/SimplyEmail.ini')
             self.UserAgent = str(config['GlobalSettings']['UserAgent'])
-        except:
+        except Exception as e:
+            self.logger.critical(
+                'WhoisAPISearch module failed to load: ' + str(e))
             print helpers.color("[*] Major Settings for Search Whois are missing, EXITING!\n", warning=True)
 
     def execute(self):
+        self.logger.debug("WhoisAPISearch Started")
         self.process()
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults
@@ -37,12 +42,15 @@ class ClassName(object):
         try:
             if self.verbose:
                 p = '[*] Requesting API on HackerTarget whois'
+                self.logger.info("Requesting API on HackerTarget whois")
                 print helpers.color(p, firewall=True)
             url = "http://api.hackertarget.com/whois/?q=" + \
                 self.domain
             r = requests.get(url)
         except Exception as e:
             error = "[!] Major issue with Whois Search:" + str(e)
+            self.logger.error(
+                "Failed to request URL (Check Connection): " + str(e))
             print helpers.color(error, warning=True)
         self.results = r.content
 
@@ -50,4 +58,5 @@ class ClassName(object):
         Parse = Parser.Parser(self.results)
         FinalOutput = Parse.GrepFindEmails()
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
+        self.logger.debug('WhoisAPISearch completed search')
         return FinalOutput, HtmlResults

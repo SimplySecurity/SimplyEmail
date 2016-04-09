@@ -143,4 +143,5 @@ class ClassName(object):
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
+        self.logger.debug('GoogleXlsxSearch completed search')
         return FinalOutput, HtmlResults
