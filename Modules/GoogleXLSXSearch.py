@@ -67,7 +67,7 @@ class ClassName(object):
             time.sleep(1)
             if self.verbose:
                 p = '[*] Google XLSX Search on page: ' + str(self.Counter)
-                self.logger.error(
+                self.logger.info(
                     "Google XLSX Search on page: " + str(self.Counter))
                 print helpers.color(p, firewall=True)
             try:

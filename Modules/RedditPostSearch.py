@@ -8,6 +8,7 @@
 import configparser
 import requests
 import time
+import logging
 from Helpers import helpers
 from Helpers import Parser
 
@@ -20,6 +21,7 @@ class ClassName(object):
         self.description = "Uses RedditPosts to search for emails, and Parse the raw results ATM"
         config = configparser.ConfigParser()
         try:
+            self.logger = logging.getLogger("SimplyEmail.RedditPostSearch")
             config.read('Common/SimplyEmail.ini')
             self.Domain = Domain
             self.UserAgent = {
@@ -28,10 +30,13 @@ class ClassName(object):
             self.Counter = int(config['RedditPostSearch']['QueryStart'])
             self.verbose = verbose
             self.Html = ""
-        except:
+        except Exception as e:
+            self.logger.critical(
+                'RedditPostSearch module failed to load: ' + str(e))
             print helpers.color("[*] Major Settings for RedditPostSearch are missing, EXITING!\n", warning=True)
 
     def execute(self):
+        self.logger.debug("RedditPostSearch started")
         self.search()
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults
@@ -41,6 +46,8 @@ class ClassName(object):
             time.sleep(1)
             if self.verbose:
                 p = '[*] RedditPost Search on result: ' + str(self.Counter)
+                self.logger.debug(
+                    "RedditPost Search on result: " + str(self.Counter))
                 print helpers.color(p, firewall=True)
             try:
                 url = "https://www.reddit.com/search?q=%40" + str(self.Domain) + \
@@ -48,12 +55,16 @@ class ClassName(object):
                     '&after=t3_3mkrqg'
             except Exception as e:
                 error = "[!] Major issue with RedditPost search:" + str(e)
+                self.logger.error(
+                    "Major issue with RedditPostSearch: " + str(e))
                 print helpers.color(error, warning=True)
             try:
                 r = requests.get(url, headers=self.UserAgent)
             except Exception as e:
                 error = "[!] Fail during Request to Reddit (Check Connection):" + \
                     str(e)
+                self.logger.error(
+                    "Fail during Request to Reddit (Check Connection): " + str(e))
                 print helpers.color(error, warning=True)
             results = r.content
             self.Html += results
@@ -66,4 +77,5 @@ class ClassName(object):
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
+        self.logger.debug("RedditPostSearch completed search")
         return FinalOutput, HtmlResults

@@ -30,7 +30,7 @@ class ClassName(object):
             self.verbose = verbose
         except Exception as e:
             self.logger.critical(
-                'Whoisology module failed to load: ' + str(e))
+                'Whoisology module failed to __init__: ' + str(e))
             print helpers.color("[*] Major Settings for Search Whoisology are missing, EXITING!\n", warning=True)
 
     def execute(self):

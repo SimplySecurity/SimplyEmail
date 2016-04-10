@@ -29,7 +29,7 @@ class ClassName(object):
             self.UserAgent = str(config['GlobalSettings']['UserAgent'])
         except Exception as e:
             self.logger.critical(
-                'WhoisAPISearch module failed to load: ' + str(e))
+                'WhoisAPISearch module failed to __init__: ' + str(e))
             print helpers.color("[*] Major Settings for Search Whois are missing, EXITING!\n", warning=True)
 
     def execute(self):
