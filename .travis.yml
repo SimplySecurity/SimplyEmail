@@ -5,6 +5,7 @@ install:
   - pip install coveralls
   - pip install coverage
   - pip install nose
+  - pip install useragent fake_useragent
 script:
   - "sudo sh Setup.sh"
   - "sudo ./SimplyEmail.py -l"
