@@ -279,8 +279,15 @@ As I mentioned before a powerful function that I wanted to integrate was the abi
 - shinichiro.hamaji--at--gmail.com
 
 ##Build Log:
-####Changelog (Current v1.0):
+####Changelog (Current v1.4):
 ```
+===================================
+Framework Improvements v1.4:
+-----------------------------
+(x) Added in request function to improve stability
+(x) Added in new logging features for debuging
+
+
 ===================================
 Framework Improvements v1.3:
 -----------------------------

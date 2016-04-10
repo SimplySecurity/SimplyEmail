@@ -2,7 +2,7 @@
 # Port from theHarvester! Shout out to him for the code:
 # https://github.com/laramies/theHarvester/blob/master/discovery/asksearch.py
 import configparser
-import requests
+from Helpers import Download
 import logging
 from Helpers import Parser
 from Helpers import helpers
@@ -33,7 +33,7 @@ class ClassName(object):
             self.Html = ""
         except Exception as e:
             self.logger.critical(
-                'AskSearch module failed to load: ' + str(self.e))
+                'AskSearch module failed to load: ' + str(e))
             print helpers.color("[*] Major Settings for Ask Search are missing, EXITING!\n", warning=True)
 
     def execute(self):
@@ -43,28 +43,28 @@ class ClassName(object):
         return FinalOutput, HtmlResults
 
     def process(self):
+        dl = Download.Download(self.verbose)
         while self.Counter <= self.PageLimit:
             if self.verbose:
-                p = '[*] AskSearch on page: ' + str(self.Counter)
+                p = ' [*] AskSearch on page: ' + str(self.Counter)
                 print helpers.color(p, firewall=True)
                 self.logger.info('AskSearch on page: ' + str(self.Counter))
             try:
                 url = 'http://www.ask.com/web?q=@' + str(self.Domain) + \
                     '&pu=10&page=' + str(self.Counter)
             except Exception as e:
-                error = "[!] Major issue with Ask Search:" + str(e)
+                error = " [!] Major issue with Ask Search:" + str(e)
                 self.logger.error('Major issue with Ask Search: ' + str(e))
                 print helpers.color(error, warning=True)
             try:
-                r = requests.get(url, headers=self.UserAgent)
+                rawhtml = dl.requesturl(url, useragent=self.UserAgent)
             except Exception as e:
-                error = "[!] Fail during Request to Ask (Check Connection):" + \
+                error = " [!] Fail during Request to Ask (Check Connection):" + \
                     str(e)
                 self.logger.error(
                     'Fail during Request to Ask (Check Connection): ' + str(e))
                 print helpers.color(error, warning=True)
-            results = r.content
-            self.Html += results
+            self.Html += rawhtml
             self.Counter += 1
 
     def get_emails(self):

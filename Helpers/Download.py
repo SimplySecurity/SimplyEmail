@@ -13,7 +13,7 @@ class Download(object):
     def __init__(self, verbose=False):
         config = configparser.ConfigParser()
         try:
-            self.logger = logging.getLogger("SimplyEmail.VersionCheck")
+            self.logger = logging.getLogger("SimplyEmail.Download")
             self.verbose = verbose
             config.read('Common/SimplyEmail.ini')
             self.UserAgent = {
@@ -66,3 +66,49 @@ class Download(object):
             return True
         else:
             return False
+
+    def requesturl(self, url, useragent, timeout=5, retrytime=3):
+        """
+        A very simple request function
+        This is setup to handle the following parms:
+
+        url = the passed in url to request
+        useragent = the useragent to use
+        timeout = how long to wait if no "BYTES" rec
+
+        Exception handling will also retry on the event of
+        a timeout and warn the user.
+        """
+        rawhtml = ""
+        try:
+            r = requests.get(url, headers=self.UserAgent, timeout=timeout)
+            rawhtml = r.content
+        except requests.exceptions.Timeout:
+            #  set up for a retry
+            if self.verbose:
+                p = ' [!] Request for url timed out, retrying: ' + url
+                self.logger.info('Request timed out, retrying: ' + url)
+                print helpers.color(p, firewall=True)
+            r = requests.get(url, headers=self.UserAgent, timeout=retrytime)
+            rawhtml = r.content
+        except requests.exceptions.TooManyRedirects:
+            # fail and move on, alert user
+            if self.verbose:
+                p = ' [!] Request for url resulted in bad url: ' + url
+                self.logger.error(
+                    'Request for url resulted in bad url: ' + url)
+                print helpers.color(p, warning=True)
+        except requests.exceptions.RequestException as e:
+            # catastrophic error. bail.
+            if self.verbose:
+                p = ' [!] Request for url resulted in major error: ' + str(e)
+                self.logger.critical(
+                    'Request for url resulted in major error: ' + str(e))
+                print helpers.color(p, warning=True)
+        except Exception as e:
+            p = ' [!] Request for url resulted in unhandled error: ' + str(e)
+            self.logger.critical(
+                'Request for url resulted in unhandled error: ' + str(e))
+        # just return blank data if failed
+        # to prevent bails
+        return rawhtml
