@@ -2,8 +2,8 @@
 # Port from theHarvester! Shout out to him for the code:
 # https://github.com/laramies/theHarvester/blob/master/discovery/asksearch.py
 import configparser
-from Helpers import Download
 import logging
+from Helpers import Download
 from Helpers import Parser
 from Helpers import helpers
 
@@ -68,10 +68,7 @@ class ClassName(object):
             self.Counter += 1
 
     def get_emails(self):
-        Parse = Parser.Parser(self.Html)
-        Parse.genericClean()
-        Parse.urlClean()
-        FinalOutput = Parse.GrepFindEmails()
-        HtmlResults = Parse.BuildResults(FinalOutput, self.name)
+        parse = Parser.Parser(self.Html)
+        FinalOutput, HtmlResults = parse.extendedclean(self.name)
         self.logger.debug('AskSearch completed search')
         return FinalOutput, HtmlResults

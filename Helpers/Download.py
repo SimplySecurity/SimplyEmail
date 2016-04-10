@@ -67,7 +67,7 @@ class Download(object):
         else:
             return False
 
-    def requesturl(self, url, useragent, timeout=5, retrytime=3):
+    def requesturl(self, url, useragent, timeout=5, retrytime=3, statuscode=False, raw=False):
         """
         A very simple request function
         This is setup to handle the following parms:
@@ -83,6 +83,8 @@ class Download(object):
         try:
             r = requests.get(url, headers=self.UserAgent, timeout=timeout)
             rawhtml = r.content
+            self.logger.debug(
+                'Request completed: code = ' + str(r.status_code) + ' size = ' + str(len(rawhtml)) + ' url = ' + str(url))
         except requests.exceptions.Timeout:
             #  set up for a retry
             if self.verbose:
@@ -111,4 +113,12 @@ class Download(object):
                 'Request for url resulted in unhandled error: ' + str(e))
         # just return blank data if failed
         # to prevent bails
-        return rawhtml
+        if statuscode:
+            # return status code and html
+            status = r.status_code
+            return rawhtml, status
+        elif raw:
+            # return raw request object
+            return r
+        else:
+            return rawhtml

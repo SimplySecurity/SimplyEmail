@@ -286,6 +286,7 @@ Framework Improvements v1.4:
 -----------------------------
 (x) Added in request function to improve stability
 (x) Added in new logging features for debuging
+(x) Fixed issue with the way thread consumers handled errors
 
 
 ===================================
