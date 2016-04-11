@@ -20,3 +20,9 @@ Task.load_modules()
 Task.ListModules()
 V = VersionCheck.VersionCheck("1.3")
 V.VersionRequest()
+
+# perfrom Download testing
+ua = helpers.getua()
+dl = Download.Download(self.verbose)
+html = dl.requesturl('http://google.com', ua, timeout=2, retrytime=3, statuscode=False)
+assert dl.GoogleCaptchaDetection(html)
