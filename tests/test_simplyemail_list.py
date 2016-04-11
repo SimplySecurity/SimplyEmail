@@ -23,6 +23,6 @@ V.VersionRequest()
 
 # perfrom Download testing
 ua = helpers.getua()
-dl = Download.Download(self.verbose)
+dl = Download.Download(True)
 html = dl.requesturl('http://google.com', ua, timeout=2, retrytime=3, statuscode=False)
-assert dl.GoogleCaptchaDetection(html)
+dl.GoogleCaptchaDetection(html)
