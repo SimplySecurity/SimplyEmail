@@ -48,7 +48,7 @@ def test_linkedin():
         name = l.LinkedInClean(x)
         if name:
             CleanNames.append(name)
-    assert ['Beth', 'RodriCleanNamesguez'] in names
+    assert ['Beth', 'Rodriguez'] in names
 
 
 def test_paser():
@@ -72,8 +72,6 @@ def test_connect6():
     url = c.Connect6AutoUrl()
     assert url
     names = Connect6Download('http://www.connect6.com/Veris%20Group,%20LLC/c')
-
-
 
 
 def test_emailformat():
