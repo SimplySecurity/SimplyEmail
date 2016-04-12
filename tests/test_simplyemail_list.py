@@ -26,16 +26,31 @@ Task.ListModules()
 V = VersionCheck.VersionCheck("1.3")
 V.VersionRequest()
 
-# perfrom Download testing
-ua = helpers.getua()
-dl = Download.Download(True)
-html = dl.requesturl(
-    'http://google.com', ua, timeout=2, retrytime=3, statuscode=False)
-dl.GoogleCaptchaDetection(html)
-f, download = dl.download_file(
-    'http://www.sample-videos.com/doc/Sample-doc-file-100kb.doc', '.pdf')
-dl.delete_file(f)
+def test_downloads():
+    # perfrom Download testing
+    ua = helpers.getua()
+    dl = Download.Download(True)
+    html = dl.requesturl(
+        'http://google.com', ua, timeout=2, retrytime=3, statuscode=False)
+    dl.GoogleCaptchaDetection(html)
+    f, download = dl.download_file(
+        'http://www.sample-videos.com/doc/Sample-doc-file-100kb.doc', '.pdf')
+    dl.delete_file(f)
 
+def test_paser():
+    # test parser functions with test data
+    raw = """
+    alex //
+    test //...dfdfsf
+    data !@#$%^%&^&*()
+    <em>alex@verisgroup.com</em>
+    <em> alex@verisgroup.com </em>
+    <tr>alex@verisgroup.com</tr>
+    <></><><><><><>
+    """
+    p = Parser.Parser(raw)
+    p.RemoveUnicode()
+    p.extendedclean('test')
 
 def test_emailformat():
     em = EmailFormat.EmailFormat('verisgroup.com', Verbose=True)
