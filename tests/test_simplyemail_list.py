@@ -48,7 +48,7 @@ def test_linkedin():
         name = l.LinkedInClean(x)
         if name:
             CleanNames.append(name)
-    assert ['Beth', 'Rodriguez'] in names
+    assert ['Beth', 'RodriCleanNamesguez'] in names
 
 
 def test_paser():
@@ -65,6 +65,15 @@ def test_paser():
     p = Parser.Parser(raw)
     p.RemoveUnicode()
     finaloutput, htmlresults = p.extendedclean('test')
+
+
+def test_connect6():
+    c = Connect6.Connect6Scraper('verisgroup.com')
+    url = c.Connect6AutoUrl()
+    assert url
+    names = Connect6Download('http://www.connect6.com/Veris%20Group,%20LLC/c')
+
+
 
 
 def test_emailformat():
