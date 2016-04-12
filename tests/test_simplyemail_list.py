@@ -74,7 +74,6 @@ def test_paser():
 def test_connect6():
     c = Connect6.Connect6Scraper('verisgroup.com')
     url = c.Connect6AutoUrl()
-    names = Connect6Download('http://www.connect6.com/Veris%20Group,%20LLC/c')
 
 
 def test_emailformat():
