@@ -21,7 +21,7 @@ assert helpers.DirectoryListing('/')
 log = helpers.log()
 log.start()
 log.infomsg("Tasked to List Modules", "Main")
-log.warningmsg('message', 'module')
+log.warningmsg('message', 'message')
 
 # perfrom list funcs
 Task = TaskController.Conducter()
@@ -37,5 +37,3 @@ html = dl.requesturl('http://google.com', ua, timeout=2, retrytime=3, statuscode
 dl.GoogleCaptchaDetection(html)
 f, download = dl.download_file('http://www.sample-videos.com/doc/Sample-doc-file-100kb.doc', '.pdf')
 dl.delete_file(f)
-
-#
