@@ -5,7 +5,6 @@ from Helpers import CanarioAPI
 from Helpers import EmailFormat
 from Helpers import HtmlBootStrapTheme
 from Helpers import Connect6
-from Helpers import Parser
 from Helpers import LinkedinNames
 from Helpers import VersionCheck
 from Common import TaskController
@@ -26,6 +25,7 @@ Task.ListModules()
 V = VersionCheck.VersionCheck("1.3")
 V.VersionRequest()
 
+
 def test_downloads():
     # perfrom Download testing
     ua = helpers.getua()
@@ -36,6 +36,20 @@ def test_downloads():
     f, download = dl.download_file(
         'http://www.sample-videos.com/doc/Sample-doc-file-100kb.doc', '.pdf')
     dl.delete_file(f)
+
+
+def test_linkedin():
+    # test Linkedin Name gen
+    l = LinkedinNames.LinkedinScraper('verisgroup.com')
+    names = l.LinkedInNames()
+    assert ['Beth', 'Rodriguez'] in names
+    CleanNames = []
+    for x in names:
+        name = l.LinkedInClean(x)
+        if name:
+            CleanNames.append(name)
+    assert ['Beth', 'Rodriguez'] in names
+
 
 def test_paser():
     # test parser functions with test data
@@ -50,13 +64,15 @@ def test_paser():
     """
     p = Parser.Parser(raw)
     p.RemoveUnicode()
-    p.extendedclean('test')
+    finaloutput, htmlresults = p.extendedclean('test')
+
 
 def test_emailformat():
     em = EmailFormat.EmailFormat('verisgroup.com', Verbose=True)
     name = em.BuildName(['alex', 'test'], "{first}.{last}")
     assert name == 'alex.test'
-    cleannames = [['alex', 'test'], ['alex', 'man'], ['alex', 'dude'], ['mad', 'max']]
+    cleannames = [['alex', 'test'], ['alex', 'man'],
+                  ['alex', 'dude'], ['mad', 'max']]
     domain = 'verisgroup.com'
     finalemails = ['mmax@verisgroup.com']
     result = em.EmailDetect(cleannames, domain, finalemails)
