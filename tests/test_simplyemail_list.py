@@ -5,6 +5,7 @@ from Helpers import CanarioAPI
 from Helpers import EmailFormat
 from Helpers import HtmlBootStrapTheme
 from Helpers import Connect6
+from Helpers import VerifyEmails
 from Helpers import LinkedinNames
 from Helpers import VersionCheck
 from Common import TaskController
@@ -37,6 +38,10 @@ def test_downloads():
         'http://www.sample-videos.com/doc/Sample-doc-file-100kb.doc', '.pdf')
     dl.delete_file(f)
 
+def test_verifyemails():
+    em1 = ['test@gmail.com']
+    em2 = ['alex@gmail.com']
+    v = VerifyEmails.VerifyEmail(em1, em2, 'gmail.com')
 
 def test_linkedin():
     # test Linkedin Name gen
@@ -66,11 +71,9 @@ def test_paser():
     p.RemoveUnicode()
     finaloutput, htmlresults = p.extendedclean('test')
 
-
 def test_connect6():
     c = Connect6.Connect6Scraper('verisgroup.com')
     url = c.Connect6AutoUrl()
-    assert url
     names = Connect6Download('http://www.connect6.com/Veris%20Group,%20LLC/c')
 
 
