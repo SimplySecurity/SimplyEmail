@@ -388,7 +388,7 @@ class EmailFormat(object):
                     LastName = str(name[1])
                     if FirstName and LastName:
                         # now build foramt
-                        LastInitial = str(LastName[-1])
+                        LastInitial = str(LastName[0])
                         BuiltName = str(FirstName) + '.' + \
                             str(LastInitial) + "@" + Domain
                         if Verbose:
@@ -410,7 +410,7 @@ class EmailFormat(object):
                     LastName = str(name[1])
                     if FirstName and LastName:
                         # now build foramt
-                        LastInitial = str(LastName[-1])
+                        LastInitial = str(LastName[0])
                         BuiltName = str(
                             FirstName) + str(LastInitial) + "@" + Domain
                         if Verbose:
@@ -432,8 +432,7 @@ class EmailFormat(object):
                     LastName = str(name[1])
                     if FirstName and LastName:
                         # now build foramt
-                        BuiltName = str(
-                            FirstName) + "_" + str(LastName) + "@" + Domain
+                        BuiltName = FirstName + "_" + LastName + "@" + Domain
                         if Verbose:
                             e = ' [*] Email built: ' + str(BuiltName)
                             print helpers.color(e, firewall=True)
@@ -441,6 +440,8 @@ class EmailFormat(object):
                             BuiltEmails.append(BuiltName)
                 except Exception as e:
                     print e
+            if BuiltEmails:
+                return BuiltEmails
         elif Format == '{first}':
             for name in CleanNames:
                 try:

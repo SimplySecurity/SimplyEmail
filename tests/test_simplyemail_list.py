@@ -67,3 +67,29 @@ def test_emailformat():
     finalemails = ['mad@verisgroup.com']
     result = em.EmailDetect(cleannames, domain, finalemails)
     assert result[0] == '{first}'
+    # now test building emails
+    fm = '{f}{last}'
+    emails = em.EmailBuilder(cleannames, domain, fm)
+    assert 'mmax@verisgroup.com' in emails
+    fm = '{f}.{last}'
+    emails = em.EmailBuilder(cleannames, domain, fm)
+    assert 'm.max@verisgroup.com' in emails
+    fm = '{first}{last}'
+    emails = em.EmailBuilder(cleannames, domain, fm)
+    assert 'madmax@verisgroup.com' in emails
+    fm = '{first}.{last}'
+    emails = em.EmailBuilder(cleannames, domain, fm)
+    assert 'mad.max@verisgroup.com' in emails
+    fm = '{first}.{l}'
+    emails = em.EmailBuilder(cleannames, domain, fm)
+    assert 'mad.m@verisgroup.com' in emails
+    fm = '{first}{l}'
+    emails = em.EmailBuilder(cleannames, domain, fm)
+    assert 'madm@verisgroup.com' in emails
+    fm = '{first}_{last}'
+    emails = em.EmailBuilder(cleannames, domain, fm)
+    print emails
+    assert 'mad_max@verisgroup.com' in emails
+    fm = '{first}'
+    emails = em.EmailBuilder(cleannames, domain, fm)
+    assert 'mad@verisgroup.com' in emails
