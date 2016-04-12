@@ -41,3 +41,8 @@ def test_emailformat():
     em = EmailFormat.EmailFormat('verisgroup.com', Verbose=True)
     name = em.BuildName(['alex', 'test'], "{first}.{last}")
     assert name == 'alex.test'
+    cleannames = [['alex', 'test'], ['alex', 'man'], ['alex', 'dude'], ['mad', 'max']]
+    domain = 'verisgroup.com'
+    finalemails = ['mmax@verisgroup.com']
+    result = em.EmailDetect(cleannames, domain, finalemails)
+    assert result[0] == '{f}{last}'
