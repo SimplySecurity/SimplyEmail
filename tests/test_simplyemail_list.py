@@ -14,14 +14,10 @@ import SimplyEmail
 assert helpers.color('test')
 assert helpers.color('test', firewall=True)
 assert helpers.color('test', warning=True)
-assert helpers.formatLong("test", "TESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
+assert helpers.formatLong(
+    "test", "TESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
 assert helpers.DirectoryListing('/')
 
-# test logs
-log = helpers.log()
-log.start()
-log.infomsg("Tasked to List Modules", "Main")
-log.warningmsg('message', 'message')
 
 # perfrom list funcs
 Task = TaskController.Conducter()
@@ -33,7 +29,15 @@ V.VersionRequest()
 # perfrom Download testing
 ua = helpers.getua()
 dl = Download.Download(True)
-html = dl.requesturl('http://google.com', ua, timeout=2, retrytime=3, statuscode=False)
+html = dl.requesturl(
+    'http://google.com', ua, timeout=2, retrytime=3, statuscode=False)
 dl.GoogleCaptchaDetection(html)
-f, download = dl.download_file('http://www.sample-videos.com/doc/Sample-doc-file-100kb.doc', '.pdf')
+f, download = dl.download_file(
+    'http://www.sample-videos.com/doc/Sample-doc-file-100kb.doc', '.pdf')
 dl.delete_file(f)
+
+
+def test_emailformat():
+    em = EmailFormat.EmailFormat('verisgroup.com', Verbose=True)
+    name = em.BuildName(['alex', 'test'], "{first}.{last}")
+    assert name == 'alex.test'

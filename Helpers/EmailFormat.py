@@ -65,7 +65,7 @@ class EmailFormat(object):
 
     def BuildName(self, CleanName, Format, Raw=False):
         '''
-        Will help build names and return 
+        Will help build names and return
         all required name formats for the email
         to be built.
         '''
