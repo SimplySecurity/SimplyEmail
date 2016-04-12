@@ -25,7 +25,7 @@ script:
   - "sudo ./SimplyEmail.py -verify"
   - "sudo ./SimplyEmail.py -s"
   - "sudo ./SimplyEmail.py -s -e cybersyndicates.com"
-  - sudo nosetests --with-coverage
+  - nosetests --with-coverage
 after_success:
   - coveralls
   
