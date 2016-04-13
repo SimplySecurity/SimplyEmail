@@ -20,11 +20,15 @@ assert helpers.DirectoryListing('/')
 
 
 # perfrom list funcs
-Task = TaskController.Conducter()
-Task.load_modules()
-Task.ListModules()
-V = VersionCheck.VersionCheck("1.3")
-V.VersionRequest()
+
+def test_taskcontrollers():
+    Task = TaskController.Conducter()
+    Task.load_modules()
+    Task.ListModules()
+    Task.title()
+    Task.title_screen()
+    V = VersionCheck.VersionCheck("1.3")
+    V.VersionRequest()
 
 
 def test_downloads():
@@ -44,6 +48,8 @@ def test_verifyemails():
     v = VerifyEmails.VerifyEmail(em1, em2, 'gmail.com')
     v.GetMX()
     assert 'gmail' in v.mxhost['Host']
+    b = v.VerifySMTPServer()
+    assert b
 
 def test_linkedin():
     # test Linkedin Name gen
