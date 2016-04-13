@@ -64,7 +64,6 @@ def test_verifyemails():
     v.GetMX()
     assert 'gmail' in v.mxhost['Host']
     b = v.VerifySMTPServer()
-    assert b
 
 def test_linkedin():
     # test Linkedin Name gen
