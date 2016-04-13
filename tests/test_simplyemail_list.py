@@ -29,7 +29,22 @@ def test_taskcontrollers():
     Task.title_screen()
     V = VersionCheck.VersionCheck("1.3")
     V.VersionRequest()
-
+    # test the cleaning function of the TC
+    # create fake email items
+    Task.ConsumerList = ['alex@test.com', 'alex@test.com', 'alex2@gmail.com', 'alex2@test.com']
+    Task.HtmlList = ['alex@test.com', 'alex@test.com', 'alex2@gmail.com', 'alex2@test.com']
+    finallist, htmllist = Task.CleanResults('test.com')
+    # now make sure we have correct data
+    i = finallist.count("alex@test.com")
+    b = htmllist.count("alex@test.com")
+    assert 'alex@test.com' in finallist
+    assert 'alex2@test.com' in finallist
+    assert 'alex2@gmail.com' not in finallist
+    assert i < 2
+    assert 'alex@test.com' in htmllist
+    assert 'alex2@test.com' in htmllist
+    assert 'alex2@gmail.com' not in htmllist
+    assert b < 2
 
 def test_downloads():
     # perfrom Download testing
@@ -63,6 +78,17 @@ def test_linkedin():
             CleanNames.append(name)
     assert ['Beth', 'Rodriguez'] in names
 
+# def test_htmlbootstrap():
+#     em = [{'Email': 'alex@test.com', 'Source': 'gmail'}, {'Email': 'alex2@test.com', 'Source': 'Canary'}, {'Email': 'alex3@test.com', 'Source': 'testing'}]
+#     h = HtmlBootStrapTheme.HtmlBuilder(em, "test.com")
+#     h.BuildHtml()
+#     assert '<td>alex@test.com</td>' in h.HTML
+#     assert '<td>alex2@test.com</td>' in h.HTML
+#     assert '<td>alex3@test.com</td>' in h.HTML
+#     assert '<td>gmail</td>' in h.HTML
+#     assert '<td>Canary</td>' in h.HTML
+#     assert '<td>testing</td>' in h.HTML
+#     assert 'Canary (PasteBin) search detected Email(s)' in h.HTML
 
 def test_paser():
     # test parser functions with test data

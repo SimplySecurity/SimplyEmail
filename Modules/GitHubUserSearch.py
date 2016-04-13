@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 import requests
 import configparser
-import time
 from Helpers import Parser
 from Helpers import helpers
 
@@ -38,7 +37,7 @@ class ClassName(object):
 
     def search(self):
         while self.Counter <= self.Depth and self.Counter <= 100:
-            time.sleep(6)
+            helpers.modsleep(5)
             if self.verbose:
                 p = '[*] GitHubUser Search on page: ' + str(self.Counter)
                 print helpers.color(p, firewall=True)

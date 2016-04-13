@@ -8,7 +8,7 @@
 
 import configparser
 import requests
-import time
+import logging
 from Helpers import Download
 from Helpers import helpers
 from Helpers import Parser
@@ -57,7 +57,7 @@ class ClassName(object):
 
     def search(self):
         while self.Counter <= self.Limit and self.Counter <= 10:
-            time.sleep(1)
+            helpers.modsleep(1)
             if self.verbose:
                 p = '[*] Exalead DOC Search on page: ' + str(self.Counter)
                 print helpers.color(p, firewall=True)

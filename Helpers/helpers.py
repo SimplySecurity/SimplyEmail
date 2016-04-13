@@ -3,6 +3,7 @@
 import os
 import textwrap
 import logging
+import time
 from fake_useragent import UserAgent
 
 
@@ -68,6 +69,10 @@ def getua():
     # gets a random useragent and returns the UA
     ua = UserAgent()
     return ua.random
+
+def modsleep(st):
+    # sleep module for spec time
+    time.sleep(int(st))
 
 
 ######################
