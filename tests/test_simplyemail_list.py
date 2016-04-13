@@ -42,6 +42,8 @@ def test_verifyemails():
     em1 = ['test@gmail.com']
     em2 = ['alex@gmail.com']
     v = VerifyEmails.VerifyEmail(em1, em2, 'gmail.com')
+    v.GetMX()
+    assert 'gmail' in v.mxhost['Host']
 
 def test_linkedin():
     # test Linkedin Name gen
