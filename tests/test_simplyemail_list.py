@@ -24,6 +24,10 @@ assert helpers.DirectoryListing('/')
 def test_taskcontrollers():
     Task = TaskController.Conducter()
     Task.load_modules()
+    # check inits
+    for x in Task.modules:
+        l = Task.modules[x]
+        mod = l.ClassName('test.com', verbose=True)
     Task.ListModules()
     Task.title()
     Task.title_screen()
@@ -46,6 +50,7 @@ def test_taskcontrollers():
     assert 'alex2@gmail.com' not in htmllist
     assert b < 2
 
+
 def test_downloads():
     # perfrom Download testing
     ua = helpers.getua()
@@ -56,6 +61,8 @@ def test_downloads():
     f, download = dl.download_file(
         'http://www.sample-videos.com/doc/Sample-doc-file-100kb.doc', '.pdf')
     dl.delete_file(f)
+def test_canario():
+    c = CanarioAPI.canary('thisshouldnotworkapikey')
 
 def test_verifyemails():
     em1 = ['test@gmail.com']

@@ -31,6 +31,7 @@ class ClassName(object):
         self.description = "Uses Exalead Dorking to search DOCs for emails"
         config = configparser.ConfigParser()
         try:
+            self.logger = logging.getLogger("SimplyEmail.ExaleadDOCSearch")
             config.read('Common/SimplyEmail.ini')
             self.Domain = Domain
             self.Quanity = int(config['ExaleadDOCSearch']['StartQuantity'])
@@ -45,6 +46,7 @@ class ClassName(object):
             print helpers.color("[*] Major Settings for Exalead are missing, EXITING!\n", warning=True)
 
     def execute(self):
+        self.logger.info("ExaleadDOCSearch module started")
         self.search()
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults
