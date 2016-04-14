@@ -8,6 +8,7 @@
 import configparser
 import requests
 import time
+import logging
 from Helpers import helpers
 from Helpers import Parser
 from Helpers import Download
@@ -29,6 +30,7 @@ class ClassName(object):
         self.description = "Uses Exalead Dorking to search DOCXs for emails"
         config = configparser.ConfigParser()
         try:
+            self.logger = logging.getLogger("SimplyEmail.ExaleadDOCXSearch")
             config.read('Common/SimplyEmail.ini')
             self.Domain = Domain
             self.Quanity = int(config['ExaleadDOCXSearch']['StartQuantity'])
@@ -40,10 +42,12 @@ class ClassName(object):
             self.urlList = []
             self.Text = ""
         except Exception as e:
+            elf.logger.critical("ExaleadDOCXSearch module failed to __init__: " + str(e))
             p = "[*] Major Settings for ExaleadDOCXSearch are missing, EXITING: " + e
             print helpers.color(p, warning=True)
 
     def execute(self):
+        self.logger.debug("ExaleadDOCXSearch module started")
         self.search()
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults

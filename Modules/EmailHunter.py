@@ -33,7 +33,7 @@ class ClassName(object):
             print helpers.color(" [*] Major Settings for EmailHunter are missing, EXITING!\n", warning=True)
 
     def execute(self):
-        self.logger.info("EmailHunter module started")
+        self.logger.debug("EmailHunter module started")
         self.process()
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults

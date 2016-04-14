@@ -7,7 +7,6 @@
 # 4) places the findings into a queue
 
 import configparser
-import requests
 import logging
 from Helpers import Download
 from Helpers import helpers
@@ -42,11 +41,12 @@ class ClassName(object):
             self.verbose = verbose
             self.urlList = []
             self.Text = ""
-        except:
+        except Exception as e:
+            self.logger.critical("ExaleadDOCSearch module failed to __init__: " + str(e))
             print helpers.color("[*] Major Settings for Exalead are missing, EXITING!\n", warning=True)
 
     def execute(self):
-        self.logger.info("ExaleadDOCSearch module started")
+        self.logger.debug("ExaleadDOCSearch module started")
         self.search()
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults
@@ -58,26 +58,23 @@ class ClassName(object):
         return stdout.decode('ascii', 'ignore')
 
     def search(self):
+        dl = Download.Download(self.verbose)
         while self.Counter <= self.Limit and self.Counter <= 10:
             helpers.modsleep(1)
             if self.verbose:
                 p = '[*] Exalead DOC Search on page: ' + str(self.Counter)
+                self.logger.info('ExaleadDOCSearch on page: ' + str(self.Counter))
                 print helpers.color(p, firewall=True)
             try:
                 url = 'http://www.exalead.com/search/web/results/?q="%40' + self.Domain + \
                       '"+filetype:word&elements_per_page=' + \
                     str(self.Quanity) + '&start_index=' + str(self.Counter)
             except Exception as e:
+                self.logger.error('ExaleadDOCSearch could not build URL')
                 error = "[!] Major issue with Exalead DOC Search: " + str(e)
                 print helpers.color(error, warning=True)
             try:
-                r = requests.get(url, headers=self.UserAgent)
-            except Exception as e:
-                error = "[!] Fail during Request to Exalead (Check Connection):" + str(
-                    e)
-                print helpers.color(error, warning=True)
-            try:
-                RawHtml = r.content
+                RawHtml = dl.requesturl(url, useragent=self.UserAgent)
                 # sometimes url is broken but exalead search results contain
                 # e-mail
                 self.Text += RawHtml
@@ -85,6 +82,7 @@ class ClassName(object):
                 self.urlList = [h2.a["href"]
                                 for h2 in soup.findAll('h4', class_='media-heading')]
             except Exception as e:
+                self.logger.error('ExaleadDOCSearch could not request / parse HTML')
                 error = "[!] Fail during parsing result: " + str(e)
                 print helpers.color(error, warning=True)
             self.Counter += 30
@@ -94,6 +92,7 @@ class ClassName(object):
             for url in self.urlList:
                 if self.verbose:
                     p = '[*] Exalead DOC search downloading: ' + str(url)
+                    self.logger.info('ExaleadDOCSearch downloading: ' + str(url))
                     print helpers.color(p, firewall=True)
                 try:
                     filetype = ".doc"
@@ -101,8 +100,9 @@ class ClassName(object):
                     FileName, FileDownload = dl.download_file(url, filetype)
                     if FileDownload:
                         if self.verbose:
-                            p = '[*] Exalead PDF file was downloaded: ' + \
+                            p = '[*] Exalead DOC file was downloaded: ' + \
                                 str(url)
+                            self.logger.info('ExaleadDOCSearch downloaded: ' + str(p))
                             print helpers.color(p, firewall=True)
                         self.Text += self.convert_doc_to_txt(FileName)
                 except Exception as e:
@@ -112,7 +112,8 @@ class ClassName(object):
                     dl.delete_file(FileName)
                 except Exception as e:
                     print e
-        except:
+        except Exception as e:
+            self.logger.error("ExaleadDOCSearch no doc's to download")
             print helpers.color("[*] No DOC's to download from Exalead!\n", firewall=True)
 
         if self.verbose:
@@ -125,4 +126,5 @@ class ClassName(object):
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
+        self.logger.debug('ExaleadDOCSearch completed search')
         return FinalOutput, HtmlResults

@@ -61,6 +61,7 @@ def test_downloads():
     f, download = dl.download_file(
         'http://www.sample-videos.com/doc/Sample-doc-file-100kb.doc', '.pdf')
     dl.delete_file(f)
+
 def test_canario():
     c = CanarioAPI.canary('thisshouldnotworkapikey')
 
@@ -84,17 +85,17 @@ def test_linkedin():
             CleanNames.append(name)
     assert ['Beth', 'Rodriguez'] in names
 
-# def test_htmlbootstrap():
-#     em = [{'Email': 'alex@test.com', 'Source': 'gmail'}, {'Email': 'alex2@test.com', 'Source': 'Canary'}, {'Email': 'alex3@test.com', 'Source': 'testing'}]
-#     h = HtmlBootStrapTheme.HtmlBuilder(em, "test.com")
-#     h.BuildHtml()
-#     assert '<td>alex@test.com</td>' in h.HTML
-#     assert '<td>alex2@test.com</td>' in h.HTML
-#     assert '<td>alex3@test.com</td>' in h.HTML
-#     assert '<td>gmail</td>' in h.HTML
-#     assert '<td>Canary</td>' in h.HTML
-#     assert '<td>testing</td>' in h.HTML
-#     assert 'Canary (PasteBin) search detected Email(s)' in h.HTML
+def test_htmlbootstrap():
+    em =['{\'Email\': "alex@test.com", \'Source\': "gmail"}', '{\'Email\': "alex2@test.com", \'Source\': "Canary Paste Bin"}', '{\'Email\': "alex3@test.com", \'Source\': "testing"}']
+    h = HtmlBootStrapTheme.HtmlBuilder(em, "test.com")
+    h.BuildHtml()
+    assert '<td>alex@test.com</td>' in h.HTML
+    assert '<td>alex2@test.com</td>' in h.HTML
+    assert '<td>alex3@test.com</td>' in h.HTML
+    assert '<td>gmail</td>' in h.HTML
+    assert '<td>Canary Paste Bin</td>' in h.HTML
+    assert '<td>testing</td>' in h.HTML
+    assert 'Canary (PasteBin) search detected Email(s)' in h.HTML
 
 def test_paser():
     # test parser functions with test data
