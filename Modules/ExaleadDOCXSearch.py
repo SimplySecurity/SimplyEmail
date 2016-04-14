@@ -56,6 +56,7 @@ class ClassName(object):
         # https://github.com/ankushshah89/python-docx2txt
         # Very simple setup of python-docx to text
         text = docx2txt.process(path)
+        self.logger.debug("ExaleadDOCXSearch converted docx to text: " + str(path))
         return unicode(text)
 
     def download_file(self, url):
@@ -74,12 +75,14 @@ class ClassName(object):
             time.sleep(1)
             if self.verbose:
                 p = '[*] Exalead Search on page: ' + str(self.Counter)
+                self.logger.info("ExaleadDOCXSearch on page: " + str(self.Counter))
                 print helpers.color(p, firewall=True)
             try:
                 url = 'http://www.exalead.com/search/web/results/?q="%40' + self.Domain + \
                       '"+filetype:docx&elements_per_page=' + \
                     str(self.Quanity) + '&start_index=' + str(self.Counter)
             except Exception as e:
+                self.logger.error("Issue building URL to search")
                 error = "[!] Major issue with Exalead DOCX Search: " + str(e)
                 print helpers.color(error, warning=True)
             try:
@@ -97,6 +100,7 @@ class ClassName(object):
                 self.urlList = [h2.a["href"]
                                 for h2 in soup.findAll('h4', class_='media-heading')]
             except Exception as e:
+                self.logger.error("Fail during parsing result: " + str(e))
                 error = "[!] Fail during parsing result: " + str(e)
                 print helpers.color(error, warning=True)
             self.Counter += 30
@@ -106,6 +110,7 @@ class ClassName(object):
             for url in self.urlList:
                 if self.verbose:
                     p = '[*] Exalead DOCX search downloading: ' + str(url)
+                    self.logger.info("Starting download of DOCX: " + str(url))
                     print helpers.color(p, firewall=True)
                 try:
                     filetype = ".docx"
@@ -113,11 +118,13 @@ class ClassName(object):
                     FileName, FileDownload = dl.download_file(url, filetype)
                     if FileDownload:
                         if self.verbose:
+                            self.logger.info("File was downloaded: " + str(url))
                             p = '[*] Exalead DOCX file was downloaded: ' + \
                                 str(url)
                             print helpers.color(p, firewall=True)
                         self.Text += self.convert_docx_to_txt(FileName)
                 except Exception as e:
+                    self.logger.error("Issue with opening DOCX Files: " + str(e))
                     error = "[!] Issue with opening DOCX Files:%s\n" % (str(e))
                     print helpers.color(error, warning=True)
                 try:
@@ -126,10 +133,13 @@ class ClassName(object):
                     print e
         except Exception as e:
             p = "[*] No DOCX's to download from Exalead: " +  e
+            self.logger.info("No DOCX's to download from Exalead: " + str(e))
             print helpers.color(p, firewall=True)
 
         if self.verbose:
+
             p = '[*] Searching DOCX from Exalead Complete'
+            self.logger.info("Searching DOCX from Exalead Complete")
             print helpers.color(p, status=True)
 
     def get_emails(self):
@@ -138,4 +148,5 @@ class ClassName(object):
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
+        self.logger.debug('ExaleadDOCXSearch completed search')
         return FinalOutput, HtmlResults

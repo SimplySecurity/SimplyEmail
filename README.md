@@ -287,7 +287,10 @@ Framework Improvements v1.4:
 -----------------------------
 (x) Added in request function to improve stability
 (x) Added in new logging features for debuging
+(x) Added in new Converter class to clean up how I handle conversions
 (x) Fixed issue with the way thread consumers handled errors
+(x) Increased code health to +80%
+(x) Implemented code tests and coverage to +40%
 
 
 ===================================
@@ -443,13 +446,13 @@ Modules Under Dev:
 ( ) PwnBin Search 
 ( ) Past Data Dumps
 ( ) psbdmp API Based and non Alert
+( ) CSV based searches
 
 Framework Under Dev:
 -----------------------------
 ( ) New Parsers to clean results
 ( ) Fix import errors with Glob
 ( ) Add in "[@]something.com" to search Regex and engines
-( ) Add errors for Captcha limit's
 ( ) Add Threading/Multi to GitHub Search
 ( ) Add Source of collection to HTML Output
 

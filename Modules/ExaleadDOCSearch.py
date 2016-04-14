@@ -11,6 +11,7 @@ import logging
 from Helpers import Download
 from Helpers import helpers
 from Helpers import Parser
+from Helpers import Converter
 from bs4 import BeautifulSoup
 from subprocess import Popen, PIPE
 from cStringIO import StringIO

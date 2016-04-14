@@ -5,6 +5,7 @@ from Helpers import CanarioAPI
 from Helpers import EmailFormat
 from Helpers import HtmlBootStrapTheme
 from Helpers import Connect6
+from Helpers import Converter
 from Helpers import VerifyEmails
 from Helpers import LinkedinNames
 from Helpers import VersionCheck
@@ -85,6 +86,10 @@ def test_linkedin():
         if name:
             CleanNames.append(name)
     assert ['Beth', 'Rodriguez'] in names
+
+def test_converter():
+    # test the convert for all formats
+    c = Converter.Converter(verbose=True)
 
 def test_htmlbootstrap():
     em =['{\'Email\': "alex@test.com", \'Source\': "gmail"}', '{\'Email\': "alex2@test.com", \'Source\': "Canary Paste Bin"}', '{\'Email\': "alex3@test.com", \'Source\': "testing"}']
