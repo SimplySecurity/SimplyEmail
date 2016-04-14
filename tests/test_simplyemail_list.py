@@ -89,7 +89,18 @@ def test_linkedin():
 
 def test_converter():
     # test the convert for all formats
+    p = os.path.dirname(os.path.realpath('.')) + '/SimplyEmail/tests/'
     c = Converter.Converter(verbose=True)
+    print p
+    text = c.convert_docx_to_txt(p + 'Test-DOCX.docx')
+    assert text
+    assert 'How to Design and Test' in text
+    text = c.convert_doc_to_txt(p +'Test-DOC.doc')
+    assert text
+    assert 'How to Design and Test' in text
+    text = c.convert_pdf_to_txt(p + 'Test-PDF.pdf')
+    assert text
+    assert 'How to Design and Test' in text
 
 def test_htmlbootstrap():
     em =['{\'Email\': "alex@test.com", \'Source\': "gmail"}', '{\'Email\': "alex2@test.com", \'Source\': "Canary Paste Bin"}', '{\'Email\': "alex3@test.com", \'Source\': "testing"}']
