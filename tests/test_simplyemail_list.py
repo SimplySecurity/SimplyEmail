@@ -9,6 +9,7 @@ from Helpers import VerifyEmails
 from Helpers import LinkedinNames
 from Helpers import VersionCheck
 from Common import TaskController
+import os
 import SimplyEmail
 
 assert helpers.color('test')
@@ -96,6 +97,9 @@ def test_htmlbootstrap():
     assert '<td>Canary Paste Bin</td>' in h.HTML
     assert '<td>testing</td>' in h.HTML
     assert 'Canary (PasteBin) search detected Email(s)' in h.HTML
+    p = os.path.dirname(os.path.realpath('.')) 
+    h.OutPutHTML(p)
+
 
 def test_paser():
     # test parser functions with test data
