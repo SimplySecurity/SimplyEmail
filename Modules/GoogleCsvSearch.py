@@ -78,7 +78,7 @@ class ClassName(object):
                     print l
                     if l.startswith('http') or l.startswith('www'):
                         if "webcache.googleusercontent.com" not in l:
-                            selfprint.urlList.append(l)
+                            self.urlList.append(l)
                 except:
                     pass
             self.Counter += 10

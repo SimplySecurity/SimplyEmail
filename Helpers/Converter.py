@@ -2,6 +2,7 @@
 import helpers
 import logging
 import docx2txt
+from pptx import Presentation
 from subprocess import Popen, PIPE
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.converter import TextConverter
@@ -51,6 +52,20 @@ class Converter(object):
         except Exception as e:
             self.logger.debug(
                 "Failed to DOC to text: " + str(e))
+
+    def convert_pptx_to_txt(self, path):
+        prs = Presentation(path)
+        # text_runs will be populated with a list of strings,
+        # one for each text run in presentation
+        text_runs = ""
+        for slide in prs.slides:
+            for shape in slide.shapes:
+                if not shape.has_text_frame:
+                    continue
+                for paragraph in shape.text_frame.paragraphs:
+                    for run in paragraph.runs:
+                        text_runs += str(run.text) + ' '
+        return text_runs
 
     def convert_pdf_to_txt(self, path):
         """

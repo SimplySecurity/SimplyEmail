@@ -16,6 +16,7 @@ install:
   - pip install BeautifulSoup --upgrade
   - pip install pdfminer --upgrade
   - pip install python-docx --upgrade
+  - pip install python-pptx
   - pip install dnspython --upgrade
 script:
   - "sudo sh Setup.sh"
