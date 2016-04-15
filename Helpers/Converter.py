@@ -25,7 +25,7 @@ class Converter(object):
         which returns unicode text for
         parsing.
 
-        path = The path to the file 
+        path = The path to the file
         """
         # https://github.com/ankushshah89/python-docx2txt
         try:
@@ -64,7 +64,8 @@ class Converter(object):
             retstr = StringIO()
             codec = 'utf-8'
             laparams = LAParams()
-            device = TextConverter(rsrcmgr, retstr, codec=codec, laparams=laparams)
+            device = TextConverter(
+                rsrcmgr, retstr, codec=codec, laparams=laparams)
             fp = file(path, 'rb')
             interpreter = PDFPageInterpreter(rsrcmgr, device)
             password = ""
@@ -96,4 +97,3 @@ class Converter(object):
         except Exception as e:
             self.logger.debug(
                 "Failed to convert_Xlsx_to_Csv to text: " + str(e))
-

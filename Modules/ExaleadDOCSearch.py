@@ -52,14 +52,9 @@ class ClassName(object):
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults
 
-    def convert_doc_to_txt(self, path):
-        cmd = ['antiword', path]
-        p = Popen(cmd, stdout=PIPE)
-        stdout, stderr = p.communicate()
-        return stdout.decode('ascii', 'ignore')
-
     def search(self):
         dl = Download.Download(self.verbose)
+        convert = Converter.Converter(self.verbose)
         while self.Counter <= self.Limit and self.Counter <= 10:
             helpers.modsleep(1)
             if self.verbose:
@@ -105,7 +100,7 @@ class ClassName(object):
                                 str(url)
                             self.logger.info('ExaleadDOCSearch downloaded: ' + str(p))
                             print helpers.color(p, firewall=True)
-                        self.Text += self.convert_doc_to_txt(FileName)
+                        self.Text += convert.convert_doc_to_txt(FileName)
                 except Exception as e:
                     error = "[!] Issue with opening DOC Files:%s\n" % (str(e))
                     print helpers.color(error, warning=True)

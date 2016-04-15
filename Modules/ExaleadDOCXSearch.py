@@ -9,6 +9,7 @@ import configparser
 import requests
 import time
 import logging
+from Helpers import Converter
 from Helpers import helpers
 from Helpers import Parser
 from Helpers import Download
@@ -52,13 +53,6 @@ class ClassName(object):
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults
 
-    def convert_docx_to_txt(self, path):
-        # https://github.com/ankushshah89/python-docx2txt
-        # Very simple setup of python-docx to text
-        text = docx2txt.process(path)
-        self.logger.debug("ExaleadDOCXSearch converted docx to text: " + str(path))
-        return unicode(text)
-
     def download_file(self, url):
         local_filename = url.split('/')[-1]
         # NOTE the stream=True parameter
@@ -71,6 +65,7 @@ class ClassName(object):
         return local_filename
 
     def search(self):
+        convert = Converter.Converter(verbose=self.verbose)
         while self.Counter <= self.Limit:
             time.sleep(1)
             if self.verbose:
@@ -122,7 +117,7 @@ class ClassName(object):
                             p = '[*] Exalead DOCX file was downloaded: ' + \
                                 str(url)
                             print helpers.color(p, firewall=True)
-                        self.Text += self.convert_docx_to_txt(FileName)
+                        self.Text += convert.convert_docx_to_txt(FileName)
                 except Exception as e:
                     self.logger.error("Issue with opening DOCX Files: " + str(e))
                     error = "[!] Issue with opening DOCX Files:%s\n" % (str(e))
