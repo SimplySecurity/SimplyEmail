@@ -12,12 +12,8 @@ import time
 from Helpers import helpers
 from Helpers import Parser
 from Helpers import Download
+from Helpers import Converter
 from BeautifulSoup import BeautifulSoup
-from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
-from pdfminer.converter import TextConverter
-from pdfminer.layout import LAParams
-from pdfminer.pdfpage import PDFPage
-from cStringIO import StringIO
 
 
 class ClassName(object):
@@ -46,39 +42,9 @@ class ClassName(object):
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults
 
-    def convert_pdf_to_txt(self, path):
-        try:
-            text = ""
-            rsrcmgr = PDFResourceManager()
-            retstr = StringIO()
-            codec = 'utf-8'
-            laparams = LAParams()
-            device = TextConverter(
-                rsrcmgr, retstr, codec=codec, laparams=laparams)
-            fp = file(path, 'rb')
-            interpreter = PDFPageInterpreter(rsrcmgr, device)
-            password = ""
-            maxpages = 0
-            caching = True
-            pagenos = set()
-
-            for page in PDFPage.get_pages(fp, pagenos, maxpages=maxpages, password=password, caching=caching, check_extractable=True):
-                interpreter.process_page(page)
-
-            text = retstr.getvalue()
-
-            fp.close()
-            device.close()
-            retstr.close()
-            return text
-        except Exception as e:
-            return text
-            if self.verbose:
-                p = ' [*] Google PDF failed to convert: ' + str(e)
-                print helpers.color(p, firewall=True)
-
     def search(self):
         # setup for helpers in the download class
+        convert = Converter.Converter(verbose=self.verbose)
         dl = Download.Download(self.verbose)
         while self.Counter <= self.Limit and self.Counter <= 100:
             time.sleep(1)
@@ -131,7 +97,7 @@ class ClassName(object):
                             p = ' [*] Google PDF file was downloaded: ' + \
                                 str(url)
                             print helpers.color(p, firewall=True)
-                        self.Text += self.convert_pdf_to_txt(FileName)
+                        self.Text += convert.convert_pdf_to_txt(FileName)
                 except Exception as e:
                     print e
                 try:

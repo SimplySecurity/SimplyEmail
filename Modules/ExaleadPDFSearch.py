@@ -42,7 +42,7 @@ class ClassName(object):
         return FinalOutput, HtmlResults
 
     def search(self):
-        convert = Converter.Converter(self.verbose)
+        convert = Converter.Converter(verbose=self.verbose)
         while self.Counter <= self.Limit and self.Counter <= 10:
             time.sleep(1)
             if self.verbose:

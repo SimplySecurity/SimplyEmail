@@ -9,9 +9,9 @@
 import requests
 import urlparse
 import configparser
-import docx2txt
 import time
 # from subprocess import Popen, PIPE
+from Helpers import Converter
 from Helpers import helpers
 from Helpers import Parser
 from Helpers import Download
@@ -37,24 +37,20 @@ class ClassName(object):
             self.urlList = []
             self.Text = ""
         except:
-            print helpers.color("[*] Major Settings for GoogleDocxSearch are missing, EXITING!\n", warning=True)
+            print helpers.color(" [*] Major Settings for GoogleDocxSearch are missing, EXITING!\n", warning=True)
 
     def execute(self):
         self.search()
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults
 
-    def convert_docx_to_txt(self, path):
-        # https://github.com/ankushshah89/python-docx2txt
-        # Very simple setup of python-docx to text
-        text = docx2txt.process(path)
-        return unicode(text)
-
     def search(self):
+        dl = Download.Download(self.verbose)
+        convert = Converter.Converter(verbose=self.verbose)
         while self.Counter <= self.Limit and self.Counter <= 100:
             time.sleep(1)
             if self.verbose:
-                p = '[*] Google DOCX Search on page: ' + str(self.Counter)
+                p = ' [*] Google DOCX Search on page: ' + str(self.Counter)
                 print helpers.color(p, firewall=True)
             try:
                 urly = "https://www.google.com/search?q=site:" + \
@@ -65,7 +61,7 @@ class ClassName(object):
             try:
                 r = requests.get(urly)
             except Exception as e:
-                error = "[!] Fail during Request to Google (Check Connection):" + \
+                error = " [!] Fail during Request to Google (Check Connection):" + \
                     str(e)
                 print helpers.color(error, warning=True)
             RawHtml = r.content
@@ -89,27 +85,26 @@ class ClassName(object):
         try:
             for url in self.urlList:
                 if self.verbose:
-                    p = '[*] Google DOCX search downloading: ' + str(url)
+                    p = ' [*] Google DOCX search downloading: ' + str(url)
                     print helpers.color(p, firewall=True)
                 try:
                     filetype = ".docx"
-                    dl = Download.Download(self.verbose)
                     FileName, FileDownload = dl.download_file(url, filetype)
                     if FileDownload:
                         if self.verbose:
-                            p = '[*] Google DOCX file was downloaded: ' + \
+                            p = ' [*] Google DOCX file was downloaded: ' + \
                                 str(url)
                             print helpers.color(p, firewall=True)
-                        self.Text += self.convert_docx_to_txt(FileName)
+                        self.Text += convert.convert_docx_to_txt(FileName)
                     # print self.Text
                 except Exception as e:
-                    print helpers.color("[!] Issue with Converting Docx Files\n", firewall=True)
+                    print helpers.color(" [!] Issue with Converting Docx Files\n", firewall=True)
                 try:
                     dl.delete_file(FileName)
                 except Exception as e:
                     print e
         except:
-            print helpers.color("[*] No DOCX's to download from Google!\n", firewall=True)
+            print helpers.color(" [*] No DOCX's to download from Google!\n", firewall=True)
 
     def get_emails(self):
         Parse = Parser.Parser(self.Text)

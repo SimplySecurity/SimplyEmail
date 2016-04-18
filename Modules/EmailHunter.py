@@ -65,7 +65,7 @@ class ClassName(object):
                 error = ' [!] EmailHunter Trial API failed: ' + \
                     str(results['message'])
                 self.logger.error('EmailHunter Trial API failed: ' + str(results['message']))
-                print helpers.color(error, warning=True)
+                print helpers.color(error, firewall=True)
         except Exception as e:
             pass
         if self.verbose:

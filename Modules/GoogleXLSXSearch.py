@@ -11,9 +11,9 @@ import configparser
 import time
 import logging
 from Helpers import Download
-from subprocess import Popen, PIPE
 from Helpers import helpers
 from Helpers import Parser
+from Helpers import Converter
 from BeautifulSoup import BeautifulSoup
 
 
@@ -39,7 +39,7 @@ class ClassName(object):
         except Exception as e:
             self.logger.critical(
                 'GoogleXlsxSearch module failed to load: ' + str(e))
-            print helpers.color("[*] Major Settings for GoogleXlsxSearch are missing, EXITING!\n", warning=True)
+            print helpers.color(" [*] Major Settings for GoogleXlsxSearch are missing, EXITING!\n", warning=True)
 
     def execute(self):
         self.logger.debug("GoogleXlsxSearch Started")
@@ -47,26 +47,12 @@ class ClassName(object):
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults
 
-    def convert_Xlsx_to_Csv(self, path):
-        # Using the Xlsx2csv tool seemed easy and was in python anyhow
-        # it also supported custom delim :)
-        self.logger.debug("convert_Xlsx_to_Csv on file: " + str(path))
-        text = ""
-        try:
-            cmd = ['xlsx2csv', path]
-            p = Popen(cmd, stdout=PIPE)
-            stdout, stderr = p.communicate()
-            text = stdout.decode('ascii', 'ignore')
-            return text
-        except Exception as e:
-            self.logger.debug(
-                "Failed to convert_Xlsx_to_Csv to text: " + str(e))
-
     def search(self):
+        convert = Converter.Converter(verbose=self.verbose)
         while self.Counter <= self.Limit and self.Counter <= 100:
             time.sleep(1)
             if self.verbose:
-                p = '[*] Google XLSX Search on page: ' + str(self.Counter)
+                p = ' [*] Google XLSX Search on page: ' + str(self.Counter)
                 self.logger.info(
                     "Google XLSX Search on page: " + str(self.Counter))
                 print helpers.color(p, firewall=True)
@@ -74,14 +60,14 @@ class ClassName(object):
                 urly = "https://www.google.com/search?q=site:" + \
                     self.Domain + "+filetype:xlsx&start=" + str(self.Counter)
             except Exception as e:
-                error = "[!] Major issue with Google XLSX Search:" + str(e)
+                error = " [!] Major issue with Google XLSX Search:" + str(e)
                 self.logger.error(
                     "GoogleXlsxSearch failed to build url: " + str(e))
                 print helpers.color(error, warning=True)
             try:
                 r = requests.get(urly)
             except Exception as e:
-                error = "[!] Fail during Request to Google (Check Connection):" + \
+                error = " [!] Fail during Request to Google (Check Connection):" + \
                     str(e)
                 self.logger.error(
                     "GoogleXlsxSearch failed to request url (Check Connection): " + str(e))
@@ -108,7 +94,7 @@ class ClassName(object):
         try:
             for url in self.urlList:
                 if self.verbose:
-                    p = '[*] Google XLSX search downloading: ' + str(url)
+                    p = ' [*] Google XLSX search downloading: ' + str(url)
                     self.logger.info(
                         "Google XLSX search downloading: " + str(url))
                     print helpers.color(p, firewall=True)
@@ -118,15 +104,15 @@ class ClassName(object):
                     FileName, FileDownload = dl.download_file(url, filetype)
                     if FileDownload:
                         if self.verbose:
-                            p = '[*] Google XLSX file was downloaded: ' + \
+                            p = ' [*] Google XLSX file was downloaded: ' + \
                                 str(url)
                             self.logger.info(
                                 "Google XLSX file was downloaded: " + str(url))
                             print helpers.color(p, firewall=True)
-                        self.Text += self.convert_Xlsx_to_Csv(FileName)
+                        self.Text += convert.convert_Xlsx_to_Csv(FileName)
                     # print self.Text
                 except Exception as e:
-                    print helpers.color("[!] Issue with opening Xlsx Files\n", firewall=True)
+                    print helpers.color(" [!] Issue with opening Xlsx Files\n", firewall=True)
                     self.logger.error("Google XLSX had issue opening file")
                 try:
                     dl.delete_file(FileName)
@@ -134,7 +120,7 @@ class ClassName(object):
                     self.logger.error(
                         "Google XLSX failed to delete file: " + str(e))
         except Exception as e:
-            print helpers.color("[*] No XLSX's to download from google!\n", firewall=True)
+            print helpers.color(" [*] No XLSX's to download from google!\n", firewall=True)
             self.logger.error("No XLSX's to download from google! " + str(e))
 
     def get_emails(self):

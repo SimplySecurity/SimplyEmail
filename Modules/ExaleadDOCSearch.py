@@ -54,7 +54,7 @@ class ClassName(object):
 
     def search(self):
         dl = Download.Download(self.verbose)
-        convert = Converter.Converter(self.verbose)
+        convert = Converter.Converter(verbose=self.verbose)
         while self.Counter <= self.Limit and self.Counter <= 10:
             helpers.modsleep(1)
             if self.verbose:

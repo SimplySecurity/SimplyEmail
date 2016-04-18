@@ -59,12 +59,15 @@ class Converter(object):
         # one for each text run in presentation
         text_runs = ""
         for slide in prs.slides:
-            for shape in slide.shapes:
-                if not shape.has_text_frame:
-                    continue
-                for paragraph in shape.text_frame.paragraphs:
-                    for run in paragraph.runs:
-                        text_runs += str(run.text) + ' '
+            try:
+                for shape in slide.shapes:
+                    if not shape.has_text_frame:
+                        continue
+                    for paragraph in shape.text_frame.paragraphs:
+                        for run in paragraph.runs:
+                            text_runs += str(run.text) + ' '
+            except Exception as e:
+                print e
         return text_runs
 
     def convert_pdf_to_txt(self, path):
