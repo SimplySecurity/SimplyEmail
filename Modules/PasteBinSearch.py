@@ -50,7 +50,7 @@ class ClassName(object):
         while self.Counter <= self.Limit and self.Counter <= 100:
             time.sleep(1)
             if self.verbose:
-                p = '[*] Google Search for PasteBin on page: ' + \
+                p = ' [*] Google Search for PasteBin on page: ' + \
                     str(self.Counter)
                 self.logger.info(
                     "GooglePasteBinSearch on page: " + str(self.Counter))
@@ -60,7 +60,7 @@ class ClassName(object):
                       '&hl=en&meta=&q=site:pastebin.com+"%40' + \
                     self.Domain + '"'
             except Exception as e:
-                error = "[!] Major issue with Google Search for PasteBin:" + \
+                error = " [!] Major issue with Google Search for PasteBin:" + \
                     str(e)
                 self.logger.error(
                     "GooglePasteBinSearch could not create URL: " + str(e))
@@ -69,7 +69,7 @@ class ClassName(object):
             try:
                 r = requests.get(url, headers=self.UserAgent)
             except Exception as e:
-                error = "[!] Fail during Request to PasteBin (Check Connection):" + str(
+                error = " [!] Fail during Request to PasteBin (Check Connection):" + str(
                     e)
                 self.logger.error(
                     "Fail during Request to PasteBin (Check Connection): " + str(e))
@@ -87,7 +87,7 @@ class ClassName(object):
                     if "/u/" not in str(a['href']):
                         self.urlList.append(a['href'])
             except Exception as e:
-                error = "[!] Fail during parsing result: " + str(e)
+                error = " [!] Fail during parsing result: " + str(e)
                 self.logger.error(
                     "PasteBinSearch Fail during parsing result: " + str(e))
                 print helpers.color(error, warning=True)
@@ -105,7 +105,7 @@ class ClassName(object):
                 print helpers.color(error, warning=True)
 
         if self.verbose:
-            p = '[*] Searching PasteBin Complete'
+            p = ' [*] Searching PasteBin Complete'
             self.logger.info("Searching PasteBin Complete")
             print helpers.color(p, firewall=True)
 

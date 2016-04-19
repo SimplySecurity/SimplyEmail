@@ -3,7 +3,7 @@ import helpers
 import logging
 import docx2txt
 from pptx import Presentation
-from subprocess import Popen, PIPE
+from subprocess import Popen, PIPE, STDOUT
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
@@ -34,7 +34,9 @@ class Converter(object):
             self.logger.debug("Converted docx to text: " + str(path))
             return unicode(text)
         except Exception as e:
-            self.logger.debug(
+            text = ""
+            return text
+            self.logger.error(
                 "Failed to DOCX to text: " + str(e))
 
     def convert_doc_to_txt(self, path):
@@ -46,11 +48,13 @@ class Converter(object):
         """
         try:
             cmd = ['antiword', path]
-            p = Popen(cmd, stdout=PIPE)
+            p = Popen(cmd, stdout=PIPE, stderr=STDOUT)
             stdout, stderr = p.communicate()
             return stdout.decode('ascii', 'ignore')
         except Exception as e:
-            self.logger.debug(
+            text = ""
+            return text
+            self.logger.error(
                 "Failed to DOC to text: " + str(e))
 
     def convert_pptx_to_txt(self, path):
@@ -58,17 +62,25 @@ class Converter(object):
         # text_runs will be populated with a list of strings,
         # one for each text run in presentation
         text_runs = ""
-        for slide in prs.slides:
-            try:
-                for shape in slide.shapes:
-                    if not shape.has_text_frame:
-                        continue
-                    for paragraph in shape.text_frame.paragraphs:
-                        for run in paragraph.runs:
-                            text_runs += str(run.text) + ' '
-            except Exception as e:
-                print e
-        return text_runs
+        try:
+            for slide in prs.slides:
+                try:
+                    for shape in slide.shapes:
+                        if not shape.has_text_frame:
+                            continue
+                        for paragraph in shape.text_frame.paragraphs:
+                            for run in paragraph.runs:
+                                text_runs += str(run.text) + ' '
+                except:
+                    pass
+            return text_runs
+        except Exception as e:
+            if text_runs:
+                return text_runs
+            else:
+                text_runs = ""
+                return text_runs
+            self.logger.error("Failed to convert pptx: " + str(e))
 
     def convert_pdf_to_txt(self, path):
         """
@@ -99,7 +111,9 @@ class Converter(object):
             retstr.close()
             return text
         except Exception as e:
-            self.logger.debug(
+            text = ""
+            return text
+            self.logger.error(
                 "Failed to PDF to text: " + str(e))
 
     def convert_Xlsx_to_Csv(self, path):
@@ -108,10 +122,12 @@ class Converter(object):
         self.logger.debug("convert_Xlsx_to_Csv on file: " + str(path))
         try:
             cmd = ['xlsx2csv', path]
-            p = Popen(cmd, stdout=PIPE)
+            p = Popen(cmd, stdout=PIPE, stderr=STDOUT)
             stdout, stderr = p.communicate()
             text = stdout.decode('ascii', 'ignore')
             return text
         except Exception as e:
-            self.logger.debug(
-                "Failed to convert_Xlsx_to_Csv to text: " + str(e))
+            text = ""
+            return text
+            self.logger.error(
+                "Failed tSTDOUTo convert_Xlsx_to_Csv to text: " + str(e))

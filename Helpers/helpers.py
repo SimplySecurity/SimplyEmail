@@ -88,7 +88,7 @@ class log(object):
 
     def start(self):
         logger = logging.getLogger("SimplyEmail")
-        logger.setLevel(logging.INFO)
+        logger.setLevel(logging.DEBUG)
         fh = logging.FileHandler(self.name)
         formatter = logging.Formatter(
             '%(asctime)s-[%(name)s]-[%(levelname)s]- %(message)s')

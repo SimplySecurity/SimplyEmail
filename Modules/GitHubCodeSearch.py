@@ -53,7 +53,7 @@ class ClassName(object):
             self.Depth = int(config['GitHubSearch']['PageDepth'])
             self.Counter = int(config['GitHubSearch']['QueryStart'])
         except:
-            print helpers.color("[*] Major Settings for GitHubSearch are missing, EXITING!\n", warning=True)
+            print helpers.color(" [*] Major Settings for GitHubSearch are missing, EXITING!\n", warning=True)
 
     def execute(self):
         self.process()
@@ -66,7 +66,7 @@ class ClassName(object):
         UrlList = []
         while self.Counter <= self.Depth:
             if self.verbose:
-                p = '[*] GitHub Code Search on page: ' + str(self.Counter)
+                p = ' [*] GitHub Code Search on page: ' + str(self.Counter)
                 print helpers.color(p, firewall=True)
             try:
                 url = "https://github.com/search?p=" + str(self.Counter) + "&q=" + \
@@ -75,7 +75,7 @@ class ClassName(object):
                 if r.status_code != 200:
                     break
             except Exception as e:
-                error = "[!] Major isself.Counter += 1sue with GitHub Search:" + \
+                error = " [!] Major isself.Counter += 1sue with GitHub Search:" + \
                     str(e)
                 print helpers.color(error, warning=True)
             RawHtml = r.content
@@ -93,7 +93,7 @@ class ClassName(object):
                 html = requests.get(Url, timeout=2)
                 self.Html += html.content
             except Exception as e:
-                error = "[!] Connection Timed out on Github Search:" + str(e)
+                error = " [!] Connection Timed out on Github Search:" + str(e)
                 print helpers.color(error, warning=True)
 
     def get_emails(self):

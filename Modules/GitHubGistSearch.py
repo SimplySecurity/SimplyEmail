@@ -30,7 +30,7 @@ class ClassName(object):
             self.Depth = int(config['GitHubGistSearch']['PageDepth'])
             self.Counter = int(config['GitHubGistSearch']['QueryStart'])
         except:
-            print helpers.color("[*] Major Settings for GitHubGistSearch are missing, EXITING!\n", warning=True)
+            print helpers.color(" [*] Major Settings for GitHubGistSearch are missing, EXITING!\n", warning=True)
 
     def execute(self):
         self.process()
@@ -43,7 +43,7 @@ class ClassName(object):
         UrlList = []
         while self.Counter <= self.Depth:
             if self.verbose:
-                p = '[*] GitHub Gist Search Search on page: ' + \
+                p = ' [*] GitHub Gist Search Search on page: ' + \
                     str(self.Counter)
                 print helpers.color(p, firewall=True)
             try:
@@ -54,7 +54,7 @@ class ClassName(object):
                 if r.status_code != 200:
                     break
             except Exception as e:
-                error = "[!] Major isself.Counter += 1sue with GitHubGist Search:" + \
+                error = " [!] Major isself.Counter += 1sue with GitHubGist Search:" + \
                     str(e)
                 print helpers.color(error, warning=True)
             RawHtml = r.content
@@ -72,7 +72,7 @@ class ClassName(object):
                 html = requests.get(Url, timeout=2)
                 self.Html += html.content
             except Exception as e:
-                error = "[!] Connection Timed out on GithubGist Search:" + \
+                error = " [!] Connection Timed out on GithubGist Search:" + \
                     str(e)
                 print helpers.color(error, warning=True)
 

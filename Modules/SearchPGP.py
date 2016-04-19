@@ -46,11 +46,11 @@ class ClassName(object):
             self.logger.info("Requesting PGP keys")
             r = requests.get(url)
         except Exception as e:
-            error = "[!] Major issue with PGP Search:" + str(e)
+            error = " [!] Major issue with PGP Search:" + str(e)
             self.logger.error("Major issue with PGP search: " + str(e))
             print helpers.color(error, warning=True)
         if self.verbose:
-            p = '[*] Searching PGP Complete'
+            p = ' [*] Searching PGP Complete'
             self.logger.info("SearchPGP Completed search")
             print helpers.color(p, firewall=True)
         self.results = r.content

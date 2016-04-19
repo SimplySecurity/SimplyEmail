@@ -33,7 +33,7 @@ class ClassName(object):
             self.urlList = []
             self.Text = ""
         except:
-            print helpers.color("[*] Major Settings for GoogleCsvSearch are missing, EXITING!\n", warning=True)
+            print helpers.color(" [*] Major Settings for GoogleCsvSearch are missing, EXITING!\n", warning=True)
 
     def execute(self):
         self.search()

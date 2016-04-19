@@ -28,7 +28,7 @@ class ClassName(object):
             self.Depth = int(config['GitHubUserSearch']['PageDepth'])
             self.Counter = int(config['GitHubUserSearch']['QueryStart'])
         except:
-            print helpers.color("[*] Major Settings for GitHubUserSearch are missing, EXITING!\n", warning=True)
+            print helpers.color(" [*] Major Settings for GitHubUserSearch are missing, EXITING!\n", warning=True)
 
     def execute(self):
         self.search()
@@ -39,18 +39,18 @@ class ClassName(object):
         while self.Counter <= self.Depth and self.Counter <= 100:
             helpers.modsleep(5)
             if self.verbose:
-                p = '[*] GitHubUser Search on page: ' + str(self.Counter)
+                p = ' [*] GitHubUser Search on page: ' + str(self.Counter)
                 print helpers.color(p, firewall=True)
             try:
                 url = 'https://github.com/search?p=' + str(self.Counter) + '&q=' + \
                     str(self.domain) + 'ref=searchresults&type=Users&utf8='
             except Exception as e:
-                error = "[!] Major issue with GitHubUser Search:" + str(e)
+                error = " [!] Major issue with GitHubUser Search:" + str(e)
                 print helpers.color(error, warning=True)
             try:
                 r = requests.get(url, headers=self.UserAgent)
             except Exception as e:
-                error = "[!] Fail during Request to GitHubUser (Check Connection):" + \
+                error = " [!] Fail during Request to GitHubUser (Check Connection):" + \
                     str(e)
                 print helpers.color(error, warning=True)
             results = r.content

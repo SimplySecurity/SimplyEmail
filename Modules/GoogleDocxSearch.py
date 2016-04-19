@@ -68,7 +68,6 @@ class ClassName(object):
             soup = BeautifulSoup(RawHtml)
             # I use this to parse my results, for URLS to follow
             for a in soup.findAll('a'):
-                print a
                 try:
                     # https://stackoverflow.com/questions/21934004/not-getting-proper-links-
                     # from-google-search-results-using-mechanize-and-beautifu/22155412#22155412?

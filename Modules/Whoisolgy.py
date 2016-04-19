@@ -43,7 +43,7 @@ class ClassName(object):
         try:
             if self.verbose:
                 self.logger.info("Whoisology request started")
-                p = '[*] Whoisology request started'
+                p = ' [*] Whoisology request started'
                 print helpers.color(p, firewall=True)
             url = "https://whoisology.com/archive_11/" + \
                 self.domain

@@ -26,7 +26,7 @@ class ClassName(object):
             self.HostName = str(config['FlickrSearch']['Hostname'])
             self.UserAgent = str(config['GlobalSettings']['UserAgent'])
         except:
-            print helpers.color("[*] Major Settings for FlickrSearch are missing, EXITING!\n", warning=True)
+            print helpers.color(" [*] Major Settings for FlickrSearch are missing, EXITING!\n", warning=True)
 
     def execute(self):
         self.process()
@@ -38,11 +38,11 @@ class ClassName(object):
             url = "https://www.flickr.com/search/?text=%40" + self.domain
             r = requests.get(url)
         except Exception as e:
-            error = "[!] Major issue with Flickr Search:" + str(e)
+            error = " [!] Major issue with Flickr Search:" + str(e)
             print helpers.color(error, warning=True)
         self.results = r.content
         if self.verbose:
-            p = '[*] FlickrSearch has completed'
+            p = ' [*] FlickrSearch has completed'
             print helpers.color(p, firewall=True)
         # https://www.flickr.com/search/?text=%40microsoft.com
         # is an example of a complete request for "@microsoft.com"

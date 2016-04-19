@@ -44,7 +44,7 @@ class ClassName(object):
             self.Text = ""
         except Exception as e:
             self.logger.critical("ExaleadDOCSearch module failed to __init__: " + str(e))
-            print helpers.color("[*] Major Settings for Exalead are missing, EXITING!\n", warning=True)
+            print helpers.color(" [*] Major Settings for Exalead are missing, EXITING!\n", warning=True)
 
     def execute(self):
         self.logger.debug("ExaleadDOCSearch module started")
@@ -58,7 +58,7 @@ class ClassName(object):
         while self.Counter <= self.Limit and self.Counter <= 10:
             helpers.modsleep(1)
             if self.verbose:
-                p = '[*] Exalead DOC Search on page: ' + str(self.Counter)
+                p = ' [*] Exalead DOC Search on page: ' + str(self.Counter)
                 self.logger.info('ExaleadDOCSearch on page: ' + str(self.Counter))
                 print helpers.color(p, firewall=True)
             try:
@@ -67,7 +67,7 @@ class ClassName(object):
                     str(self.Quanity) + '&start_index=' + str(self.Counter)
             except Exception as e:
                 self.logger.error('ExaleadDOCSearch could not build URL')
-                error = "[!] Major issue with Exalead DOC Search: " + str(e)
+                error = " [!] Major issue with Exalead DOC Search: " + str(e)
                 print helpers.color(error, warning=True)
             try:
                 RawHtml = dl.requesturl(url, useragent=self.UserAgent)
@@ -79,7 +79,7 @@ class ClassName(object):
                                 for h2 in soup.findAll('h4', class_='media-heading')]
             except Exception as e:
                 self.logger.error('ExaleadDOCSearch could not request / parse HTML')
-                error = "[!] Fail during parsing result: " + str(e)
+                error = " [!] Fail during parsing result: " + str(e)
                 print helpers.color(error, warning=True)
             self.Counter += 30
 
@@ -87,7 +87,7 @@ class ClassName(object):
         try:
             for url in self.urlList:
                 if self.verbose:
-                    p = '[*] Exalead DOC search downloading: ' + str(url)
+                    p = ' [*] Exalead DOC search downloading: ' + str(url)
                     self.logger.info('ExaleadDOCSearch downloading: ' + str(url))
                     print helpers.color(p, firewall=True)
                 try:
@@ -96,13 +96,13 @@ class ClassName(object):
                     FileName, FileDownload = dl.download_file(url, filetype)
                     if FileDownload:
                         if self.verbose:
-                            p = '[*] Exalead DOC file was downloaded: ' + \
+                            p = ' [*] Exalead DOC file was downloaded: ' + \
                                 str(url)
                             self.logger.info('ExaleadDOCSearch downloaded: ' + str(p))
                             print helpers.color(p, firewall=True)
                         self.Text += convert.convert_doc_to_txt(FileName)
                 except Exception as e:
-                    error = "[!] Issue with opening DOC Files:%s\n" % (str(e))
+                    error = " [!] Issue with opening DOC Files:%s\n" % (str(e))
                     print helpers.color(error, warning=True)
                 try:
                     dl.delete_file(FileName)
@@ -110,10 +110,10 @@ class ClassName(object):
                     print e
         except Exception as e:
             self.logger.error("ExaleadDOCSearch no doc's to download")
-            print helpers.color("[*] No DOC's to download from Exalead!\n", firewall=True)
+            print helpers.color(" [*] No DOC's to download from Exalead!\n", firewall=True)
 
         if self.verbose:
-            p = '[*] Searching DOC from Exalead Complete'
+            p = ' [*] Searching DOC from Exalead Complete'
             print helpers.color(p, status=True)
 
     def get_emails(self):
