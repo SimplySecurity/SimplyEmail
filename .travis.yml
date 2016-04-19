@@ -12,7 +12,7 @@ install:
   - pip install BeautifulSoup
   - pip install --upgrade requests
   - pip install xlsx2csv --upgrade
-  - pip install configparser --upgrade
+  - pip install configparser 
   - pip install BeautifulSoup --upgrade
   - pip install pdfminer --upgrade
   - pip install python-docx
