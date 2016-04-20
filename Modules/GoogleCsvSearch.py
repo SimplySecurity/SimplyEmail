@@ -5,15 +5,12 @@
 # 2) main name called "ClassName"
 # 3) execute function (calls everthing it neeeds)
 # 4) places the findings into a queue
-import requests
 import urlparse
 import configparser
 import time
-import logging
 from Helpers import Download
 from Helpers import helpers
 from Helpers import Parser
-from Helpers import Converter
 from BeautifulSoup import BeautifulSoup
 
 
@@ -21,58 +18,54 @@ class ClassName(object):
 
     def __init__(self, Domain, verbose=False):
         self.apikey = False
-        self.name = "Google XLSX Search for Emails"
+        self.name = "Google CSV Search for Emails"
         self.description = "Uses Google Dorking to search for emails"
         config = configparser.ConfigParser()
         try:
-            self.logger = logging.getLogger("SimplyEmail.GoogleXlsxSearch")
             config.read('Common/SimplyEmail.ini')
             self.Domain = Domain
-            self.Quanity = int(config['GoogleXlsxSearch']['StartQuantity'])
-            self.Limit = int(config['GoogleXlsxSearch']['QueryLimit'])
+            self.Quanity = int(config['GoogleCsvSearch']['StartQuantity'])
             self.UserAgent = {
                 'User-Agent': helpers.getua()}
-            self.Counter = int(config['GoogleXlsxSearch']['QueryStart'])
+            self.Limit = int(config['GoogleCsvSearch']['QueryLimit'])
+            self.Counter = int(config['GoogleCsvSearch']['QueryStart'])
             self.verbose = verbose
             self.urlList = []
             self.Text = ""
-        except Exception as e:
-            self.logger.critical(
-                'GoogleXlsxSearch module failed to load: ' + str(e))
-            print helpers.color(" [*] Major Settings for GoogleXlsxSearch are missing, EXITING!\n", warning=True)
+        except:
+            print helpers.color(" [*] Major Settings for GoogleCsvSearch are missing, EXITING!\n", warning=True)
 
     def execute(self):
-        self.logger.debug("GoogleXlsxSearch Started")
         self.search()
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults
 
+
     def search(self):
-        convert = Converter.Converter(verbose=self.verbose)
+        dl = Download.Download(self.verbose)
         while self.Counter <= self.Limit and self.Counter <= 100:
             time.sleep(1)
             if self.verbose:
-                p = ' [*] Google XLSX Search on page: ' + str(self.Counter)
-                self.logger.info(
-                    "Google XLSX Search on page: " + str(self.Counter))
+                p = ' [*] Google CSV Search on page: ' + str(self.Counter)
                 print helpers.color(p, firewall=True)
             try:
-                urly = "https://www.google.com/search?q=site:" + \
-                    self.Domain + "+filetype:xlsx&start=" + str(self.Counter)
+                url = "https://www.google.com/search?q=site:" + \
+                    self.Domain + "+filetype:csv&start=" + str(self.Counter)
             except Exception as e:
-                error = " [!] Major issue with Google XLSX Search:" + str(e)
-                self.logger.error(
-                    "GoogleXlsxSearch failed to build url: " + str(e))
+                error = " [!] Major issue with Google Search:" + str(e)
                 print helpers.color(error, warning=True)
             try:
-                r = requests.get(urly)
+                RawHtml = dl.requesturl(url, useragent=self.UserAgent)
             except Exception as e:
                 error = " [!] Fail during Request to Google (Check Connection):" + \
                     str(e)
-                self.logger.error(
-                    "GoogleXlsxSearch failed to request url (Check Connection): " + str(e))
                 print helpers.color(error, warning=True)
-            RawHtml = r.content
+            # check for captcha
+            try:
+                # Url = r.url
+                dl.GoogleCaptchaDetection(RawHtml)
+            except Exception as e:
+                print e
             soup = BeautifulSoup(RawHtml)
             # I use this to parse my results, for URLS to follow
             for a in soup.findAll('a'):
@@ -89,39 +82,30 @@ class ClassName(object):
                     pass
             self.Counter += 10
         # now download the required files
-        self.logger.debug(
-            "GoogleXlsxSearch completed HTML result query, starting downloads")
         try:
             for url in self.urlList:
                 if self.verbose:
-                    p = ' [*] Google XLSX search downloading: ' + str(url)
-                    self.logger.info(
-                        "Google XLSX search downloading: " + str(url))
+                    p = ' [*] Google CSV search downloading: ' + str(url)
                     print helpers.color(p, firewall=True)
                 try:
-                    filetype = ".xlsx"
-                    dl = Download.Download(self.verbose)
-                    FileName, FileDownload = dl.download_file(url, filetype)
+                    filetype = ".csv"
+                    FileName, FileDownload = dl.download_file2(url, filetype)
                     if FileDownload:
                         if self.verbose:
-                            p = ' [*] Google XLSX file was downloaded: ' + \
+                            p = '[*] Google CSV file was downloaded: ' + \
                                 str(url)
-                            self.logger.info(
-                                "Google XLSX file was downloaded: " + str(url))
                             print helpers.color(p, firewall=True)
-                        self.Text += convert.convert_Xlsx_to_Csv(FileName)
+                        with open(FileName) as f:
+                            self.Text += f.read()
                     # print self.Text
                 except Exception as e:
-                    print helpers.color(" [!] Issue with opening Xlsx Files\n", firewall=True)
-                    self.logger.error("Google XLSX had issue opening file")
+                    print helpers.color(" [!] Issue with opening CSV Files\n", firewall=True)
                 try:
                     dl.delete_file(FileName)
                 except Exception as e:
-                    self.logger.error(
-                        "Google XLSX failed to delete file: " + str(e))
-        except Exception as e:
-            print helpers.color(" [*] No XLSX's to download from google!\n", firewall=True)
-            self.logger.error("No XLSX's to download from google! " + str(e))
+                    print e
+        except:
+            print helpers.color(" [*] No CSV to download from Google!\n", firewall=True)
 
     def get_emails(self):
         Parse = Parser.Parser(self.Text)
@@ -129,5 +113,4 @@ class ClassName(object):
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
-        self.logger.debug('GoogleXlsxSearch completed search')
         return FinalOutput, HtmlResults

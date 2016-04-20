@@ -6,9 +6,9 @@
 # 3) execute function (calls everthing it neeeds)
 # 4) places the findings into a queue
 import configparser
-import requests
 import time
 import logging
+from Helpers import Download
 from Helpers import helpers
 from Helpers import Parser
 
@@ -33,7 +33,7 @@ class ClassName(object):
         except Exception as e:
             self.logger.critical(
                 'RedditPostSearch module failed to load: ' + str(e))
-            print helpers.color("[*] Major Settings for RedditPostSearch are missing, EXITING!\n", warning=True)
+            print helpers.color(" [*] Major Settings for RedditPostSearch are missing, EXITING!\n", warning=True)
 
     def execute(self):
         self.logger.debug("RedditPostSearch started")
@@ -42,10 +42,11 @@ class ClassName(object):
         return FinalOutput, HtmlResults
 
     def search(self):
+        dl = Download.Download(self.verbose)
         while self.Counter <= self.Limit and self.Counter <= 1000:
             time.sleep(1)
             if self.verbose:
-                p = '[*] RedditPost Search on result: ' + str(self.Counter)
+                p = ' [*] RedditPost Search on result: ' + str(self.Counter)
                 self.logger.debug(
                     "RedditPost Search on result: " + str(self.Counter))
                 print helpers.color(p, firewall=True)
@@ -54,20 +55,19 @@ class ClassName(object):
                     "&restrict_sr=&sort=relevance&t=all&count=" + str(self.Counter) + \
                     '&after=t3_3mkrqg'
             except Exception as e:
-                error = "[!] Major issue with RedditPost search:" + str(e)
+                error = " [!] Major issue with RedditPost search:" + str(e)
                 self.logger.error(
                     "Major issue with RedditPostSearch: " + str(e))
                 print helpers.color(error, warning=True)
             try:
-                r = requests.get(url, headers=self.UserAgent)
+                RawHtml = dl.requesturl(url, useragent=self.UserAgent)
             except Exception as e:
-                error = "[!] Fail during Request to Reddit (Check Connection):" + \
+                error = " [!] Fail during Request to Reddit (Check Connection):" + \
                     str(e)
                 self.logger.error(
                     "Fail during Request to Reddit (Check Connection): " + str(e))
                 print helpers.color(error, warning=True)
-            results = r.content
-            self.Html += results
+            self.Html += RawHtml
             # reddit seems to increment by 25 in cases
             self.Counter += 25
 

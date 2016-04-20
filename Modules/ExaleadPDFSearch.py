@@ -8,15 +8,11 @@
 import configparser
 import requests
 import time
+from Helpers import Converter
 from Helpers import helpers
 from Helpers import Parser
 from Helpers import Download
 from bs4 import BeautifulSoup
-from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
-from pdfminer.converter import TextConverter
-from pdfminer.layout import LAParams
-from pdfminer.pdfpage import PDFPage
-from cStringIO import StringIO
 
 
 class ClassName(object):
@@ -40,36 +36,13 @@ class ClassName(object):
         except:
             print helpers.color(" [*] Major Settings for ExaleadPDFSearch are missing, EXITING!\n", warning=True)
 
-    def convert_pdf_to_txt(self, path):
-        rsrcmgr = PDFResourceManager()
-        retstr = StringIO()
-        codec = 'utf-8'
-        laparams = LAParams()
-        device = TextConverter(rsrcmgr, retstr, codec=codec, laparams=laparams)
-        fp = file(path, 'rb')
-        interpreter = PDFPageInterpreter(rsrcmgr, device)
-        password = ""
-        maxpages = 0
-        caching = True
-        pagenos = set()
-
-        for page in PDFPage.get_pages(fp, pagenos, maxpages=maxpages, password=password, caching=caching,
-                                      check_extractable=True):
-            interpreter.process_page(page)
-
-        text = retstr.getvalue()
-
-        fp.close()
-        device.close()
-        retstr.close()
-        return text
-
     def execute(self):
         self.search()
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults
 
     def search(self):
+        convert = Converter.Converter(verbose=self.verbose)
         while self.Counter <= self.Limit and self.Counter <= 10:
             time.sleep(1)
             if self.verbose:
@@ -116,7 +89,7 @@ class ClassName(object):
                             p = ' [*] Exalead PDF file was downloaded: ' + \
                                 str(url)
                             print helpers.color(p, firewall=True)
-                        self.Text += self.convert_pdf_to_txt(FileName)
+                        self.Text += convert.convert_pdf_to_txt(FileName)
                 except Exception as e:
                     pass
                 try:

@@ -3,6 +3,8 @@
 import os
 import textwrap
 import logging
+import time
+import magic
 from fake_useragent import UserAgent
 
 
@@ -69,6 +71,13 @@ def getua():
     ua = UserAgent()
     return ua.random
 
+def modsleep(st):
+    # sleep module for spec time
+    time.sleep(int(st))
+
+def filetype(path):
+    m = magic.from_file(str(path))
+    return m
 
 ######################
 #Setup Logging Class #
@@ -83,7 +92,7 @@ class log(object):
 
     def start(self):
         logger = logging.getLogger("SimplyEmail")
-        logger.setLevel(logging.INFO)
+        logger.setLevel(logging.DEBUG)
         fh = logging.FileHandler(self.name)
         formatter = logging.Formatter(
             '%(asctime)s-[%(name)s]-[%(levelname)s]- %(message)s')

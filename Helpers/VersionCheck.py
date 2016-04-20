@@ -25,7 +25,7 @@ class VersionCheck(object):
         if self.Start == "Yes":
             self.logger.info("Verison / Update request started")
             try:
-                r = requests.get(self.RepoLocation, headers=self.UserAgent)
+                r = requests.get(self.RepoLocation, headers=self.UserAgent, timeout=3)
                 results = r.content
                 results = results.rstrip('\n')
                 if str(results) != str(self.version):
@@ -35,7 +35,7 @@ class VersionCheck(object):
                         "Verison / Update returned newer Version Available")
                 self.logger.info("Verison / Update request completed OK")
             except Exception as e:
-                error = "[!] Fail during Request to Update/Version Check (Check Connection)"
+                error = " [!] Fail during Request to Update/Version Check (Check Connection)"
                 self.logger.error(
-                    "Fail during Request to Update/Version Check (Check Connection)" + e)
+                    "Fail during Request to Update/Version Check (Check Connection)" + str(e))
                 print helpers.color(error, warning=True)

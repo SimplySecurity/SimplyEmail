@@ -1,6 +1,24 @@
 language: python
 python:
   - "2.7"
+install:
+  - pip install coveralls
+  - pip install coverage
+  - pip install nose
+  - pip install python-magic
+  - pip install useragent fake_useragent
+  - pip install beautifulsoup4
+  - pip install mechanize
+  - pip install docx2txt
+  - pip install BeautifulSoup
+  - pip install --upgrade requests
+  - pip install xlsx2csv --upgrade
+  - pip install configparser 
+  - pip install BeautifulSoup --upgrade
+  - pip install pdfminer --upgrade
+  - pip install python-docx
+  - pip install python-pptx
+  - pip install dnspython --upgrade
 script:
   - "sudo sh Setup.sh"
   - "sudo ./SimplyEmail.py -l"
@@ -9,4 +27,7 @@ script:
   - "sudo ./SimplyEmail.py -verify"
   - "sudo ./SimplyEmail.py -s"
   - "sudo ./SimplyEmail.py -s -e cybersyndicates.com"
+  - nosetests --with-coverage
+after_success:
+  - coveralls
   

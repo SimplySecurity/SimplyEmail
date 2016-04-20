@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import requests
 import configparser
 from BeautifulSoup import BeautifulSoup
+from Helpers import Download
 from Helpers import Parser
 from Helpers import helpers
 
@@ -49,11 +49,13 @@ class ClassName(object):
         self.Html = ""
         self.verbose = verbose
         try:
+            self.UserAgent = {
+                'User-Agent': helpers.getua()}
             config.read('Common/SimplyEmail.ini')
             self.Depth = int(config['GitHubSearch']['PageDepth'])
             self.Counter = int(config['GitHubSearch']['QueryStart'])
         except:
-            print helpers.color("[*] Major Settings for GitHubSearch are missing, EXITING!\n", warning=True)
+            print helpers.color(" [*] Major Settings for GitHubSearch are missing, EXITING!\n", warning=True)
 
     def execute(self):
         self.process()
@@ -61,21 +63,22 @@ class ClassName(object):
         return FinalOutput, HtmlResults
 
     def process(self):
+        dl = Download.Download(verbose=self.verbose)
         # Get all the USER code Repos
         # https://github.com/search?p=2&q=enron.com+&ref=searchresults&type=Code&utf8=✓
         UrlList = []
         while self.Counter <= self.Depth:
             if self.verbose:
-                p = '[*] GitHub Code Search on page: ' + str(self.Counter)
+                p = ' [*] GitHub Code Search on page: ' + str(self.Counter)
                 print helpers.color(p, firewall=True)
             try:
                 url = "https://github.com/search?p=" + str(self.Counter) + "&q=" + \
                     str(self.domain) + "+&ref=searchresults&type=Code&utf8=✓"
-                r = requests.get(url, timeout=2)
+                r = dl.requesturl(url, useragent=self.UserAgent, raw=True, timeout=10)
                 if r.status_code != 200:
                     break
             except Exception as e:
-                error = "[!] Major isself.Counter += 1sue with GitHub Search:" + \
+                error = " [!] Major isself.Counter += 1sue with GitHub Search:" + \
                     str(e)
                 print helpers.color(error, warning=True)
             RawHtml = r.content
@@ -87,13 +90,13 @@ class ClassName(object):
                     UrlList.append(a)
             self.Counter += 1
         # Now take all gathered URL's and gather the HTML content needed
-        for Url in UrlList:
+        for url in UrlList:
             try:
-                Url = "https://github.com" + Url
-                html = requests.get(Url, timeout=2)
-                self.Html += html.content
+                url = "https://github.com" + url
+                html = dl.requesturl(url, useragent=self.UserAgent, timeout=10)
+                self.Html += html
             except Exception as e:
-                error = "[!] Connection Timed out on Github Search:" + str(e)
+                error = " [!] Connection Timed out on Github Search:" + str(e)
                 print helpers.color(error, warning=True)
 
     def get_emails(self):

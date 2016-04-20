@@ -5,17 +5,14 @@
 # 2) main name called "ClassName"
 # 3) execute function (calls everthing it neeeds)
 # 4) places the findings into a queue
+
 import configparser
-import requests
-import time
 import logging
-from Helpers import Converter
+from Helpers import Download
 from Helpers import helpers
 from Helpers import Parser
-from Helpers import Download
+from Helpers import Converter
 from bs4 import BeautifulSoup
-import docx2txt
-
 # import for "'ascii' codec can't decode byte" error
 import sys
 reload(sys)
@@ -27,67 +24,50 @@ class ClassName(object):
 
     def __init__(self, Domain, verbose=False):
         self.apikey = False
-        self.name = "Exalead DOCX Search for Emails"
-        self.description = "Uses Exalead Dorking to search DOCXs for emails"
+        self.name = "Exalead PPTX Search for Emails"
+        self.description = "Uses Exalead Dorking to search PPTX for emails"
         config = configparser.ConfigParser()
         try:
-            self.logger = logging.getLogger("SimplyEmail.ExaleadDOCXSearch")
+            self.logger = logging.getLogger("SimplyEmail.ExaleadPPTXSearch")
             config.read('Common/SimplyEmail.ini')
             self.Domain = Domain
-            self.Quanity = int(config['ExaleadDOCXSearch']['StartQuantity'])
+            self.Quanity = int(config['ExaleadPPTXSearch']['StartQuantity'])
             self.UserAgent = {
                 'User-Agent': helpers.getua()}
-            self.Limit = int(config['ExaleadDOCXSearch']['QueryLimit'])
-            self.Counter = int(config['ExaleadDOCXSearch']['QueryStart'])
+            self.Limit = int(config['ExaleadPPTXSearch']['QueryLimit'])
+            self.Counter = int(config['ExaleadPPTXSearch']['QueryStart'])
             self.verbose = verbose
             self.urlList = []
             self.Text = ""
         except Exception as e:
-            elf.logger.critical("ExaleadDOCXSearch module failed to __init__: " + str(e))
-            p = " [*] Major Settings for ExaleadDOCXSearch are missing, EXITING: " + e
-            print helpers.color(p, warning=True)
+            self.logger.critical("ExaleadPPTXSearch module failed to __init__: " + str(e))
+            print helpers.color(" [*] Major Settings for Exalead are missing, EXITING!\n", warning=True)
 
     def execute(self):
-        self.logger.debug("ExaleadDOCXSearch module started")
+        self.logger.debug("ExaleadPPTXSearch module started")
         self.search()
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults
 
-    def download_file(self, url):
-        local_filename = url.split('/')[-1]
-        # NOTE the stream=True parameter
-        r = requests.get(url, stream=True)
-        with open(local_filename, 'wb') as f:
-            for chunk in r.iter_content(chunk_size=1024):
-                if chunk:  # filter out keep-alive new chunks
-                    f.write(chunk)
-                    # f.flush() commented by recommendation from J.F.Sebastian
-        return local_filename
-
     def search(self):
+        dl = Download.Download(self.verbose)
         convert = Converter.Converter(verbose=self.verbose)
-        while self.Counter <= self.Limit:
-            time.sleep(1)
+        while self.Counter <= self.Limit and self.Counter <= 10:
+            helpers.modsleep(1)
             if self.verbose:
-                p = ' [*] Exalead Search on page: ' + str(self.Counter)
-                self.logger.info("ExaleadDOCXSearch on page: " + str(self.Counter))
+                p = ' [*] Exalead PPTX Search on page: ' + str(self.Counter)
+                self.logger.info('ExaleadPPTXSearch on page: ' + str(self.Counter))
                 print helpers.color(p, firewall=True)
             try:
                 url = 'http://www.exalead.com/search/web/results/?q="%40' + self.Domain + \
-                      '"+filetype:docx&elements_per_page=' + \
+                      '"+filetype:pptx&elements_per_page=' + \
                     str(self.Quanity) + '&start_index=' + str(self.Counter)
             except Exception as e:
-                self.logger.error("Issue building URL to search")
-                error = " [!] Major issue with Exalead DOCX Search: " + str(e)
+                self.logger.error('ExaleadPPTXSearch could not build URL')
+                error = " [!] Major issue with Exalead PPTX Search: " + str(e)
                 print helpers.color(error, warning=True)
             try:
-                r = requests.get(url, headers=self.UserAgent)
-            except Exception as e:
-                error = " [!] Fail during Request to Exalead (Check Connection):" + str(
-                    e)
-                print helpers.color(error, warning=True)
-            try:
-                RawHtml = r.content
+                RawHtml = dl.requesturl(url, useragent=self.UserAgent)
                 # sometimes url is broken but exalead search results contain
                 # e-mail
                 self.Text += RawHtml
@@ -95,7 +75,7 @@ class ClassName(object):
                 self.urlList = [h2.a["href"]
                                 for h2 in soup.findAll('h4', class_='media-heading')]
             except Exception as e:
-                self.logger.error("Fail during parsing result: " + str(e))
+                self.logger.error('ExaleadPPTXSearch could not request / parse HTML')
                 error = " [!] Fail during parsing result: " + str(e)
                 print helpers.color(error, warning=True)
             self.Counter += 30
@@ -104,37 +84,37 @@ class ClassName(object):
         try:
             for url in self.urlList:
                 if self.verbose:
-                    p = ' [*] Exalead DOCX search downloading: ' + str(url)
-                    self.logger.info("Starting download of DOCX: " + str(url))
+                    p = ' [*] Exalead PPTX search downloading: ' + str(url)
+                    self.logger.info('ExaleadPPTXSearch downloading: ' + str(url))
                     print helpers.color(p, firewall=True)
                 try:
-                    filetype = ".docx"
+                    filetype = ".pptx"
                     dl = Download.Download(self.verbose)
                     FileName, FileDownload = dl.download_file(url, filetype)
                     if FileDownload:
                         if self.verbose:
-                            self.logger.info("File was downloaded: " + str(url))
-                            p = ' [*] Exalead DOCX file was downloaded: ' + \
+                            p = ' [*] Exalead PPTX file was downloaded: ' + \
                                 str(url)
+                            self.logger.info('ExaleadDOCSearch downloaded: ' + str(p))
                             print helpers.color(p, firewall=True)
-                        self.Text += convert.convert_docx_to_txt(FileName)
+                        ft = helpers.filetype(FileName).lower()
+                        if 'powerpoint' in ft:
+                            self.Text += convert.convert_pptx_to_txt(FileName)
+                        else:
+                            self.logger.warning('Downloaded file is not a PPTX: ' + ft)
                 except Exception as e:
-                    self.logger.error("Issue with opening DOCX Files: " + str(e))
-                    error = " [!] Issue with opening DOCX Files:%s\n" % (str(e))
+                    error = " [!] Issue with opening PPTX Files:%s" % (str(e))
                     print helpers.color(error, warning=True)
                 try:
                     dl.delete_file(FileName)
                 except Exception as e:
                     print e
         except Exception as e:
-            p = " [*] No DOCX's to download from Exalead: " +  e
-            self.logger.info("No DOCX's to download from Exalead: " + str(e))
-            print helpers.color(p, firewall=True)
+            self.logger.error("ExaleadPPTXSearch no doc's to download")
+            print helpers.color(" [*] No PPTX's to download from Exalead!\n", firewall=True)
 
         if self.verbose:
-
-            p = ' [*] Searching DOCX from Exalead Complete'
-            self.logger.info("Searching DOCX from Exalead Complete")
+            p = ' [*] Searching PPTX from Exalead Complete'
             print helpers.color(p, status=True)
 
     def get_emails(self):
@@ -143,5 +123,5 @@ class ClassName(object):
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
-        self.logger.debug('ExaleadDOCXSearch completed search')
+        self.logger.debug('ExaleadPPTXSearch completed search')
         return FinalOutput, HtmlResults

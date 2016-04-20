@@ -33,7 +33,7 @@ class ClassName(object):
             self.urlList = []
             self.Text = ""
         except:
-            print helpers.color("[*] Major Settings for Exalead are missing, EXITING!\n", warning=True)
+            print helpers.color(" [*] Major Settings for Exalead are missing, EXITING!\n", warning=True)
 
     def execute(self):
         self.search()
@@ -44,18 +44,18 @@ class ClassName(object):
         while self.Counter <= self.Limit:
             time.sleep(1)
             if self.verbose:
-                p = '[*] Exalead Search on page: ' + str(self.Counter)
+                p = ' [*] Exalead Search on page: ' + str(self.Counter)
                 print helpers.color(p, firewall=True)
             try:
                 url = 'http://www.exalead.com/search/web/results/?q="%40' + self.Domain + '"&elements_per_page=' + \
                       str(self.Quanity) + '&start_index=' + str(self.Counter)
             except Exception as e:
-                error = "[!] Major issue with Exalead Search: " + str(e)
+                error = " [!] Major issue with Exalead Search: " + str(e)
                 print helpers.color(error, warning=True)
             try:
                 r = requests.get(url, headers=self.UserAgent)
             except Exception as e:
-                error = "[!] Fail during Request to Exalead (Check Connection):" + str(
+                error = " [!] Fail during Request to Exalead (Check Connection):" + str(
                     e)
                 print helpers.color(error, warning=True)
             try:
@@ -67,7 +67,7 @@ class ClassName(object):
                 self.urlList = [h2.a["href"]
                                 for h2 in soup.findAll('h4', class_='media-heading')]
             except Exception as e:
-                error = "[!] Fail during parsing result: " + str(e)
+                error = " [!] Fail during parsing result: " + str(e)
                 print helpers.color(error, warning=True)
             self.Counter += 30
 
@@ -77,11 +77,11 @@ class ClassName(object):
                 data = requests.get(Url, timeout=2)
                 self.Text += data.content
             except Exception as e:
-                error = "[!] Connection Timed out on Exalead Search:" + str(e)
+                error = " [!] Connection Timed out on Exalead Search:" + str(e)
                 print helpers.color(error, warning=True)
 
         if self.verbose:
-            p = '[*] Searching Exalead Complete'
+            p = ' [*] Searching Exalead Complete'
             print helpers.color(p, status=True)
 
     def get_emails(self):

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
-import requests
 import configparser
+import logging
+from Helpers import Download
 from Helpers import Parser
 from Helpers import helpers
 
@@ -24,22 +25,26 @@ class ClassName(object):
         self.results = []
         self.verbose = verbose
         try:
+            self.logger = logging.getLogger("SimplyEmail.EmailHunter")
             config.read('Common/SimplyEmail.ini')
             self.UserAgent = str(config['GlobalSettings']['UserAgent'])
-        except:
-            print helpers.color("[*] Major Settings for EmailHunter are missing, EXITING!\n", warning=True)
+        except Exception as e:
+            self.logger.critical("EmailHunter module failed to __init__: " + str(e))
+            print helpers.color(" [*] Major Settings for EmailHunter are missing, EXITING!\n", warning=True)
 
     def execute(self):
+        self.logger.debug("EmailHunter module started")
         self.process()
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults
 
     def process(self):
+        dl = Download.Download(self.verbose)
         try:
             # This returns a JSON object
             url = "https://emailhunter.co/trial/v1/search?offset=0&domain=" + \
                 self.domain + "&format=json"
-            r = requests.get(url)
+            r = dl.requesturl(url, useragent=self.UserAgent, raw=True)
         except Exception as e:
             error = "[!] Major issue with EmailHunter Search:" + str(e)
             print helpers.color(error, warning=True)
@@ -55,10 +60,16 @@ class ClassName(object):
                 while x < EmailCount:
                     self.results.append(results['emails'][int(x)]['value'])
                     x += 1
+            if results['status'] == "error":
+                # The API starts at 0 for the first value
+                error = ' [!] EmailHunter Trial API failed: ' + \
+                    str(results['message'])
+                self.logger.error('EmailHunter Trial API failed: ' + str(results['message']))
+                print helpers.color(error, firewall=True)
         except Exception as e:
             pass
         if self.verbose:
-            p = '[*] TEmal Hunter completed JSON request'
+            p = ' [*] EmailHunter completed JSON request'
             print helpers.color(p, firewall=True)
 
     def get_emails(self):
@@ -66,4 +77,5 @@ class ClassName(object):
         Parse = Parser.Parser(self.results)
         FinalOutput = Parse.CleanListOutput()
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
+        self.logger.debug('EmailHunter completed search')
         return FinalOutput, HtmlResults

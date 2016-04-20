@@ -9,8 +9,8 @@ import requests
 import urlparse
 import configparser
 import time
-from subprocess import Popen, PIPE
 from Helpers import Download
+from Helpers import Converter
 from Helpers import helpers
 from Helpers import Parser
 from BeautifulSoup import BeautifulSoup
@@ -42,18 +42,9 @@ class ClassName(object):
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults
 
-    def convert_doc_to_txt(self, path):
-        cmd = ['antiword', path]
-        try:
-            p = Popen(cmd, stdout=PIPE)
-            stdout, stderr = p.communicate()
-            return stdout.decode('ascii', 'ignore')
-        except Exception as e:
-            error = " [!] Unable to convert doc to text: " + str(e)
-            print helpers.color(error, warning=True)
-
     def search(self):
         dl = Download.Download(self.verbose)
+        convert = Converter.Converter(verbose=self.verbose)
         while self.Counter <= self.Limit and self.Counter <= 100:
             time.sleep(1)
             if self.verbose:
@@ -104,10 +95,10 @@ class ClassName(object):
                     FileName, FileDownload = dl.download_file(url, filetype)
                     if FileDownload:
                         if self.verbose:
-                            p = '[*] Google DOC file was downloaded: ' + \
+                            p = ' [*] Google DOC file was downloaded: ' + \
                                 str(url)
                             print helpers.color(p, firewall=True)
-                        self.Text += self.convert_doc_to_txt(FileName)
+                        self.Text += convert.convert_doc_to_txt(FileName)
                     # print self.Text
                 except Exception as e:
                     print helpers.color(" [!] Issue with opening Doc Files\n", firewall=True)

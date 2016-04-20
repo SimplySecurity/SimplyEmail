@@ -243,7 +243,7 @@ class Conducter(object):
         self.logger.info("Completed cleaning results")
         return FinalList, HtmlFinalList
 
-    def Consumer(self, Results_queue):
+    def Consumer(self, Results_queue, verbose):
         while True:
             try:
                 item = Results_queue.get()
@@ -251,10 +251,10 @@ class Conducter(object):
                     break
                 self.ConsumerList.append(item)
             except Exception as e:
-                if self.Verbose:
+                if verbose:
                     print e
 
-    def HtmlConsumer(self, Html_queue):
+    def HtmlConsumer(self, Html_queue, verbose):
         while True:
             try:
                 item = Html_queue.get()
@@ -262,7 +262,7 @@ class Conducter(object):
                     break
                 self.HtmlList.append(item)
             except Exception as e:
-                if self.Verbose:
+                if verbose:
                     print e
 
     def TaskSelector(self, domain, verbose=False, scope=False, Names=False, Verify=False):
@@ -309,11 +309,11 @@ class Conducter(object):
         # 4) once finshed, than release by a break
         # 5) finally the Results_queue would be empty
         # 6) All procs can finally join!
-        t = threading.Thread(target=self.Consumer, args=(Results_queue,))
+        t = threading.Thread(target=self.Consumer, args=(Results_queue, verbose,))
         t.daemon = True
         t.start()
         # Start Html Consumer / Trying to keep these seprate
-        t2 = threading.Thread(target=self.HtmlConsumer, args=(Html_queue,))
+        t2 = threading.Thread(target=self.HtmlConsumer, args=(Html_queue, verbose,))
         t2.daemon = True
         t2.start()
         # Enter this loop so we know when to terminate the Consumer thread
@@ -424,11 +424,11 @@ class Conducter(object):
         # 4) once finshed, than release by a break
         # 5) finally the Results_queue would be empty
         # 6) All procs can finally join!
-        t = threading.Thread(target=self.Consumer, args=(Results_queue,))
+        t = threading.Thread(target=self.Consumer, args=(Results_queue, verbose,))
         t.daemon = True
         t.start()
         # Start Html Consumer / Trying to keep these seprate
-        t2 = threading.Thread(target=self.HtmlConsumer, args=(Html_queue,))
+        t2 = threading.Thread(target=self.HtmlConsumer, args=(Html_queue, verbose,))
         t2.daemon = True
         t2.start()
         # Enter this loop so we know when to terminate the Consumer thread

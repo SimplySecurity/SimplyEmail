@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# encoding=utf8 
+# encoding=utf8
 
 import os
 import re
@@ -19,7 +19,7 @@ class Parser(object):
         self.InputData = InputData
         #self.domain = domain
 
-    # A really good url clean by theHarvester at : 
+    # A really good url clean by theHarvester at :
     # https://raw.githubusercontent.com/killswitch-GUI/theHarvester/master/myparser.py
     def genericClean(self):
         self.InputData = re.sub('<em>', '', self.InputData)
@@ -37,7 +37,7 @@ class Parser(object):
         for e in (',', '>', ':', '=', '<', '/', '\\', ';', '&', '%3A', '%3D', '%3C', '&#34'):
             self.InputData = string.replace(self.InputData, e, ' ')
 
-    # A really good url clean by theHarvester at : 
+    # A really good url clean by theHarvester at :
     # https://raw.githubusercontent.com/killswitch-GUI/theHarvester/master/myparser.py
     def urlClean(self):
         self.InputData = re.sub('<em>', '', self.InputData)
@@ -80,8 +80,8 @@ class Parser(object):
         # Major hack during testing;
         # I found grep is was better at Regex than re in python
         FinalOutput = []
-        StartFileName = randint(1000,999999)
-        EndFileName = randint(1000,999999)
+        StartFileName = randint(1000, 999999)
+        EndFileName = randint(1000, 999999)
         val = ""
         try:
             with open(str(StartFileName), "w+") as myfile:
@@ -92,11 +92,11 @@ class Parser(object):
                                           stdin=ps.stdout)
         # Start Email Evasion Check
         # This will be a seprate func to handle the lager sets of data
-            EvasionVal = self.EmailEvasionCheck(ps) 
+            EvasionVal = self.EmailEvasionCheck(ps)
         except Exception as e:
             pass
             #p = '[!] Pattern Matching Issue: ' + str(e)
-            #print helpers.color(p, firewall=True)
+            # print helpers.color(p, firewall=True)
         # Remove this line for Debuging pages
         os.remove(str(StartFileName))
         if len(val) > 0:
@@ -115,20 +115,28 @@ class Parser(object):
                                           stdin=data.stdout)
         except:
             pass
+
     def CleanListOutput(self):
         FinalOutput = []
         for item in self.InputData:
             FinalOutput.append(item.rstrip("\n"))
         return FinalOutput
 
-    def BuildResults(self,InputList,ModuleName):
-        # Will use a generator expression to assign 
+    def BuildResults(self, InputList, ModuleName):
+        # Will use a generator expression to assign
         # emails to Keys and place into a list
         FinalOutput = []
-        ModuleName =  '"' + str(ModuleName) + '"'
+        ModuleName = '"' + str(ModuleName) + '"'
         # build dict and append to list
         for email in InputList:
             email = '"' + str(email) + '"'
             ListItem = "{'Email': " + email + ", 'Source': " + ModuleName + "}"
             FinalOutput.append(ListItem)
         return FinalOutput
+
+    def extendedclean(self, modulename):
+        self.genericClean()
+        self.urlClean()
+        finaloutput = self.GrepFindEmails()
+        htmlresults = self.BuildResults(finaloutput, modulename)
+        return finaloutput, htmlresults

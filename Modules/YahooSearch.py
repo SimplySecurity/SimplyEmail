@@ -39,7 +39,7 @@ class ClassName(object):
         except Exception as e:
             self.logger.critical(
                 'YahooSearch module failed to load: ' + str(e))
-            print helpers.color("[*] Major Settings for YahooSearch are missing, EXITING!\n", warning=True)
+            print helpers.color(" [*] Major Settings for YahooSearch are missing, EXITING!\n", warning=True)
 
     def execute(self):
         self.logger.debug("AskSearch Started")
@@ -51,21 +51,21 @@ class ClassName(object):
         while self.Counter <= self.Limit and self.Counter <= 1000:
             time.sleep(1)
             if self.verbose:
-                p = '[*] Yahoo Search on page: ' + str(self.Counter)
+                p = ' [*] Yahoo Search on page: ' + str(self.Counter)
                 self.logger.info("YahooSearch on page:" + str(self.Counter))
                 print helpers.color(p, firewall=True)
             try:
                 url = 'https://search.yahoo.com/search?p=' + str(self.Domain) + \
                     '&b=' + str(self.Counter) + "&pz=" + str(self.Quanity)
             except Exception as e:
-                error = "[!] Major issue with Yahoo Search:" + str(e)
+                error = " [!] Major issue with Yahoo Search:" + str(e)
                 self.logger.error("Yahoo Search can not create URL:")
                 print helpers.color(error, warning=True)
             try:
                 self.logger.debug("YahooSearch starting request on: " + str(url))
                 r = requests.get(url, headers=self.UserAgent)
             except Exception as e:
-                error = "[!] Fail during Request to Yahoo (Check Connection):" + \
+                error = " [!] Fail during Request to Yahoo (Check Connection):" + \
                     str(e)
                 self.logger.error("YahooSearch failed to request (Check Connection)")
                 print helpers.color(error, warning=True)

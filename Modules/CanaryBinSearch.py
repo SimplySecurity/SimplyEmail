@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 # Non-API-Based
-import requests
 import configparser
-import urllib2
+import logging
 from BeautifulSoup import BeautifulSoup
+from Helpers import Download
 from Helpers import Parser
 from Helpers import helpers
 
@@ -38,14 +38,20 @@ class ClassName(object):
         config = configparser.ConfigParser()
         self.Html = ""
         try:
+            self.UserAgent = {
+                'User-Agent': helpers.getua()}
+            self.logger = logging.getLogger("SimplyEmail.AskSearch")
             config.read('Common/SimplyEmail.ini')
             self.Depth = int(config['CanaryPasteBin']['PageDepth'])
             self.Counter = int(config['CanaryPasteBin']['QueryStart'])
             self.verbose = verbose
-        except:
+        except Exception as e:
+            self.logger.critical(
+                'CanaryBinSearch module failed to load: ' + str(e))
             print helpers.color("[*] Major Settings for Canary PasteBin Search are missing, EXITING!\n", warning=True)
 
     def execute(self):
+        self.logger.debug("CanaryBinSearch module started")
         self.process()
         FinalOutput, HtmlResults = self.get_emails()
         return FinalOutput, HtmlResults
@@ -54,43 +60,51 @@ class ClassName(object):
         # Get all the Pastebin raw items
         # https://canary.pw/search/?q=earthlink.net&page=3
         UrlList = []
+        dl = Download.Download(verbose=self.verbose)
         while self.Counter <= self.Depth:
             if self.verbose:
-                p = '[*] Canary Search on page: ' + str(self.Counter)
+                p = ' [*] Canary Search on page: ' + str(self.Counter)
+                self.logger.info(
+                    "CanaryBinSearch on page: " + str(self.Counter))
                 print helpers.color(p, firewall=True)
             try:
                 url = "https://canary.pw/search/?q=" + str(self.domain) + "&page=" + \
                     str(self.Counter)
-                r = requests.get(url, timeout=5)
-                if r.status_code != 200:
+                rawhtml, statuscode = dl.requesturl(
+                    url, useragent=self.UserAgent, statuscode=True)
+                if statuscode != 200:
                     break
             except Exception as e:
-                error = "[!] Major issue with Canary Pastebin Search:" + str(e)
+                error = " [!] Major issue with Canary Pastebin Search:" + \
+                    str(e)
+                self.logger.error(
+                    'Fail during Request to CanaryBinSearch (Check Connection): ' + str(e))
                 print helpers.color(error, warning=True)
-            RawHtml = r.content
             # Parse the results for our URLS)
-            soup = BeautifulSoup(RawHtml)
+            soup = BeautifulSoup(rawhtml)
             for a in soup.findAll('a', href=True):
                 a = a['href']
                 if a.startswith('/view'):
                     UrlList.append(a)
             self.Counter += 1
         # Now take all gathered URL's and gather the HTML content needed
-        Status = "[*] Canary found " + \
-            str(len(UrlList)) + " PasteBin(s) to Search!"
+        Status = " [*] Canary found " + \
+            str(len(UrlList)) + " CanaryBin(s) to Search!"
+        self.logger.info(
+            "CanaryBin found " + str(len(UrlList)) + " CanaryBin(s) to Search!")
         print helpers.color(Status, status=True)
         for item in UrlList:
             try:
                 item = "https://canary.pw" + str(item)
                 # They can be massive!
-                rawhtml = urllib2.urlopen(item, timeout=20)
-                try:
-                    self.Html += rawhtml.read()
-                except:
-                    pass
+                rawhtml = dl.requesturl(
+                    item, useragent=self.UserAgent, timeout=20)
+                self.Html += rawhtml
             except Exception as e:
-                error = "[!] Connection Timed out on Canary Pastebin Search:" + \
+                error = " [!] Connection Timed out on Canary Pastebin Search:" + \
                     str(e)
+                self.logger.error(
+                    'Fail during Request to CanaryBinSearch bin (Check Connection): ' + str(e))
                 print helpers.color(error, warning=True)
 
     # We must Pre Parse (python dosnt like the large vars)
@@ -103,4 +117,5 @@ class ClassName(object):
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
+        self.logger.debug('CanaryBinSearch completed search')
         return FinalOutput, HtmlResults

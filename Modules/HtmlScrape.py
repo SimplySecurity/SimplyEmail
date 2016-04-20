@@ -41,7 +41,7 @@ class ClassName(object):
                 str(config['HtmlScrape']['Save']) + str(self.domain)
             self.remove = str(config['HtmlScrape']['RemoveHTML'])
         except:
-            print helpers.color("[*] Major Settings for HTML are missing, EXITING!\n", warning=True)
+            print helpers.color(" [*] Major Settings for HTML are missing, EXITING!\n", warning=True)
 
     def execute(self):
         try:
@@ -60,14 +60,14 @@ class ClassName(object):
             # And also allows proxy / VPN Support
             # "--convert-links"
             if self.verbose:
-                p = '[*] HTML scrape underway [This can take a bit!]'
+                p = ' [*] HTML scrape underway [This can take a bit!]'
                 print helpers.color(p, firewall=True)
             subprocess.call(["wget", "-q", "--header=""Accept: text/html""", self.useragent,
                              "--recursive", self.depth, self.wait, self.limit_rate, self.save,
                              self.timeout, "--page-requisites", "-R gif,jpg,pdf,png,css,zip,mov,wmv,ppt,doc,docx,xls,exe,bin,pptx,avi,swf,vbs,xlsx,kfp,pub",
                              "--no-clobber", "--domains", self.domain, TempDomain])
         except:
-            print "[!] ERROR during Wget Request"
+            print " [!] ERROR during Wget Request"
 
     def get_emails(self):
         # Direct location of new dir created during wget

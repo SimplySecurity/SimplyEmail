@@ -14,7 +14,7 @@ class HtmlBuilder(object):
         self.Domain = Domain
         self.Source = ""
         self.HTML = ""
-        reload(sys)  
+        reload(sys)
         sys.setdefaultencoding('utf8')
 
     def BuildHtml(self):
@@ -114,7 +114,7 @@ function AnchorJS(a){"use strict";this.options=a||{},this._applyRemainingDefault
             alert += "\t\t\t<strong>Warning!</strong> Canary (PasteBin) search detected Email(s), this search is indicative of a data breach!."
             alert += '\t\t</div>'
             temp = self.HTML
-            self.HTML =  alert
+            self.HTML = alert
             self.HTML += temp
         self.HTML += BottomHtml
 

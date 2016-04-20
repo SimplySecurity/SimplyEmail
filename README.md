@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/killswitch-GUI/SimplyEmail.svg?branch=master)](https://travis-ci.org/killswitch-GUI/SimplyEmail)
 [![Code Health](https://landscape.io/github/killswitch-GUI/SimplyEmail/master/landscape.svg?style=flat)](https://landscape.io/github/killswitch-GUI/SimplyEmail/master)
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/3b8a338b659e425e9b4e1db9eace61d7)](https://www.codacy.com/app/iamfree2009/SimplyEmail)
+[![Coverage Status](https://coveralls.io/repos/github/killswitch-GUI/SimplyEmail/badge.svg?branch=Version-1.4)](https://coveralls.io/github/killswitch-GUI/SimplyEmail?branch=Version-1.4)
 # SimplyEmail
 
 What is the simple email recon tool? This tool was based off the work of theHarvester and kind of a port of the functionality. This was just an expansion of what was used to build theHarvester and will incorporate his work but allow users to easily build Modules for the Framework. Which I felt was desperately needed after building my first module for theHarvester.
@@ -279,8 +280,26 @@ As I mentioned before a powerful function that I wanted to integrate was the abi
 - shinichiro.hamaji--at--gmail.com
 
 ##Build Log:
-####Changelog (Current v1.0):
+####Changelog (Current v1.4):
 ```
+===================================
+Framework Improvements v1.4:
+-----------------------------
+(x) Added in request function to improve stability
+(x) Added in python-magic to start verifying file types
+(x) Added in new logging features for debuging
+(x) Added in new Converter class to clean up how I handle conversions
+(x) Fixed issue with the way thread consumers handled errors
+(x) Increased code health to +80%
+(x) Implemented code tests and coverage to +40%
+
+Modules Added in v1.4
+-----------------------------
+(x) GoogleCsvSearch
+(x) GooglePPTXSearch
+(x) ExaleadPPTXSearch
+
+
 ===================================
 Framework Improvements v1.3:
 -----------------------------
@@ -440,7 +459,6 @@ Framework Under Dev:
 ( ) New Parsers to clean results
 ( ) Fix import errors with Glob
 ( ) Add in "[@]something.com" to search Regex and engines
-( ) Add errors for Captcha limit's
 ( ) Add Threading/Multi to GitHub Search
 ( ) Add Source of collection to HTML Output
 

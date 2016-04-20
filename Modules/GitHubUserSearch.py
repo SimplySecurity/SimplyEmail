@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import requests
 import configparser
-import time
+from Helpers import Download
 from Helpers import Parser
 from Helpers import helpers
 
@@ -29,7 +29,7 @@ class ClassName(object):
             self.Depth = int(config['GitHubUserSearch']['PageDepth'])
             self.Counter = int(config['GitHubUserSearch']['QueryStart'])
         except:
-            print helpers.color("[*] Major Settings for GitHubUserSearch are missing, EXITING!\n", warning=True)
+            print helpers.color(" [*] Major Settings for GitHubUserSearch are missing, EXITING!\n", warning=True)
 
     def execute(self):
         self.search()
@@ -37,21 +37,23 @@ class ClassName(object):
         return FinalOutput, HtmlResults
 
     def search(self):
+        dl = Download.Download(verbose=self.verbose)
         while self.Counter <= self.Depth and self.Counter <= 100:
-            time.sleep(6)
+            helpers.modsleep(5)
             if self.verbose:
-                p = '[*] GitHubUser Search on page: ' + str(self.Counter)
+                p = ' [*] GitHubUser Search on page: ' + str(self.Counter)
                 print helpers.color(p, firewall=True)
             try:
                 url = 'https://github.com/search?p=' + str(self.Counter) + '&q=' + \
                     str(self.domain) + 'ref=searchresults&type=Users&utf8='
             except Exception as e:
-                error = "[!] Major issue with GitHubUser Search:" + str(e)
+                error = " [!] Major issue with GitHubUser Search:" + str(e)
                 print helpers.color(error, warning=True)
             try:
-                r = requests.get(url, headers=self.UserAgent)
+                r = dl.requesturl(
+                    url, useragent=self.UserAgent, raw=True, timeout=10)
             except Exception as e:
-                error = "[!] Fail during Request to GitHubUser (Check Connection):" + \
+                error = " [!] Fail during Request to GitHubUser (Check Connection):" + \
                     str(e)
                 print helpers.color(error, warning=True)
             results = r.content
