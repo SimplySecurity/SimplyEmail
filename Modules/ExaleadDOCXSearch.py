@@ -43,7 +43,7 @@ class ClassName(object):
             self.urlList = []
             self.Text = ""
         except Exception as e:
-            elf.logger.critical("ExaleadDOCXSearch module failed to __init__: " + str(e))
+            self.logger.critical("ExaleadDOCXSearch module failed to __init__: " + str(e))
             p = " [*] Major Settings for ExaleadDOCXSearch are missing, EXITING: " + e
             print helpers.color(p, warning=True)
 
