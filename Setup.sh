@@ -41,6 +41,7 @@ func_install_requests(){
   sudo git pull
   sudo apt-get -y install wget grep antiword odt2txt python-dev libxml2-dev libxslt1-dev
   sudo pip install beautifulsoup4
+  sudo pip install python-magic
   sudo pip install fake-useragent --upgrade
   sudo pip install mechanize --upgrade
   sudo pip install docx2txt --upgrade

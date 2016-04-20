@@ -286,11 +286,17 @@ As I mentioned before a powerful function that I wanted to integrate was the abi
 Framework Improvements v1.4:
 -----------------------------
 (x) Added in request function to improve stability
+(x) Added in python-magic to start verifying file types
 (x) Added in new logging features for debuging
 (x) Added in new Converter class to clean up how I handle conversions
 (x) Fixed issue with the way thread consumers handled errors
 (x) Increased code health to +80%
 (x) Implemented code tests and coverage to +40%
+
+Modules Added in v1.4
+-----------------------------
+(x) GoogleCsvSearch
+(x) GooglePPTXSearch
 
 
 ===================================
@@ -446,7 +452,6 @@ Modules Under Dev:
 ( ) PwnBin Search 
 ( ) Past Data Dumps
 ( ) psbdmp API Based and non Alert
-( ) CSV based searches
 
 Framework Under Dev:
 -----------------------------

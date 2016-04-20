@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import requests
 import configparser
+from Helpers import Download
 from Helpers import Parser
 from Helpers import helpers
 
@@ -36,6 +37,7 @@ class ClassName(object):
         return FinalOutput, HtmlResults
 
     def search(self):
+        dl = Download.Download(verbose=self.verbose)
         while self.Counter <= self.Depth and self.Counter <= 100:
             helpers.modsleep(5)
             if self.verbose:
@@ -48,7 +50,8 @@ class ClassName(object):
                 error = " [!] Major issue with GitHubUser Search:" + str(e)
                 print helpers.color(error, warning=True)
             try:
-                r = requests.get(url, headers=self.UserAgent)
+                r = dl.requesturl(
+                    url, useragent=self.UserAgent, raw=True, timeout=10)
             except Exception as e:
                 error = " [!] Fail during Request to GitHubUser (Check Connection):" + \
                     str(e)

@@ -75,7 +75,6 @@ class ClassName(object):
                     # newreg=01f0ed80771f4dfaa269b15268b3f9a9
                     l = urlparse.parse_qs(
                         urlparse.urlparse(a['href']).query)['q'][0]
-                    print l
                     if l.startswith('http') or l.startswith('www'):
                         if "webcache.googleusercontent.com" not in l:
                             self.urlList.append(l)
@@ -90,7 +89,7 @@ class ClassName(object):
                     print helpers.color(p, firewall=True)
                 try:
                     filetype = ".csv"
-                    FileName, FileDownload = dl.download_file(url, filetype)
+                    FileName, FileDownload = dl.download_file2(url, filetype)
                     if FileDownload:
                         if self.verbose:
                             p = '[*] Google CSV file was downloaded: ' + \

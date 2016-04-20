@@ -6,7 +6,6 @@
 # 3) execute function (calls everthing it neeeds)
 # 4) places the findings into a queue
 import configparser
-import requests
 import time
 from Helpers import helpers
 from Helpers import Parser
@@ -39,28 +38,27 @@ class ClassName(object):
         return FinalOutput, HtmlResults
 
     def search(self):
+        dl = Download.Download(self.verbose)
         while self.Counter <= self.Limit and self.Counter <= 1000:
             time.sleep(1)
             if self.verbose:
                 p = ' [*] Google Search on page: ' + str(self.Counter)
                 print helpers.color(p, firewall=True)
             try:
-                urly = "http://www.google.com/search?num=" + str(self.Quanity) + "&start=" + \
+                url = "http://www.google.com/search?num=" + str(self.Quanity) + "&start=" + \
                     str(self.Counter) + "&hl=en&meta=&q=%40\"" + \
                     self.Domain + "\""
             except Exception as e:
                 error = " [!] Major issue with Google Search:" + str(e)
                 print helpers.color(error, warning=True)
             try:
-                r = requests.get(urly, headers=self.UserAgent)
+                results = dl.requesturl(url, useragent=self.UserAgent)
             except Exception as e:
                 error = " [!] Fail during Request to Google (Check Connection):" + \
                     str(e)
                 print helpers.color(error, warning=True)
-            results = r.content
             try:
                 # Url = r.url
-                dl = Download.Download(self.verbose)
                 dl.GoogleCaptchaDetection(results)
             except Exception as e:
                 print e

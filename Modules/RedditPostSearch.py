@@ -6,9 +6,9 @@
 # 3) execute function (calls everthing it neeeds)
 # 4) places the findings into a queue
 import configparser
-import requests
 import time
 import logging
+from Helpers import Download
 from Helpers import helpers
 from Helpers import Parser
 
@@ -42,6 +42,7 @@ class ClassName(object):
         return FinalOutput, HtmlResults
 
     def search(self):
+        dl = Download.Download(self.verbose)
         while self.Counter <= self.Limit and self.Counter <= 1000:
             time.sleep(1)
             if self.verbose:
@@ -59,15 +60,14 @@ class ClassName(object):
                     "Major issue with RedditPostSearch: " + str(e))
                 print helpers.color(error, warning=True)
             try:
-                r = requests.get(url, headers=self.UserAgent)
+                RawHtml = dl.requesturl(url, useragent=self.UserAgent)
             except Exception as e:
                 error = " [!] Fail during Request to Reddit (Check Connection):" + \
                     str(e)
                 self.logger.error(
                     "Fail during Request to Reddit (Check Connection): " + str(e))
                 print helpers.color(error, warning=True)
-            results = r.content
-            self.Html += results
+            self.Html += RawHtml
             # reddit seems to increment by 25 in cases
             self.Counter += 25
 

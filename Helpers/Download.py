@@ -42,17 +42,11 @@ class Download(object):
             url = 'http://' + str(url)
         try:
             time.sleep(2)
-            size = 0
-            maxsize = 1024 * maxfile
             self.logger.debug("Download started download: " + str(url))
             r = requests.get(url, stream=True, headers=self.UserAgent)
             with open(local_filename, 'wb+') as f:
                 for chunk in r.iter_content(chunk_size=1024):
                     if chunk:
-                        size += 1024
-                        if size > maxsize:
-                            self.logger.info("Download reached max size of: " + str(maxsize))
-                            break
                         # filter out keep-alive new chunks
                         f.write(chunk)
                         # f.flush() commented by recommendation from

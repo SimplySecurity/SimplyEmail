@@ -100,7 +100,11 @@ class ClassName(object):
                             p = ' [*] Google PPTX file was downloaded: ' + \
                                 str(url)
                             print helpers.color(p, firewall=True)
-                        self.Text += convert.convert_pptx_to_txt(FileName)
+                        ft = helpers.filetype(FileName).lower()
+                        if 'powerpoint' in ft:
+                            self.Text += convert.convert_pptx_to_txt(FileName)
+                        else:
+                            self.logger.warning('Downloaded file is not a PPTX: ' + ft)
                     # print self.Text
                 except Exception as e:
                     print helpers.color(" [!] Issue with opening PPTX Files\n", firewall=True)

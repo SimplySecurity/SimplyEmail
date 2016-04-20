@@ -5,6 +5,7 @@ install:
   - pip install coveralls
   - pip install coverage
   - pip install nose
+  - pip install python-magic
   - pip install useragent fake_useragent
   - pip install beautifulsoup4
   - pip install mechanize

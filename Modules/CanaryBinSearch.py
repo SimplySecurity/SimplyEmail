@@ -60,7 +60,7 @@ class ClassName(object):
         # Get all the Pastebin raw items
         # https://canary.pw/search/?q=earthlink.net&page=3
         UrlList = []
-        dl = Download.Download(self.verbose)
+        dl = Download.Download(verbose=self.verbose)
         while self.Counter <= self.Depth:
             if self.verbose:
                 p = ' [*] Canary Search on page: ' + str(self.Counter)

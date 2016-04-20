@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-import requests
 import configparser
+from Helpers import Download
 from Helpers import Parser
 from Helpers import helpers
 
@@ -22,9 +22,10 @@ class ClassName(object):
         self.results = ""
         self.verbose = verbose
         try:
+            self.UserAgent = {
+                'User-Agent': helpers.getua()}
             config.read('Common/SimplyEmail.ini')
             self.HostName = str(config['FlickrSearch']['Hostname'])
-            self.UserAgent = str(config['GlobalSettings']['UserAgent'])
         except:
             print helpers.color(" [*] Major Settings for FlickrSearch are missing, EXITING!\n", warning=True)
 
@@ -34,13 +35,14 @@ class ClassName(object):
         return FinalOutput, HtmlResults
 
     def process(self):
+        dl = Download.Download(verbose=self.verbose)
         try:
             url = "https://www.flickr.com/search/?text=%40" + self.domain
-            r = requests.get(url)
+            rawhtml = dl.requesturl(url, useragent=self.UserAgent)
         except Exception as e:
             error = " [!] Major issue with Flickr Search:" + str(e)
             print helpers.color(error, warning=True)
-        self.results = r.content
+        self.results += rawhtml
         if self.verbose:
             p = ' [*] FlickrSearch has completed'
             print helpers.color(p, firewall=True)

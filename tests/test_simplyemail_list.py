@@ -10,6 +10,12 @@ from Helpers import VerifyEmails
 from Helpers import LinkedinNames
 from Helpers import VersionCheck
 from Common import TaskController
+from Modules import SearchPGP
+from Modules import AskSearch
+from Modules import YahooSearch
+from Modules import WhoisAPISearch
+from Modules import RedditPostSearch
+from Modules import FlickrSearch
 import os
 import SimplyEmail
 
@@ -52,6 +58,34 @@ def test_taskcontrollers():
     assert 'alex2@gmail.com' not in htmllist
     assert b < 2
 
+def test_searchpgp():
+    s = SearchPGP.ClassName('verisgroup.com', verbose=True)
+    FinalOutput, HtmlResults = s.execute()
+    assert 'jmacovei@verisgroup.com' in FinalOutput
+
+def test_asksearch():
+    s = AskSearch.ClassName('gmail.com', verbose=True)
+    FinalOutput, HtmlResults = s.execute()
+    assert len(FinalOutput) > 0
+
+def test_yahoosearch():
+    s = YahooSearch.ClassName('gmail.com', verbose=True)
+    FinalOutput, HtmlResults = s.execute()
+    assert len(FinalOutput) > 0
+
+def test_whoisapi():
+    s = WhoisAPISearch.ClassName('verisgroup.com', verbose=True)
+    FinalOutput, HtmlResults = s.execute()
+    assert 'nc5hp7cr249@networksolutionsprivateregistration.com' in FinalOutput
+
+def test_redditsearch():
+    s = RedditPostSearch.ClassName('gmail.com', verbose=True)
+    FinalOutput, HtmlResults = s.execute()
+    assert 'redditemail42@gmail.com' in FinalOutput
+
+def test_flickrsearch():
+    s = FlickrSearch.ClassName('microsoft.com', verbose=True)
+    FinalOutput, HtmlResults = s.execute()
 
 def test_downloads():
     # perfrom Download testing
