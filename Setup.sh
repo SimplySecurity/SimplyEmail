@@ -40,8 +40,12 @@ func_install_requests(){
   #sudo apt-get -q upgrade 
   sudo git pull
   sudo sudo apt-get -y install python-dev python-setuptools libtiff5-dev  zlib1g-dev libfreetype6-dev liblcms2-dev libwebp-dev tcl8.6-dev tk8.6-dev python-tk
+  # setup PPTX depends 
+  sudo apt-get -y install python-lxml
   sudo apt-get -y install wget grep antiword odt2txt python-dev libxml2-dev libxslt1-dev
   chmod 755 SimplyEmail.py
+  sudo pip install --upgrade xlsxwriter
+  sudo pip install --upgrade Pillow
   sudo pip install beautifulsoup4
   sudo pip install python-magic
   sudo pip install fake-useragent --upgrade
