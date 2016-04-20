@@ -297,6 +297,7 @@ Modules Added in v1.4
 -----------------------------
 (x) GoogleCsvSearch
 (x) GooglePPTXSearch
+(x) ExaleadPPTXSearch
 
 
 ===================================
