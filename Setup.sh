@@ -47,7 +47,6 @@ func_install_requests(){
   sudo pip install fake-useragent --upgrade
   sudo pip install mechanize --upgrade
   sudo pip install docx2txt --upgrade
-  sudo pip install BeautifulSoup --upgrade
   sudo pip install requests --upgrade
   sudo pip install xlsx2csv --upgrade
   sudo pip install configparser --upgrade
