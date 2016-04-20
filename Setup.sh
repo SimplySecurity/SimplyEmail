@@ -54,7 +54,6 @@ func_install_requests(){
   sudo pip install pdfminer --upgrade
   sudo pip install dnspython --upgrade
   sudo pip install python-pptx --upgrade
-  sudo pip install python-docx --upgrade
 
 }
 
