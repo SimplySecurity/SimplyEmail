@@ -72,7 +72,7 @@ class Connect6Scraper(object):
 
     def Connect6Download(self, url):
         '''
-        Downloads raw source of Connects6 page.
+        Downloads raw source of Connect6 page.
         '''
         NameList = []
         try:

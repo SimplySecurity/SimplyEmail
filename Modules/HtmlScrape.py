@@ -11,7 +11,7 @@ from Helpers import Parser
 # Class will have the following properties:
 # 1) name / description
 # 2) main name called "ClassName"
-# 3) execute function (calls everthing it neeeds)
+# 3) execute function (calls everything it needs)
 # 4) places the findings into a queue
 
 # Use the same class name so we can easily start up each module the same ways
@@ -19,7 +19,7 @@ class ClassName(object):
 
     def __init__(self, domain, verbose=False):
         self.apikey = False
-        # Descriptions that are required!!!
+        # Descriptions are required!!!
         self.name = "HTML Scrape of Target Website"
         self.description = "Html Scrape the target website for emails and data"
         # Settings we will pull from config file (We need required options in
@@ -52,11 +52,11 @@ class ClassName(object):
             print e
 
     def search(self):
-        # setup domain so it will follow reddirects
+        # setup domain so it will follow redirects
         # may move this to httrack in future
         TempDomain = "http://www." + str(self.domain)
         try:
-            # Using subprocess, more or less because of the rebust HTML miroring ability
+            # Using subprocess, more or less because of the robust HTML mirroring ability
             # And also allows proxy / VPN Support
             # "--convert-links"
             if self.verbose:
@@ -88,7 +88,7 @@ class ClassName(object):
                                               stdin=ps.stdout)
             except Exception as e:
                 pass
-            # Supper "hack" since the data returned is from Pipelin /n and all
+            # Super "hack" since the data returned is from Pipelin /n and all
             # in var
             if val:
                 with open('temp.txt', "w+") as myfile:
@@ -102,8 +102,6 @@ class ClassName(object):
             print e
         if self.remove == "yes" or self.remove == "Yes":
             shutil.rmtree(directory)
-        # using PIPE output/input to avoid using "shell=True",
-        # which can leave major security holes if script has certain permisions
         Parse = Parser.Parser(FinalOutput)
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
         return FinalOutput, HtmlResults

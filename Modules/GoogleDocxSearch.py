@@ -4,13 +4,12 @@
 # Class will have the following properties:
 # 1) name / description
 # 2) main name called "ClassName"
-# 3) execute function (calls everthing it neeeds)
+# 3) execute function (calls everything it needs)
 # 4) places the findings into a queue
 import requests
 import urlparse
 import configparser
 import time
-# from subprocess import Popen, PIPE
 from Helpers import Converter
 from Helpers import helpers
 from Helpers import Parser

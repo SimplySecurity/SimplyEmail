@@ -24,7 +24,7 @@ class Conducter(object):
     # We are going to do the following in this order:
     # 1) Load Modules
     # 2) Add them to an array
-    # 3) Task selector will take all those module names and place them into a 
+    # 3) Task selector will take all those module names and place them into a
     #   queue
     # 4) The Threading function will call and pop from the queue and will
     #   instanciate that module
@@ -70,7 +70,7 @@ class Conducter(object):
     def ExecuteModule(self, Task_queue, Results_queue, Html_queue, domain, verbose=False):
         while True:
             Task = Task_queue.get()
-            # If the queue is emepty exit this proc
+            # If the queue is empty exit this proc
             if Task is None:
                 break
             # Inst the class
@@ -145,7 +145,7 @@ class Conducter(object):
                 except Exception as e:
                     print e
             print helpers.color(" [*] Completed output!", status=True)
-            self.logger.info("Verison / Update request started")
+            self.logger.info("Version / Update request started")
             return x
         elif VerifyEmail:
             x = 0
@@ -195,16 +195,16 @@ class Conducter(object):
         Html.BuildHtml()
         Html.OutPutHTML(buildpath)
         # except Exception as e:
-        #error =  "[!] Error building HTML file:" + e
+        # error =  "[!] Error building HTML file:" + e
         # print helpers.color(error, warning=True)
 
     def CleanResults(self, domain, scope=False):
-        # Clean Up results, remove dupplicates and enforce strict Domain reuslts (future)
+        # Clean Up results, remove duplicates and enforce strict Domain results (future)
         # Set Timeout or you wont leave the While loop
         self.logger.debug("Clean Results started")
         SecondList = []
         HtmlSecondList = []
-        # Validate the domain.. this can mess up but i dont want to miss
+        # Validate the domain.. this can mess up but I dont want to miss
         # anything
         # scope will allow you to return all found emails
         # this will allow a user to scrape for all emails non related
@@ -227,7 +227,7 @@ class Conducter(object):
             for item in self.HtmlList:
                 if domain.lower() in item.lower():
                     HtmlSecondList.append(item)
-        # Itt over all items in the list
+        # Iter over all items in the list
         for item in SecondList:
             # Check if the value is in the new list
             if item.lower() not in FinalList:
@@ -266,7 +266,7 @@ class Conducter(object):
                     print e
 
     def TaskSelector(self, domain, verbose=False, scope=False, Names=False, Verify=False):
-        # Here it will check the Que for the next task to be completed
+        # Here it will check the Queue for the next task to be completed
         # Using the Dynamic loaded modules we can easly select which module is up
         # Rather than using If statment on every task that needs to be done
 
@@ -280,12 +280,12 @@ class Conducter(object):
         # config file handler
         Config = configparser.ConfigParser()
         Config.read("Common/SimplyEmail.ini")
-        total_proc = int(Config['ProcessConfig']['TottalProcs'])
+        total_proc = int(Config['ProcessConfig']['TotalProcs'])
         self.logger.debug("TaskSelector processor set to: " + str(total_proc))
         # Place our email tasks in a queue
         for Task in self.modules:
             Task_queue.put(Task)
-        # Make sure we arnt starting up Procs that arnt needed.
+        # Make sure we aren't starting up Procs that aren't needed.
         if total_proc > len(self.modules):
             total_proc = len(self.modules)
         for i in xrange(total_proc):
@@ -302,7 +302,7 @@ class Conducter(object):
         # This SAVED my life!
         # really important to understand that if the results queue was still full
         # the .join() method would not join even though a Consumer recived
-        # a posin pill! This allows us to easily:
+        # a poison pill! This allows us to easily:
         # 1) start up all procs
         # 2) wait till all procs are posined
         # 3) than start up the cleaner and parser
@@ -312,7 +312,7 @@ class Conducter(object):
         t = threading.Thread(target=self.Consumer, args=(Results_queue, verbose,))
         t.daemon = True
         t.start()
-        # Start Html Consumer / Trying to keep these seprate
+        # Start Html Consumer / Trying to keep these seperate
         t2 = threading.Thread(target=self.HtmlConsumer, args=(Html_queue, verbose,))
         t2.daemon = True
         t2.start()
@@ -323,7 +323,7 @@ class Conducter(object):
             time.sleep(1)
             # We want to wait till we have no procs left, before we join
             if len(LeftOver) == 0:
-                # Block untill all results are consumed
+                # Block until all results are consumed
                 time.sleep(1)
                 Results_queue.put(None)
                 Html_queue.put(None)
@@ -374,7 +374,7 @@ class Conducter(object):
                     if VerifiedList:
                         self.printer(
                             FinalEmailList, domain, VerifyEmail=Verify)
-                        # save Seprate file for verified emails
+                        # save seperate file for verified emails
         except Exception as e:
             print e
         try:
@@ -382,7 +382,7 @@ class Conducter(object):
                 if BuiltNames:
                     self.printer(BuiltNames, domain, NameEmails=True)
         except Exception as e:
-            error = " [!] Something went wrong with outputixng results of Built Names:" + \
+            error = " [!] Something went wrong with outputting results of Built Names:" + \
                 str(e)
             print helpers.color(error, warning=True)
 
@@ -390,7 +390,7 @@ class Conducter(object):
 
     # This is the Test version of the multi proc above, this function
     # Helps with testing only one module at a time. Helping with proper
-    # Module Dev and testing before intergration
+    # Module Dev and testing before integration
     def TestModule(self, domain, module, verbose=False, scope=False, Names=False, Verify=False):
         self.logger.debug("Starting TaskSelector for: " + str(domain))
         Config = configparser.ConfigParser()
@@ -438,7 +438,7 @@ class Conducter(object):
             time.sleep(1)
             # We want to wait till we have no procs left, before we join
             if len(LeftOver) == 0:
-                # Block untill all results are consumed
+                # Block until all results are consumed
                 time.sleep(1)
                 Results_queue.put(None)
                 Html_queue.put(None)
@@ -454,10 +454,10 @@ class Conducter(object):
                 try:
                     FinalCount = self.printer(FinalEmailList, domain)
                 except Exception as e:
-                    error = " [!] Something went wrong with outputing results:" + \
+                    error = " [!] Something went wrong with outputting results:" + \
                         str(e)
                     print helpers.color(error, warning=True)
-                    self.logger.critical("Something went wrong with outputixng results: " + str(e))
+                    self.logger.critical("Something went wrong with outputting results: " + str(e))
                 Results_queue.close()
                 try:
                     self.HtmlPrinter(HtmlFinalEmailList, domain)
@@ -465,7 +465,7 @@ class Conducter(object):
                     error = " [!] Something went wrong with HTML results:" + \
                         str(e)
                     print helpers.color(error, warning=True)
-                    self.logger.critical("Something went wrong with HTML results:: " + str(e))
+                    self.logger.critical("Something went wrong with HTML results: " + str(e))
                 # Check for valid emails if user wants
                 break
         for p in procs:
@@ -500,7 +500,7 @@ class Conducter(object):
                 if BuiltNames:
                     self.printer(BuiltNames, domain, NameEmails=True)
         except Exception as e:
-            error = " [!] Something went wrong with outputing results of Built Names:" + \
+            error = " [!] Something went wrong with outputting results of Built Names:" + \
                 str(e)
             print helpers.color(error, warning=True)
 
@@ -521,14 +521,14 @@ class Conducter(object):
         CleanNames = []
         # Query for Linkedin Names - Adapted from
         # https://github.com/pan0pt1c0n/PhishBait
-        self.logger.debug("Starting LinkedinScraper for names")
+        self.logger.debug("Starting LinkedInScraper for names")
         Li = LinkedinNames.LinkedinScraper(domain, Verbose=Verbose)
         LNames = Li.LinkedInNames()
         if LNames:
-            e = ' [*] LinkedinScraper has Gathred: ' + \
+            e = ' [*] LinkedinScraper has Gathered: ' + \
                 str(len(LNames)) + ' Names'
             print helpers.color(e, status=True)
-            self.logger.info("LinkedinScraper has Gathred: " + str(len(LNames)))
+            self.logger.info("LinkedInScraper has Gathered: " + str(len(LNames)))
             for raw in LNames:
                 try:
                     name = Li.LinkedInClean(raw)
@@ -553,7 +553,7 @@ class Conducter(object):
             if Answer.upper() in "YES":
                 Names = c6.Connect6Download(urllist[0])
                 if Names:
-                    e = ' [*] Connect6 has Gathred: ' + \
+                    e = ' [*] Connect6 has Gathered: ' + \
                         str(len(Names)) + ' Names'
                     print helpers.color(e, status=True)
                     for raw in Names:
@@ -571,7 +571,7 @@ class Conducter(object):
                     Question = " [>] Please Provide a URL: "
                     Answer = raw_input(helpers.color(Question, bold=False))
                     if Answer.upper() in "BACK":
-                        e = " [!] Skiping Connect6 Scrape!"
+                        e = " [!] Skipping Connect6 Scrape!"
                         print helpers.color(e, firewall=True)
                         break
                     if Answer:
@@ -579,7 +579,7 @@ class Conducter(object):
                 if Answer.upper() != "B":
                     Names = c6.Connect6Download(Answer)
                     if Names:
-                        e = ' [*] Connect6 has Gathred: ' + \
+                        e = ' [*] Connect6 has Gathered: ' + \
                             str(len(Names)) + ' Names'
                         print helpers.color(e, status=True)
                         for raw in Names:
@@ -597,7 +597,7 @@ class Conducter(object):
                 Question = " [>] Please Provide a URL: "
                 Answer = raw_input(helpers.color(Question, bold=False))
                 if Answer.upper() in "BACK":
-                    e = " [!] Skiping Connect6 Scrape!"
+                    e = " [!] Skipping Connect6 Scrape!"
                     print helpers.color(e, firewall=True)
                     break
                 if Answer:
@@ -606,7 +606,7 @@ class Conducter(object):
                 Names = c6.Connect6Download(Answer)
                 print Names
                 if Names:
-                    e = ' [*] Connect6 has Gathred: ' + \
+                    e = ' [*] Connect6 has Gathered: ' + \
                         str(len(Names)) + ' Names'
                     print helpers.color(e, status=True)
                     for raw in Names:
@@ -619,10 +619,10 @@ class Conducter(object):
         Em = EmailFormat.EmailFormat(domain, Verbose=Verbose)
         Format = Em.EmailHunterDetect()
         if Format:
-            e = ' [!] Auto detected the fromat: ' + str(Format)
+            e = ' [!] Auto detected the format: ' + str(Format)
             print helpers.color(e, status=True)
         if not Format:
-            print helpers.color(" [*] Now attempting to manualy detect format (slow)!")
+            print helpers.color(" [*] Now attempting to manually detect format (slow)!")
             Format = Em.EmailDetect(CleanNames, domain, emaillist)
             # Now check if we have more than one result in the list
             # This due to how I perform checks, in rare cases I had more than
@@ -635,7 +635,7 @@ class Conducter(object):
                         line += '   * Format: ' + item + '\n'
                     print line
                 except:
-                    p = " [*] No email samples gathred to show."
+                    p = " [*] No email samples gathered to show."
                     print helpers.color(p, firewall=True)
                 line = ' [*] Here are a few samples of the emails obtained:\n'
                 for i in range(1, 6, 1):
@@ -646,7 +646,7 @@ class Conducter(object):
                 print line
                 while True:
                     s = False
-                    Question = " [>] Please Provid a valid Format: "
+                    Question = " [>] Please provide a valid format: "
                     Answer = raw_input(helpers.color(Question, bold=False))
                     try:
                         for item in ValidFormat:
@@ -690,7 +690,7 @@ class Conducter(object):
                 print helpers.color(line, firewall=True)
             while True:
                 s = False
-                Question = " [>] Please Provid a valid Format: "
+                Question = " [>] Please provide a valid format: "
                 Answer = raw_input(helpers.color(Question, bold=False))
                 try:
                     for item in ValidFormat:

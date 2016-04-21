@@ -17,7 +17,7 @@ class Parser(object):
 
     def __init__(self, InputData):
         self.InputData = InputData
-        #self.domain = domain
+        # self.domain = domain
 
     # A really good url clean by theHarvester at :
     # https://raw.githubusercontent.com/killswitch-GUI/theHarvester/master/myparser.py
@@ -73,7 +73,7 @@ class Parser(object):
         match = re.findall('[\w\.-]+@[\w\.-]+', self.InputData)
         for item in match:
             Result.append(item)
-        #emails = self.unique()
+        # emails = self.unique()
         return Result
 
     def GrepFindEmails(self):
@@ -91,11 +91,11 @@ class Parser(object):
             val = subprocess.check_output(("grep", "-i", "-o", '[A-Z0-9._%+-]\+@[A-Z0-9.-]\+\.[A-Z]\{2,4\}'),
                                           stdin=ps.stdout)
         # Start Email Evasion Check
-        # This will be a seprate func to handle the lager sets of data
-            EvasionVal = self.EmailEvasionCheck(ps)
-        except Exception as e:
+        # This will be a seperate func to handle the lager sets of data
+            # EvasionVal = self.EmailEvasionCheck(ps)
+        except Exception:
             pass
-            #p = '[!] Pattern Matching Issue: ' + str(e)
+            # p = '[!] Pattern Matching Issue: ' + str(e)
             # print helpers.color(p, firewall=True)
         # Remove this line for Debuging pages
         os.remove(str(StartFileName))
@@ -109,12 +109,12 @@ class Parser(object):
                 FinalOutput.append(item.rstrip("\n"))
         return FinalOutput
 
-    def EmailEvasionCheck(self, data):
-        try:
-            val = subprocess.check_output(("grep", "-i", "-o", '[A-Z0-9._%+-]\+\s+@+\s[A-Z0-9.-]\+\.[A-Z]\{2,4\}'),
-                                          stdin=data.stdout)
-        except:
-            pass
+    # def EmailEvasionCheck(self, data):
+    #     try:
+    #         val = subprocess.check_output(("grep", "-i", "-o", '[A-Z0-9._%+-]\+\s+@+\s[A-Z0-9.-]\+\.[A-Z]\{2,4\}'),
+    #                                       stdin=data.stdout)
+    #     except:
+    #         pass
 
     def CleanListOutput(self):
         FinalOutput = []

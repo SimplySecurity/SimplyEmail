@@ -12,14 +12,14 @@ from Helpers import helpers
 # Class will have the following properties:
 # 1) name / description
 # 2) main name called "ClassName"
-# 3) execute function (calls everthing it neeeds)
+# 3) execute function (calls everything it needs)
 # 4) places the findings into a queue
 
 # This method will do the following:
 # 1) Get raw HTML for lets say enron.com )
 #    This is mainly do to the API not supporting code searched with out known repo or user
 #    :(https://canary.pw/search/?q=earthlink.net&page=3)
-# 2) Use beautiful soup to parse the results of the first (5) pages for <A HERF> tags that start with "/view/"
+# 2) Use beautiful soup to parse the results of the first (5) pages for <A HREF> tags that start with "/view/"
 # 3) Ueses a list of URL's and places that raw HTML into a on value
 # 4) Sends to parser for results
 

@@ -9,7 +9,7 @@ import smtplib
 class VerifyEmail(object):
 
     '''
-    Takes a domain name and a Array of emails
+    Takes a domain name and an array of emails
     '''
 
     def __init__(self, email, email2, domain, Verbose=False):
