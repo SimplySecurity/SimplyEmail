@@ -58,6 +58,7 @@ class Download(object):
                 p = ' [*] Download of file failed: ' + e
                 print helpers.color(p, firewall=True)
             self.logger.error("Failed to download file: " + str(url) + ' error: ' + str(e))
+            download = os.path.isfile(local_filename)
             return local_filename, download
 
     def download_file2(self, url, filetype, timeout=5):
@@ -107,7 +108,7 @@ class Download(object):
             else:
                 if self.verbose:
                     p = ' [*] File not found to remove : ' + local_filename
-                print helpers.color(p, firewall=True)
+                    print helpers.color(p, firewall=True)
         except Exception as e:
             self.logger.error("Failed to delete file: " + str(e))
             if self.verbose:

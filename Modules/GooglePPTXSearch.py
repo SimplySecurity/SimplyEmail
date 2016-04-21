@@ -107,7 +107,8 @@ class ClassName(object):
                             self.logger.warning('Downloaded file is not a PPTX: ' + ft)
                     # print self.Text
                 except Exception as e:
-                    print helpers.color(" [!] Issue with opening PPTX Files\n", firewall=True)
+                    print helpers.color(" [!] Issue with opening PPTX Files: " + str(e), firewall=True)
+                    self.logger.warning('Issue with opening PPTX: ' + str(e))
                 try:
                     dl.delete_file(FileName)
                 except Exception as e:
