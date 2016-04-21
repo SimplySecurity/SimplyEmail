@@ -19,8 +19,8 @@ class ClassName(object):
 
     def __init__(self, Domain, verbose=False):
         self.apikey = False
-        self.name = "OnionStagram Search For Instagram Users"
-        self.description = "Uses OnionStagrams search engine"
+        self.name = "OnInstagram Search For Instagram Users"
+        self.description = "Uses OnInstagrams search engine"
         config = configparser.ConfigParser()
         try:
             config.read('Common/SimplyEmail.ini')
@@ -28,7 +28,7 @@ class ClassName(object):
             self.Html = ""
             self.verbose = verbose
         except:
-            print helpers.color(" [*] Major Settings for OnionStagram are missing, EXITING!\n", warning=True)
+            print helpers.color(" [*] Major Settings for OnInstagram are missing, EXITING!\n", warning=True)
 
     def execute(self):
         self.process()
@@ -42,7 +42,7 @@ class ClassName(object):
                 self.Domain
             r = requests.get(url)
         except Exception as e:
-            error = " [!] Major issue with OnionStagram Search:" + str(e)
+            error = " [!] Major issue with OnInstagram Search:" + str(e)
             print helpers.color(error, warning=True)
         if self.verbose:
             p = ' [*] Instagram search Complete'
