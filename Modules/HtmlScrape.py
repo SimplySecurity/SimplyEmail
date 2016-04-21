@@ -62,7 +62,7 @@ class ClassName(object):
             if self.verbose:
                 p = ' [*] HTML scrape underway [This can take a bit!]'
                 print helpers.color(p, firewall=True)
-            subprocess.call(["wget", "-q", "--header=""Accept: text/html""", self.useragent,
+            subprocess.call(["wget", "-q", "-e robots=off", "--header=""Accept: text/html""", self.useragent,
                              "--recursive", self.depth, self.wait, self.limit_rate, self.save,
                              self.timeout, "--page-requisites", "-R gif,jpg,pdf,png,css,zip,mov,wmv,ppt,doc,docx,xls,exe,bin,pptx,avi,swf,vbs,xlsx,kfp,pub",
                              "--no-clobber", "--domains", self.domain, TempDomain])
@@ -88,8 +88,8 @@ class ClassName(object):
                                               stdin=ps.stdout)
             except Exception as e:
                 pass
-            # Super "hack" since the data returned is from Pipelin /n and all
-            # in var
+            # Super "hack" since the data returned is from pipeline /n and all
+            # in val
             if val:
                 with open('temp.txt', "w+") as myfile:
                     myfile.write(str(val))
