@@ -30,7 +30,7 @@ class Download(object):
         maxfile=100 in MegaBytes
         chunk_size=1024 the bytes to write from mem
         """
-        # using the filename is dangerous, could have UT8 chars etc.
+        # using the filename is dangerous, could have UTF8 chars etc.
         local_filename = randint(10000, 999999999)
         # set name
         local_filename = str(local_filename) + str(filetype)
@@ -61,7 +61,7 @@ class Download(object):
             return local_filename, download
 
     def download_file2(self, url, filetype, timeout=5):
-        # using the filename is dangerous, could have UT8 chars etc.
+        # using the filename is dangerous, could have UTF8 chars etc.
         local_filename = randint(10000, 999999999)
         # set name
         local_filename = str(local_filename) + str(filetype)
@@ -80,7 +80,7 @@ class Download(object):
         except urllib2.HTTPError, e:
             self.logger.debug('urllib2 HTTPError: ' + e)
         except urllib2.URLError, e:
-            self.logger.debug('urllib2 UTLError: ' + e)
+            self.logger.debug('urllib2 URLError: ' + e)
         except urllib2.HTTPException, e:
             self.logger.debug('urllib2 HTTPException: ' + e)
         except Exception as e:

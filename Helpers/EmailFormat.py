@@ -57,7 +57,7 @@ class EmailFormat(object):
                         return pattern
             else:
                 if self.verbose:
-                    e = ' [!] No pattern dettected via EmailHunter API'
+                    e = ' [!] No pattern detected via EmailHunter API'
                     print helpers.color(e, firewall=True)
                     return False
         except:
@@ -106,7 +106,7 @@ class EmailFormat(object):
 
     def EmailDetect(self, CleanNames, Domain, FinalEmails):
         '''
-        if EmailHunterDetect cant find a 
+        if EmailHunterDetect cant find a
         format this function will build everytype of
         email and compare for a model.
         '''
@@ -337,7 +337,7 @@ class EmailFormat(object):
             if BuiltEmails:
                 return BuiltEmails
             else:
-                print helpers.color(' [!] NO Names built, please do a sanity check!', warning=True)
+                print helpers.color(' [!] No names built, please do a sanity check!', warning=True)
                 return False
         elif Format == '{first}{last}':
             for name in CleanNames:
@@ -345,7 +345,7 @@ class EmailFormat(object):
                     FirstName = str(name[0])
                     LastName = str(name[1])
                     if FirstName and LastName:
-                        # now build foramt
+                        # now build format
                         BuiltName = str(
                             FirstName) + str(LastName) + "@" + Domain
                         if Verbose:
@@ -358,7 +358,7 @@ class EmailFormat(object):
             if BuiltEmails:
                 return BuiltEmails
             else:
-                print helpers.color(' [!] NO Names built, please do a sanity check!', warning=True)
+                print helpers.color(' [!] No names built, please do a sanity check!', warning=True)
                 return False
         elif Format == '{first}.{last}':
             for name in CleanNames:
@@ -379,7 +379,7 @@ class EmailFormat(object):
             if BuiltEmails:
                 return BuiltEmails
             else:
-                print helpers.color(' [!] NO Names built, please do a sanity check!', warning=True)
+                print helpers.color(' [!] No names built, please do a sanity check!', warning=True)
                 return False
         elif Format == '{first}.{l}':
             for name in CleanNames:
@@ -401,7 +401,7 @@ class EmailFormat(object):
             if BuiltEmails:
                 return BuiltEmails
             else:
-                print helpers.color(' [!] NO Names built, please do a sanity check!', warning=True)
+                print helpers.color(' [!] No names built, please do a sanity check!', warning=True)
                 return False
         elif Format == '{first}{l}':
             for name in CleanNames:
@@ -423,7 +423,7 @@ class EmailFormat(object):
             if BuiltEmails:
                 return BuiltEmails
             else:
-                print helpers.color(' [!] NO Names built, please do a sanity check!', warning=True)
+                print helpers.color(' [!] No names built, please do a sanity check!', warning=True)
                 return False
         elif Format == '{first}_{last}':
             for name in CleanNames:
@@ -459,5 +459,5 @@ class EmailFormat(object):
             if BuiltEmails:
                 return BuiltEmails
             else:
-                print helpers.color(' [!] NO Names built, please do a sanity check!', warning=True)
+                print helpers.color(' [!] No names built, please do a sanity check!', warning=True)
                 return False

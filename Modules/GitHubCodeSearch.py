@@ -9,13 +9,13 @@ from Helpers import helpers
 # Class will have the following properties:
 # 1) name / description
 # 2) main name called "ClassName"
-# 3) execute function (calls everthing it neeeds)
+# 3) execute function (calls everything it needs)
 # 4) places the findings into a queue
 
 # This method will do the following:
 # 1) Get raw HTML for lets say enron.com (https://github.com/search?utf8=✓&q=enron.com+&type=Code&ref=searchresults)
 #    This is mainly do to the API not supporting code searched with out known repo or user :(
-# 2) Use beautiful soup to parse the results of the first (5) pages for <A HERF> tags that start with "/"
+# 2) Use beautiful soup to parse the results of the first (5) pages for <A HREF> tags that start with "/"
 # 3) Ueses a list of URL's and places that raw HTML into a on value
 # 4) Sends to parser for results
 
@@ -32,7 +32,7 @@ from Helpers import helpers
 #         time.sleep(1)
 #         a = 'https://github.com' + str(a)
 #         html = requests.get(a)
-#         print "[!] Htiting: " + a
+#         print "[!] Hitting: " + a
 #         FinalHtml += html.content
 # with open("temps.html", "w") as myfile:
 #     output = myfile.write(FinalHtml)

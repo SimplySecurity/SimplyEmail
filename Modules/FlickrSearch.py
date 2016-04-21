@@ -7,7 +7,7 @@ from Helpers import helpers
 # Class will have the following properties:
 # 1) name / description
 # 2) main name called "ClassName"
-# 3) execute function (calls everthing it neeeds)
+# 3) execute function (calls everything it needs)
 # 4) places the findings into a queue
 
 
@@ -15,8 +15,8 @@ class ClassName(object):
 
     def __init__(self, domain, verbose=False):
         self.apikey = False
-        self.name = "Searching Flicker"
-        self.description = "Search the Flicker top relvant results for emails"
+        self.name = "Searching Flickr"
+        self.description = "Search the Flickr top relvant results for emails"
         self.domain = domain
         config = configparser.ConfigParser()
         self.results = ""

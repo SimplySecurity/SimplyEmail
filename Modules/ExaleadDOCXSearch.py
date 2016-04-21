@@ -3,7 +3,7 @@
 # Class will have the following properties:
 # 1) name / description
 # 2) main name called "ClassName"
-# 3) execute function (calls everthing it neeeds)
+# 3) execute function (calls everything it needs)
 # 4) places the findings into a queue
 import configparser
 import requests
@@ -14,7 +14,6 @@ from Helpers import helpers
 from Helpers import Parser
 from Helpers import Download
 from bs4 import BeautifulSoup
-import docx2txt
 
 # import for "'ascii' codec can't decode byte" error
 import sys
@@ -127,7 +126,7 @@ class ClassName(object):
                 except Exception as e:
                     print e
         except Exception as e:
-            p = " [*] No DOCX's to download from Exalead: " +  e
+            p = " [*] No DOCX's to download from Exalead: " + e
             self.logger.info("No DOCX's to download from Exalead: " + str(e))
             print helpers.color(p, firewall=True)
 

@@ -32,8 +32,8 @@ class VersionCheck(object):
                     p = " [!] Newer Version Available, Re-Run Setup.sh to update!"
                     print helpers.color(p, warning=True, bold=False)
                     self.logger.info(
-                        "Verison / Update returned newer Version Available")
-                self.logger.info("Verison / Update request completed OK")
+                        "Version / Update returned newer Version Available")
+                self.logger.info("Version / Update request completed OK")
             except Exception as e:
                 error = " [!] Fail during Request to Update/Version Check (Check Connection)"
                 self.logger.error(

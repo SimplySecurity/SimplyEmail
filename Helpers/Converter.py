@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import helpers
 import logging
 import docx2txt
 from pptx import Presentation
@@ -44,7 +43,7 @@ class Converter(object):
         A very simple conversion function
         which returns text for parsing.
 
-        path = The path to the file 
+        path = The path to the file
         """
         try:
             cmd = ['antiword', path]
@@ -87,7 +86,7 @@ class Converter(object):
         A very simple conversion function
         which returns text for parsing from PDF.
 
-        path = The path to the file 
+        path = The path to the file
         """
         try:
             rsrcmgr = PDFResourceManager()
@@ -130,4 +129,4 @@ class Converter(object):
             text = ""
             return text
             self.logger.error(
-                "Failed tSTDOUTo convert_Xlsx_to_Csv to text: " + str(e))
+                "Failed to convert_Xlsx_to_Csv to text: " + str(e))

@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 import json
 import requests
-import logging
 
 # https://github.com/CanaryPW/Canary-Python
 
@@ -51,7 +50,7 @@ class canary(object):
     # Does a search--whee. Bangs can be specified via separate argument. This is due to plan to make changes to the search for API users
     # in the future.
     def search(s, query, bang=None):
-        if bang != None:
+        if bang is not None:
             query = '!%s %s' % (bang, query)
         url = s.build_url({'action': 'search', 'query': query})
         s.retrieve(url=url)
@@ -66,7 +65,7 @@ class canary(object):
     # Users with the ability to submit data can use this to send. This is not
     # documented.
     def store(s, title, text, source, source_url):
-        if title == None:
+        if title is None:
             title = 'Untitled'
         data = {'title': title, 'text': text,
                 'source': source, 'source_url': source_url}

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # Inspired by theHarvester and the capabilities. This project is simply a learning experience of
 # recon methods to obtain email address and the way you can go about it.
-# Also I really wanted the ability to learn SQL, and make this tool multipthreaded!
+# Also I really wanted the ability to learn SQL, and make this tool multi-threaded!
 #
 # * = Require API Key
 #
@@ -19,7 +19,7 @@ def cli_parser():
     parser = argparse.ArgumentParser(add_help=False, description='''
         Email enumeration is a important phase of so many operation that a pen-tester or\n
         Red Teamer goes through. There are tons of applications that do this but I wanted\n
-        a simple yet effective way to get what Recon-Ng gets and theHarvester gets.\n 
+        a simple yet effective way to get what Recon-Ng gets and theHarvester gets.\n
         (You may want to run -h)
         ''')
     parser.add_argument(
@@ -47,9 +47,9 @@ def cli_parser():
     return args.all, args.e, args.l, args.t, args.s, args.n, args.verify, args.v
 
 
-def TaskControler(version):
+def TaskStarter(version):
     # Get all the options passed and pass it to the TaskConducter, this will
-    # keep all the prcessing on the side.
+    # keep all the processing on the side.
     # need to pass the store true somehow to tell printer to restrict output
     log = helpers.log()
     log.start()
@@ -98,7 +98,7 @@ def main():
     orc = TaskController.Conducter()
     orc.title()
     orc.title_screen()
-    TaskControler(version)
+    TaskStarter(version)
 
 
 if __name__ == "__main__":

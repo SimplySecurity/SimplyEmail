@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import requests
 import configparser
 from Helpers import Download
 from Helpers import Parser
 from Helpers import helpers
 
-# https://github.com/search?p=1&q=gmail.com&ref=searchresults&type=Users&utf8=
-# Main goal is to search for potential users
-# on this you can eaily setoff abuse rate limiting
-# so lets add a 5 sec sleep per request
+# Class will have the following properties:
+# 1) name / description
+# 2) main name called "ClassName"
+# 3) execute function (calls everything it needs)
+# 4) places the findings into a queue
 
 
 class ClassName(object):

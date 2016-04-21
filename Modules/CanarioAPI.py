@@ -9,18 +9,18 @@ from Helpers import CanarioAPI
 # Class will have the following properties:
 # 1) name / description
 # 2) main name called "ClassName"
-# 3) execute function (calls everthing it neeeds)
+# 3) execute function (calls everything it needs)
 # 4) places the findings into a queue
 
 # This method will do the following:
 # 1) Get raw HTML for lets say enron.com )
 #    This is mainly do to the API not supporting code searched with out known repo or user
 #    :(https://canary.pw/search/?q=earthlink.net&page=3)
-# 2) Use beautiful soup to parse the results of the first (5) pages for <A HERF> tags that start with "/view/"
+# 2) Use beautiful soup to parse the results of the first (5) pages for <A HREF> tags that start with "/view/"
 # 3) Ueses a list of URL's and places that raw HTML into a on value
 # 4) Sends to parser for results
 
-# Some considerations are the retunred results: max 100 it seems
+# Some considerations are the returned results: max 100 it seems
 # API may return a great array of results - This will be added later
 # Still having some major python errors
 
@@ -89,14 +89,14 @@ class ClassName(object):
                                 for em in emails:
                                     self.Html += str(em) + " "
                             except:
-                                # just for weired cases where their is no
+                                # just for weird cases where there is no
                                 # values
                                 pass
                             try:
                                 body = view['data']['text_data']['body']
                                 self.Html += str(body) + ' '
                             except:
-                                # just for weired cases where their is no
+                                # just for weird cases where there is no
                                 # values
                                 pass
                         except Exception as e:

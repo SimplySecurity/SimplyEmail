@@ -3,7 +3,7 @@
 # Class will have the following properties:
 # 1) name / description
 # 2) main name called "ClassName"
-# 3) execute function (calls everthing it neeeds)
+# 3) execute function (calls everything it needs)
 # 4) places the findings into a queue
 import urlparse
 import configparser
@@ -113,7 +113,7 @@ class ClassName(object):
                 except Exception as e:
                     print e
         except:
-            print helpers.color(" [*] No CSV to download from Google!\n", firewall=True)
+            print helpers.color(" [*] No PPTX to download from Google!\n", firewall=True)
 
     def get_emails(self):
         Parse = Parser.Parser(self.Text)

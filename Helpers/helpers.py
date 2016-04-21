@@ -71,17 +71,20 @@ def getua():
     ua = UserAgent()
     return ua.random
 
+
 def modsleep(st):
     # sleep module for spec time
     time.sleep(int(st))
+
 
 def filetype(path):
     m = magic.from_file(str(path))
     return m
 
-######################
-#Setup Logging Class #
-######################
+#######################
+# Setup Logging Class #
+#######################
+
 
 class log(object):
 
