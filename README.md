@@ -39,8 +39,7 @@ Please RUN the simple Setup Bash script!
 or
 # ./Setup.sh
 ```
-
-# Get Started in Kali
+## Get Started in Kali
 Please RUN the simple Setup Bash script! 
 NOTE: At the moment the up-streeam debian python-futures contain bugs within configparser / python-magic. This has been reported to KALI and debiab.
 configparser bug in apt-get python-futures: https://bugs.kali.org/view.php?id=3245
@@ -55,7 +54,6 @@ or
 Normal Setup
 # ./Setup.sh
 ```
-
 ## Get Started on Mac OSX (At own risk)
 ```
 Install brew:
