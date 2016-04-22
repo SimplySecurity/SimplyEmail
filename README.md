@@ -32,12 +32,22 @@ API Based Searches:
 - When API based searches become available, no need to add them to the Command line
 - API keys will be auto pulled from the SimpleEmail.ini, this will activate the module for use
  
-## Get Started
+## Get Started on Deb
 Please RUN the simple Setup Bash script!!!
 ```Bash
 root@kali:~/Desktop/SimplyEmail# sh Setup.sh
 or
 root@kali:~/Desktop/SimplyEmail# ./Setup.sh
+```
+
+## Get Started on Mac OSX (At own risk)
+```
+Install brew:
+https://coolestguidesontheplanet.com/installing-homebrew-on-os-x-el-capitan-10-11-package-manager-for-unix-apps/
+
+$ sudo easy_install pip
+$ sudo brew install libmagic
+$ pip install python-magic
 ```
 
 ### Standard Help
