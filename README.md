@@ -33,11 +33,27 @@ API Based Searches:
 - API keys will be auto pulled from the SimpleEmail.ini, this will activate the module for use
  
 ## Get Started on Deb
-Please RUN the simple Setup Bash script!!!
+Please RUN the simple Setup Bash script!
 ```Bash
-root@kali:~/Desktop/SimplyEmail# sh Setup.sh
+# sh Setup.sh
 or
-root@kali:~/Desktop/SimplyEmail# ./Setup.sh
+# ./Setup.sh
+```
+
+# Get Started in Kali
+Please RUN the simple Setup Bash script! 
+NOTE: At the moment the up-streeam debian python-futures contain bugs within configparser / python-magic. This has been reported to KALI and debiab.
+configparser bug in apt-get python-futures: https://bugs.kali.org/view.php?id=3245
+SimplyEmail bug reported: https://github.com/killswitch-GUI/SimplyEmail/issues/11
+```
+FIX KALI BUG: 
+# apt-get remove configparser
+# apt-get remove python-magic
+or 
+# apt-get remove python-futures
+
+Normal Setup
+# ./Setup.sh
 ```
 
 ## Get Started on Mac OSX (At own risk)
