@@ -48,6 +48,7 @@ https://coolestguidesontheplanet.com/installing-homebrew-on-os-x-el-capitan-10-1
 $ sudo easy_install pip
 $ sudo brew install libmagic
 $ pip install python-magic
+$ ./Setup.sh
 ```
 
 ### Standard Help
