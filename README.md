@@ -8,6 +8,8 @@ What is the simple email recon tool? This tool was based off the work of theHarv
 
 MAJOR CALLOUTS:
 @laramies - Developer of theHarvester tool https://github.com/laramies/theHarvester
+@CptJesus - Helped dev framework
+
 
 Work Conducted by:
 ----------------------------------------------
