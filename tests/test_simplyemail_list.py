@@ -135,7 +135,7 @@ def test_converter():
     text = c.convert_pdf_to_txt(p + 'Test-PDF.pdf')
     assert text
     assert 'How to Design and Test' in text
-    text = c.convert_pptx_to_txt(p + 'Test-PPTX.pptx')
+    text = c.convert_zip_to_text(p + 'Test-PPTX.pptx')
     assert text
     assert 'Test SLIDE' in text
     assert 'Test SLIDE 2' in text
