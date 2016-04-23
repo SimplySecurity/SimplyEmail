@@ -3,7 +3,7 @@
 # Class will have the following properties:
 # 1) name / description
 # 2) main name called "ClassName"
-# 3) execute function (calls everything it needs)
+# 3) execute function (calls everthing it neeeds)
 # 4) places the findings into a queue
 import urlparse
 import configparser
@@ -102,22 +102,23 @@ class ClassName(object):
                             print helpers.color(p, firewall=True)
                         ft = helpers.filetype(FileName).lower()
                         if 'powerpoint' in ft:
-                            self.Text += convert.convert_pptx_to_txt(FileName)
+                            # self.Text += convert.convert_zip_to_text(FileName)
+                            self.Text += convert.convert_zip_to_text(FileName)
                         else:
                             self.logger.warning('Downloaded file is not a PPTX: ' + ft)
                     # print self.Text
                 except Exception as e:
-                    print helpers.color(" [!] Issue with opening PPTX Files: " + str(e), firewall=True)
-                    self.logger.warning('Issue with opening PPTX: ' + str(e))
+                    print helpers.color(" [!] Issue with opening PPTX Files\n", firewall=True)
                 try:
                     dl.delete_file(FileName)
                 except Exception as e:
                     print e
         except:
-            print helpers.color(" [*] No PPTX to download from Google!\n", firewall=True)
+            print helpers.color(" [*] No CSV to download from Google!\n", firewall=True)
 
     def get_emails(self):
         Parse = Parser.Parser(self.Text)
+        Parse.RemoveUnicode()
         Parse.genericClean()
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()

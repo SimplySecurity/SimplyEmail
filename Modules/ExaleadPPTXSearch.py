@@ -99,7 +99,7 @@ class ClassName(object):
                             print helpers.color(p, firewall=True)
                         ft = helpers.filetype(FileName).lower()
                         if 'powerpoint' in ft:
-                            self.Text += convert.convert_pptx_to_txt(FileName)
+                            self.Text += convert.convert_zip_to_text(FileName)
                         else:
                             self.logger.warning('Downloaded file is not a PPTX: ' + ft)
                 except Exception as e:

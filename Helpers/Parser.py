@@ -3,6 +3,7 @@
 
 import os
 import re
+import logging
 import string
 import subprocess
 from random import randint
@@ -17,7 +18,8 @@ class Parser(object):
 
     def __init__(self, InputData):
         self.InputData = InputData
-        # self.domain = domain
+        self.logger = logging.getLogger("SimplyEmail.Parser")
+        #self.domain = domain
 
     # A really good url clean by theHarvester at :
     # https://raw.githubusercontent.com/killswitch-GUI/theHarvester/master/myparser.py
@@ -34,7 +36,7 @@ class Parser(object):
         self.InputData = re.sub('</tr>', ' ', self.InputData)
         self.InputData = re.sub('</a>', ' ', self.InputData)
 
-        for e in (',', '>', ':', '=', '<', '/', '\\', ';', '&', '%3A', '%3D', '%3C', '&#34'):
+        for e in (',', '>', ':', '=', '<', '/', '\\', ';', '&', '%3A', '%3D', '%3C', '&#34', '"'):
             self.InputData = string.replace(self.InputData, e, ' ')
 
     # A really good url clean by theHarvester at :
@@ -65,7 +67,8 @@ class Parser(object):
             remove_ctrl_chars_regex = re.compile(r'[^\x20-\x7e]')
             self.InputData = remove_ctrl_chars_regex.sub('', string_data)
         except Exception as e:
-            p = '[!] UTF8 Decoding issues Matching: ' + str(e)
+            self.logger.error('UTF8 decoding issues' + str(e))
+            p = '[!] UTF8 decoding issues Matching: ' + str(e)
             print helpers.color(p, firewall=True)
 
     def FindEmails(self):
@@ -73,7 +76,7 @@ class Parser(object):
         match = re.findall('[\w\.-]+@[\w\.-]+', self.InputData)
         for item in match:
             Result.append(item)
-        # emails = self.unique()
+        #emails = self.unique()
         return Result
 
     def GrepFindEmails(self):
@@ -91,11 +94,11 @@ class Parser(object):
             val = subprocess.check_output(("grep", "-i", "-o", '[A-Z0-9._%+-]\+@[A-Z0-9.-]\+\.[A-Z]\{2,4\}'),
                                           stdin=ps.stdout)
         # Start Email Evasion Check
-        # This will be a seperate func to handle the lager sets of data
-            # EvasionVal = self.EmailEvasionCheck(ps)
-        except Exception:
+        # This will be a seprate func to handle the lager sets of data
+            EvasionVal = self.EmailEvasionCheck(ps)
+        except Exception as e:
             pass
-            # p = '[!] Pattern Matching Issue: ' + str(e)
+            #p = '[!] Pattern Matching Issue: ' + str(e)
             # print helpers.color(p, firewall=True)
         # Remove this line for Debuging pages
         os.remove(str(StartFileName))
@@ -109,12 +112,12 @@ class Parser(object):
                 FinalOutput.append(item.rstrip("\n"))
         return FinalOutput
 
-    # def EmailEvasionCheck(self, data):
-    #     try:
-    #         val = subprocess.check_output(("grep", "-i", "-o", '[A-Z0-9._%+-]\+\s+@+\s[A-Z0-9.-]\+\.[A-Z]\{2,4\}'),
-    #                                       stdin=data.stdout)
-    #     except:
-    #         pass
+    def EmailEvasionCheck(self, data):
+        try:
+            val = subprocess.check_output(("grep", "-i", "-o", '[A-Z0-9._%+-]\+\s+@+\s[A-Z0-9.-]\+\.[A-Z]\{2,4\}'),
+                                          stdin=data.stdout)
+        except:
+            pass
 
     def CleanListOutput(self):
         FinalOutput = []
