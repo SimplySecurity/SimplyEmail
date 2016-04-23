@@ -110,9 +110,10 @@ class ClassName(object):
                 except Exception as e:
                     print helpers.color(" [!] Issue with opening PPTX Files\n", firewall=True)
                 try:
-                    dl.delete_file(FileName)
+                    if FileDownload:
+                        dl.delete_file(FileName)
                 except Exception as e:
-                    print e
+                    self.logger.warning('Issue deleting file: ' + str(e))
         except:
             print helpers.color(" [*] No CSV to download from Google!\n", firewall=True)
 
