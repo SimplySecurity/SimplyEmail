@@ -13,7 +13,7 @@ func_title(){
 
   # Echo Title
   echo '=========================================================================='
-  echo ' SimpleEmail Setup Script | [Updated]: '
+  echo ' SimpleEmail Setup Script | [Updated]: 2016'
   echo '=========================================================================='
   echo ' [Web]: Http://CyberSyndicates.com | [Twitter]: @KillSwitch-GUI'
   echo '=========================================================================='
