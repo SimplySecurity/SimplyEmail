@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# Current supported platforms: 
-#   Kali-Linux
 # Global Variables
 runuser=$(whoami)
 tempdir=$(pwd)
