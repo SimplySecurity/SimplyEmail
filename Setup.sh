@@ -39,7 +39,7 @@ func_install_requests(){
   sudo git pull
   # remove bad pcks (Kali Python 2016.1 rolling issues)
   sudo apt-get remove python-configparser
-  sudo apt-get install python-configparser
+  sudo apt-get -y install python-configparser
   sudo apt-get remove python-magic
   # setup PPTX depends 
   sudo apt-get -y install python-lxml
