@@ -40,6 +40,7 @@ class ClassName(object):
             self.save = "--directory-prefix=" + \
                 str(config['HtmlScrape']['Save']) + str(self.domain)
             self.remove = str(config['HtmlScrape']['RemoveHTML'])
+            self.retVal = 0
         except:
             print helpers.color(" [*] Major Settings for HTML are missing, EXITING!\n", warning=True)
 
@@ -62,11 +63,18 @@ class ClassName(object):
             if self.verbose:
                 p = ' [*] HTML scrape underway [This can take a bit!]'
                 print helpers.color(p, firewall=True)
-            subprocess.call(["wget", "-q", "-e robots=off", "--header=""Accept: text/html""", self.useragent,
+            self.retVal = subprocess.call(["wget", "-q", "-e robots=off", "--header=""Accept: text/html""", self.useragent,
                              "--recursive", self.depth, self.wait, self.limit_rate, self.save,
                              self.timeout, "--page-requisites", "-R gif,jpg,pdf,png,css,zip,mov,wmv,ppt,doc,docx,xls,exe,bin,pptx,avi,swf,vbs,xlsx,kfp,pub",
                              "--no-clobber", "--domains", self.domain, TempDomain])
-        except:
+            if self.retVal > 0:
+                print helpers.color(" [*] Wget returned error, likely 403 (attempting again): " + str(self.retVal), warning=True)
+                self.retVal = subprocess.call(["wget", "-e robots=off", "--header=""Accept: text/html""", self.useragent,
+                             "--recursive", self.depth, self.wait, self.limit_rate, self.save,
+                             self.timeout, "--page-requisites", "-R gif,jpg,pdf,png,css,zip,mov,wmv,ppt,doc,docx,xls,exe,bin,pptx,avi,swf,vbs,xlsx,kfp,pub",
+                             "--no-clobber", "--domains", self.domain, TempDomain])
+        except Exception as e:
+            print e
             print " [!] ERROR during Wget Request"
 
     def get_emails(self):
@@ -79,29 +87,33 @@ class ClassName(object):
         # Grep for any data containing "@", sorting out binary files as well
         # Pass list of Dirs to a regex, and read that path for emails
         try:
-            ps = subprocess.Popen(
-                ('grep', '-r', "@", directory), stdout=subprocess.PIPE)
-            # Take in "ps" var and parse it for only email addresses
-            output = []
-            try:
-                val = subprocess.check_output(("grep", "-i", "-o", '[A-Z0-9._%+-]\+@[A-Z0-9.-]\+\.[A-Z]\{2,4\}'),
-                                              stdin=ps.stdout)
-            except Exception as e:
+            if self.retVal > 0:
                 pass
-            # Super "hack" since the data returned is from pipeline /n and all
-            # in val
-            if val:
-                with open('temp.txt', "w+") as myfile:
-                    myfile.write(str(val))
-                with open('temp.txt', "r") as myfile:
-                    output = myfile.readlines()
-                os.remove('temp.txt')
-                for item in output:
-                    FinalOutput.append(item.rstrip("\n"))
+            else:
+                ps = subprocess.Popen(
+                    ('grep', '-r', "@", directory), stdout=subprocess.PIPE)
+                # Take in "ps" var and parse it for only email addresses
+                output = []
+                try:
+                    val = subprocess.check_output(("grep", "-i", "-o", '[A-Z0-9._%+-]\+@[A-Z0-9.-]\+\.[A-Z]\{2,4\}'),
+                                                  stdin=ps.stdout)
+                except Exception as e:
+                    pass
+                # Super "hack" since the data returned is from pipeline /n and all
+                # in val
+                if val:
+                    with open('temp.txt', "w+") as myfile:
+                        myfile.write(str(val))
+                    with open('temp.txt', "r") as myfile:
+                        output = myfile.readlines()
+                    os.remove('temp.txt')
+                    for item in output:
+                        FinalOutput.append(item.rstrip("\n"))
         except Exception as e:
             print e
         if self.remove == "yes" or self.remove == "Yes":
-            shutil.rmtree(directory)
+            if not self.retVal > 0:
+                shutil.rmtree(directory)
         Parse = Parser.Parser(FinalOutput)
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
         return FinalOutput, HtmlResults
