@@ -76,7 +76,7 @@ def test_yahoosearch():
 def test_whoisapi():
     s = WhoisAPISearch.ClassName('verisgroup.com', verbose=True)
     FinalOutput, HtmlResults = s.execute()
-    assert 'nc5hp7cr249@networksolutionsprivateregistration.com' in FinalOutput
+    assert 'abuse@web.com' in FinalOutput
 
 def test_redditsearch():
     s = RedditPostSearch.ClassName('gmail.com', verbose=True)
