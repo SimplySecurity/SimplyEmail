@@ -6,6 +6,7 @@ import re
 import logging
 import string
 import subprocess
+import time
 from random import randint
 import helpers
 
@@ -136,6 +137,23 @@ class Parser(object):
             ListItem = "{'Email': " + email + ", 'Source': " + ModuleName + "}"
             FinalOutput.append(ListItem)
         return FinalOutput
+
+    def BuildJson(self, InputList, ModuleName):
+        FinalOutput = []
+        currentDate = str(time.strftime("%d/%m/%Y"))
+        currentTime = str(time.strftime("%H:%M:%S"))
+        moduleName = str(ModuleName)
+        for email in InputList:
+            obj = {
+                'email': email,
+                'module_name': moduleName,
+                'collection_time': currentTime,
+                'collection_data': currentDate,
+            }
+            FinalOutput.append(obj)
+        # print FinalOutput
+        return FinalOutput
+
 
     def extendedclean(self, modulename):
         self.genericClean()

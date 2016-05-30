@@ -43,6 +43,7 @@ class Conducter(object):
         self.Emails = []
         self.ConsumerList = []
         self.HtmlList = []
+        self.JsonList = []
         self.Tasks = []
         self.ResultsList = []
         self.logger = logging.getLogger("SimplyEmail.TaskController")
@@ -67,7 +68,7 @@ class Conducter(object):
     #     module.execute()
 
     # Handler for each Process that will call all the modules in the Queue
-    def ExecuteModule(self, Task_queue, Results_queue, Html_queue, domain, verbose=False):
+    def ExecuteModule(self, Task_queue, Results_queue, Html_queue, Json_queue, domain, verbose=False):
         while True:
             Task = Task_queue.get()
             # If the queue is empty exit this proc
@@ -94,7 +95,7 @@ class Conducter(object):
                             # Exit a API module with out a key
                             break
                     # Emails will be returned as a list
-                    Emails, HtmlResults = Module.execute()
+                    Emails, HtmlResults, JsonResults = Module.execute()
                     if Emails:
                         count = len(Emails)
                         Length = " [*] " + Module.name + \
@@ -104,6 +105,8 @@ class Conducter(object):
                             Results_queue.put(Email)
                         for Email in HtmlResults:
                             Html_queue.put(Email)
+                        for Email in JsonResults:
+                            Json_queue.put(Email)
                         # Task_queue.task_done()
                     else:
                         Message = " [*] " + Module.name + \
@@ -198,6 +201,14 @@ class Conducter(object):
         # error =  "[!] Error building HTML file:" + e
         # print helpers.color(error, warning=True)
 
+    def JsonPrinter(self, JsonFinalEmailList, FullPath, Domain):
+        self.logger.debug("Json Printer started")
+        json = helpers.JsonListToJsonObj(JsonFinalEmailList, Domain)
+        if json:
+            with open(str(FullPath), 'w') as file:
+                file.write(json)
+
+
     def CleanResults(self, domain, scope=False):
         # Clean Up results, remove duplicates and enforce strict Domain results (future)
         # Set Timeout or you wont leave the While loop
@@ -243,6 +254,23 @@ class Conducter(object):
         self.logger.info("Completed cleaning results")
         return FinalList, HtmlFinalList
 
+    def CleanJsonResults(self, domain, scope=False):
+        self.logger.debug("JSON Clean Results started")
+        SecondList = []
+        FinalList = []
+        if scope:
+            for item in self.JsonList:
+                SecondList.append(item)
+        else:
+            for item in self.JsonList:
+                if domain.lower() in item['email'].lower():
+                    SecondList.append(item)
+        for item in SecondList:
+            if item not in FinalList:
+                FinalList.append(item)
+        return FinalList
+
+
     def Consumer(self, Results_queue, verbose):
         while True:
             try:
@@ -265,7 +293,18 @@ class Conducter(object):
                 if verbose:
                     print e
 
-    def TaskSelector(self, domain, verbose=False, scope=False, Names=False, Verify=False):
+    def JsonConsumer(self, Json_queue, verbose):
+        while True:
+            try:
+                item = Json_queue.get()
+                if item is None:
+                    break
+                self.JsonList.append(item)
+            except Exception as e:
+                if verbose:
+                    print e
+
+    def TaskSelector(self, domain, verbose=False, scope=False, Names=False, json=True, Verify=False):
         # Here it will check the Queue for the next task to be completed
         # Using the Dynamic loaded modules we can easly select which module is up
         # Rather than using If statment on every task that needs to be done
@@ -275,6 +314,7 @@ class Conducter(object):
         Task_queue = multiprocessing.Queue()
         Results_queue = multiprocessing.Queue()
         Html_queue = multiprocessing.Queue()
+        Json_queue = multiprocessing.Queue()
 
         # How many proc will we have, pull from config file, setting up the
         # config file handler
@@ -295,7 +335,7 @@ class Conducter(object):
         for thread in range(total_proc):
             thread = thread
             procs.append(multiprocessing.Process(
-                target=self.ExecuteModule, args=(Task_queue, Results_queue, Html_queue, domain, verbose)))
+                target=self.ExecuteModule, args=(Task_queue, Results_queue, Html_queue, Json_queue, domain, verbose)))
         for p in procs:
             p.daemon = True
             p.start()
@@ -316,6 +356,10 @@ class Conducter(object):
         t2 = threading.Thread(target=self.HtmlConsumer, args=(Html_queue, verbose,))
         t2.daemon = True
         t2.start()
+        # Start Json Consumer
+        t2 = threading.Thread(target=self.JsonConsumer, args=(Json_queue, verbose,))
+        t2.daemon = True
+        t2.start()
         # Enter this loop so we know when to terminate the Consumer thread
         # This multiprocessing.active_children() is also Joining!
         while True:
@@ -327,10 +371,12 @@ class Conducter(object):
                 time.sleep(1)
                 Results_queue.put(None)
                 Html_queue.put(None)
+                Json_queue.put(None)
                 # t.join()
                 try:
                     FinalEmailList, HtmlFinalEmailList = self.CleanResults(
                         domain, scope)
+
                 except Exception as e:
                     error = " [!] Something went wrong with parsing results:" + \
                         str(e)
@@ -391,7 +437,7 @@ class Conducter(object):
     # This is the Test version of the multi proc above, this function
     # Helps with testing only one module at a time. Helping with proper
     # Module Dev and testing before integration
-    def TestModule(self, domain, module, verbose=False, scope=False, Names=False, Verify=False):
+    def TestModule(self, domain, module, verbose=False, scope=False, Names=False, json='', Verify=False):
         self.logger.debug("Starting TaskSelector for: " + str(domain))
         Config = configparser.ConfigParser()
         Config.read("Common/SimplyEmail.ini")
@@ -400,6 +446,7 @@ class Conducter(object):
         Task_queue = multiprocessing.JoinableQueue()
         Results_queue = multiprocessing.Queue()
         Html_queue = multiprocessing.Queue()
+        Json_queue = multiprocessing.Queue()
 
         for Task in self.modules:
             if module in Task:
@@ -410,7 +457,7 @@ class Conducter(object):
         procs = []
         for thread in range(total_proc):
             procs.append(multiprocessing.Process(
-                target=self.ExecuteModule, args=(Task_queue, Results_queue, Html_queue, domain, verbose)))
+                target=self.ExecuteModule, args=(Task_queue, Results_queue, Html_queue, Json_queue, domain, verbose)))
         for p in procs:
             p.daemon = True
             p.start()
@@ -431,6 +478,10 @@ class Conducter(object):
         t2 = threading.Thread(target=self.HtmlConsumer, args=(Html_queue, verbose,))
         t2.daemon = True
         t2.start()
+        # Start Json Consumer
+        t2 = threading.Thread(target=self.JsonConsumer, args=(Json_queue, verbose,))
+        t2.daemon = True
+        t2.start()
         # Enter this loop so we know when to terminate the Consumer thread
         # This multiprocessing.active_children() is also Joining!
         while True:
@@ -442,8 +493,10 @@ class Conducter(object):
                 time.sleep(1)
                 Results_queue.put(None)
                 Html_queue.put(None)
+                Json_queue.put(None)
                 # t.join()
                 try:
+                    JsonFinalEmailList = self.CleanJsonResults(domain, scope)
                     FinalEmailList, HtmlFinalEmailList = self.CleanResults(
                         domain, scope)
                 except Exception as e:
@@ -452,15 +505,18 @@ class Conducter(object):
                     print helpers.color(error, warning=True)
                     self.logger.critical("Something went wrong with parsing results: " + str(e))
                 try:
-                    FinalCount = self.printer(FinalEmailList, domain)
+                    if not json:
+                        FinalCount = self.printer(FinalEmailList, domain)
                 except Exception as e:
                     error = " [!] Something went wrong with outputting results:" + \
                         str(e)
                     print helpers.color(error, warning=True)
                     self.logger.critical("Something went wrong with outputting results: " + str(e))
-                Results_queue.close()
                 try:
-                    self.HtmlPrinter(HtmlFinalEmailList, domain)
+                    if json:
+                        self.JsonPrinter(JsonFinalEmailList, json, domain)
+                    else:
+                        self.HtmlPrinter(HtmlFinalEmailList, domain)
                 except Exception as e:
                     error = " [!] Something went wrong with HTML results:" + \
                         str(e)
@@ -471,6 +527,9 @@ class Conducter(object):
         for p in procs:
             p.join()
         Task_queue.close()
+        Results_queue.close()
+        Html_queue.close()
+        Json_queue.close()
         # Launches a single thread to output results
         BuiltNameCount = 0
         try:
@@ -503,8 +562,8 @@ class Conducter(object):
             error = " [!] Something went wrong with outputting results of Built Names:" + \
                 str(e)
             print helpers.color(error, warning=True)
-
-        self.CompletedScreen(FinalCount, BuiltNameCount, domain)
+        if not json:
+            self.CompletedScreen(FinalCount, BuiltNameCount, domain)
 
     def NameBuilder(self, domain, emaillist, Verbose=False):
         '''

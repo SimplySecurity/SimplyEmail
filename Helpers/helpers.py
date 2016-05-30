@@ -5,8 +5,45 @@ import textwrap
 import logging
 import time
 import magic
+import json
+import configparser
+import collections
 from fake_useragent import UserAgent
 
+def dictToJson(inputDict):
+    """
+    Takes in a list of dict items.
+    Converts them to json and returns list of json obj.
+    """
+    obj = []
+    for item in inputDict:
+        obj += json.dumps(item)
+    return obj
+
+def JsonListToJsonObj(inputJsonList, domain):
+    """
+    Takes a list of json objects,
+    places them in a key and returns the data.
+    """
+    currentDate = str(time.strftime("%d/%m/%Y"))
+    currentTime = str(time.strftime("%H:%M:%S"))
+    currentTool = "SimplyEmail"
+    config = configparser.ConfigParser()
+    config.read('Common/SimplyEmail.ini')
+    currentVersion = str(config['GlobalSettings']['Version'])
+    count = len(inputJsonList)
+    dic = collections.OrderedDict()
+    dic = {
+        "domain_of_collection" : domain,
+        "data_of_collection" : currentDate,
+        "time_of_collection" : currentTime,
+        "tool_of_collection" : currentTool,
+        "current_version" :  currentVersion,
+        "email_collection_count" : count,
+        "emails" : inputJsonList,
+    }
+    obj = json.dumps(dic, indent=4, sort_keys=True)
+    return obj
 
 def color(string, status=True, warning=False, bold=True, blue=False, firewall=False):
     # Change text color for the linux terminal, defaults to green.

@@ -115,5 +115,6 @@ class ClassName(object):
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
+        JsonResults = Parse.BuildJson(FinalOutput, self.name)
         self.logger.debug("PasteBinSearch completed search")
-        return FinalOutput, HtmlResults
+        return FinalOutput, HtmlResults, JsonResults

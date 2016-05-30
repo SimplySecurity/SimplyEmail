@@ -77,5 +77,6 @@ class ClassName(object):
         Parse = Parser.Parser(self.results)
         FinalOutput = Parse.CleanListOutput()
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
+        JsonResults = Parse.BuildJson(FinalOutput, self.name)
         self.logger.debug('EmailHunter completed search')
-        return FinalOutput, HtmlResults
+        return FinalOutput, HtmlResults, JsonResults

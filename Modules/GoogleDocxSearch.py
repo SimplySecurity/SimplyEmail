@@ -112,4 +112,5 @@ class ClassName(object):
         # Unicode issues here:
         FinalOutput = Parse.GrepFindEmails()
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
-        return FinalOutput, HtmlResults
+        JsonResults = Parse.BuildJson(FinalOutput, self.name)
+        return FinalOutput, HtmlResults, JsonResults

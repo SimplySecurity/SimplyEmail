@@ -59,5 +59,6 @@ class ClassName(object):
         Parse = Parser.Parser(self.results)
         FinalOutput = Parse.GrepFindEmails()
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
+        JsonResults = Parse.BuildJson(FinalOutput, self.name)
         self.logger.debug('WhoisAPISearch completed search')
-        return FinalOutput, HtmlResults
+        return FinalOutput, HtmlResults, JsonResults

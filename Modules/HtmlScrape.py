@@ -116,4 +116,5 @@ class ClassName(object):
                 shutil.rmtree(directory)
         Parse = Parser.Parser(FinalOutput)
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
-        return FinalOutput, HtmlResults
+        JsonResults = Parse.BuildJson(FinalOutput, self.name)
+        return FinalOutput, HtmlResults, JsonResults

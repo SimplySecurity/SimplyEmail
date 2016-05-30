@@ -70,5 +70,6 @@ class ClassName(object):
     def get_emails(self):
         parse = Parser.Parser(self.Html)
         FinalOutput, HtmlResults = parse.extendedclean(self.name)
+        JsonResults = parse.BuildJson(FinalOutput, self.name)
         self.logger.debug('AskSearch completed search')
-        return FinalOutput, HtmlResults
+        return FinalOutput, HtmlResults, JsonResults
