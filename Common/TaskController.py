@@ -772,7 +772,7 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 
         Line = " [*] Email reconnaissance has been completed:\n\n"
         Line += "   File Location: \t\t" + \
-            os.getcwd() + str(domain) + "-" + str(self.TimeDate) + "\n"
+            os.getcwd() + "/" + str(domain) + "-" + str(self.TimeDate) + "\n"
         Line += "   Unique Emails Found:\t\t" + str(FinalCount) + "\n"
         Line += "   Emails Built from Names:\t" + str(EmailsBuilt) + "\n"
         Line += "   Total Emails:\t\t" + str(FinalEmailCount) + "\n"
