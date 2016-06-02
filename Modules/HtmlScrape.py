@@ -69,7 +69,7 @@ class ClassName(object):
                              "--no-clobber", "--domains", self.domain, TempDomain])
             if self.retVal > 0:
                 print helpers.color(" [*] Wget returned error, likely 403 (attempting again): " + str(self.retVal), warning=True)
-                self.retVal = subprocess.call(["wget", "-e robots=off", "--header=""Accept: text/html""", self.useragent,
+                self.retVal = subprocess.call(["wget", "-q", "-e robots=off", "--header=""Accept: text/html""", self.useragent,
                              "--recursive", self.depth, self.wait, self.limit_rate, self.save,
                              self.timeout, "--page-requisites", "-R gif,jpg,pdf,png,css,zip,mov,wmv,ppt,doc,docx,xls,exe,bin,pptx,avi,swf,vbs,xlsx,kfp,pub",
                              "--no-clobber", "--domains", self.domain, TempDomain])
