@@ -213,7 +213,7 @@ class Conducter(object):
                 SecondList.append(item)
         else:
             for item in self.ConsumerList:
-                if domain.lower() in item.lower():
+                if domain.lower() in helpers.split_email(item)[-1]:
                     SecondList.append(item)
         FinalList = []
         HtmlFinalList = []
@@ -225,7 +225,7 @@ class Conducter(object):
                 HtmlSecondList.append(item)
         else:
             for item in self.HtmlList:
-                if domain.lower() in item.lower():
+                if domain.lower() in helpers.split_email(item)[-1]:
                     HtmlSecondList.append(item)
         # Iter over all items in the list
         for item in SecondList:

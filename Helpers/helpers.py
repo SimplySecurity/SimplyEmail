@@ -5,8 +5,9 @@ import textwrap
 import logging
 import time
 import magic
+import configparser
+import collections
 from fake_useragent import UserAgent
-
 
 def color(string, status=True, warning=False, bold=True, blue=False, firewall=False):
     # Change text color for the linux terminal, defaults to green.
@@ -65,6 +66,10 @@ def DirectoryListing(directory):
                 dirs.append(path)
     return dirs
 
+def split_email(email):
+    email = email.lower()
+    se = email.split("@")
+    return se
 
 def getua():
     # gets a random useragent and returns the UA
