@@ -726,13 +726,17 @@ class Conducter(object):
     def ListModules(self):
         print helpers.color(" [*] Available Modules are:\n", blue=True)
         self.logger.debug("User Executed ListModules")
-        lastBase = None
         x = 1
+        ordList = []
+        finalList = []
         for name in self.modules:
             parts = name.split("/")
-            if lastBase and parts[0] != lastBase:
-                print ""
-            lastBase = parts[0]
+            ordList.append(parts[-1])
+        ordList = sorted(ordList)
+        for name in ordList:
+            name = 'Modules/' + name
+            finalList.append(name)
+        for name in finalList:
             print "\t%s)\t%s" % (x, '{0: <24}'.format(name))
             x += 1
         print ""
