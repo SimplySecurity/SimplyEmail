@@ -132,7 +132,7 @@ class log(object):
 
     def start(self):
         logger = logging.getLogger("SimplyEmail")
-        logger.setLevel(logging.DEBUG)
+        logger.setLevel(logging.INFO)
         fh = logging.FileHandler(self.name)
         formatter = logging.Formatter(
             '%(asctime)s-[%(name)s]-[%(levelname)s]- %(message)s')
