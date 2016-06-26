@@ -36,8 +36,8 @@ class ClassName(object):
 
     def execute(self):
         self.search()
-        FinalOutput, HtmlResults = self.get_emails()
-        return FinalOutput, HtmlResults
+        FinalOutput, HtmlResults, JsonResults = self.get_emails()
+        return FinalOutput, HtmlResults, JsonResults
 
     def search(self):
         while self.Counter <= self.Limit:

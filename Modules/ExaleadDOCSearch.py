@@ -47,8 +47,8 @@ class ClassName(object):
     def execute(self):
         self.logger.debug("ExaleadDOCSearch module started")
         self.search()
-        FinalOutput, HtmlResults = self.get_emails()
-        return FinalOutput, HtmlResults
+        FinalOutput, HtmlResults, JsonResults = self.get_emails()
+        return FinalOutput, HtmlResults, JsonResults
 
     def search(self):
         dl = Download.Download(self.verbose)

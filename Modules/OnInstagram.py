@@ -32,8 +32,8 @@ class ClassName(object):
 
     def execute(self):
         self.process()
-        FinalOutput, HtmlResults = self.get_emails()
-        return FinalOutput, HtmlResults
+        FinalOutput, HtmlResults, JsonResults = self.get_emails()
+        return FinalOutput, HtmlResults, JsonResults
 
     def process(self):
         try:

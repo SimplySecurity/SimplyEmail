@@ -205,8 +205,10 @@ class Conducter(object):
         self.logger.debug("Json Printer started")
         json = helpers.JsonListToJsonObj(JsonFinalEmailList, Domain)
         if json:
+            self.logger.debug("JSON data was returned")
             with open(str(FullPath), 'w') as file:
                 file.write(json)
+            self.logger.debug("JSON wrote file: " % (FullPath))
 
 
     def CleanResults(self, domain, scope=False):
@@ -304,7 +306,7 @@ class Conducter(object):
                 if verbose:
                     print e
 
-    def TaskSelector(self, domain, verbose=False, scope=False, Names=False, json=True, Verify=False):
+    def TaskSelector(self, domain, verbose=False, scope=False, Names=False, json="", Verify=False):
         # Here it will check the Queue for the next task to be completed
         # Using the Dynamic loaded modules we can easly select which module is up
         # Rather than using If statment on every task that needs to be done
@@ -374,6 +376,7 @@ class Conducter(object):
                 Json_queue.put(None)
                 # t.join()
                 try:
+                    JsonFinalEmailList = self.CleanJsonResults(domain, scope)
                     FinalEmailList, HtmlFinalEmailList = self.CleanResults(
                         domain, scope)
 
@@ -383,15 +386,18 @@ class Conducter(object):
                     print helpers.color(error, warning=True)
                     self.logger.critical("Something went wrong with parsing results: " + str(e))
                 try:
-                    FinalCount = self.printer(FinalEmailList, domain)
+                    if not json:
+                        FinalCount = self.printer(FinalEmailList, domain)
                 except Exception as e:
                     error = " [!] Something went wrong with outputixng results:" + \
                         str(e)
                     print helpers.color(error, warning=True)
                     self.logger.critical("Something went wrong with outputixng results: " + str(e))
-                Results_queue.close()
                 try:
-                    self.HtmlPrinter(HtmlFinalEmailList, domain)
+                    if json:
+                        self.JsonPrinter(JsonFinalEmailList, json, domain)
+                    else:
+                        self.HtmlPrinter(HtmlFinalEmailList, domain)
                 except Exception as e:
                     error = " [!] Something went wrong with HTML results:" + \
                         str(e)
@@ -402,10 +408,13 @@ class Conducter(object):
             p.join()
             self.logger.debug("TaskSelector processes joined!")
         Task_queue.close()
+        Results_queue.close()
+        Html_queue.close()
+        Json_queue.close()
         BuiltNameCount = 0
         try:
             # If names is True
-            if Names:
+            if Names and not json:
                 BuiltNames = self.NameBuilder(
                     domain, FinalEmailList, Verbose=verbose)
                 BuiltNameCount = len(BuiltNames)
@@ -431,8 +440,8 @@ class Conducter(object):
             error = " [!] Something went wrong with outputting results of Built Names:" + \
                 str(e)
             print helpers.color(error, warning=True)
-
-        self.CompletedScreen(FinalCount, BuiltNameCount, domain)
+        if not json:
+            self.CompletedScreen(FinalCount, BuiltNameCount, domain)
 
     # This is the Test version of the multi proc above, this function
     # Helps with testing only one module at a time. Helping with proper
@@ -534,7 +543,7 @@ class Conducter(object):
         BuiltNameCount = 0
         try:
             # If names is True
-            if Names:
+            if Names and not json:
                 BuiltNames = self.NameBuilder(
                     domain, FinalEmailList, Verbose=verbose)
                 BuiltNameCount = len(BuiltNames)

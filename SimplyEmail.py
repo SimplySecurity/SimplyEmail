@@ -39,7 +39,7 @@ def cli_parser():
     parser.add_argument(
         "-v", action='store_true', help="Set this switch for verbose output of modules")
     parser.add_argument(
-        "--json", metavar='json-emails.txt', default="json-emails.txt", 
+        "--json", metavar='json-emails.txt', default="", 
         help="Set this switch for json output to specfic file")
     parser.add_argument('-h', '-?', '--h', '-help',
                         '--help', action="store_true", help=argparse.SUPPRESS)
@@ -83,7 +83,8 @@ def TaskStarter(version):
         V = VersionCheck.VersionCheck(version)
         V.VersionRequest()
         Task.TaskSelector(cli_domain, verbose=cli_verbose,
-                          scope=cli_scope, Names=cli_names, Verify=cli_verify)
+                        scope=cli_scope, Names=cli_names, Verify=cli_verify, 
+                        json=cli_json)
 
 
 # def GenerateReport():

@@ -42,8 +42,8 @@ class ClassName(object):
     def execute(self):
         self.logger.debug("PasteBinSearch started")
         self.search()
-        FinalOutput, HtmlResults = self.get_emails()
-        return FinalOutput, HtmlResults
+        FinalOutput, HtmlResults, JsonResults = self.get_emails()
+        return FinalOutput, HtmlResults, JsonResults
 
     def search(self):
         dl = Download.Download(self.verbose)

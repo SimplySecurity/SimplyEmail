@@ -47,8 +47,8 @@ class ClassName(object):
     def execute(self):
         try:
             self.search()
-            Emails, HtmlResults = self.get_emails()
-            return Emails, HtmlResults
+            FinalOutput, HtmlResults, JsonResults = self.get_emails()
+            return FinalOutput, HtmlResults, JsonResults
         except Exception as e:
             print e
 
@@ -69,7 +69,7 @@ class ClassName(object):
                              "--no-clobber", "--domains", self.domain, TempDomain])
             if self.retVal > 0:
                 print helpers.color(" [*] Wget returned error, likely 403 (attempting again): " + str(self.retVal), warning=True)
-                self.retVal = subprocess.call(["wget", "-e robots=off", "--header=""Accept: text/html""", self.useragent,
+                self.retVal = subprocess.call(["wget", "-q", "-e robots=off", "--header=""Accept: text/html""", self.useragent,
                              "--recursive", self.depth, self.wait, self.limit_rate, self.save,
                              self.timeout, "--page-requisites", "-R gif,jpg,pdf,png,css,zip,mov,wmv,ppt,doc,docx,xls,exe,bin,pptx,avi,swf,vbs,xlsx,kfp,pub",
                              "--no-clobber", "--domains", self.domain, TempDomain])
@@ -114,6 +114,10 @@ class ClassName(object):
         if self.remove == "yes" or self.remove == "Yes":
             if not self.retVal > 0:
                 shutil.rmtree(directory)
+            try:
+                shutil.rmtree(directory)
+            except:
+                pass
         Parse = Parser.Parser(FinalOutput)
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
         JsonResults = Parse.BuildJson(FinalOutput, self.name)

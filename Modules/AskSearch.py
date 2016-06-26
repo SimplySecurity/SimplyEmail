@@ -39,8 +39,8 @@ class ClassName(object):
     def execute(self):
         self.logger.debug("AskSearch module started")
         self.process()
-        FinalOutput, HtmlResults = self.get_emails()
-        return FinalOutput, HtmlResults
+        FinalOutput, HtmlResults, JsonResults = self.get_emails()
+        return FinalOutput, HtmlResults, JsonResults
 
     def process(self):
         dl = Download.Download(self.verbose)

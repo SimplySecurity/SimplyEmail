@@ -23,7 +23,7 @@ class Download(object):
         except Exception as e:
             print e
 
-    def download_file(self, url, filetype, maxfile=100):
+    def download_file(self, url, filetype, maxfile=100, verify=True):
         """
         Downloads a file using requests,
 
@@ -43,7 +43,7 @@ class Download(object):
         try:
             time.sleep(2)
             self.logger.debug("Download started download: " + str(url))
-            r = requests.get(url, stream=True, headers=self.UserAgent)
+            r = requests.get(url, stream=True, headers=self.UserAgent, verify=verify)
             with open(local_filename, 'wb+') as f:
                 for chunk in r.iter_content(chunk_size=1024):
                     if chunk:
@@ -124,7 +124,7 @@ class Download(object):
         else:
             return False
 
-    def requesturl(self, url, useragent, timeout=5, retrytime=3, statuscode=False, raw=False):
+    def requesturl(self, url, useragent, timeout=5, retrytime=3, statuscode=False, raw=False, verify=True):
         """
         A very simple request function
         This is setup to handle the following parms:
@@ -138,7 +138,7 @@ class Download(object):
         """
         rawhtml = ""
         try:
-            r = requests.get(url, headers=self.UserAgent, timeout=timeout)
+            r = requests.get(url, headers=self.UserAgent, timeout=timeout, verify=verify)
             rawhtml = r.content
             self.logger.debug(
                 'Request completed: code = ' + str(r.status_code) + ' size = ' + str(len(rawhtml)) + ' url = ' + str(url))
@@ -148,7 +148,7 @@ class Download(object):
                 p = ' [!] Request for url timed out, retrying: ' + url
                 self.logger.info('Request timed out, retrying: ' + url)
                 print helpers.color(p, firewall=True)
-            r = requests.get(url, headers=self.UserAgent, timeout=retrytime)
+            r = requests.get(url, headers=self.UserAgent, timeout=retrytime, verify=verify)
             rawhtml = r.content
         except requests.exceptions.TooManyRedirects:
             # fail and move on, alert user
