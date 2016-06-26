@@ -2,7 +2,6 @@
 [![Code Health](https://landscape.io/github/killswitch-GUI/SimplyEmail/master/landscape.svg?style=flat)](https://landscape.io/github/killswitch-GUI/SimplyEmail/master)
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/3b8a338b659e425e9b4e1db9eace61d7)](https://www.codacy.com/app/iamfree2009/SimplyEmail)
 [![Coverage Status](https://coveralls.io/repos/github/killswitch-GUI/SimplyEmail/badge.svg?branch=Version-1.4)](https://coveralls.io/github/killswitch-GUI/SimplyEmail?branch=Version-1.4)
-[![Github All Releases](https://img.shields.io/github/downloads/killswitch-GUI/SimplyEmail/total.svg?maxAge=2592000)]()
 # SimplyEmail
 
 What is the simple email recon tool? This tool was based off the work of theHarvester and kind of a port of the functionality. This was just an expansion of what was used to build theHarvester and will incorporate his work but allow users to easily build Modules for the Framework. Which I felt was desperately needed after building my first module for theHarvester.
