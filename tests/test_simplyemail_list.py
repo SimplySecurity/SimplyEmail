@@ -60,33 +60,33 @@ def test_taskcontrollers():
 
 def test_searchpgp():
     s = SearchPGP.ClassName('verisgroup.com', verbose=True)
-    FinalOutput, HtmlResults, JsonResults = s.execute()
+    FinalOutput, HtmlResults = s.execute()
     assert 'jmacovei@verisgroup.com' in FinalOutput
 
 def test_asksearch():
     s = AskSearch.ClassName('gmail.com', verbose=True)
-    FinalOutput, HtmlResults, JsonResults = s.execute()
+    FinalOutput, HtmlResults = s.execute()
     assert len(FinalOutput) > 0
 
 def test_yahoosearch():
     s = YahooSearch.ClassName('gmail.com', verbose=True)
-    FinalOutput, HtmlResults, JsonResults = s.execute()
+    FinalOutput, HtmlResults = s.execute()
     assert len(FinalOutput) > 0
 
 def test_whoisapi():
     s = WhoisAPISearch.ClassName('verisgroup.com', verbose=True)
-    FinalOutput, HtmlResults, JsonResults = s.execute()
+    FinalOutput, HtmlResults = s.execute()
     assert 'abuse@web.com' in FinalOutput
 
 def test_redditsearch():
     s = RedditPostSearch.ClassName('gmail.com', verbose=True)
-    FinalOutput, HtmlResults, JsonResults = s.execute()
+    FinalOutput, HtmlResults = s.execute()
     #assert '@gmail.com' in FinalOutput 
     #Look into this issue
 
 def test_flickrsearch():
     s = FlickrSearch.ClassName('microsoft.com', verbose=True)
-    FinalOutput, HtmlResults, JsonResults = s.execute()
+    FinalOutput, HtmlResults = s.execute()
 
 def test_downloads():
     # perfrom Download testing
