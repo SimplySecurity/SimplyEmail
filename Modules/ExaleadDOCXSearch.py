@@ -49,8 +49,8 @@ class ClassName(object):
     def execute(self):
         self.logger.debug("ExaleadDOCXSearch module started")
         self.search()
-        FinalOutput, HtmlResults = self.get_emails()
-        return FinalOutput, HtmlResults
+        FinalOutput, HtmlResults, JsonResults = self.get_emails()
+        return FinalOutput, HtmlResults, JsonResults
 
     def download_file(self, url):
         local_filename = url.split('/')[-1]
@@ -142,5 +142,6 @@ class ClassName(object):
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
+        JsonResults = Parse.BuildJson(FinalOutput, self.name)
         self.logger.debug('ExaleadDOCXSearch completed search')
-        return FinalOutput, HtmlResults
+        return FinalOutput, HtmlResults, JsonResults

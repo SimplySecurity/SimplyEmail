@@ -46,8 +46,8 @@ class ClassName(object):
     def execute(self):
         self.logger.debug("ExaleadPPTXSearch module started")
         self.search()
-        FinalOutput, HtmlResults = self.get_emails()
-        return FinalOutput, HtmlResults
+        FinalOutput, HtmlResults, JsonResults = self.get_emails()
+        return FinalOutput, HtmlResults, JsonResults
 
     def search(self):
         dl = Download.Download(self.verbose)
@@ -123,5 +123,6 @@ class ClassName(object):
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
+        JsonResults = Parse.BuildJson(FinalOutput, self.name)
         self.logger.debug('ExaleadPPTXSearch completed search')
-        return FinalOutput, HtmlResults
+        return FinalOutput, HtmlResults, JsonResults

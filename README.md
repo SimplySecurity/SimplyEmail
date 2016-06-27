@@ -123,6 +123,9 @@ or with email verification
 
 or with email verification & Name Creation
 ./SimplyEmail.py -all -v -verify -n -e cybersyndicates.com 
+
+or json automation
+./SimplyEmail.py -all -e cybersyndicates.com --json cs-json.txt
 ```
 This will run ALL modules that are have API Key placed in the SimpleEmail.ini file and will run all non-API based modules. 
 
@@ -271,6 +274,33 @@ in@mandiant.com
 sc@mandiant.com
 je@mandiant.com
 su@mandiant.com
+```
+### JSON Output
+using the ```--json test.txt``` flag will alow you to output standard JSON text file for automation needs. This can be currently used with the email scraping portion only, maybe name generation and email verification to come. These helpers will be soon in the SQL DB and API for more streamline automation. Example output:
+```
+{
+    "current_version": "v1.4.1", 
+    "data_of_collection": "26/06/2016", 
+    "domain_of_collection": "---SNIP---", 
+    "email_collection_count": 220, 
+    "emails": [
+        {
+            "collection_data": "26/06/2016", 
+            "collection_time": "18:47:42", 
+            "email": "---SNIP---", 
+            "module_name": "Searching PGP"
+        }, 
+       ---SNIP---
+        {
+            "collection_data": "26/06/2016", 
+            "collection_time": "18:51:46", 
+            "email": "---SNIP---", 
+            "module_name": "Exalead PDF Search for Emails"
+        }
+    ], 
+    "time_of_collection": "18:53:04", 
+    "tool_of_collection": "SimplyEmail"
+}
 ```
 ### HTML Output:
 As I mentioned before a powerful function that I wanted to integrate was the ability to produce a visually appealing and rich report for the user and potentially something that could be part of data provided to a client. Please let me know with suggestions! 

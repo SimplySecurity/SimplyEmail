@@ -37,8 +37,8 @@ class ClassName(object):
 
     def execute(self):
         self.search()
-        FinalOutput, HtmlResults = self.get_emails()
-        return FinalOutput, HtmlResults
+        FinalOutput, HtmlResults, JsonResults = self.get_emails()
+        return FinalOutput, HtmlResults, JsonResults
 
     def search(self):
         dl = Download.Download(self.verbose)
@@ -112,4 +112,5 @@ class ClassName(object):
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
-        return FinalOutput, HtmlResults
+        JsonResults = Parse.BuildJson(FinalOutput, self.name)
+        return FinalOutput, HtmlResults, JsonResults

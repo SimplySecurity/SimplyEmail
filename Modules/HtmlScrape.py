@@ -47,8 +47,8 @@ class ClassName(object):
     def execute(self):
         try:
             self.search()
-            Emails, HtmlResults = self.get_emails()
-            return Emails, HtmlResults
+            FinalOutput, HtmlResults, JsonResults = self.get_emails()
+            return FinalOutput, HtmlResults, JsonResults
         except Exception as e:
             print e
 
@@ -114,6 +114,11 @@ class ClassName(object):
         if self.remove == "yes" or self.remove == "Yes":
             if not self.retVal > 0:
                 shutil.rmtree(directory)
+            try:
+                shutil.rmtree(directory)
+            except:
+                pass
         Parse = Parser.Parser(FinalOutput)
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
-        return FinalOutput, HtmlResults
+        JsonResults = Parse.BuildJson(FinalOutput, self.name)
+        return FinalOutput, HtmlResults, JsonResults

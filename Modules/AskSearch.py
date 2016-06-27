@@ -39,8 +39,8 @@ class ClassName(object):
     def execute(self):
         self.logger.debug("AskSearch module started")
         self.process()
-        FinalOutput, HtmlResults = self.get_emails()
-        return FinalOutput, HtmlResults
+        FinalOutput, HtmlResults, JsonResults = self.get_emails()
+        return FinalOutput, HtmlResults, JsonResults
 
     def process(self):
         dl = Download.Download(self.verbose)
@@ -70,5 +70,6 @@ class ClassName(object):
     def get_emails(self):
         parse = Parser.Parser(self.Html)
         FinalOutput, HtmlResults = parse.extendedclean(self.name)
+        JsonResults = parse.BuildJson(FinalOutput, self.name)
         self.logger.debug('AskSearch completed search')
-        return FinalOutput, HtmlResults
+        return FinalOutput, HtmlResults, JsonResults

@@ -38,13 +38,16 @@ def cli_parser():
         "-verify", action='store_true', help="Set this to enable SMTP server email verify")
     parser.add_argument(
         "-v", action='store_true', help="Set this switch for verbose output of modules")
+    parser.add_argument(
+        "--json", metavar='json-emails.txt', default="", 
+        help="Set this switch for json output to specfic file")
     parser.add_argument('-h', '-?', '--h', '-help',
                         '--help', action="store_true", help=argparse.SUPPRESS)
     args = parser.parse_args()
     if args.h:
         parser.print_help()
         sys.exit()
-    return args.all, args.e, args.l, args.t, args.s, args.n, args.verify, args.v
+    return args.all, args.e, args.l, args.t, args.s, args.n, args.verify, args.v, args.json
 
 
 def TaskStarter(version):
@@ -53,7 +56,7 @@ def TaskStarter(version):
     # need to pass the store true somehow to tell printer to restrict output
     log = helpers.log()
     log.start()
-    cli_all, cli_domain, cli_list, cli_test, cli_scope, cli_names, cli_verify, cli_verbose = cli_parser()
+    cli_all, cli_domain, cli_list, cli_test, cli_scope, cli_names, cli_verify, cli_verbose, cli_json = cli_parser()
     cli_domain = cli_domain.lower()
     Task = TaskController.Conducter()
     Task.load_modules()
@@ -73,13 +76,15 @@ def TaskStarter(version):
         V = VersionCheck.VersionCheck(version)
         V.VersionRequest()
         Task.TestModule(cli_domain, cli_test, verbose=cli_verbose,
-                        scope=cli_scope, Names=cli_names, Verify=cli_verify)
+                        scope=cli_scope, Names=cli_names, Verify=cli_verify, 
+                        json=cli_json)
     if cli_all:
         log.infomsg("Tasked to run all Modules on domain: " + cli_domain, "Main")
         V = VersionCheck.VersionCheck(version)
         V.VersionRequest()
         Task.TaskSelector(cli_domain, verbose=cli_verbose,
-                          scope=cli_scope, Names=cli_names, Verify=cli_verify)
+                        scope=cli_scope, Names=cli_names, Verify=cli_verify, 
+                        json=cli_json)
 
 
 # def GenerateReport():

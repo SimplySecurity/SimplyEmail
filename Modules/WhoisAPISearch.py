@@ -36,8 +36,8 @@ class ClassName(object):
     def execute(self):
         self.logger.debug("WhoisAPISearch Started")
         self.process()
-        FinalOutput, HtmlResults = self.get_emails()
-        return FinalOutput, HtmlResults
+        FinalOutput, HtmlResults, JsonResults = self.get_emails()
+        return FinalOutput, HtmlResults, JsonResults
 
     def process(self):
         try:
@@ -59,5 +59,6 @@ class ClassName(object):
         Parse = Parser.Parser(self.results)
         FinalOutput = Parse.GrepFindEmails()
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
+        JsonResults = Parse.BuildJson(FinalOutput, self.name)
         self.logger.debug('WhoisAPISearch completed search')
-        return FinalOutput, HtmlResults
+        return FinalOutput, HtmlResults, JsonResults

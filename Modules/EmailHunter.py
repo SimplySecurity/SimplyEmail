@@ -35,8 +35,8 @@ class ClassName(object):
     def execute(self):
         self.logger.debug("EmailHunter module started")
         self.process()
-        FinalOutput, HtmlResults = self.get_emails()
-        return FinalOutput, HtmlResults
+        FinalOutput, HtmlResults, JsonResults = self.get_emails()
+        return FinalOutput, HtmlResults, JsonResults
 
     def process(self):
         dl = Download.Download(self.verbose)
@@ -77,5 +77,6 @@ class ClassName(object):
         Parse = Parser.Parser(self.results)
         FinalOutput = Parse.CleanListOutput()
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
+        JsonResults = Parse.BuildJson(FinalOutput, self.name)
         self.logger.debug('EmailHunter completed search')
-        return FinalOutput, HtmlResults
+        return FinalOutput, HtmlResults, JsonResults

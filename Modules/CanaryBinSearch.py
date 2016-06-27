@@ -54,7 +54,7 @@ class ClassName(object):
         self.logger.debug("CanaryBinSearch module started")
         self.process()
         FinalOutput, HtmlResults = self.get_emails()
-        return FinalOutput, HtmlResults
+        return FinalOutput, HtmlResults, JsonResults
 
     def process(self):
         # Get all the Pastebin raw items
@@ -71,7 +71,7 @@ class ClassName(object):
                 url = "https://canary.pw/search/?q=" + str(self.domain) + "&page=" + \
                     str(self.Counter)
                 rawhtml, statuscode = dl.requesturl(
-                    url, useragent=self.UserAgent, statuscode=True)
+                    url, useragent=self.UserAgent, statuscode=True, verify=False)
                 if statuscode != 200:
                     break
             except Exception as e:
@@ -117,5 +117,6 @@ class ClassName(object):
         Parse.urlClean()
         FinalOutput = Parse.GrepFindEmails()
         HtmlResults = Parse.BuildResults(FinalOutput, self.name)
+        JsonResults = Parse.BuildJson(FinalOutput, self.name)
         self.logger.debug('CanaryBinSearch completed search')
-        return FinalOutput, HtmlResults
+        return FinalOutput, HtmlResults, JsonResults
