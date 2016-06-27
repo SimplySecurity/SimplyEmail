@@ -340,6 +340,12 @@ As I mentioned before a powerful function that I wanted to integrate was the abi
 ####Changelog (Current v1.4):
 ```
 ===================================
+Framework Improvements v1.4.0-2:
+-----------------------------
+(x) JSON support for automation 
+(x) fix various test errors
+
+===================================
 Framework Improvements v1.4:
 -----------------------------
 (x) Added in request function to improve stability
