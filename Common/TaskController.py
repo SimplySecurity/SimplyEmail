@@ -226,7 +226,7 @@ class Conducter(object):
                 SecondList.append(item)
         else:
             for item in self.ConsumerList:
-                if domain.lower() in item.lower():
+                if domain.lower() in helpers.split_email(item)[-1]:
                     SecondList.append(item)
         FinalList = []
         HtmlFinalList = []
@@ -238,7 +238,7 @@ class Conducter(object):
                 HtmlSecondList.append(item)
         else:
             for item in self.HtmlList:
-                if domain.lower() in item.lower():
+                if domain.lower() in helpers.split_email(item)[-1]:
                     HtmlSecondList.append(item)
         # Iter over all items in the list
         for item in SecondList:
@@ -794,13 +794,17 @@ class Conducter(object):
     def ListModules(self):
         print helpers.color(" [*] Available Modules are:\n", blue=True)
         self.logger.debug("User Executed ListModules")
-        lastBase = None
         x = 1
+        ordList = []
+        finalList = []
         for name in self.modules:
             parts = name.split("/")
-            if lastBase and parts[0] != lastBase:
-                print ""
-            lastBase = parts[0]
+            ordList.append(parts[-1])
+        ordList = sorted(ordList)
+        for name in ordList:
+            name = 'Modules/' + name
+            finalList.append(name)
+        for name in finalList:
             print "\t%s)\t%s" % (x, '{0: <24}'.format(name))
             x += 1
         print ""
@@ -840,7 +844,7 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 
         Line = " [*] Email reconnaissance has been completed:\n\n"
         Line += "   File Location: \t\t" + \
-            os.getcwd() + str(domain) + "-" + str(self.TimeDate) + "\n"
+            os.getcwd() + "/" + str(domain) + "-" + str(self.TimeDate) + "\n"
         Line += "   Unique Emails Found:\t\t" + str(FinalCount) + "\n"
         Line += "   Emails Built from Names:\t" + str(EmailsBuilt) + "\n"
         Line += "   Total Emails:\t\t" + str(FinalEmailCount) + "\n"

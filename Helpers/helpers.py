@@ -5,11 +5,15 @@ import textwrap
 import logging
 import time
 import magic
+<<<<<<< HEAD
 import json
+=======
+>>>>>>> master
 import configparser
 import collections
 from fake_useragent import UserAgent
 
+<<<<<<< HEAD
 def dictToJson(inputDict):
     """
     Takes in a list of dict items.
@@ -45,6 +49,8 @@ def JsonListToJsonObj(inputJsonList, domain):
     obj = json.dumps(dic, indent=4, sort_keys=True)
     return obj
 
+=======
+>>>>>>> master
 def color(string, status=True, warning=False, bold=True, blue=False, firewall=False):
     # Change text color for the linux terminal, defaults to green.
     # Set "warning=True" for red.
@@ -102,6 +108,10 @@ def DirectoryListing(directory):
                 dirs.append(path)
     return dirs
 
+def split_email(email):
+    email = email.lower()
+    se = email.split("@")
+    return se
 
 def getua():
     # gets a random useragent and returns the UA
