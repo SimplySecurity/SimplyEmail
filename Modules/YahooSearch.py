@@ -74,7 +74,7 @@ class ClassName(object):
             results = r.content
             self.Html += results
             self.Counter += 100
-            helpers.modsleep(self.Sleep, jitter=self.Jitter)
+            #helpers.modsleep(self.Sleep, jitter=self.Jitter)
 
     def get_emails(self):
         Parse = Parser.Parser(self.Html)

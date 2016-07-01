@@ -120,7 +120,7 @@ function AnchorJS(a){"use strict";this.options=a||{},this._applyRemainingDefault
 
     def OutPutHTML(self, Path):
         try:
-            with open('bootstrap-3.3.5/SimplyEmailTemplate.html', "r") as myfile:
+            with open('Helpers/bootstrap-3.3.5/SimplyEmailTemplate.html', "r") as myfile:
                 SourceHtml = unicode(myfile.read())
         except Exception as e:
             print e
