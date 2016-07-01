@@ -21,6 +21,18 @@ def dictToJson(inputDict):
         obj += json.dumps(item)
     return obj
 
+def get_searchid():
+    currentDate = str(time.strftime("%d%m%Y"))
+    currentTime = str(time.strftime("%H%M%S"))
+    searchid = currentDate + currentTime
+    return searchid
+
+def get_datetime():
+    currentDate = str(time.strftime("%d/%m/%Y"))
+    currentTime = str(time.strftime("%H:%M:%S"))
+    datetime = currentDate + ' ' +currentTime
+    return datetime
+
 def JsonListToJsonObj(inputJsonList, domain):
     """
     Takes a list of json objects,

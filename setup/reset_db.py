@@ -42,11 +42,11 @@ c.execute('DROP TABLE IF EXISTS "email"')
 c.execute('''CREATE TABLE "email" (
     "id" integer PRIMARY KEY,
     "email_address" text,
+    "email_id" integer,
     "domain" text,
     "first_seen" text,
     "last_seen" text,
     "instances_seen" integer,
-    "sources" text,
     "first_name" text,
     "last_name" text,
     "name_generated_email" boolean,
@@ -54,22 +54,20 @@ c.execute('''CREATE TABLE "email" (
     "score" integer
     )''')
 
-# domains will be a json blob of data
-# email_ids = email primary keys id
-# email_count = email count of ids
-# search_ids = search_ids correclated to the domain
-c.execute('DROP TABLE IF EXISTS "domain"')
-c.execute('''CREATE TABLE "domain" (
+c.execute('DROP TABLE IF EXISTS "url"')
+c.execute('''CREATE TABLE "url" (
     "id" integer PRIMARY KEY,
-    "domain" text,
-    "email_ids" text, 
-    "email_count" integer,
-    "urls" text,
-    "last_scrapped" text,
+    "email_id" integer,
+    "url" text,
+    "datetime" text
+    )''')
+
+c.execute('DROP TABLE IF EXISTS "email_search_ids"')
+c.execute('''CREATE TABLE "email_search_ids" (
+    "id" integer PRIMARY KEY,
+    "email_id" integer,
     "search_ids" text,
-    "webmail" boolean,
-    "pattern" text,
-    "allows_verification" boolean
+    "datetime" text
     )''')
 
 # type = hash, plaintext, token
@@ -94,10 +92,26 @@ c.execute('''CREATE TABLE "reporting" (
     "start_time" text,
     "end_time" text,
     "emails_found" integer,
-    "modules_enabled" text,
+    "modules_enabled_key" integer,
     "emails_unique" integer,
-    "emails_domain" integer,
+    "emails_domain" integer
     )''')
+
+# domains will be a json blob of data
+c.execute('DROP TABLE IF EXISTS "domain"')
+c.execute('''CREATE TABLE "domain" (
+    "id" integer PRIMARY KEY,
+    "domain" text,
+    "email_ids" text, 
+    "email_count" integer,
+    "urls" text,
+    "last_scrapped" text,
+    "search_ids" text,
+    "webmail" boolean,
+    "pattern" text,
+    "allows_verification" boolean
+    )''')
+
 
 # table for modules used during search
 c.execute('DROP TABLE IF EXISTS "modules"')

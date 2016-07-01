@@ -11,6 +11,7 @@ import time
 import subprocess
 import logging
 import datetime
+# internal modules
 from Helpers import helpers
 from Helpers import messages
 from Helpers import HtmlBootStrapTheme
@@ -18,6 +19,7 @@ from Helpers import VerifyEmails
 from Helpers import Connect6
 from Helpers import EmailFormat
 from Helpers import LinkedinNames
+import sql_opperations
 
 
 class Conducter(object):
@@ -47,6 +49,7 @@ class Conducter(object):
         self.JsonList = []
         self.Tasks = []
         self.ResultsList = []
+        self.search_id = 0
         self.logger = logging.getLogger("SimplyEmail.TaskController")
         try:
             config = configparser.ConfigParser()
@@ -116,7 +119,6 @@ class Conducter(object):
         except:
             self.logger.warning("_execute_get_task: task_queue.get() failed (unkown reason)")
             return None
-            
 
     # Handler for each Process that will call all the modules in the Queue
     def ExecuteModule(self, Task_queue, Results_queue, Html_queue, Json_queue, domain, verbose=False):
@@ -299,16 +301,19 @@ class Conducter(object):
         FinalList = []
         if scope:
             for item in self.JsonList:
+                # add emails to sql db 
+                self._tasking_sql_add_email(item['email'].lower(),self.search_id,domain)
                 SecondList.append(item)
         else:
             for item in self.JsonList:
                 if domain.lower() in item['email'].lower():
+                    # add scoped emails to sql db 
+                    self._tasking_sql_add_email(item['email'].lower(),self.search_id,domain)
                     SecondList.append(item)
         for item in SecondList:
             if item not in FinalList:
                 FinalList.append(item)
         return FinalList
-
 
     def Consumer(self, Results_queue, verbose):
         while True:
@@ -391,6 +396,56 @@ class Conducter(object):
         except:
             self.logger.critical("_json_queue_start: FAILED to start Json_queue")
 
+    def _tasking_sql_reporting(self, domain):
+        """
+        Starts the intial table row
+        for a email search.
+
+        sets self.search_id for entire scrape
+        """
+        self.logger.debug("_tasking_sql_reporting: adding initial row for reporting")
+        s = sql_opperations.database()
+        search_id = s.add_reporting(domain)
+        self.search_id = search_id
+
+    def _tasking_sql_reporting_finish(self, emails_found, emails_unique, emails_domain):
+        """
+        Updates the reporting row with
+        the required info to finsh a scrape.
+
+        emails_found = tottal emails found
+        emails_unique = tottal final emails found
+        """
+        self.logger.debug("_tasking_sql_reporting: updating row for reporting")
+        s = sql_opperations.database()
+        s.update_reporting(emails_found, emails_unique, emails_domain, self.search_id)
+
+    def _tasking_sql_add_email(self, email_address,search_id,domain):
+        """
+        builds the email row with a new email,
+        ths will be built off the JSON consumer for 
+        verbose data.
+
+        email_address = email address
+        search_id = link to search
+        domain = domain of search
+
+        returns:
+        email_id = the email key for further opperations
+        """
+        self.logger.debug("_tasking_sql_add_email: adding email to table")
+        s = sql_opperations.database()
+        email_id = s.set_email(email_address,search_id,domain)
+        return email_id
+
+    def _tasking_sql_check_email(self, email_address):
+        """
+        Takes a email and checks the
+        current db for previous emails.
+
+        returns:
+        result = boolean value
+        """
 
     def TaskSelector(self, domain, verbose=False, scope=False, Names=False, json="", Verify=False):
         # Here it will check the Queue for the next task to be completed
@@ -533,6 +588,7 @@ class Conducter(object):
     # Helps with testing only one module at a time. Helping with proper
     # Module Dev and testing before integration
     def TestModule(self, domain, module, verbose=False, scope=False, Names=False, json='', Verify=False):
+        self._tasking_sql_reporting(domain)
         self.logger.debug("Starting TaskSelector for: " + str(domain))
         Config = configparser.ConfigParser()
         Config.read("Common/SimplyEmail.ini")
@@ -658,6 +714,7 @@ class Conducter(object):
                 str(e)
             print helpers.color(error, warning=True)
         if not json:
+            self._tasking_sql_reporting_finish(len(self.ConsumerList), len(FinalEmailList), FinalCount)
             self.CompletedScreen(FinalCount, BuiltNameCount, domain)
 
     def NameBuilder(self, domain, emaillist, Verbose=False):

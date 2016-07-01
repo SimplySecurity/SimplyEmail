@@ -46,13 +46,13 @@ class database(object):
         "emails_unique",        # INT - emails in the final count that are unique
         ]
 
-    def __init__(self, MainMenu, args=None):
+    def __init__(self, args=None):
 
         # init the class
         self.conn = self.database_connect()
         pass
 
-    def database_connect():
+    def database_connect(self):
         """
         Connect with the backend ./simplyemail.db sqlite database and return the
         connection object.
@@ -106,11 +106,31 @@ class database(object):
         cur.close()
         return results
 
-    def set_email(self, email_json):
+    def set_email(self,email_address,search_id,domain):
         """
-        takes json email blob and
+        takes email blob and
         adds a email row.
+
+        returns:
+        email_id = the id unique to email for life
         """
+        email_id = helpers.get_searchid()
+        first_seen = helpers.get_datetime()
+        cur = self.conn.cursor()
+        cur.execute("""INSERT INTO email (email_address,
+                                            email_id, 
+                                            domain,
+                                            first_seen,
+                                            last_seen,
+                                            instances_seen,
+                                            first_name,
+                                            last_name,
+                                            name_generated_email,
+                                            email_verified,
+                                            score) 
+                    VALUES (?,?,?,?,?,?,?,?,?,?,?)""", (email_address,email_id,domain,first_seen,'',0,'','',False,False,0))
+        cur.close()
+        return email_id
 
     def get_reporting_id(self):
         """
@@ -118,7 +138,7 @@ class database(object):
         and returns the reporting object.
         """
 
-    def _add_reporting(self, domain, modules_enabled):
+    def add_reporting(self, domain, modules_enabled=0):
         """
         takes required data type to set 
         up tasking in the db. 
@@ -128,64 +148,65 @@ class database(object):
         """
         search_id = helpers.get_searchid()
         cur = self.conn.cursor()
-        cur.execute("""INSERT INTO reporting (search_id
+        cur.execute("""INSERT INTO reporting (search_id,
                                             domain, 
                                             start_time,
                                             end_time,
-                                            modules_enabled,
+                                            modules_enabled_key,
                                             emails_found,
                                             emails_unique) 
-                    VALUES (?,?,?,?,?,?,?)""", (search_id, domain, helpers.get_datetime(),'',0,modules_enabled,0,0))
+                    VALUES (?,?,?,?,?,?,?)""", (search_id, domain, helpers.get_datetime(),'',0,0,0))
         cur.close()
         return search_id
 
-    def update_reporting(self, emails_found, emails_unique):
+    def update_reporting(self, emails_found, emails_unique, emails_domain, search_id):
         """
         update the reporting col 
         for the current task with the ending values
         """
         cur = self.conn.cursor()
+        cur.execute("UPDATE reporting SET end_time = ?, emails_found = ?, emails_unique = ?, emails_domain = ? WHERE search_id=?", [helpers.get_datetime(), emails_found, emails_unique, emails_domain, search_id])
         cur.close()
 
 
-    def _add_modules(self, search_id):
-        """
-        builds the intial row for the modules 
-        table during reporting row creation.
-        """
-        f = False
-        cur = self.conn.cursor()
-        cur.execute("""INSERT INTO modules (search_id
-                                            "ask_search" ,
-                                            "canario_api" ,
-                                            "cannary_search" ,
-                                            "emailhunter_search" ,
-                                            "exaled_doc" ,
-                                            "exaled_docx" ,
-                                            "exaled_pdf" ,
-                                            "exaled_pptx" ,
-                                            "exaled_search" ,
-                                            "flickr_search" ,
-                                            "github_code" ,
-                                            "github_gist" ,
-                                            "github_user" ,
-                                            "google_csv" ,
-                                            "google_doc" ,
-                                            "google_docx" ,
-                                            "google_pdf" ,
-                                            "google_pptx" ,
-                                            "google_search" ,
-                                            "google_xlsx" ,
-                                            "html_scrape" ,
-                                            "oninstagram" ,
-                                            "pastebin_search" ,
-                                            "reddit_search" ,
-                                            "pgp_search" ,
-                                            "whois_api" ,
-                                            "whoisolgy_search" ,
-                                            "yahoo_search" 
-                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", (search_id,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f)
-        cur.close()
+    # def add_modules(self, search_id):
+    #     """
+    #     builds the intial row for the modules 
+    #     table during reporting row creation.
+    #     """
+    #     f = False
+    #     cur = self.conn.cursor()
+    #     cur.execute("""INSERT INTO modules (search_id
+    #                                         "ask_search" ,
+    #                                         "canario_api" ,
+    #                                         "cannary_search" ,
+    #                                         "emailhunter_search" ,
+    #                                         "exaled_doc" ,
+    #                                         "exaled_docx" ,
+    #                                         "exaled_pdf" ,
+    #                                         "exaled_pptx" ,
+    #                                         "exaled_search" ,
+    #                                         "flickr_search" ,
+    #                                         "github_code" ,
+    #                                         "github_gist" ,
+    #                                         "github_user" ,
+    #                                         "google_csv" ,
+    #                                         "google_doc" ,
+    #                                         "google_docx" ,
+    #                                         "google_pdf" ,
+    #                                         "google_pptx" ,
+    #                                         "google_search" ,
+    #                                         "google_xlsx" ,
+    #                                         "html_scrape" ,
+    #                                         "oninstagram" ,
+    #                                         "pastebin_search" ,
+    #                                         "reddit_search" ,
+    #                                         "pgp_search" ,
+    #                                         "whois_api" ,
+    #                                         "whoisolgy_search" ,
+    #                                         "yahoo_search" 
+    #                 VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""", (search_id,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f)
+    #     cur.close()
 
 
 
