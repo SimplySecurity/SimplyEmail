@@ -8,6 +8,7 @@ import magic
 import json
 import configparser
 import collections
+import random
 from fake_useragent import UserAgent
 
 def dictToJson(inputDict):
@@ -112,11 +113,15 @@ def getua():
     ua = UserAgent()
     return ua.random
 
+def modsleep(delay, jitter=0):
+    # Quick Snipit From EmPyre Agent (@HarmJ0y)
+    if jitter < 0: jitter = -jitter
+    if jitter > 1: jitter = 1/jitter
 
-def modsleep(st):
-    # sleep module for spec time
-    time.sleep(int(st))
-
+    minSleep = int((1.0-jitter)*delay)
+    maxSleep = int((1.0+jitter)*delay)
+    sleepTime = random.randint(minSleep, maxSleep)
+    time.sleep(int(sleepTime))
 
 def filetype(path):
     m = magic.from_file(str(path))

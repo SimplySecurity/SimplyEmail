@@ -30,6 +30,8 @@ class ClassName(object):
                 'User-Agent': helpers.getua()}
             self.Limit = int(config['GooglePptxSearch']['QueryLimit'])
             self.Counter = int(config['GooglePptxSearch']['QueryStart'])
+            self.Sleep = int(config['SleepConfig']['QuerySleep'])
+            self.Jitter = int(config['SleepConfig']['QueryJitter'])
             self.verbose = verbose
             self.urlList = []
             self.Text = ""
@@ -86,6 +88,7 @@ class ClassName(object):
                 except:
                     pass
             self.Counter += 10
+            helpers.modsleep(self.Sleep, jitter=self.Jitter)
         # now download the required files
         try:
             for url in self.urlList:

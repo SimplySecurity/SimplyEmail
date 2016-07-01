@@ -28,6 +28,8 @@ class ClassName(object):
                 'User-Agent': helpers.getua()}
             self.PageLimit = int(config['AskSearch']['QueryPageLimit'])
             self.Counter = int(config['AskSearch']['QueryStart'])
+            self.Sleep = int(config['SleepConfig']['QuerySleep'])
+            self.Jitter = int(config['SleepConfig']['QueryJitter'])
             self.Domain = Domain
             self.verbose = verbose
             self.Html = ""
@@ -66,6 +68,8 @@ class ClassName(object):
                 print helpers.color(error, warning=True)
             self.Html += rawhtml
             self.Counter += 1
+            helpers.modsleep(self.Sleep, jitter=self.Jitter)
+
 
     def get_emails(self):
         parse = Parser.Parser(self.Html)
