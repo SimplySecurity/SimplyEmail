@@ -88,6 +88,79 @@ class database(object):
     #  Email table opperations #
     #                          #
     ############################
+    # domains will be a json blob of data
+    
+    def add_domain(self, domain):
+        """
+        add domain name to db
+        for the first iteration.
+        """
+        last_scrapped = helpers.get_datetime()
+        cur = self.conn.cursor()
+        cur.execute("""INSERT INTO domain (domain,
+                                            email_count,
+                                            last_scrapped,
+                                            instances_scraped,
+                                            webmail,
+                                            pattern,
+                                            allows_verification) 
+                    VALUES (?,?,?,?,?,?,?)""", (domain,0,last_scrapped,0,False,'',False))
+        row_id = cur.lastrowid
+        cur.close()
+        return row_id
+
+    def update_known_domain(self, domain):
+        """
+        add domain name to db
+        for the first iteration.
+        """
+
+    def update_domain_count(self, domain):
+        """
+        a call that updates the domain 
+        row with a proper email count.
+        """
+        row_id = self.get_domain_id(domain)
+        count = self.get_domain_count(domain)
+        cur = self.conn.cursor()
+        cur.execute("UPDATE domain SET email_count = ? WHERE id=?", [count,row_id])
+        cur.close()
+
+    def get_domain_id(self, domain):
+        """
+        a call that updates the domain 
+        row with a proper email count.
+        """
+        cur = self.conn.cursor()
+        cur.execute("SELECT id FROM domain WHERE domain = ?", (domain,))
+        count = cur.fetchone()[0]
+        return count
+
+    def get_domain_count(self, domain):
+        """
+        a call that gets the domain 
+        row with a proper email count.
+        """
+        cur = self.conn.cursor()
+        cur.execute("SELECT count(*) FROM email WHERE domain = ?", (domain,))
+        count = cur.fetchone()[0]
+        return count
+
+    def get_domain_check(self, domain):
+        """
+        returns true or false if a emails is present in the DB.
+        """
+        # TODO: Fix this logic with tuples..
+        cur = self.conn.cursor()
+        cur.execute("SELECT id FROM domain WHERE domain = ?", (domain,))
+        data = cur.fetchone()
+        cur.close()
+        try:
+            if data == None:
+                return False
+            return True
+        except:
+            return True
 
     def get_email_id(self, email_id):
         """
@@ -106,6 +179,22 @@ class database(object):
         cur.close()
         return results
 
+    def get_email_check(self,email_address):
+        """
+        returns true or false if a emails is present in the DB.
+        """
+        # TODO: Fix this logic with tuples..
+        cur = self.conn.cursor()
+        cur.execute("SELECT id FROM email WHERE email_address = ?", (email_address,))
+        data = cur.fetchone()
+        cur.close()
+        try:
+            if data == None:
+                return False
+            return True
+        except:
+            return True
+
     def set_email(self,email_address,search_id,domain):
         """
         takes email blob and
@@ -114,11 +203,9 @@ class database(object):
         returns:
         email_id = the id unique to email for life
         """
-        email_id = helpers.get_searchid()
         first_seen = helpers.get_datetime()
         cur = self.conn.cursor()
         cur.execute("""INSERT INTO email (email_address,
-                                            email_id, 
                                             domain,
                                             first_seen,
                                             last_seen,
@@ -128,9 +215,22 @@ class database(object):
                                             name_generated_email,
                                             email_verified,
                                             score) 
-                    VALUES (?,?,?,?,?,?,?,?,?,?,?)""", (email_address,email_id,domain,first_seen,'',0,'','',False,False,0))
+                    VALUES (?,?,?,?,?,?,?,?,?,?)""", (email_address,domain,first_seen,'',0,'','',False,False,0))
+        row_id = cur.lastrowid
         cur.close()
-        return email_id
+        return row_id
+
+    def update_known_email(self,email_address):
+        last_seen = helpers.get_datetime()
+        cur = self.conn.cursor()
+        cur.execute("SELECT id FROM email WHERE email_address = ?", (email_address,))
+        row_id = cur.fetchone()[0]
+        cur.execute("SELECT instances_seen FROM email WHERE id = ?", (row_id,))
+        instances_seen = cur.fetchone()[0]
+        instances_seen += 1
+        cur.execute("UPDATE email SET last_seen = ?, instances_seen = ? WHERE id=?", [last_seen, instances_seen, row_id])
+        cur.close()
+        return row_id
 
     def get_reporting_id(self):
         """

@@ -42,7 +42,6 @@ c.execute('DROP TABLE IF EXISTS "email"')
 c.execute('''CREATE TABLE "email" (
     "id" integer PRIMARY KEY,
     "email_address" text,
-    "email_id" integer,
     "domain" text,
     "first_seen" text,
     "last_seen" text,
@@ -54,10 +53,11 @@ c.execute('''CREATE TABLE "email" (
     "score" integer
     )''')
 
+# for urls of a scrape
 c.execute('DROP TABLE IF EXISTS "url"')
 c.execute('''CREATE TABLE "url" (
     "id" integer PRIMARY KEY,
-    "email_id" integer,
+    "email_row_id" integer,
     "url" text,
     "datetime" text
     )''')
@@ -65,7 +65,7 @@ c.execute('''CREATE TABLE "url" (
 c.execute('DROP TABLE IF EXISTS "email_search_ids"')
 c.execute('''CREATE TABLE "email_search_ids" (
     "id" integer PRIMARY KEY,
-    "email_id" integer,
+    "email_row_id" integer,
     "search_ids" text,
     "datetime" text
     )''')
@@ -102,11 +102,9 @@ c.execute('DROP TABLE IF EXISTS "domain"')
 c.execute('''CREATE TABLE "domain" (
     "id" integer PRIMARY KEY,
     "domain" text,
-    "email_ids" text, 
     "email_count" integer,
-    "urls" text,
     "last_scrapped" text,
-    "search_ids" text,
+    "instances_scraped" integer,
     "webmail" boolean,
     "pattern" text,
     "allows_verification" boolean

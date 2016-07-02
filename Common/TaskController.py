@@ -433,10 +433,15 @@ class Conducter(object):
         returns:
         email_id = the email key for further opperations
         """
-        self.logger.debug("_tasking_sql_add_email: adding email to table")
-        s = sql_opperations.database()
-        email_id = s.set_email(email_address,search_id,domain)
-        return email_id
+        if self._tasking_sql_check_email(email_address):
+            self.logger.debug("_tasking_sql_add_email: updating email to table")
+            s = sql_opperations.database()
+            row_id = s.update_known_email(email_address)
+        else:
+            self.logger.debug("_tasking_sql_add_email: adding email to table")
+            s = sql_opperations.database()
+            row_id = s.set_email(email_address,search_id,domain)
+        return row_id
 
     def _tasking_sql_check_email(self, email_address):
         """
@@ -446,6 +451,61 @@ class Conducter(object):
         returns:
         result = boolean value
         """
+        s = sql_opperations.database()
+        result = s.get_email_check(email_address)
+        if not result:
+            self.logger.debug("_tasking_sql_check_email: no previous email detected")
+            return False
+        else:
+            self.logger.debug("_tasking_sql_check_email: previous email detected")
+            return True
+
+    def _tasking_sql_add_domain(self, domain):
+        """
+        builds the domain row with a new domain name,
+        ths will be built off the JSON consumer for 
+        verbose data.
+
+        domain = domain of search
+
+        returns:
+        email_id = the email key for further opperations
+        """
+        if self._tasking_sql_check_domain(domain):
+            self.logger.debug("_tasking_sql_add_domain: updating email to table")
+            s = sql_opperations.database()
+            row_id = s.update_known_domain(domain)
+        else:
+            self.logger.debug("_tasking_sql_add_domain: adding email to table")
+            s = sql_opperations.database()
+            row_id = s.add_domain(domain)
+        return row_id
+
+    def _tasking_sql_check_domain(self, domain):
+        """
+        Takes a domain and checks the
+        current db for previous domain.
+
+        returns:
+        result = boolean value
+        """
+        s = sql_opperations.database()
+        result = s.get_domain_check(domain)
+        if not result:
+            self.logger.debug("_tasking_sql_check_domain: no previous email detected")
+            return False
+        else:
+            self.logger.debug("_tasking_sql_check_domain: previous email detected")
+            return True
+
+    def _tasking_sql_domain_count(self, domain):
+        """
+        Takes a domain and checks updates
+        the backend using abstracted q.
+        """
+        self.logger.debug("_tasking_sql_domain_count: updating domain email count")
+        s = sql_opperations.database()
+        s.update_domain_count(domain)
 
     def TaskSelector(self, domain, verbose=False, scope=False, Names=False, json="", Verify=False):
         # Here it will check the Queue for the next task to be completed
@@ -589,6 +649,7 @@ class Conducter(object):
     # Module Dev and testing before integration
     def TestModule(self, domain, module, verbose=False, scope=False, Names=False, json='', Verify=False):
         self._tasking_sql_reporting(domain)
+        self._tasking_sql_add_domain(domain)
         self.logger.debug("Starting TaskSelector for: " + str(domain))
         Config = configparser.ConfigParser()
         Config.read("Common/SimplyEmail.ini")
@@ -715,6 +776,7 @@ class Conducter(object):
             print helpers.color(error, warning=True)
         if not json:
             self._tasking_sql_reporting_finish(len(self.ConsumerList), len(FinalEmailList), FinalCount)
+            self._tasking_sql_domain_count(domain)
             self.CompletedScreen(FinalCount, BuiltNameCount, domain)
 
     def NameBuilder(self, domain, emaillist, Verbose=False):
