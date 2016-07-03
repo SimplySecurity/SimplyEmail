@@ -61,4 +61,4 @@ target/
 *.db
 
 # certs
-.pem
+*.pem
