@@ -83,6 +83,35 @@ class database(object):
         self._add_modules(search_id)
         return search_id
 
+
+    #############################
+    #                           #
+    # logging table opperations #
+    #                           #
+    #############################
+
+    def add_request_log(self, ipaddr, api_token, request):
+        """
+        adds row for authenticated request
+        from API. 
+
+        Takes:
+        ip = ip from user
+        token = api token of user
+        request = full url request
+        """
+        ipaddr = str(ipaddr)
+        api_token = str(api_token)
+        request = str(request)
+        datetime = helpers.get_datetime()
+        cur = self.conn.cursor()
+        cur.execute("""INSERT INTO logging (api_token,
+                                    datetime,
+                                    ipaddr,
+                                    request) 
+            VALUES (?,?,?,?)""", (api_token,datetime,ipaddr,request))
+        cur.close()
+
     ############################
     #                          #
     #  Email table opperations #
@@ -126,6 +155,25 @@ class database(object):
         cur.execute("UPDATE domain SET email_count = ? WHERE id=?", [count,row_id])
         cur.close()
 
+    def get_domains(self):
+        """
+        a call that updates the domain 
+        row with a proper email count.
+        """
+        final = []
+        cur = self.conn.cursor()
+        cur.execute("SELECT domain,email_count,last_scrapped,instances_scraped FROM domain")
+        data = cur.fetchall()
+        cur.close()
+        for x in data:
+            dic = {}
+            dic['domain'] = x[0]
+            dic['email_count'] = x[1]
+            dic['last_scrapped'] = x[2]
+            dic['instances_scraped'] = x[3]
+            final.append(dic)
+        return final
+
     def get_domain_id(self, domain):
         """
         a call that updates the domain 
@@ -133,8 +181,25 @@ class database(object):
         """
         cur = self.conn.cursor()
         cur.execute("SELECT id FROM domain WHERE domain = ?", (domain,))
-        count = cur.fetchone()[0]
-        return count
+        row_id = cur.fetchone()[0]
+        cur.close()
+        return row_id
+
+    def get_domain(self, id_row):
+        """
+        a call that updates the domain 
+        row with a proper email count.
+        """
+        cur = self.conn.cursor()
+        cur.execute("SELECT domain,email_count,last_scrapped,instances_scraped FROM domain WHERE id = ?", (id_row,))
+        data = cur.fetchone()
+        cur.close()
+        dic = {}
+        dic['domain'] = data[0]
+        dic['email_count'] = data[1]
+        dic['last_scrapped'] = data[2]
+        dic['instances_scraped'] = data[3]
+        return dic
 
     def get_domain_count(self, domain):
         """
@@ -144,6 +209,7 @@ class database(object):
         cur = self.conn.cursor()
         cur.execute("SELECT count(*) FROM email WHERE domain = ?", (domain,))
         count = cur.fetchone()[0]
+        cur.close()
         return count
 
     def get_domain_check(self, domain):
@@ -162,12 +228,37 @@ class database(object):
         except:
             return True
 
-    def get_email_id(self, email_id):
+    def get_email_id(self, email_name):
         """
         returns a email object with the 
         coresponding email db data.
         """
+        cur = self.conn.cursor()
+        cur.execute("SELECT id FROM email WHERE email_address = ?", (email_name,))
+        row_id = cur.fetchone()[0]
+        cur.close()
+        return row_id
 
+    def get_email(self, row_id):
+        """
+        returns a email objects in dict format
+        """
+        cur = self.conn.cursor()
+        cur.execute("SELECT * FROM email WHERE id = ?", (row_id,))
+        x = cur.fetchone()
+        cur.close()
+        dic = {}
+        dic['email_address'] = x[1]
+        dic['domain'] = x[2]
+        dic['first_seen'] = x[3]
+        dic['last_seen'] = x[4]
+        dic['instances_seen'] = x[5]
+        dic['first_name'] = x[6]
+        dic['last_name'] = x[7]
+        dic['name_generated_email'] = x[8]
+        dic['email_verified'] = x[9]
+        dic['score'] = x[10]
+        return dic
 
     def get_emails(self):
         """
@@ -175,9 +266,23 @@ class database(object):
         """
         cur = self.conn.cursor()
         cur.execute("SELECT * FROM email")
-        results = cur.fetchall()
+        data = cur.fetchall()
         cur.close()
-        return results
+        final = []
+        for x in data:
+            dic = {}
+            dic['email_address'] = x[1]
+            dic['domain'] = x[2]
+            dic['first_seen'] = x[3]
+            dic['last_seen'] = x[4]
+            dic['instances_seen'] = x[5]
+            dic['first_name'] = x[6]
+            dic['last_name'] = x[7]
+            dic['name_generated_email'] = x[8]
+            dic['email_verified'] = x[9]
+            dic['score'] = x[10]
+            final.append(dic)
+        return final
 
     def get_email_check(self,email_address):
         """
@@ -232,11 +337,80 @@ class database(object):
         cur.close()
         return row_id
 
-    def get_reporting_id(self):
+    def get_reporting_id(self, search_id):
         """
         takes a primay key id 
         and returns the reporting object.
         """
+        cur = self.conn.cursor()
+        cur.execute("SELECT id FROM reporting WHERE search_id = ?", (search_id,))
+        row_id = cur.fetchone()[0]
+        cur.close()
+        return row_id
+
+    def get_reporting_domain(self, domain):
+        """
+        takes a domain and
+        returns the reporting row_id(s).
+
+        returns:
+        row_id(s) = a list of row ideas for domain
+        """
+        cur = self.conn.cursor()
+        cur.execute("SELECT id FROM reporting WHERE domain = ?", (domain,))
+        data = cur.fetchall()
+        cur.close()
+        rows = []
+        final = []
+        for q in data:
+            rows.append(q[0])
+        for row_id in rows:
+            final.append(self.get_report(row_id))
+        return final
+
+    def get_report(self,row_id):
+        """
+        pulls one search report 
+        taking in a row_id for search
+        """
+        cur = self.conn.cursor()
+        cur.execute("SELECT * FROM reporting WHERE id = ?", (row_id,))
+        x = cur.fetchone()
+        cur.close()
+        dic = {}
+        dic['search_id'] = x[1]
+        dic['domain'] = x[2]
+        dic['start_time'] = x[3]
+        dic['end_time'] = x[4]
+        dic['emails_found'] = x[5]
+        dic['modules_enabled_key'] = x[6]
+        dic['emails_unique'] = x[7]
+        dic['emails_domain'] = x[8]
+        return dic
+
+
+    def get_reports(self):
+        """
+        pulls all the search reports
+        from the db.
+        """
+        cur = self.conn.cursor()
+        cur.execute("SELECT * FROM reporting")
+        data = cur.fetchall()
+        cur.close()
+        final = []
+        for x in data:
+            dic = {}
+            dic['search_id'] = x[1]
+            dic['domain'] = x[2]
+            dic['start_time'] = x[3]
+            dic['end_time'] = x[4]
+            dic['emails_found'] = x[5]
+            dic['modules_enabled_key'] = x[6]
+            dic['emails_unique'] = x[7]
+            dic['emails_domain'] = x[8]
+            final.append(dic)
+        return final
 
     def add_reporting(self, domain, modules_enabled=0):
         """

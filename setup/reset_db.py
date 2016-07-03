@@ -31,11 +31,20 @@ c.execute('DROP TABLE IF EXISTS config')
 c.execute('''CREATE TABLE config (
     "api_username" text,
     "api_password" text,
+    "api_current_token" text,
     "api_permanent_token" text
     )''')
 
+c.execute('DROP TABLE IF EXISTS logging')
+c.execute('''CREATE TABLE logging (
+    "api_token" text,
+    "datetime" text,
+    "ipaddr" text,
+    "request" text
+    )''')
+
 # kick off the config component of the database
-c.execute("INSERT INTO config VALUES (?,?,?)", (API_USERNAME, API_PASSWORD, API_PERMANENT_TOKEN))
+c.execute("INSERT INTO config VALUES (?,?,?,?)", (API_USERNAME, API_PASSWORD, API_PERMANENT_TOKEN, ''))
 
 # sources will be a json blob of data
 c.execute('DROP TABLE IF EXISTS "email"')
