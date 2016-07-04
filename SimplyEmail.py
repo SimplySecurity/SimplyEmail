@@ -96,16 +96,17 @@ def get_permanent_token(conn):
 #    
 #    GET      http://*:1337/api/config                      return the current default config
 #
+#    GET      http://*:1337/api/reporting                   returns all the search reports in the db
+#    GET      http://*:1337/api/reporting/domain/TARGET.COM returns all the search reports in the db
+#
 #    GET      http://*:1337/api/domain                      return all the domains in DB 
-#    POST     http://*:1337/api/domain                      post new domain name with data in db
-#    GET      http://*:1337/api/domain/TARGET               return all domains with TARGET
 #    GET      http://*:1337/api/domain/TARGET.COM           return JSON on TARGET.COM
 #
 #    GET      http://*:1337/api/email                       returns all the emails in the db
 #    GET      http://*:1337/api/email/a@gmail.com           returns email data in JSON format for specfic email
 #
-#    GET      http://*:1337/api/reporting                   returns all the search reports in the db
-#    GET      http://*:1337/api/reporting/domain/TARGET.COM returns all the search reports in the db
+#    GET      http://*:1337/api/execute(&type&domain&module)    executes a search via method
+#    GET      http://*:1337/api/search
 #
 #    GET      http://*:1337/api/admin/login                 retrieve the API token given the correct username and password
 #    GET      http://*:1337/api/admin/permanenttoken        retrieve the permanent API token, generating/storing one if it doesn't already exist
@@ -161,16 +162,19 @@ def start_restful_api(startSimplyEmail=False, suppress=False, username=None, pas
     # validate API token before every request except for the login URI
     @app.before_request
     def check_token():
-        if request.path != '/api/admin/login':
-            token = request.args.get('token')
-            if (not token) or (not tokenAllowed.match(token)):
-                return make_response('', 401)
-            if (token != apiToken) and (token != permanentApiToken):
-                return make_response('', 401)
-            if request.remote_addr:
-                # log remote add to DB
-                s = sql_opperations.database()
-                s.add_request_log(request.remote_addr, token, request.base_url)
+        try:
+            if request.path != '/api/admin/login':
+                token = request.args.get('token')
+                if (not token) or (not tokenAllowed.match(token)):
+                    return make_response('', 401)
+                if (token != apiToken) and (token != permanentApiToken):
+                    return make_response('', 401)
+                if request.remote_addr:
+                    # log remote add to DB
+                    s = sql_opperations.database()
+                    s.add_request_log(request.remote_addr, token, request.base_url)
+        except:
+            return make_response(jsonify( { 'error': 'Unkown failure during auth' } ), 400)            
 
     @app.errorhandler(Exception)
     def exception_handler(error):
@@ -180,6 +184,10 @@ def start_restful_api(startSimplyEmail=False, suppress=False, username=None, pas
     @app.errorhandler(404)
     def not_found(error):
         return make_response(jsonify( { 'error': 'Not found' } ), 404)
+
+    @app.errorhandler(410)
+    def no_data(error):
+        return make_response(jsonify( { 'error': 'No data to return' } ), 410)
 
 
     @app.route('/api/version', methods=['GET'])
@@ -194,6 +202,50 @@ def start_restful_api(startSimplyEmail=False, suppress=False, username=None, pas
 
     ###########################
     #                         #
+    #   All meta functions    #
+    #                         #  
+    ###########################
+    @app.route('/api/search/<string:domain_name>', methods=['GET'])
+    def get_search_domain(domain_name):
+        """
+        Returns a search object for
+        a domain from user.
+        """
+        s = sql_opperations.database()
+        domain_dict = s.get_domain_email(domain_name)
+        if domain_dict:
+            return jsonify(domain_dict)
+        else:
+            return make_response(jsonify({'error': 'no data found for domain'}), 430)
+
+    ###########################
+    #                         #
+    #  All execute functions  #
+    #                         #  
+    ###########################
+    @app.route('/api/execute', methods=['POST'])
+    def post_execute_command():
+        """
+        Returns a search object for
+        a domain from user.
+
+        takes:
+        &type = bool for testing a module rather than full scrape
+        &domain = the string of the domain to search
+        """
+        scrape_type = request.args.get('type')
+        domain = request.args.get('domain')
+        module = request.args.get('module')
+        if scrape_type == 'test':
+            Task = TaskController.Conducter()
+            search_id = Task.TestModuleREST(domain, module)
+            return jsonify({"search_id":search_id})
+        else:
+            return make_response(jsonify({'error': 'invalid api call (type missing)'}), 480)
+
+
+    ###########################
+    #                         #
     # All domain SQL functions#
     #                         #  
     ###########################
@@ -203,9 +255,12 @@ def start_restful_api(startSimplyEmail=False, suppress=False, username=None, pas
         """
         Returns all the domains in the db.
         """
-        s = sql_opperations.database()
-        domain = s.get_domains()
-        return jsonify({'domains': domain})
+        try:
+            s = sql_opperations.database()
+            domain = s.get_domains()
+            return jsonify({'domains': domain})
+        except:
+            return make_response(jsonify( { 'error': 'No data to return' } ), 410)
     
     @app.route('/api/domain/<string:domain_name>', methods=['GET'])
     def get_domain(domain_name):
@@ -232,9 +287,12 @@ def start_restful_api(startSimplyEmail=False, suppress=False, username=None, pas
         """
         Returns all the domains in the db.
         """
-        s = sql_opperations.database()
-        emails = s.get_emails()
-        return jsonify({'emails': emails})
+        try:
+            s = sql_opperations.database()
+            emails = s.get_emails()
+            return jsonify({'emails': emails})
+        except:
+            return make_response(jsonify({'error': 'no emails found during query'}), 410)
 
 
     @app.route('/api/email/<string:email_name>', methods=['GET'])
@@ -261,9 +319,12 @@ def start_restful_api(startSimplyEmail=False, suppress=False, username=None, pas
         """
         Returns all search reports in the db.
         """
-        s = sql_opperations.database()
-        reports = s.get_reports()
-        return jsonify({'reports': reports})
+        try:
+            s = sql_opperations.database()
+            reports = s.get_reports()
+            return jsonify({'reports': reports})
+        except:
+            return make_response(jsonify({'error': 'No data to return'}), 410)
 
     @app.route('/api/reporting/domain/<string:domain_name>', methods=['GET'])
     def get_reporting_domain(domain_name):
@@ -276,7 +337,7 @@ def start_restful_api(startSimplyEmail=False, suppress=False, username=None, pas
         if reports:
             return jsonify({'reports': reports})
         else:
-            return make_response(jsonify({'error': 'no domain found during query'}), 420)
+            return make_response(jsonify({'error': 'no domain found during query'}), 410)
 
 
     context = ('./data/simplyemail.pem', './data/simplyemail.pem')

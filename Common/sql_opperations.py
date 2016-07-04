@@ -84,6 +84,7 @@ class database(object):
         return search_id
 
 
+
     #############################
     #                           #
     # logging table opperations #
@@ -114,7 +115,30 @@ class database(object):
 
     ############################
     #                          #
-    #  Email table opperations #
+    #  Meta functions for REST #
+    #                          #
+    ############################
+
+    def get_domain_email(self, domain):
+        """
+        meta function to get all emails
+        for a domain.
+        """
+        # first get domain requested 
+        emails = []
+        domain_row_id = self.get_domain_id(domain)
+        domain_dict = self.get_domain(domain_row_id)
+        email_rows = self.get_emails_domain(domain)
+        for row in email_rows:
+            email_dict = self.get_email(row)
+            emails.append(email_dict)
+        domain_dict['emails'] = emails
+        return domain_dict
+
+
+    ############################
+    #                          #
+    # domain table opperations #
     #                          #
     ############################
     # domains will be a json blob of data
@@ -162,7 +186,7 @@ class database(object):
         """
         final = []
         cur = self.conn.cursor()
-        cur.execute("SELECT domain,email_count,last_scrapped,instances_scraped FROM domain")
+        cur.execute("SELECT domain,email_count,last_scrapped,instances_scraped,webmail,pattern,allows_verification FROM domain")
         data = cur.fetchall()
         cur.close()
         for x in data:
@@ -171,8 +195,12 @@ class database(object):
             dic['email_count'] = x[1]
             dic['last_scrapped'] = x[2]
             dic['instances_scraped'] = x[3]
+            dic['webmail'] = x[4]
+            dic['pattern'] = x[5]
+            dic['allows_verification'] = x[6]
             final.append(dic)
         return final
+
 
     def get_domain_id(self, domain):
         """
@@ -191,14 +219,17 @@ class database(object):
         row with a proper email count.
         """
         cur = self.conn.cursor()
-        cur.execute("SELECT domain,email_count,last_scrapped,instances_scraped FROM domain WHERE id = ?", (id_row,))
-        data = cur.fetchone()
+        cur.execute("SELECT domain,email_count,last_scrapped,instances_scraped,webmail,pattern,allows_verification FROM domain WHERE id = ?", (id_row,))
+        x = cur.fetchone()
         cur.close()
         dic = {}
-        dic['domain'] = data[0]
-        dic['email_count'] = data[1]
-        dic['last_scrapped'] = data[2]
-        dic['instances_scraped'] = data[3]
+        dic['domain'] = x[0]
+        dic['email_count'] = x[1]
+        dic['last_scrapped'] = x[2]
+        dic['instances_scraped'] = x[3]
+        dic['webmail'] = x[4]
+        dic['pattern'] = x[5]
+        dic['allows_verification'] = x[6]
         return dic
 
     def get_domain_count(self, domain):
@@ -227,6 +258,12 @@ class database(object):
             return True
         except:
             return True
+
+    ############################
+    #                          #
+    #  Email table opperations #
+    #                          #
+    ############################
 
     def get_email_id(self, email_name):
         """
@@ -259,6 +296,20 @@ class database(object):
         dic['email_verified'] = x[9]
         dic['score'] = x[10]
         return dic
+
+    def get_emails_domain(self, domain):
+        """
+        returns all email id's for
+        a domain.
+        """
+        cur = self.conn.cursor()
+        cur.execute("SELECT id FROM email WHERE domain = ?", (domain,))
+        data = cur.fetchall()
+        cur.close()
+        final = []
+        for x in data:
+            final.append(x[0])
+        return final
 
     def get_emails(self):
         """
@@ -336,6 +387,12 @@ class database(object):
         cur.execute("UPDATE email SET last_seen = ?, instances_seen = ? WHERE id=?", [last_seen, instances_seen, row_id])
         cur.close()
         return row_id
+
+    ###############################
+    #                             #
+    # reporting table opperations #
+    #                             #
+    ###############################
 
     def get_reporting_id(self, search_id):
         """

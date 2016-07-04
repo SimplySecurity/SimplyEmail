@@ -779,6 +779,89 @@ class Conducter(object):
             self._tasking_sql_domain_count(domain)
             self.CompletedScreen(FinalCount, BuiltNameCount, domain)
 
+    # This is a pure test RESTful setup of the conducter:
+    def TestModuleREST(self, domain, module, verbose=False, scope=False, Names=False, json='', Verify=False):
+        self._tasking_sql_reporting(domain)
+        self._tasking_sql_add_domain(domain)
+        self.logger.debug("Starting TaskSelector for: " + str(domain))
+        Config = configparser.ConfigParser()
+        Config.read("Common/SimplyEmail.ini")
+        total_proc = int(1)
+        self.logger.debug("Test TaskSelector processor set to: " + str(total_proc))
+        Task_queue = self._task_queue_start()
+        Results_queue = self._results_queue_start()
+        Html_queue = self._html_queue_start()
+        Json_queue = self._json_queue_start()
+
+        for Task in self.modules:
+            if module in Task:
+                Task_queue.put(Task)
+        # Only use one proc since this is a test module
+        for i in xrange(total_proc):
+            Task_queue.put(None)
+        procs = []
+        for thread in range(total_proc):
+            procs.append(multiprocessing.Process(
+                target=self.ExecuteModule, args=(Task_queue, Results_queue, Html_queue, Json_queue, domain, verbose)))
+        for p in procs:
+            p.daemon = True
+            p.start()
+        t = threading.Thread(target=self.Consumer, args=(Results_queue, verbose,))
+        t.daemon = True
+        t.start()
+        # Start Html Consumer / Trying to keep these seprate
+        t2 = threading.Thread(target=self.HtmlConsumer, args=(Html_queue, verbose,))
+        t2.daemon = True
+        t2.start()
+        # Start Json Consumer
+        t2 = threading.Thread(target=self.JsonConsumer, args=(Json_queue, verbose,))
+        t2.daemon = True
+        t2.start()
+        # Enter this loop so we know when to terminate the Consumer thread
+        # This multiprocessing.active_children() is also Joining!
+        while True:
+            LeftOver = multiprocessing.active_children()
+            time.sleep(1)
+            # We want to wait till we have no procs left, before we join
+            if len(LeftOver) == 0:
+                # Block until all results are consumed
+                time.sleep(1)
+                Results_queue.put(None)
+                Html_queue.put(None)
+                Json_queue.put(None)
+                # t.join()
+                try:
+                    JsonFinalEmailList = self.CleanJsonResults(domain, scope)
+                    FinalEmailList, HtmlFinalEmailList = self.CleanResults(
+                        domain, scope)
+                except Exception as e:
+                    error = " [!] Something went wrong with parsing results:" + \
+                        str(e)
+                    print helpers.color(error, warning=True)
+                    self.logger.critical("Something went wrong with parsing results: " + str(e))
+
+                FinalCount = len(FinalEmailList)
+                break
+        for p in procs:
+            p.join()
+        Task_queue.close()
+        Results_queue.close()
+        Html_queue.close()
+        Json_queue.close()
+        # Launches a single thread to output results
+        BuiltNameCount = 0
+        try:
+            # If names is True
+            if not Names:
+                BuiltNames = []
+            if not FinalEmailList:
+                FinalEmailList = []
+        except Exception as e:
+            print e
+        self._tasking_sql_reporting_finish(len(self.ConsumerList), len(FinalEmailList), FinalCount)
+        self._tasking_sql_domain_count(domain)
+        return self.search_id
+
     def NameBuilder(self, domain, emaillist, Verbose=False):
         '''
         Takes in Domain Names, returns List
