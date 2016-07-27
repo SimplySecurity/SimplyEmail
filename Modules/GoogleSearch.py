@@ -27,6 +27,8 @@ class ClassName(object):
                 'User-Agent': helpers.getua()}
             self.Limit = int(config['GoogleSearch']['QueryLimit'])
             self.Counter = int(config['GoogleSearch']['QueryStart'])
+            self.Sleep = int(config['SleepConfig']['QuerySleep'])
+            self.Jitter = int(config['SleepConfig']['QueryJitter'])
             self.verbose = verbose
             self.Html = ""
         except:
@@ -64,7 +66,7 @@ class ClassName(object):
                 print e
             self.Html += results
             self.Counter += 100
-
+            helpers.modsleep(self.Sleep, jitter=self.Jitter)
     def get_emails(self):
         Parse = Parser.Parser(self.Html)
         Parse.genericClean()

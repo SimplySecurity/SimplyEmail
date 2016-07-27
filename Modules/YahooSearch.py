@@ -34,6 +34,8 @@ class ClassName(object):
                 'User-Agent': helpers.getua()}
             self.Limit = int(config['YahooSearch']['QueryLimit'])
             self.Counter = int(config['YahooSearch']['QueryStart'])
+            self.Sleep = int(config['SleepConfig']['QuerySleep'])
+            self.Jitter = int(config['SleepConfig']['QueryJitter'])
             self.verbose = verbose
             self.Html = ""
         except Exception as e:
@@ -72,6 +74,7 @@ class ClassName(object):
             results = r.content
             self.Html += results
             self.Counter += 100
+            #helpers.modsleep(self.Sleep, jitter=self.Jitter)
 
     def get_emails(self):
         Parse = Parser.Parser(self.Html)

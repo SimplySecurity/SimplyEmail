@@ -31,6 +31,8 @@ class ClassName(object):
                 'User-Agent': helpers.getua()}
             self.Limit = int(config['GooglePDFSearch']['QueryLimit'])
             self.Counter = int(config['GooglePDFSearch']['QueryStart'])
+            self.Sleep = int(config['SleepConfig']['QuerySleep'])
+            self.Jitter = int(config['SleepConfig']['QueryJitter'])
             self.verbose = verbose
             self.urlList = []
             self.Text = ""
@@ -52,7 +54,7 @@ class ClassName(object):
                 p = ' [*] Google PDF Search on page: ' + str(self.Counter)
                 print helpers.color(p, firewall=True)
             try:
-                urly = "https://www.google.com/search?q=site:" + \
+                urly = "https://www.google.com/search?q=" + \
                     self.Domain + "+filetype:pdf&start=" + str(self.Counter)
             except Exception as e:
                 error = " [!] Major issue with Google Search:" + str(e)
@@ -81,6 +83,7 @@ class ClassName(object):
                 except:
                     pass
             self.Counter += 10
+            helpers.modsleep(self.Sleep, jitter=self.Jitter)
         # now download the required files
         try:
             for url in self.urlList:

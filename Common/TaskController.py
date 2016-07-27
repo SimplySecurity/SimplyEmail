@@ -11,7 +11,9 @@ import time
 import subprocess
 import logging
 import datetime
+# internal modules
 from Helpers import helpers
+from Helpers import messages
 from Helpers import HtmlBootStrapTheme
 from Helpers import VerifyEmails
 from Helpers import Connect6
@@ -46,6 +48,7 @@ class Conducter(object):
         self.JsonList = []
         self.Tasks = []
         self.ResultsList = []
+        self.search_id = 0
         self.logger = logging.getLogger("SimplyEmail.TaskController")
         try:
             config = configparser.ConfigParser()
@@ -67,12 +70,61 @@ class Conducter(object):
     #     print name
     #     module.execute()
 
+    def _execute_module_add_emails(self,Emails,Results_queue,Html_queue,Json_queue,HtmlResults,JsonResults):
+        """
+        Takes in queues and fills
+        consumers with email data.
+        """
+        self.logger.debug("_execute_module_add_emails: adding emails to consumer qeues")
+        for Email in Emails:
+            Results_queue.put(Email)
+        for Email in HtmlResults:
+            Html_queue.put(Email)
+        for Email in JsonResults:
+            Json_queue.put(Email)
+        self.logger.debug("_execute_module_add_emails: completed adding emails to consumer qeues")
+
+    def _execute_api_module(self,Module):
+        """
+        Checks for API key in the 
+        SimplyEmail.ini file.
+
+        Module = Module handle to check
+        """
+        self.logger.debug("_execute_api_module: checking for API key")
+        if Module.apikeyv:
+            e = " [*] API module key loaded for: " + \
+                Module.name
+            print helpers.color(e, status=True)
+            self.logger.info("_execute_api_module: API key present")
+            return True
+        else:
+            e = " [*] No API module key loaded for: " + \
+                Module.name
+            print helpers.color(e, firewall=True)
+            # Exit a API module with out a key
+            self.logger.info("_execute_api_module: no API key present")
+            return False
+
+    def _execute_get_task(self, task_queue):
+        """
+        Takes in a m-queue to get 
+        tasking and module to run.
+        """
+        try:
+            task = task_queue.get()
+            self.logger.debug("_execute_get_task: process requested tasking")
+            return task
+        except:
+            self.logger.warning("_execute_get_task: task_queue.get() failed (unkown reason)")
+            return None
+
     # Handler for each Process that will call all the modules in the Queue
     def ExecuteModule(self, Task_queue, Results_queue, Html_queue, Json_queue, domain, verbose=False):
         while True:
-            Task = Task_queue.get()
-            # If the queue is empty exit this proc
-            if Task is None:
+            Task = self._execute_get_task(Task_queue)
+            if Task == None:
+                self.logger.info("_execute_get_task: task_queue is empty (shutting down process)")
                 break
             # Inst the class
             try:
@@ -84,29 +136,15 @@ class Conducter(object):
                 try:
                     # Check for API key to ensure its in .ini
                     if Module.apikey:
-                        if Module.apikeyv:
-                            e = " [*] API module key loaded for: " + \
-                                Module.name
-                            print helpers.color(e, status=True)
-                        else:
-                            e = " [*] No API module key loaded for: " + \
-                                Module.name
-                            print helpers.color(e, firewall=True)
-                            # Exit a API module with out a key
+                        if self._execute_api_module(Module):
                             break
                     # Emails will be returned as a list
                     Emails, HtmlResults, JsonResults = Module.execute()
                     if Emails:
                         count = len(Emails)
-                        Length = " [*] " + Module.name + \
-                            ": Gathered " + str(count) + " Email(s)!"
-                        print helpers.color(Length, status=True)
-                        for Email in Emails:
-                            Results_queue.put(Email)
-                        for Email in HtmlResults:
-                            Html_queue.put(Email)
-                        for Email in JsonResults:
-                            Json_queue.put(Email)
+                        self._execute_module_add_emails(Emails,Results_queue,Html_queue,Json_queue,HtmlResults,JsonResults)
+                        count = len(Emails)
+                        messages.email_count(count, Module.name)
                         # Task_queue.task_done()
                     else:
                         Message = " [*] " + Module.name + \
@@ -262,16 +300,17 @@ class Conducter(object):
         FinalList = []
         if scope:
             for item in self.JsonList:
+                # add emails to sql db 
                 SecondList.append(item)
         else:
             for item in self.JsonList:
                 if domain.lower() in item['email'].lower():
+                    # add scoped emails to sql db 
                     SecondList.append(item)
         for item in SecondList:
             if item not in FinalList:
                 FinalList.append(item)
         return FinalList
-
 
     def Consumer(self, Results_queue, verbose):
         while True:
@@ -306,6 +345,54 @@ class Conducter(object):
                 if verbose:
                     print e
 
+    def _task_queue_start(self):
+        """
+        Private function to start task queue. 
+        Allows for better debug.
+        """
+        self.logger.debug("_task_queue_start: starting task queue")
+        try:
+            Task_queue = multiprocessing.Queue()
+            return Task_queue
+        except:
+            self.logger.critical("_task_queue_start: FAILED to start task_queue")
+
+    def _results_queue_start(self):
+        """
+        Private function to start task queue. 
+        Allows for better debug.
+        """
+        self.logger.debug("_results_queue_start: starting task queue")
+        try:
+            Results_queue = multiprocessing.Queue()
+            return Results_queue
+        except:
+            self.logger.critical("_results_queue_start: FAILED to start Results_queue")
+
+    def _html_queue_start(self):
+        """
+        Private function to start task queue. 
+        Allows for better debug.
+        """
+        self.logger.debug("_html_queue_start: starting task queue")
+        try:
+            Html_queue = multiprocessing.Queue()
+            return Html_queue
+        except:
+            self.logger.critical("_html_queue_start: FAILED to start Results_queue")
+
+    def _json_queue_start(self):
+        """
+        Private function to start task queue. 
+        Allows for better debug.
+        """
+        self.logger.debug("_json_queue_start: starting task queue")
+        try:
+            Json_queue = multiprocessing.Queue()
+            return Json_queue
+        except:
+            self.logger.critical("_json_queue_start: FAILED to start Json_queue")
+
     def TaskSelector(self, domain, verbose=False, scope=False, Names=False, json="", Verify=False):
         # Here it will check the Queue for the next task to be completed
         # Using the Dynamic loaded modules we can easly select which module is up
@@ -313,10 +400,10 @@ class Conducter(object):
 
         # Build our Queue of work for emails that we will gather
         self.logger.debug("Starting TaskSelector for: " + str(domain))
-        Task_queue = multiprocessing.Queue()
-        Results_queue = multiprocessing.Queue()
-        Html_queue = multiprocessing.Queue()
-        Json_queue = multiprocessing.Queue()
+        Task_queue = self._task_queue_start()
+        Results_queue = self._results_queue_start()
+        Html_queue = self._html_queue_start()
+        Json_queue = self._json_queue_start()
 
         # How many proc will we have, pull from config file, setting up the
         # config file handler
@@ -452,10 +539,10 @@ class Conducter(object):
         Config.read("Common/SimplyEmail.ini")
         total_proc = int(1)
         self.logger.debug("Test TaskSelector processor set to: " + str(total_proc))
-        Task_queue = multiprocessing.JoinableQueue()
-        Results_queue = multiprocessing.Queue()
-        Html_queue = multiprocessing.Queue()
-        Json_queue = multiprocessing.Queue()
+        Task_queue = self._task_queue_start()
+        Results_queue = self._results_queue_start()
+        Html_queue = self._html_queue_start()
+        Json_queue = self._json_queue_start()
 
         for Task in self.modules:
             if module in Task:
@@ -573,6 +660,7 @@ class Conducter(object):
             print helpers.color(error, warning=True)
         if not json:
             self.CompletedScreen(FinalCount, BuiltNameCount, domain)
+
 
     def NameBuilder(self, domain, emaillist, Verbose=False):
         '''

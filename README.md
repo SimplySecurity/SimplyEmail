@@ -70,7 +70,7 @@ $ ./Setup.sh
 ### Standard Help
 ```
  ============================================================
- Curent Version: v1.1 | Website: CyberSyndicates.com
+ Current Version: v1.4.2 | Website: CyberSyndicates.com
  ============================================================
  Twitter: @real_slacker007 |  Twitter: @Killswitch_gui
  ============================================================
@@ -87,7 +87,7 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 
 ------------------------------------------------------------
 usage: SimplyEmail.py [-all] [-e company.com] [-l] [-t html / flickr / google]
-                      [-s] [-n] [-verify] [-v]
+                      [-s] [-n] [-verify] [-v] [--json json-emails.txt]
 
 Email enumeration is a important phase of so many operation that a pen-tester
 or Red Teamer goes through. There are tons of applications that do this but I
@@ -104,6 +104,8 @@ optional arguments:
   -n                    Set this to enable Name Generation
   -verify               Set this to enable SMTP server email verify
   -v                    Set this switch for verbose output of modules
+  --json json-emails.txt
+                        Set this switch for json output to specfic file
 ```
 
 ### Run SimplyEmail

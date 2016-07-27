@@ -61,7 +61,7 @@ class Download(object):
             download = os.path.isfile(local_filename)
             return local_filename, download
 
-    def download_file2(self, url, filetype, timeout=5):
+    def download_file2(self, url, filetype, timeout=10):
         # using the filename is dangerous, could have UTF8 chars etc.
         local_filename = randint(10000, 999999999)
         # set name
@@ -117,14 +117,14 @@ class Download(object):
     def GoogleCaptchaDetection(self, RawHtml):
         soup = BeautifulSoup(RawHtml, "lxml")
         if "Our systems have detected unusual traffic" in soup.text:
-            p = " [!] Google Captcha was detected! (For best results stop/resolve/restart)"
+            p = " [!] Google Captcha was detected! (For best results resolve/restart -- Increase sleep/jitter in SimplyEmail.ini)"
             self.logger.warning("Google Captcha was detected!")
             print helpers.color(p, warning=True)
             return True
         else:
             return False
 
-    def requesturl(self, url, useragent, timeout=5, retrytime=3, statuscode=False, raw=False, verify=True):
+    def requesturl(self, url, useragent, timeout=10, retrytime=5, statuscode=False, raw=False, verify=True):
         """
         A very simple request function
         This is setup to handle the following parms:

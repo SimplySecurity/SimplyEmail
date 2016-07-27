@@ -33,6 +33,8 @@ class ClassName(object):
             self.UserAgent = {
                 'User-Agent': helpers.getua()}
             self.Counter = int(config['GoogleXlsxSearch']['QueryStart'])
+            self.Sleep = int(config['SleepConfig']['QuerySleep'])
+            self.Jitter = int(config['SleepConfig']['QueryJitter'])
             self.verbose = verbose
             self.urlList = []
             self.Text = ""
@@ -88,6 +90,7 @@ class ClassName(object):
                 except:
                     pass
             self.Counter += 10
+            helpers.modsleep(self.Sleep, jitter=self.Jitter)
         # now download the required files
         self.logger.debug(
             "GoogleXlsxSearch completed HTML result query, starting downloads")

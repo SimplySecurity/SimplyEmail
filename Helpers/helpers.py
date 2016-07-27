@@ -8,6 +8,7 @@ import magic
 import json
 import configparser
 import collections
+import random
 from fake_useragent import UserAgent
 
 def dictToJson(inputDict):
@@ -19,6 +20,18 @@ def dictToJson(inputDict):
     for item in inputDict:
         obj += json.dumps(item)
     return obj
+
+def get_searchid():
+    currentDate = str(time.strftime("%d%m%Y"))
+    currentTime = str(time.strftime("%H%M%S"))
+    searchid = currentDate + currentTime
+    return searchid
+
+def get_datetime():
+    currentDate = str(time.strftime("%d/%m/%Y"))
+    currentTime = str(time.strftime("%H:%M:%S"))
+    datetime = currentDate + ' ' +currentTime
+    return datetime
 
 def JsonListToJsonObj(inputJsonList, domain):
     """
@@ -112,11 +125,15 @@ def getua():
     ua = UserAgent()
     return ua.random
 
+def modsleep(delay, jitter=0):
+    # Quick Snipit From EmPyre Agent (@HarmJ0y)
+    if jitter < 0: jitter = -jitter
+    if jitter > 1: jitter = 1/jitter
 
-def modsleep(st):
-    # sleep module for spec time
-    time.sleep(int(st))
-
+    minSleep = int((1.0-jitter)*delay)
+    maxSleep = int((1.0+jitter)*delay)
+    sleepTime = random.randint(minSleep, maxSleep)
+    time.sleep(int(sleepTime))
 
 def filetype(path):
     m = magic.from_file(str(path))
@@ -136,7 +153,7 @@ class log(object):
 
     def start(self):
         logger = logging.getLogger("SimplyEmail")
-        logger.setLevel(logging.INFO)
+        logger.setLevel(logging.DEBUG)
         fh = logging.FileHandler(self.name)
         formatter = logging.Formatter(
             '%(asctime)s-[%(name)s]-[%(levelname)s]- %(message)s')
