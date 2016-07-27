@@ -1,5 +1,12 @@
 
 ===================================
+Framework Improvements v1.4.3:
+-----------------------------
+(x) clean up code to private functions
+(x) add in sleep times with random jitter
+    for google
+
+===================================
 Framework Improvements v1.4.0-2:
 -----------------------------
 (x) JSON support for automation 
