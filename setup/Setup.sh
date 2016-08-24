@@ -44,7 +44,7 @@ func_install_requests(){
   # setup PPTX depends 
   sudo apt-get -y install python-lxml
   sudo apt-get -y install wget grep antiword odt2txt python-dev libxml2-dev libxslt1-dev
-  chmod 755 SimplyEmail.py
+  chmod 755 ../SimplyEmail.py
   sudo pip install --upgrade xlsxwriter
   sudo pip install beautifulsoup4
   sudo pip install python-magic
