@@ -86,7 +86,7 @@ class ClassName(object):
                 except:
                     pass
             self.Counter += 10
-            helpers.modsleep(self.Sleep, jitter=self.jitter)
+            helpers.modsleep(self.Sleep, jitter=self.Jitter)
         # now download the required files
         try:
             for url in self.urlList:
