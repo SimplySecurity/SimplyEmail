@@ -53,7 +53,7 @@ class ClassName(object):
     def execute(self):
         self.logger.debug("CanaryBinSearch module started")
         self.process()
-        FinalOutput, HtmlResults = self.get_emails()
+        FinalOutput, HtmlResults, JsonResults = self.get_emails()
         return FinalOutput, HtmlResults, JsonResults
 
     def process(self):
