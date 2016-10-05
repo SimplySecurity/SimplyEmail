@@ -29,18 +29,18 @@ class ClassName(object):
             config.read('Common/SimplyEmail.ini')
             self.verbose = verbose
             self.domain = domain
-            self.useragent = "--user-agent=" + \
-                str(config['GlobalSettings']['UserAgent'])
+            self.useragent = "--user-agent=\"" + str(config['GlobalSettings']['UserAgent']) + "\""
             self.depth = "--level=" + str(config['HtmlScrape']['Depth'])
             self.wait = "--wait=" + str(config['HtmlScrape']['Wait'])
             self.limit_rate = "--limit-rate=" + \
                 str(config['HtmlScrape']['LimitRate'])
-            self.timeout = "--read-timeout=" + \
+            self.timeout = "--timeout=" + \
                 str(config['HtmlScrape']['Timeout'])
             self.save = "--directory-prefix=" + \
                 str(config['HtmlScrape']['Save']) + str(self.domain)
             self.remove = str(config['HtmlScrape']['RemoveHTML'])
             self.retVal = 0
+            self.maxRetries = "--tries=5"
         except:
             print helpers.color(" [*] Major Settings for HTML are missing, EXITING!\n", warning=True)
 
@@ -63,16 +63,16 @@ class ClassName(object):
             if self.verbose:
                 p = ' [*] HTML scrape underway [This can take a bit!]'
                 print helpers.color(p, firewall=True)
-            self.retVal = subprocess.call(["wget", "-q", "-e robots=off", "--header=""Accept: text/html""", self.useragent,
+            self.retVal = subprocess.call(["wget", "-q", "-e robots=off", "--header=\"Accept: text/html\"", self.useragent,
                              "--recursive", self.depth, self.wait, self.limit_rate, self.save,
                              self.timeout, "--page-requisites", "-R gif,jpg,pdf,png,css,zip,mov,wmv,ppt,doc,docx,xls,exe,bin,pptx,avi,swf,vbs,xlsx,kfp,pub",
-                             "--no-clobber", "--domains", self.domain, TempDomain])
+                             "--no-clobber", self.maxRetries,"--domains", self.domain, TempDomain])
             if self.retVal > 0:
                 print helpers.color(" [*] Wget returned error, likely 403 (attempting again): " + str(self.retVal), warning=True)
-                self.retVal = subprocess.call(["wget", "-q", "-e robots=off", "--header=""Accept: text/html""", self.useragent,
+                self.retVal = subprocess.call(["wget", "-q", "-e robots=off", "--header=\"Accept: text/html\"", self.useragent,
                              "--recursive", self.depth, self.wait, self.limit_rate, self.save,
                              self.timeout, "--page-requisites", "-R gif,jpg,pdf,png,css,zip,mov,wmv,ppt,doc,docx,xls,exe,bin,pptx,avi,swf,vbs,xlsx,kfp,pub",
-                             "--no-clobber", "--domains", self.domain, TempDomain])
+                             "--no-clobber", self.maxRetries,"--domains", self.domain, TempDomain])
         except Exception as e:
             print e
             print " [!] ERROR during Wget Request"
