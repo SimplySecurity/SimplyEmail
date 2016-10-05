@@ -160,6 +160,8 @@ class log(object):
         fh.setFormatter(formatter)
         logger.addHandler(fh)
         logger.info("Program started")
+        logging.captureWarnings(True)
+        logger.info("Set Logging Warning Capture: True")
 
     def infomsg(self, message, modulename):
         try:
