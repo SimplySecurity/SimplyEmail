@@ -42,8 +42,16 @@ func_install_requests(){
   # sudo apt-get -y install python-configparser
   # sudo apt-get remove -y python-magic
   # setup PPTX depends 
-  sudo apt-get -y install python-lxml
-  sudo apt-get -y install wget grep antiword odt2txt python-dev libxml2-dev libxslt1-dev
+  if [ -f /etc/redhat-release ]; then
+    sudo dnf install -y python-lxml
+    sudo dnf install -y wget grep antiword odt2txt python-devel libxml2-devel libxslt1-devel
+  fi
+
+  if [ -f /etc/lsb-release ]; then
+    sudo apt-get -y install python-lxml
+  	sudo apt-get -y install wget grep antiword odt2txt python-dev libxml2-dev libxslt1-dev
+  fi
+  
   chmod 755 ../SimplyEmail.py
   sudo pip install --upgrade xlsxwriter
   sudo pip install beautifulsoup4
