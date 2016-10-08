@@ -41,7 +41,7 @@ class ClassName(object):
 
     def process(self):
         try:
-            url = "http://pgp.rediris.es:11371/pks/lookup?search=" + \
+            url = "http://pgp.mit.edu/pks/lookup?search=" + \
                 self.domain + "&op=index"
             self.logger.info("Requesting PGP keys")
             r = requests.get(url)
