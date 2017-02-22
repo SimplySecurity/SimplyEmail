@@ -47,7 +47,7 @@ or
 ```
 ## Get Started in Kali
 Please RUN the simple Setup Bash script! 
-NOTE: At the moment the up-streeam debian python-futures contain bugs within configparser / python-magic. This has been reported to KALI and debiab.
+NOTE: At the moment the up-stream debian python-futures contain bugs within configparser / python-magic. This has been reported to KALI and debian.
 configparser bug in apt-get python-futures: https://bugs.kali.org/view.php?id=3245
 SimplyEmail bug reported: https://github.com/killswitch-GUI/SimplyEmail/issues/11
 ```
