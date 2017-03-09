@@ -54,7 +54,7 @@ func_install_requests(){
   
   chmod 755 ../SimplyEmail.py
   sudo pip install --upgrade xlsxwriter
-  sudo pip install beautifulsoup4
+  sudo pip install beautifulsoup4 --upgrade
   sudo pip install python-magic
   sudo pip install fake-useragent --upgrade
   sudo pip install mechanize --upgrade
