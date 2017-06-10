@@ -1,7 +1,6 @@
 from Helpers import helpers
 from Helpers import Download
 from Helpers import Parser
-from Helpers import CanarioAPI
 from Helpers import EmailFormat
 from Helpers import HtmlBootStrapTheme
 from Helpers import Connect6
@@ -98,9 +97,6 @@ def test_downloads():
     f, download = dl.download_file(
         'http://www.sample-videos.com/doc/Sample-doc-file-100kb.doc', '.pdf')
     dl.delete_file(f)
-
-def test_canario():
-    c = CanarioAPI.canary('thisshouldnotworkapikey')
 
 def test_verifyemails():
     em1 = ['test@gmail.com']

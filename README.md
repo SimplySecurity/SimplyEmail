@@ -186,13 +186,6 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 ## API Modules and Searches
 API based searches can be painful and hard to configure. The main aspect of SimplyEmail is to easily integrate these aspects, while not compromising the ease of using this tool. Using the configuration file, you can simply add your corresponding API key and get up and running. Modules are automatically identified as API based searches, checks if the corresponding keys are present and if the keys are present it will run the module. 
 
-### Canar.io API Search
-Canario is a service that allows you to search for potentially leaked data that has been exposed on the Internet. Passwords, e-mail addresses, hostnames, and other data have been indexed to allow for easy searching.
-
-Simply Register for a key here:
-[canar.io] (https://canar.io/register/) or https://canar.io/register/
-Place the key in the SimplyEmail.ini at [APIKeys] section, the module will now initiate when the --all flag is user of the -t.
-
 
 ## Name Generation
 Some times SimplyEmail will only find the standard email addresses or just a few emails. In this case email creation may be your saving grace. Using name generation can allow you not only scrape names from diffrent sites but allow you to auto detect the format to some accuracy. 
