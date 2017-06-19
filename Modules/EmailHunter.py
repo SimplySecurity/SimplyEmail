@@ -14,7 +14,7 @@ from Helpers import helpers
 # Searches for personal emails, ex. ajohnson@example.com vs. contact@example.com
 # Personal emails more useful for phishing
 
-# https://api.hunter.io/v2/domain-search?domain=any.com&type=personal&limit=100&api_key=your_api_key
+# https://api.hunter.io/v2/domain-search?domain=any.com&type=personal&limit=100&offset=0&api_key=your_api_key
 
 
 class ClassName(object):
@@ -45,33 +45,50 @@ class ClassName(object):
     def process(self):
         dl = Download.Download(self.verbose)
         try:
-            # This returns a JSON object
-            url = "https://api.hunter.io/v2/domain-search?domain=" + \
-                self.domain + "&type=personal&limit=100&api_key=" + self.apikeyv
+            # EmailHunter's API only allows 100 emails per request, so we check the number of emails EmailHunter has 
+            # on our specified domain, and if it's over 100 we need to make multiple requests to get all of the emails
+            url = "https://api.hunter.io/v2/email-count?domain=" + self.domain
             r = dl.requesturl(url, useragent=self.UserAgent, raw=True)
+            response = r.json()
+            TotalEmails = int(response['data']['personal_emails'])
+            EmailsLeft = TotalEmails
+            offset = 0
         except Exception as e:
             error = "[!] Major issue with EmailHunter Search:" + str(e)
             print helpers.color(error, warning=True)
-        try:
-            results = r.json()
-            # pprint(results)
-            # Check to make sure we got data back from the API
-            if int(results['meta']['results']) > 0:
+        while EmailsLeft > 0:
+            try:
+                # This returns a JSON object
+                url = "https://api.hunter.io/v2/domain-search?domain=" + \
+                    self.domain + "&type=personal&limit=100&offset=" + str(offset) + "&api_key=" + self.apikeyv
+                r = dl.requesturl(url, useragent=self.UserAgent, raw=True)
+                results = r.json()
+                EmailCount = int(results['meta']['results'])
+            except Exception as e:
+                error = " [!] EmailHunter API error: " + str(results['errors'][0]['details'])
+                print helpers.color(error, warning=True)
+                break
+            try:
+                # Make sure we don't exceed the index for the 'emails' array in the 'results' Json object
+                if EmailsLeft < 100:
+                    EmailCount = EmailsLeft
+                if EmailCount > 100:
+                    EmailCount = 100
                 # The API starts at 0 for the first value
                 x = 0
-                EmailCount = int(results['meta']['results'])
                 # We will itirate of the Json object for the index objects
                 while x < EmailCount:
                     self.results.append(results['data']['emails'][int(x)]['value'])
                     x += 1
-            # Couldn't quite get the error reporting to work
-            if int(results['errors'][0]['code']) > 0:
-                error = ' [!] EmailHunter API failed: ' + \
-                    str(results['errors'][0]['id'])
-                self.logger.error(error)
-                print helpers.color(error, firewall=True)
-        except Exception as e:
-            pass
+                EmailsLeft -= EmailCount
+                if EmailsLeft > 100:
+                    offset += 100
+                else:
+                    offset += EmailsLeft
+            except Exception as e:
+                error = " [!] Major issue with search parsing: " + str(e)
+                print helpers.color(error, warning=True)
+                break
         if self.verbose:
             p = ' [*] EmailHunter completed JSON request'
             print helpers.color(p, firewall=True)
