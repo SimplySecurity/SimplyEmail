@@ -11,14 +11,17 @@ from Helpers import helpers
 # 3) execute function (calls everything it needs)
 # 4) places the findings into a queue
 
-# https://emailhunter.co/trial/v1/search?offset=0&domain=any.com&format=json
+# Searches for personal emails, ex. ajohnson@example.com vs. contact@example.com
+# Personal emails more useful for phishing
+
+# https://api.hunter.io/v2/domain-search?domain=any.com&type=personal&limit=100&api_key=your_api_key
 
 
 class ClassName(object):
 
     def __init__(self, domain, verbose=False):
-        self.apikey = False
-        self.name = "EmailHunter Trial API"
+        self.apikey = True
+        self.name = "EmailHunter API"
         self.description = "Search the EmailHunter DB for potential emails"
         self.domain = domain
         config = configparser.ConfigParser()
@@ -28,6 +31,7 @@ class ClassName(object):
             self.logger = logging.getLogger("SimplyEmail.EmailHunter")
             config.read('Common/SimplyEmail.ini')
             self.UserAgent = str(config['GlobalSettings']['UserAgent'])
+            self.apikeyv = str(config['APIKeys']['EmailHunter'])
         except Exception as e:
             self.logger.critical("EmailHunter module failed to __init__: " + str(e))
             print helpers.color(" [*] Major Settings for EmailHunter are missing, EXITING!\n", warning=True)
@@ -42,8 +46,8 @@ class ClassName(object):
         dl = Download.Download(self.verbose)
         try:
             # This returns a JSON object
-            url = "https://emailhunter.co/trial/v1/search?offset=0&domain=" + \
-                self.domain + "&format=json"
+            url = "https://api.hunter.io/v2/domain-search?domain=" + \
+                self.domain + "&type=personal&limit=100&api_key=" + self.apikeyv
             r = dl.requesturl(url, useragent=self.UserAgent, raw=True)
         except Exception as e:
             error = "[!] Major issue with EmailHunter Search:" + str(e)
@@ -52,20 +56,16 @@ class ClassName(object):
             results = r.json()
             # pprint(results)
             # Check to make sure we got data back from the API
-            if results['status'] == "success":
+            if int(results['meta']['results']) > 0:
                 # The API starts at 0 for the first value
                 x = 0
-                EmailCount = int(results['results'])
+                EmailCount = int(results['meta']['results'])
                 # We will itirate of the Json object for the index objects
                 while x < EmailCount:
-                    self.results.append(results['emails'][int(x)]['value'])
+                    self.results.append(results['data']['emails'][int(x)]['value'])
                     x += 1
-            if results['status'] == "error":
-                # The API starts at 0 for the first value
-                error = ' [!] EmailHunter Trial API failed: ' + \
-                    str(results['message'])
-                self.logger.error('EmailHunter Trial API failed: ' + str(results['message']))
-                print helpers.color(error, firewall=True)
+            else:
+                error = ' [!] EmailHunter API returned no results'
         except Exception as e:
             pass
         if self.verbose:
