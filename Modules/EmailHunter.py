@@ -64,8 +64,12 @@ class ClassName(object):
                 while x < EmailCount:
                     self.results.append(results['data']['emails'][int(x)]['value'])
                     x += 1
-            else:
-                error = ' [!] EmailHunter API returned no results'
+            # Couldn't quite get the error reporting to work
+            if int(results['errors'][0]['code']) > 0:
+                error = ' [!] EmailHunter API failed: ' + \
+                    str(results['errors'][0]['id'])
+                self.logger.error(error)
+                print helpers.color(error, firewall=True)
         except Exception as e:
             pass
         if self.verbose:
