@@ -59,7 +59,6 @@ class EmailFormat(object):
             results = r.json()
             pattern = str(results['data']['pattern'])
             if pattern:
-                print pattern
                 return pattern
             else:
                 if self.verbose:

@@ -43,7 +43,7 @@ class ClassName(object):
                 self.type = "&type=generic"
                 self.etype = "generic_emails"
             else:
-                raise Exception("Personal Emails and/or Generic Emails settings invalid")
+                raise Exception("Email Type setting invalid")
         except Exception as e:
             self.logger.critical("Hunter module failed to __init__: " + str(e))
             print helpers.color(" [*] Error in Hunter settings: " + str(e) + "\n", warning=True)
@@ -132,6 +132,7 @@ class ClassName(object):
                 print helpers.color(error, warning=True)
                 break
         if self.verbose:
+            # Print the avalible requests user has if verbose
             print helpers.color(' [*] Hunter completed JSON request', firewall=True)
             requestsUsed = requestsMade + quotaUsed
             if quota - requestsUsed <= 0:

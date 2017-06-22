@@ -186,6 +186,14 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
 ## API Modules and Searches
 API based searches can be painful and hard to configure. The main aspect of SimplyEmail is to easily integrate these aspects, while not compromising the ease of using this tool. Using the configuration file, you can simply add your corresponding API key and get up and running. Modules are automatically identified as API based searches, checks if the corresponding keys are present and if the keys are present it will run the module. 
 
+### Hunter.io API Search
+Hunter is a service that scrapes the Internet in search of emails from various domains. Emails are automatically sorted and catigorized by their credibility, based off of where they were found and how many sources verify them. 
+
+Register for a key here:
+Note: Use an institutional or work email if possible as it will give you an additional 50 requests.
+[hunter.io] https://hunter.io/users/sign_up
+Place the key in the SimplyEmail.ini at [APIKeys] section, and the module will now initiate and grab you tons of quality emails!
+
 ### Canar.io API Search
 Canario is a service that allows you to search for potentially leaked data that has been exposed on the Internet. Passwords, e-mail addresses, hostnames, and other data have been indexed to allow for easy searching.
 
