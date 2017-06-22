@@ -2,6 +2,7 @@
 import helpers
 import requests
 import configparser
+import Download
 
 # Email layouts supported:
 # {first}.{last} = alex.alex@domain.com
@@ -24,12 +25,23 @@ class EmailFormat(object):
         config = configparser.ConfigParser()
         try:
             config.read('Common/SimplyEmail.ini')
-            self.UserAgent = {
-                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+            self.UserAgent = str(config['GlobalSettings']['UserAgent'])
+            self.apikeyv = str(config['APIKeys']['Hunter'])
+            self.EmailType = str(config['Hunter']['EmailType'])
             self.domain = domain
             # self.email = email
             self.FinalAnswer = ''
             self.verbose = Verbose
+            # If you send the exact same query twice, Hunter won't count the second request
+            if self.EmailType == "Both":
+                self.type = ""
+                self.etype = "total"
+            elif self.EmailType == "Personal":
+                self.type = "&type=personal"
+                self.etype = "personal_emails"
+            elif self.EmailType == "Generic":
+                self.type = "&type=generic"
+                self.etype = "generic_emails"
         except Exception as e:
             print e
 
@@ -40,28 +52,23 @@ class EmailFormat(object):
         '''
         try:
             # This returns a JSON object
-            url = "https://emailhunter.co/trial/v1/search?offset=0&domain=" + \
-                self.domain + "&format=json"
-            r = requests.get(url)
-        except Exception as e:
-            error = "[!] Major issue with EmailHunter Search:" + str(e)
-            print helpers.color(error, warning=True)
-        try:
+            dl = Download.Download(self.verbose)
+            url = "https://api.hunter.io/v2/domain-search?domain=" + \
+                self.domain + self.type + "&limit=100&offset=0" + "&api_key=" + self.apikeyv
+            r = dl.requesturl(url, useragent=self.UserAgent, raw=True)
             results = r.json()
-            # pprint(results)
-            # Check to make sure we got data back from the API
-            if results['status'] == "success":
-                if results['pattern']:
-                    pattern = results['pattern']
-                    if pattern:
-                        return pattern
+            pattern = str(results['data']['pattern'])
+            if pattern:
+                print pattern
+                return pattern
             else:
                 if self.verbose:
                     e = ' [!] No pattern detected via EmailHunter API'
                     print helpers.color(e, firewall=True)
                     return False
         except:
-            pass
+            error = "[!] Major issue with EmailHunter Search:" + str(e)
+            print helpers.color(error, warning=True)
 
     def BuildName(self, CleanName, Format, Raw=False):
         '''
