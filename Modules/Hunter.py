@@ -68,7 +68,7 @@ class ClassName(object):
             else:
                 overQuotaLimit = False
         except Exception as e:
-            error = "[!] Hunter API error: " + str(e)
+            error = " [!] Hunter API error: " + str(accountInfo['errors'][0]['details'])
             print helpers.color(error, warning=True)      
         try:
             # Hunter's API only allows 100 emails per request, so we check the number of emails Hunter has 
@@ -133,7 +133,7 @@ class ClassName(object):
                 break
         if self.verbose:
             # Print the avalible requests user has if verbose
-            print helpers.color(' [*] Hunter completed JSON request', firewall=True)
+            print helpers.color(' [*] Hunter has completed JSON request', firewall=True)
             requestsUsed = requestsMade + quotaUsed
             if quota - requestsUsed <= 0:
                 print helpers.color(" [*] You have no Hunter requests left." \
