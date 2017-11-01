@@ -7,7 +7,7 @@ install:
   - pip install nose
   - apt-get install git
 script:
-  - "git clone --branch dev https://github.com/killswitch-GUI/SimplyEmail.git
+  - "git clone --branch master https://github.com/killswitch-GUI/SimplyEmail.git"
   - "sudo sh setup/setup.sh"
   - "cd SimplyEmail"
   - "./setup/setup.sh"
