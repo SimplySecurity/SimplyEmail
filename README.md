@@ -24,8 +24,6 @@ Work Conducted by:
 
 Current Platforms Supported:
 * Kali Linux 2.0
-* Kali Linux 1.0
-* Debian (deb8u3)
 
 A few small benefits:
 - Easy for you to write modules (All you need is 1 required Class option and you're up and running)
@@ -38,28 +36,26 @@ API Based Searches:
 - When API based searches become available, no need to add them to the Command line
 - API keys will be auto pulled from the SimpleEmail.ini, this will activate the module for use
  
-## Get Started on Deb
-Please RUN the simple Setup Bash script!
-```Bash
-# sh Setup.sh
-or
-# ./Setup.sh
-```
 ## Get Started in Kali
-Please RUN the simple Setup Bash script! 
-NOTE: At the moment the up-streeam debian python-futures contain bugs within configparser / python-magic. This has been reported to KALI and debiab.
-configparser bug in apt-get python-futures: https://bugs.kali.org/view.php?id=3245
-SimplyEmail bug reported: https://github.com/killswitch-GUI/SimplyEmail/issues/11
+Install SimplyEmail in one line:
 ```
-FIX KALI BUG: 
-# apt-get remove configparser
-# apt-get remove python-magic
-or 
-# apt-get remove python-futures
+root@kali:~# curl -s https://raw.githubusercontent.com/killswitch-GUI/SimplyEmail/master/setup/oneline-setup.sh | bash
+root@kali:~# cd SimplyEmail
+(SE) root@kali:~/SimplyEmail# ./SimplyEmail.py
 
-Normal Setup
-# ./Setup.sh
 ```
+DONT trust a one line command no issue:
+```
+git clone --branch dev https://github.com/killswitch-GUI/SimplyEmail.git
+cd SimplyEmail
+./setup/setup.sh
+cd ..
+cd SimplyEmail
+(SE) root@kali:~/SimplyEmail# ./SimplyEmail.py
+```
+
+NOTE: SimplyEmail uses autoenv to activate the Python Virtualenv.. It may prompt you the first time during a CD into the SimplyEmail dir.
+
 ## Get Started on Mac OSX (At own risk)
 ```
 Install brew:
