@@ -43,24 +43,13 @@ def cli_parser():
     parser.add_argument(
         "--json", metavar='json-emails.txt', default="", 
         help="Set this switch for json output to specfic file")
-    parser.add_argument(
-        '--rest', action='store_true', help='Run the SimplyEmail RESTful API.')
-    parser.add_argument(
-        '--suppress', default=False, action='store_true', help='Suppress the CLI output of SimplyEmail RESTful API.')
-    parser.add_argument(
-        '--restport', default=1337, help='Port to run the SimplyEmail RESTful API on.')
-    parser.add_argument(
-        '--username', help='Start the RESTful API with the specified username instead of pulling from SimplyEmail.db')
-    parser.add_argument(
-        '--password', help='Start the RESTful API with the specified password instead of pulling from SimplyEmail.db')
-    
     parser.add_argument('-h', '-?', '--h', '-help',
                         '--help', action="store_true", help=argparse.SUPPRESS)
     args = parser.parse_args()
     if args.h:
         parser.print_help()
         sys.exit()
-    return args.all, args.e, args.l, args.t, args.s, args.n, args.verify, args.v, args.json, args.rest, args.suppress, args.restport, args.username, args.password
+    return args.all, args.e, args.l, args.t, args.s, args.n, args.verify, args.v, args.json
 
 
 def TaskStarter(version):
@@ -69,13 +58,10 @@ def TaskStarter(version):
     # need to pass the store true somehow to tell printer to restrict output
     log = helpers.log()
     log.start()
-    cli_all, cli_domain, cli_list, cli_test, cli_scope, cli_names, cli_verify, cli_verbose, cli_json, cli_rest, cli_suppress, cli_rport, cli_user, cli_pass = cli_parser()
+    cli_all, cli_domain, cli_list, cli_test, cli_scope, cli_names, cli_verify, cli_verbose, cli_json = cli_parser()
     cli_domain = cli_domain.lower()
     Task = TaskController.Conducter()
     Task.load_modules()
-    if cli_rest:
-        start_restful_api(suppress=cli_suppress, username=cli_user, password=cli_pass, port=cli_rport)
-        return
     if cli_list:
         log.infomsg("Tasked to List Modules", "Main")
         Task.ListModules()
