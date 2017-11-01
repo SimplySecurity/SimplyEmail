@@ -8,7 +8,7 @@ func_check_env(){
     exit 1
   fi
   
-  git clone --branch dev https://github.com/killswitch-GUI/SimplyEmail.git
+  git clone --branch master https://github.com/killswitch-GUI/SimplyEmail.git
   cd SimplyEmail
   ./setup/setup.sh
 }
