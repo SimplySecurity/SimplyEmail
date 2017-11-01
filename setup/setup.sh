@@ -44,7 +44,6 @@ func_install_requests(){
   fi
   
 # Setup virtual env
-  chmod 755 ../SimplyEmail.py
   pip install autoenv
   echo "source `which activate.sh`" >> ~/.bashrc
   apt-get install python-virtualenv -y
