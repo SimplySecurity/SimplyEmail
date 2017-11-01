@@ -20,7 +20,7 @@ install:
   - pip install python-pptx
   - pip install dnspython --upgrade
 script:
-  - "sudo sh setup/Setup.sh"
+  - "sudo sh setup/setup.sh"
   - "sudo ./SimplyEmail.py -l"
   - "sudo ./SimplyEmail.py -h"
   - "sudo ./SimplyEmail.py -n"
