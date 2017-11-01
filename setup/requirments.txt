@@ -10,7 +10,6 @@ html5lib==0.999999999
 idna==2.6
 mechanize==0.3.6
 pdfminer==20140328
-pkg-resources==0.0.0
 python-magic==0.4.13
 requests==2.18.4
 six==1.11.0
