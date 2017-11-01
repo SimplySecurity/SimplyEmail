@@ -39,8 +39,8 @@ def test_taskcontrollers():
     Task.ListModules()
     Task.title()
     Task.title_screen()
-    V = VersionCheck.VersionCheck("1.3")
-    V.VersionRequest()
+    #V = VersionCheck.VersionCheck("1.3")
+    #V.VersionRequest()
     # test the cleaning function of the TC
     # create fake email items
     Task.ConsumerList = ['alex@test.com', 'alex@test.com', 'alex2@gmail.com', 'alex2@test.com']
