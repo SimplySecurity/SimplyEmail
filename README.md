@@ -24,8 +24,6 @@ Work Conducted by:
 
 Current Platforms Supported:
 * Kali Linux 2.0
-* Kali Linux 1.0
-* Debian (deb8u3)
 
 A few small benefits:
 - Easy for you to write modules (All you need is 1 required Class option and you're up and running)
@@ -38,29 +36,27 @@ API Based Searches:
 - When API based searches become available, no need to add them to the Command line
 - API keys will be auto pulled from the SimpleEmail.ini, this will activate the module for use
  
-## Get Started on Deb
-Please RUN the simple Setup Bash script!
-```Bash
-# sh Setup.sh
-or
-# ./Setup.sh
-```
 ## Get Started in Kali
-Please RUN the simple Setup Bash script! 
-NOTE: At the moment the up-streeam debian python-futures contain bugs within configparser / python-magic. This has been reported to KALI and debiab.
-configparser bug in apt-get python-futures: https://bugs.kali.org/view.php?id=3245
-SimplyEmail bug reported: https://github.com/killswitch-GUI/SimplyEmail/issues/11
+Install SimplyEmail in one line:
 ```
-FIX KALI BUG: 
-# apt-get remove configparser
-# apt-get remove python-magic
-or 
-# apt-get remove python-futures
+root@kali:~# curl -s https://raw.githubusercontent.com/killswitch-GUI/SimplyEmail/master/setup/oneline-setup.sh | bash
+root@kali:~# cd SimplyEmail
+(SE) root@kali:~/SimplyEmail# ./SimplyEmail.py
 
-Normal Setup
-# ./Setup.sh
 ```
-## Get Started on Mac OSX (At own risk)
+DONT trust a one line command no issue:
+```
+git clone --branch dev https://github.com/killswitch-GUI/SimplyEmail.git
+cd SimplyEmail
+./setup/setup.sh
+cd ..
+cd SimplyEmail
+(SE) root@kali:~/SimplyEmail# ./SimplyEmail.py
+```
+
+NOTE: SimplyEmail uses autoenv to activate the Python Virtualenv.. It may prompt you the first time during a CD into the SimplyEmail dir.
+
+## Get Started on Mac OSX 
 ```
 Install brew:
 https://coolestguidesontheplanet.com/installing-homebrew-on-os-x-el-capitan-10-11-package-manager-for-unix-apps/
@@ -68,7 +64,10 @@ https://coolestguidesontheplanet.com/installing-homebrew-on-os-x-el-capitan-10-1
 $ sudo easy_install pip
 $ sudo brew install libmagic
 $ pip install python-magic
-$ ./Setup.sh
+$ brew install autoenv
+$ echo "source $(brew --prefix autoenv)/activate.sh" >> ~/.bash_profile
+$ git clone --branch master https://github.com/killswitch-GUI/SimplyEmail.git
+$ ./setup/setup.sh
 ```
 
 ### Standard Help
@@ -136,53 +135,37 @@ or json automation
 This will run ALL modules that are have API Key placed in the SimpleEmail.ini file and will run all non-API based modules. 
 
 ### List Modules SimpleEmail
-```
-root@kali:~/Tools/SimplyEmail# ./SimplyEmail.py -l
- ============================================================
- Current Version: v0.7 | Website: CyberSyndicates.com
- ============================================================
- Twitter: @real_slacker007 |  Twitter: @Killswitch_gui
- ============================================================
-------------------------------------------------------------
-   ______  ________                       __ __
- /      \/        |                     /  /  |
-/$$$$$$  $$$$$$$$/ _____  ____   ______ $$/$$ |
-$$ \__$$/$$ |__   /     \/    \ /      \/  $$ |
-$$      \$$    |  $$$$$$ $$$$  |$$$$$$  $$ $$ |
- $$$$$$  $$$$$/   $$ | $$ | $$ |/    $$ $$ $$ |
-/  \__$$ $$ |_____$$ | $$ | $$ /$$$$$$$ $$ $$ |
-$$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
- $$$$$$/ $$$$$$$$/$$/  $$/  $$/ $$$$$$$/$$/$$/
+Current modules:
 
-------------------------------------------------------------
- [*] Available Modules are:
+	1)	Modules/AskSearch.py    
+	2)	Modules/CanarioAPI.py **(Deprecated)**   
+	3)	Modules/CanaryBinSearch.py **(Deprecated)**
+	4)	Modules/EmailHunter.py  
+	5)	Modules/ExaleadDOCSearch.py
+	6)	Modules/ExaleadDOCXSearch.py
+	7)	Modules/ExaleadPDFSearch.py
+	8)	Modules/ExaleadPPTXSearch.py
+	9)	Modules/ExaleadSearch.py
+	10)	Modules/ExaleadXLSXSearch.py
+	11)	Modules/FlickrSearch.py 
+	12)	Modules/GitHubCodeSearch.py
+	13)	Modules/GitHubGistSearch.py
+	14)	Modules/GitHubUserSearch.py
+	15)	Modules/GoogleCsvSearch.py
+	16)	Modules/GoogleDocSearch.py
+	17)	Modules/GoogleDocxSearch.py
+	18)	Modules/GooglePDFSearch.py
+	19)	Modules/GooglePPTXSearch.py
+	20)	Modules/GoogleSearch.py 
+	21)	Modules/GoogleXLSXSearch.py
+	22)	Modules/HtmlScrape.py   
+	23)	Modules/PasteBinSearch.py
+	24)	Modules/RedditPostSearch.py
+	25)	Modules/SearchPGP.py    
+	26)	Modules/WhoisAPISearch.py
+	27)	Modules/Whoisolgy.py    
+	28)	Modules/YahooSearch.py 
 
-  1)  Modules/HtmlScrape.py   
-  2)  Modules/PasteBinSearch.py
-  3)  Modules/ExaleadSearch.py
-  4)  Modules/SearchPGP.py    
-  5)  Modules/ExaleadXLSXSearch.py
-  6)  Modules/ExaleadDOCXSearch.py
-  7)  Modules/OnionStagram.py 
-  8)  Modules/GooglePDFSearch.py
-  9)  Modules/RedditPostSearch.py
-  10) Modules/AskSearch.py    
-  11) Modules/EmailHunter.py  
-  12) Modules/WhoisAPISearch.py
-  13) Modules/Whoisolgy.py    
-  14) Modules/GoogleDocxSearch.py
-  15) Modules/GitHubUserSearch.py
-  16) Modules/YahooSearch.py  
-  17) Modules/GitHubCodeSearch.py
-  18) Modules/ExaleadPDFSearch.py
-  19) Modules/GoogleSearch.py 
-  20) Modules/FlickrSearch.py 
-  21) Modules/GoogleDocSearch.py
-  22) Modules/CanaryBinSearch.py
-  23) Modules/ExaleadDOCSearch.py
-  24) Modules/GoogleXLSXSearch.py
-  25) Modules/GitHubGistSearch.py
-```
 ## API Modules and Searches
 API based searches can be painful and hard to configure. The main aspect of SimplyEmail is to easily integrate these aspects, while not compromising the ease of using this tool. Using the configuration file, you can simply add your corresponding API key and get up and running. Modules are automatically identified as API based searches, checks if the corresponding keys are present and if the keys are present it will run the module. 
 
@@ -315,32 +298,6 @@ As I mentioned before a powerful function that I wanted to integrate was the abi
 #### Email Section:
 - Html report now shows Alerts for Canary Search Results!
 ![Alt text](/bootstrap-3.3.5/Screen Shot 2015-11-11 at 5.27.31 PM.png?raw=true "Report Html")
-
-##Current Email Evasion Techniques
-- The following will be built into the Parser Soon:
-- shinichiro.hamaji _at_ gmail.com
-- shinichiro.hamaji _AT_ gmail.com
-- simohayha.bobo at gmail.com
-- "jeffreytgilbert" => "gmail.com"
-- felix021 # gmail.com
-- hirokidaichi[at]gmail.com
-- hirokidaichi[@]gmail.com 
-- hirokidaichi[#]gmail.com
-- xaicron{ at }gmail.com
-- xaicron{at}gmail.com
-- xaicron{@}gmail.com
-- xaicron(@)gmail.com
-- xaicron + gmail.com
-- xaicron ++ gmail.com
-- xaicron ## gmail.com
-- bekt17[@]gmail.com
-- billy3321 -AT- gmail.com
-- billy3321[AT]gmail.com
-- ybenjo.repose [[[at]]] gmail.com
-- sudhindra.r.rao (at) gmail.com
-- sudhindra.r.rao nospam gmail.com
-- shinichiro.hamaji (.) gmail.com
-- shinichiro.hamaji--at--gmail.com
 
 #### TODO:
 ```

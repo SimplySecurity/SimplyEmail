@@ -955,7 +955,7 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
                 domain) + "-" + str(self.TimeDate) + "/" + HtmlSaveFile
             # gnome-open cisco.doc
             subprocess.Popen(
-                ("gnome-open", HtmlSaveFile), stdout=subprocess.PIPE)
+                ("firefox", HtmlSaveFile), stdout=subprocess.PIPE)
 
     def VerifyScreen(self):
         # Ask user to open report on CLI

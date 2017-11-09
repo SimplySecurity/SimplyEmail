@@ -32,16 +32,7 @@ func_check_env(){
 }
 
 func_install_requests(){
-  echo ' [*] Installing and updating requests libary'
-  #Insure we have the latest requests module in python
-  #sudo apt-get -q update
-  #sudo apt-get -q upgrade 
   sudo git pull
-  # remove bad pcks (Kali Python 2016.1 rolling issues)
-  # sudo apt-get remove -y python-configparser
-  # sudo apt-get -y install python-configparser
-  # sudo apt-get remove -y python-magic
-  # setup PPTX depends 
   if [ -f /etc/redhat-release ]; then
     sudo dnf install -y python-lxml
     sudo dnf install -y wget grep antiword odt2txt python-devel libxml2-devel libxslt1-devel
@@ -52,19 +43,15 @@ func_install_requests(){
   	sudo apt-get -y install wget grep antiword odt2txt python-dev libxml2-dev libxslt1-dev
   fi
   
-  chmod 755 ../SimplyEmail.py
-  sudo pip install --upgrade xlsxwriter
-  sudo pip install beautifulsoup4 --upgrade
-  sudo pip install python-magic
-  sudo pip install fake-useragent --upgrade
-  sudo pip install mechanize --upgrade
-  sudo pip install docx2txt --upgrade
-  sudo pip install requests --upgrade
-  sudo pip install xlsx2csv --upgrade
-  sudo pip install configparser --upgrade
-  sudo pip install BeautifulSoup --upgrade
-  sudo pip install pdfminer --upgrade
-  sudo pip install dnspython --upgrade
+# Setup virtual env
+  pip install autoenv
+  echo "source `which activate.sh`" >> ~/.bashrc
+  apt-get install python-virtualenv -y
+  virtualenv --no-site-packages SE
+  source SE/bin/activate
+  
+  
+  pip install -r setup/requirments.txt 
 
 }
 
@@ -78,3 +65,4 @@ case $1 in
   ;;
 
 esac
+
