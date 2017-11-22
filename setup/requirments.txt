@@ -5,7 +5,6 @@ chardet==3.0.4
 configparser==3.5.0
 dnspython==1.15.0
 docx2txt==0.6
-fake-useragent==0.1.7
 html5lib==0.999999999
 idna==2.6
 mechanize==0.3.6
