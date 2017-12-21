@@ -18,16 +18,16 @@ echo "version: $VERSION"
 git checkout -b "Version-$VERSION"
 git add --all
 git commit -m "SimplyEmail $VERSION Release"
-git tag -a "$VERSION" -m "SimplyEmail $VERSION Release"
+#git tag -a "$VERSION" -m "SimplyEmail $VERSION Release"
 git push origin "Version-$VERSION"
-git push origin "Version-$VERSION" --tags
+#git push origin "Version-$VERSION" --tags
 git checkout master
 git merge "Version-$VERSION"
 git push
 hub release create Version-$VERSION -m "SimplyEmail $VERSION Release"
 # DEL BRANCH
-git branch -d "dev"
-git branch -D "dev"
+#git branch -d "dev"
+#git branch -D "dev"
 
 # ALERT VERSION
 echo "Building Version: $VERSION"
