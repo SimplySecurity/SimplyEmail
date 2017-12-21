@@ -42,19 +42,29 @@ func_install_requests(){
     sudo apt-get -y install python-lxml
   	sudo apt-get -y install wget grep antiword odt2txt python-dev libxml2-dev libxslt1-dev
   fi
-  
-# Setup virtual env
-  pip install autoenv
-  echo "source `which activate.sh`" >> ~/.bashrc
-  apt-get install python-virtualenv -y
-  virtualenv --no-site-packages SE
-  source SE/bin/activate
-  
-  
-  pip install -r setup/requirments.txt 
-
+  # Check for PIP otherwise install it
+  if ! which pip > /dev/null; then
+    wget https://bootstrap.pypa.io/get-pip.py
+    python get-pip.py
+  fi
 }
 
+func_install_env(){
+  if [ -f /.dockerenv ]; then
+      echo " [*] Currently installing to Docker, skipping Python Virtenv"
+  else
+    # Setup virtual env
+    pip install autoenv
+    echo "source `which activate.sh`" >> ~/.bashrc
+    apt-get install python-virtualenv -y
+    virtualenv --no-site-packages SE
+    source SE/bin/activate
+  fi 
+}
+
+func_install_pip(){
+   pip install -r setup/requirments.txt 
+}
 
 # Menu Case Statement
 case $1 in
@@ -62,6 +72,8 @@ case $1 in
   func_title
   func_check_env
   func_install_requests
+  func_install_env
+  func_install_pip
   ;;
 
 esac
