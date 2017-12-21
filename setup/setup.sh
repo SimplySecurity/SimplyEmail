@@ -42,12 +42,10 @@ func_install_requests(){
     sudo apt-get -y install python-lxml
   	sudo apt-get -y install wget grep antiword odt2txt python-dev libxml2-dev libxslt1-dev
   fi
-  
-  pip install -r setup/requirments.txt 
 
 }
 
-func_install_pip(){
+func_install_env(){
   if [ -f /.dockerenv ]; then
       echo " [*] Currently installing to Docker, skipping Python Virtenv"
   else
@@ -60,12 +58,18 @@ func_install_pip(){
   if 
 }
 
+func_install_env(){
+   pip install -r setup/requirments.txt 
+}
+
 # Menu Case Statement
 case $1 in
   *)
   func_title
   func_check_env
   func_install_requests
+  func_install_env
+  func_install_pip
   ;;
 
 esac
