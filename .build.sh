@@ -9,4 +9,4 @@ IMAGE=simplyemail
 # version
 VERSION="$(cat VERSION)"
 
-docker build --build-arg simplyemailversion="$VERSION" -t $USERNAME/$IMAGE:latest .
+docker build -t $USERNAME/$IMAGE:latest .

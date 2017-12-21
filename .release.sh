@@ -15,16 +15,19 @@ VERSION=`cat VERSION`
 echo "version: $VERSION"
 
 # TAF, PULL, MERGE DEV
-git checkout "dev"
+git checkout -b "Version-$VERSION"
 git add --all
 git commit -m "SimplyEmail $VERSION Release"
 git tag -a "$VERSION" -m "SimplyEmail $VERSION Release"
-git push origin "dev"
-git push origin "dev" --tags
+git push origin "Version-$VERSION"
+git push origin "Version-$VERSION" --tags
 git checkout master
-git merge "dev"
+git merge "Version-$VERSION"
 git push
-hub release create $VERSION -m "SimplyEmail $VERSION Release"
+hub release create Version-$VERSION -m "SimplyEmail $VERSION Release"
+# DEL BRANCH
+git branch -d "dev"
+git branch -D "dev"
 
 # ALERT VERSION
 echo "Building Version: $VERSION"
