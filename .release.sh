@@ -15,7 +15,7 @@ VERSION=`cat VERSION`
 echo "version: $VERSION"
 
 # TAF, PULL, MERGE DEV
-git checkout "dev"
+git checkout -b "dev"
 git add --all
 git commit -m "SimplyEmail $VERSION Release"
 git tag -a "$VERSION" -m "SimplyEmail $VERSION Release"
