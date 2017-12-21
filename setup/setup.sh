@@ -55,7 +55,7 @@ func_install_env(){
     apt-get install python-virtualenv -y
     virtualenv --no-site-packages SE
     source SE/bin/activate
-  if 
+  fi 
 }
 
 func_install_env(){
