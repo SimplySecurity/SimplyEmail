@@ -62,7 +62,7 @@ func_install_env(){
   fi 
 }
 
-func_install_env(){
+func_install_pip(){
    pip install -r setup/requirments.txt 
 }
 
