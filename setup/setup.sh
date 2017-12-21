@@ -42,7 +42,11 @@ func_install_requests(){
     sudo apt-get -y install python-lxml
   	sudo apt-get -y install wget grep antiword odt2txt python-dev libxml2-dev libxslt1-dev
   fi
-
+  # Check for PIP otherwise install it
+  if ! which pip > /dev/null; then
+    wget https://bootstrap.pypa.io/get-pip.py
+    python get-pip.py
+  fi
 }
 
 func_install_env(){
