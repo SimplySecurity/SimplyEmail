@@ -32,7 +32,6 @@ func_check_env(){
 }
 
 func_install_requests(){
-  sudo git pull
   if [ -f /etc/redhat-release ]; then
     sudo dnf install -y python-lxml
     sudo dnf install -y wget grep antiword odt2txt python-devel libxml2-devel libxslt1-devel
@@ -42,6 +41,13 @@ func_install_requests(){
     sudo apt-get -y install python-lxml
   	sudo apt-get -y install wget grep antiword odt2txt python-dev libxml2-dev libxslt1-dev
   fi
+  
+  if [ -f /etc/debian_version ]; then
+    sudo apt install -y git
+    sudo apt install -y python-lxml
+  	sudo apt install -y wget grep antiword odt2txt python-dev libxml2-dev libxslt1-dev
+  fi
+  
   # Check for PIP otherwise install it
   if ! which pip > /dev/null; then
     wget https://bootstrap.pypa.io/get-pip.py
