@@ -1,5 +1,16 @@
 # Change Log
 
+## [Version-1.4.10](https://github.com/SimplySecurity/SimplyEmail/tree/Version-1.4.10) (2017-12-22)
+[Full Changelog](https://github.com/SimplySecurity/SimplyEmail/compare/Version-1.4.9...Version-1.4.10)
+
+**Implemented enhancements:**
+
+- Overhaul EmailHunter Module [\#34](https://github.com/SimplySecurity/SimplyEmail/pull/34) ([capnspacehook](https://github.com/capnspacehook))
+
+**Closed issues:**
+
+- Modules not installed [\#41](https://github.com/SimplySecurity/SimplyEmail/issues/41)
+
 ## [Version-1.4.9](https://github.com/SimplySecurity/SimplyEmail/tree/Version-1.4.9) (2017-12-22)
 [Full Changelog](https://github.com/SimplySecurity/SimplyEmail/compare/Version-1.4.8...Version-1.4.9)
 
