@@ -9,6 +9,7 @@
 SimplyEmail was built arround the concept that tools should do somthing, and do that somthing well, hence 'Simply'. Full documentation can be found at:
 
 [INSTALL / FAQ] https://simplysecurity.github.io/SimplyEmail/
+
 [CHANGELOG] https://github.com/SimplySecurity/SimplyEmail/blob/master/setup/changelog
 
 ## TL;DR 
