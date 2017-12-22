@@ -32,6 +32,22 @@ func_check_env(){
 }
 
 func_install_requests(){
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    # MacOS / OS X
+    if ! brew  --version &>/dev/null; then
+      echo "[*] Failed to find brew, installing now"
+      xcode-select --install
+      /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    fi
+    sudo easy_install pip
+    brew install libmagic
+    brew install curl 
+    brew install autoenv
+    brew install git 
+    pip install python-magic
+    echo "source $(brew --prefix autoenv)/activate.sh" >> ~/.bash_profile 
+fi
+
   if [ -f /etc/redhat-release ]; then
     sudo dnf install -y git
     sudo dnf install -y python-lxml
@@ -42,7 +58,7 @@ func_install_requests(){
   if [ -f /etc/lsb-release ]; then
     sudo apt-get -y install git
     sudo apt-get -y install python-lxml
-  	sudo apt-get -y install wget grep antiword odt2txt python-dev libxml2-dev libxslt1-dev
+    sudo apt-get -y install wget grep antiword odt2txt python-dev libxml2-dev libxslt1-dev
     sudo apt-get -y install python-virtualenv
   fi
   

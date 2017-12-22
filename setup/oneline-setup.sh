@@ -1,5 +1,13 @@
 func_check_env(){
   # Check Sudo Dependency going to need that!
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    # MacOS / OS X
+    xcode-select --install
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    brew install curl
+    brew install git  
+  fi
+
   if [ -f /etc/debian_version ]; then
     sudo apt install -y git
     sudo apt install -y curl
