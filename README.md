@@ -5,3 +5,7 @@
 
 ![alt text](https://simplyemail.org/img/se-logo-2.png "Logo Title Text 1")
 
+----
+SimplyEmail was built arround the concept that tools should do somthing, and do that somthing well, hence 'Simply'. Full documentation can be found at:
+
+https://simplysecurity.github.io/SimplyEmail/
