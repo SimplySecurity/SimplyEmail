@@ -1,5 +1,8 @@
 # Change Log
 
+## [Version-1.4.9](https://github.com/SimplySecurity/SimplyEmail/tree/Version-1.4.9) (2017-12-22)
+[Full Changelog](https://github.com/SimplySecurity/SimplyEmail/compare/Version-1.4.8...Version-1.4.9)
+
 ## [Version-1.4.8](https://github.com/SimplySecurity/SimplyEmail/tree/Version-1.4.8) (2017-12-22)
 [Full Changelog](https://github.com/SimplySecurity/SimplyEmail/compare/Version-1.4.7...Version-1.4.8)
 
