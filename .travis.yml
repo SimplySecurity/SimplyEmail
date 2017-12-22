@@ -5,22 +5,12 @@ install:
   - pip install coveralls
   - pip install coverage
   - pip install nose
-  - pip install python-magic
-  - pip install useragent fake_useragent
-  - pip install beautifulsoup4
-  - pip install mechanize
-  - pip install docx2txt
-  - pip install BeautifulSoup
-  - pip install --upgrade requests
-  - pip install xlsx2csv --upgrade
-  - pip install configparser 
-  - pip install BeautifulSoup --upgrade
-  - pip install pdfminer --upgrade
-  - pip install python-docx
-  - pip install python-pptx
-  - pip install dnspython --upgrade
 script:
-  - "sudo sh setup/Setup.sh"
+  - "git clone --branch master https://github.com/killswitch-GUI/SimplyEmail.git"
+  - "sudo sh setup/setup.sh"
+  - "cd SimplyEmail"
+  - "./setup/setup.sh"
+  - "source SE/bin/activate"
   - "sudo ./SimplyEmail.py -l"
   - "sudo ./SimplyEmail.py -h"
   - "sudo ./SimplyEmail.py -n"

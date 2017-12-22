@@ -39,8 +39,8 @@ def test_taskcontrollers():
     Task.ListModules()
     Task.title()
     Task.title_screen()
-    V = VersionCheck.VersionCheck("1.3")
-    V.VersionRequest()
+    #V = VersionCheck.VersionCheck("1.3")
+    #V.VersionRequest()
     # test the cleaning function of the TC
     # create fake email items
     Task.ConsumerList = ['alex@test.com', 'alex@test.com', 'alex2@gmail.com', 'alex2@test.com']
@@ -110,6 +110,7 @@ def test_verifyemails():
     assert 'gmail' in v.mxhost['Host']
     b = v.VerifySMTPServer()
 
+'''
 def test_linkedin():
     # test Linkedin Name gen
     l = LinkedinNames.LinkedinScraper('verisgroup.com')
@@ -121,6 +122,7 @@ def test_linkedin():
         if name:
             CleanNames.append(name)
     assert ['Beth', 'Rodriguez'] in names
+'''
 
 def test_converter():
     # test the convert for all formats
@@ -171,10 +173,6 @@ def test_paser():
     p = Parser.Parser(raw)
     p.RemoveUnicode()
     finaloutput, htmlresults = p.extendedclean('test')
-
-def test_connect6():
-    c = Connect6.Connect6Scraper('verisgroup.com')
-    url = c.Connect6AutoUrl()
 
 
 def test_emailformat():

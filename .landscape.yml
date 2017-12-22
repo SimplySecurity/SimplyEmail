@@ -4,3 +4,4 @@ max-line-length: 120
 autodetect: yes
 python-targets:
     - 2
+    

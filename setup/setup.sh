@@ -32,42 +32,50 @@ func_check_env(){
 }
 
 func_install_requests(){
-  echo ' [*] Installing and updating requests libary'
-  #Insure we have the latest requests module in python
-  #sudo apt-get -q update
-  #sudo apt-get -q upgrade 
-  sudo git pull
-  # remove bad pcks (Kali Python 2016.1 rolling issues)
-  # sudo apt-get remove -y python-configparser
-  # sudo apt-get -y install python-configparser
-  # sudo apt-get remove -y python-magic
-  # setup PPTX depends 
   if [ -f /etc/redhat-release ]; then
+    sudo dnf install -y git
     sudo dnf install -y python-lxml
     sudo dnf install -y wget grep antiword odt2txt python-devel libxml2-devel libxslt1-devel
+    sudo dnf install -y python-virtualenv
   fi
 
   if [ -f /etc/lsb-release ]; then
+    sudo apt-get -y install git
     sudo apt-get -y install python-lxml
   	sudo apt-get -y install wget grep antiword odt2txt python-dev libxml2-dev libxslt1-dev
+    sudo apt-get -y install python-virtualenv
   fi
   
-  chmod 755 ../SimplyEmail.py
-  sudo pip install --upgrade xlsxwriter
-  sudo pip install beautifulsoup4 --upgrade
-  sudo pip install python-magic
-  sudo pip install fake-useragent --upgrade
-  sudo pip install mechanize --upgrade
-  sudo pip install docx2txt --upgrade
-  sudo pip install requests --upgrade
-  sudo pip install xlsx2csv --upgrade
-  sudo pip install configparser --upgrade
-  sudo pip install BeautifulSoup --upgrade
-  sudo pip install pdfminer --upgrade
-  sudo pip install dnspython --upgrade
-
+  if [ -f /etc/debian_version ]; then
+    sudo apt install -y git
+    sudo apt install -y python-lxml
+  	sudo apt install -y wget grep antiword odt2txt python-dev libxml2-dev libxslt1-dev
+    sudo apt install -y python-virtualenv
+  fi
+  
+  # Check for PIP otherwise install it
+  if ! which pip > /dev/null; then
+    wget https://bootstrap.pypa.io/get-pip.py
+    python get-pip.py
+    rm get-pip.py
+  fi
 }
 
+func_install_env(){
+  if [ -f /.dockerenv ]; then
+      echo " [*] Currently installing to Docker, skipping Python Virtenv"
+  else
+    # Setup virtual env
+    pip install autoenv
+    echo "source `which activate.sh`" >> ~/.bashrc
+    virtualenv --no-site-packages SE
+    source SE/bin/activate
+  fi 
+}
+
+func_install_pip(){
+   pip install -r setup/requirments.txt 
+}
 
 # Menu Case Statement
 case $1 in
@@ -75,6 +83,9 @@ case $1 in
   func_title
   func_check_env
   func_install_requests
+  func_install_env
+  func_install_pip
   ;;
 
 esac
+
