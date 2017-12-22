@@ -11,6 +11,14 @@ func_check_env(){
     sudo apt install -y git
   fi
   
+  if [ -f /etc/redhat-release ]; then
+    sudo dnf install -y git
+  fi
+
+  if [ -f /etc/lsb-release ]; then
+    sudo apt-get -y install git
+  fi
+  
   git clone --branch master https://github.com/killswitch-GUI/SimplyEmail.git
   cd SimplyEmail
   ./setup/setup.sh
