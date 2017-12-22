@@ -136,7 +136,7 @@ class Conducter(object):
                 try:
                     # Check for API key to ensure its in .ini
                     if Module.apikey:
-                        if self._execute_api_module(Module):
+                        if self._execute_api_module(Module) == False:
                             break
                     # Emails will be returned as a list
                     Emails, HtmlResults, JsonResults = Module.execute()

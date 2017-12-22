@@ -10,7 +10,7 @@ SimplyEmail was built arround the concept that tools should do somthing, and do 
 
 [INSTALL / FAQ] https://simplysecurity.github.io/SimplyEmail/
 
-[CHANGELOG] https://github.com/SimplySecurity/SimplyEmail/blob/master/setup/changelog
+[CHANGELOG] https://github.com/SimplySecurity/SimplyEmail/blob/master/CHANGELOG.md
 
 ## TL;DR 
 Supported Platforms / Tested with CI:
