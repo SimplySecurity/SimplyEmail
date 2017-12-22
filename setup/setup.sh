@@ -33,19 +33,24 @@ func_check_env(){
 
 func_install_requests(){
   if [ -f /etc/redhat-release ]; then
+    sudo dnf install -y git
     sudo dnf install -y python-lxml
     sudo dnf install -y wget grep antiword odt2txt python-devel libxml2-devel libxslt1-devel
+    sudo dnf install -y python-virtualenv
   fi
 
   if [ -f /etc/lsb-release ]; then
+    sudo apt-get -y install git
     sudo apt-get -y install python-lxml
   	sudo apt-get -y install wget grep antiword odt2txt python-dev libxml2-dev libxslt1-dev
+    sudo apt-get -y install python-virtualenv
   fi
   
   if [ -f /etc/debian_version ]; then
     sudo apt install -y git
     sudo apt install -y python-lxml
   	sudo apt install -y wget grep antiword odt2txt python-dev libxml2-dev libxslt1-dev
+    sudo apt install -y python-virtualenv
   fi
   
   # Check for PIP otherwise install it
@@ -62,7 +67,6 @@ func_install_env(){
     # Setup virtual env
     pip install autoenv
     echo "source `which activate.sh`" >> ~/.bashrc
-    apt-get install python-virtualenv -y
     virtualenv --no-site-packages SE
     source SE/bin/activate
   fi 
