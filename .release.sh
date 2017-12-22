@@ -13,6 +13,7 @@ git pull
 docker run --rm -v "$PWD":/app treeder/bump patch
 VERSION=`cat VERSION`
 echo "version: $VERSION"
+ 
 
 # TAF, PULL, MERGE DEV
 git checkout -b "Version-$VERSION"
@@ -43,3 +44,10 @@ docker push $USERNAME/$IMAGE:latest
 echo "Docker image pushed: $USERNAME/$IMAGE:latest"
 docker push $USERNAME/$IMAGE:$VERSION
 echo "Docker image pushed: $USERNAME/$IMAGE:$VERSION"
+
+# GENERATE CHANGELOG FOR TAG AND PUSH
+github_changelog_generator
+git add --all
+git commit -m "Update CHANGLOG.md from version bump"
+git push 
+
