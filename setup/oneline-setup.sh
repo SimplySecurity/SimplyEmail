@@ -7,6 +7,9 @@ func_check_env(){
     echo
     exit 1
   fi
+  if [ -f /etc/debian_version ]; then
+    sudo apt install git
+  fi
   
   git clone --branch master https://github.com/killswitch-GUI/SimplyEmail.git
   cd SimplyEmail
