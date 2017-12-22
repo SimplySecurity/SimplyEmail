@@ -8,4 +8,27 @@
 ----
 SimplyEmail was built arround the concept that tools should do somthing, and do that somthing well, hence 'Simply'. Full documentation can be found at:
 
-https://simplysecurity.github.io/SimplyEmail/
+[INSTALL / FAQ] https://simplysecurity.github.io/SimplyEmail/
+[CHANGELOG] https://github.com/SimplySecurity/SimplyEmail/blob/master/setup/changelog
+
+## TL;DR 
+Supported Platforms / Tested with CI:
+* **Docker**
+* Kali Rolling
+* Debian 9.x
+* Ubuntu 16.04 LTS
+* MacOS
+
+
+```bash
+root@kali:~# curl -s https://raw.githubusercontent.com/killswitch-GUI/SimplyEmail/master/setup/oneline-setup.sh | bash
+root@kali:~# cd SimplyEmail
+(SE) root@kali:~/SimplyEmail# ./SimplyEmail.py
+```
+
+or
+ 
+```bash
+root@kali:~# docker pull simplysecurity/simplyemail
+root@kali:~# docker run -ti simplysecurity/simplyemail
+```
