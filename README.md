@@ -10,6 +10,8 @@ SimplyEmail was built arround the concept that tools should do somthing, and do 
 
 [CHANGELOG] https://github.com/SimplySecurity/SimplyEmail/blob/master/CHANGELOG.md
 
+[HELP/QUESTIONS/CHAT] Join us at: https://simplysecurity.herokuapp.com
+
 ## TL;DR 
 Supported Platforms / Tested with CI:
 * **Docker**
