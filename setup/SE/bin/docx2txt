@@ -1,0 +1,9 @@
+#!/poseidon6/p6tools/aws-gits/Tools/SimplyEmail/setup/SE/bin/python2
+
+import docx2txt
+
+if __name__ == '__main__':
+    import sys
+    args = docx2txt.process_args()
+    text = docx2txt.process(args.docx, args.img_dir)
+    sys.stdout.write(text.encode('utf-8'))
