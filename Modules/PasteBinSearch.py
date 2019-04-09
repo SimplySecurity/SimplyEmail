@@ -95,7 +95,24 @@ class ClassName(object):
         # Now take all gathered URL's and gather the Raw content needed
         for Url in self.urlList:
             try:
-                Url = "http://pastebin.com/raw/" + str(Url).split('/')[3]
+                par = ''
+                params = str(Url).split('/')
+                # LOG
+                #if params[0] != '#':
+                #    print("[ DEBUG ]" + str(params))
+
+                if len(params) == 4:
+                    par = params[3]
+                elif len(params) >= 5 and params[3] == 'pastebin.com':
+                    par = params[4].split('&')[0]
+                elif len(params) >= 7 and params[5] == 'pastebin.com':
+                    par = params[6].split('&')[0]
+                
+                # LOG
+                #if params[0] != '#':
+                #    print("[ DEBUG ] ID --->" + str(par))
+                
+                Url = "http://pastebin.com/raw/" + str(par)
                 data = requests.get(Url, timeout=2)
                 self.Text += data.content
             except Exception as e:
