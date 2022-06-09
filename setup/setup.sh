@@ -90,7 +90,7 @@ func_install_env(){
 }
 
 func_install_pip(){
-   pip install -r setup/requirments.txt 
+   pip install -r /content/setup/requirments.txt 
 }
 
 # Menu Case Statement
