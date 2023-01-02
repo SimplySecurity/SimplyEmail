@@ -70,7 +70,7 @@ def TaskStarter(version):
         sys.exit(0)
     if not len(cli_domain) > 1:
         log.warningmsg("Domain not supplied", "Main")
-        print helpers.color("[*] No Domain Supplied to start up!\n", warning=True)
+        print (helpers.color("[*] No Domain Supplied to start up!\n", warning=True))
         sys.exit(0)
     if cli_test:
         # setup a small easy test to activate certain modules
