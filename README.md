@@ -12,7 +12,6 @@ SimplyEmail was built arround the concept that tools should do somthing, and do 
 
 [HELP/QUESTIONS/CHAT] Join us at: https://simplysecurity.herokuapp.com
 
-## TL;DR 
 Supported Platforms / Tested with CI:
 * **Docker**
 * Kali Rolling
