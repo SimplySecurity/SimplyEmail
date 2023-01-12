@@ -2,9 +2,9 @@
 import requests
 import os
 import configparser
-import helpers
+from . import helpers
 import logging
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import time
 from bs4 import BeautifulSoup
 from random import randint
@@ -21,7 +21,7 @@ class Download(object):
             self.UserAgent = {
                 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
         except Exception as e:
-            print e
+            print(e)
 
     def download_file(self, url, filetype, maxfile=100, verify=True):
         """
@@ -56,7 +56,7 @@ class Download(object):
         except Exception as e:
             if self.verbose:
                 p = ' [*] Download of file failed: ' + e
-                print helpers.color(p, firewall=True)
+                print((helpers.color(p, firewall=True)))
             self.logger.error("Failed to download file: " + str(url) + ' error: ' + str(e))
             download = os.path.isfile(local_filename)
             return local_filename, download
@@ -75,19 +75,19 @@ class Download(object):
             url = 'http://' + str(url)
         try:
             self.logger.debug("Download2 started download: " + str(url))
-            response = urllib2.urlopen(url, timeout=timeout)
+            response = urllib.request.urlopen(url, timeout=timeout)
             data = response.read()
             download = os.path.isfile(local_filename)
-        except urllib2.HTTPError, e:
+        except urllib.error.HTTPError as e:
             self.logger.debug('urllib2 HTTPError: ' + e)
-        except urllib2.URLError, e:
+        except urllib.error.URLError as e:
             self.logger.debug('urllib2 URLError: ' + e)
-        except urllib2.HTTPException, e:
+        except urllib2.HTTPException as e:
             self.logger.debug('urllib2 HTTPException: ' + e)
         except Exception as e:
             if self.verbose:
                 p = ' [*] Download2 of file failed: ' + e
-                print helpers.color(p, firewall=True)
+                print((helpers.color(p, firewall=True)))
             self.logger.error("Failed to download2 file: " + str(e))
         try:
             with open(local_filename, 'wb+') as f:
@@ -108,18 +108,18 @@ class Download(object):
             else:
                 if self.verbose:
                     p = ' [*] File not found to remove : ' + local_filename
-                    print helpers.color(p, firewall=True)
+                    print((helpers.color(p, firewall=True)))
         except Exception as e:
             self.logger.error("Failed to delete file: " + str(e))
             if self.verbose:
-                print e
+                print(e)
 
     def GoogleCaptchaDetection(self, RawHtml):
         soup = BeautifulSoup(RawHtml, "lxml")
         if "Our systems have detected unusual traffic" in soup.text:
             p = " [!] Google Captcha was detected! (For best results resolve/restart -- Increase sleep/jitter in SimplyEmail.ini)"
             self.logger.warning("Google Captcha was detected!")
-            print helpers.color(p, warning=True)
+            print((helpers.color(p, warning=True)))
             return True
         else:
             return False
@@ -147,7 +147,7 @@ class Download(object):
             if self.verbose:
                 p = ' [!] Request for url timed out, retrying: ' + url
                 self.logger.info('Request timed out, retrying: ' + url)
-                print helpers.color(p, firewall=True)
+                print((helpers.color(p, firewall=True)))
             r = requests.get(url, headers=self.UserAgent, timeout=retrytime, verify=verify)
             rawhtml = r.content
         except requests.exceptions.TooManyRedirects:
@@ -156,14 +156,14 @@ class Download(object):
                 p = ' [!] Request for url resulted in bad url: ' + url
                 self.logger.error(
                     'Request for url resulted in bad url: ' + url)
-                print helpers.color(p, warning=True)
+                print((helpers.color(p, warning=True)))
         except requests.exceptions.RequestException as e:
             # catastrophic error. bail.
             if self.verbose:
                 p = ' [!] Request for url resulted in major error: ' + str(e)
                 self.logger.critical(
                     'Request for url resulted in major error: ' + str(e))
-                print helpers.color(p, warning=True)
+                print((helpers.color(p, warning=True)))
         except Exception as e:
             p = ' [!] Request for url resulted in unhandled error: ' + str(e)
             self.logger.critical(

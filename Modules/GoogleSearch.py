@@ -32,7 +32,7 @@ class ClassName(object):
             self.verbose = verbose
             self.Html = ""
         except:
-            print helpers.color(" [*] Major Settings for GoogleSearch are missing, EXITING!\n", warning=True)
+            print(helpers.color(" [*] Major Settings for GoogleSearch are missing, EXITING!\n", warning=True))
 
     def execute(self):
         self.search()
@@ -45,25 +45,25 @@ class ClassName(object):
             time.sleep(1)
             if self.verbose:
                 p = ' [*] Google Search on page: ' + str(self.Counter)
-                print helpers.color(p, firewall=True)
+                print(helpers.color(p, firewall=True))
             try:
                 url = "http://www.google.com/search?num=" + str(self.Quanity) + "&start=" + \
                     str(self.Counter) + "&hl=en&meta=&q=%40\"" + \
                     self.Domain + "\""
             except Exception as e:
                 error = " [!] Major issue with Google Search:" + str(e)
-                print helpers.color(error, warning=True)
+                print(helpers.color(error, warning=True))
             try:
                 results = dl.requesturl(url, useragent=self.UserAgent)
             except Exception as e:
                 error = " [!] Fail during Request to Google (Check Connection):" + \
                     str(e)
-                print helpers.color(error, warning=True)
+                print(helpers.color(error, warning=True))
             try:
                 # Url = r.url
                 dl.GoogleCaptchaDetection(results)
             except Exception as e:
-                print e
+                print(e)
             self.Html += results
             self.Counter += 100
             helpers.modsleep(self.Sleep, jitter=self.Jitter)

@@ -31,7 +31,7 @@ class ClassName(object):
         except Exception as e:
             self.logger.critical(
                 'SearchPGP module failed to __init__: ' + str(e))
-            print helpers.color("[*] Major Settings for SearchPGP are missing, EXITING!\n", warning=True)
+            print(helpers.color("[*] Major Settings for SearchPGP are missing, EXITING!\n", warning=True))
 
     def execute(self):
         self.logger.debug("SearchPGP started")
@@ -48,11 +48,11 @@ class ClassName(object):
         except Exception as e:
             error = " [!] Major issue with PGP Search:" + str(e)
             self.logger.error("Major issue with PGP search: " + str(e))
-            print helpers.color(error, warning=True)
+            print(helpers.color(error, warning=True))
         if self.verbose:
             p = ' [*] Searching PGP Complete'
             self.logger.info("SearchPGP Completed search")
-            print helpers.color(p, firewall=True)
+            print(helpers.color(p, firewall=True))
         self.results = r.content
 
     def get_emails(self):

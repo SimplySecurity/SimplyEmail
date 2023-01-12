@@ -37,7 +37,7 @@ class ClassName(object):
         except Exception as e:
             self.logger.critical(
                 'PasteBinSearch module failed to __init__: ' + str(e))
-            print helpers.color("[*] Major Settings for PasteBinSearch are missing, EXITING!\n", warning=True)
+            print(helpers.color("[*] Major Settings for PasteBinSearch are missing, EXITING!\n", warning=True))
 
     def execute(self):
         self.logger.debug("PasteBinSearch started")
@@ -54,7 +54,7 @@ class ClassName(object):
                     str(self.Counter)
                 self.logger.info(
                     "GooglePasteBinSearch on page: " + str(self.Counter))
-                print helpers.color(p, firewall=True)
+                print(helpers.color(p, firewall=True))
             try:
                 url = "http://www.google.com/search?num=" + str(self.Quanity) + "&start=" + str(self.Counter) + \
                       '&hl=en&meta=&q=site:pastebin.com+"%40' + \
@@ -64,7 +64,7 @@ class ClassName(object):
                     str(e)
                 self.logger.error(
                     "GooglePasteBinSearch could not create URL: " + str(e))
-                print helpers.color(error, warning=True)
+                print(helpers.color(error, warning=True))
 
             try:
                 r = requests.get(url, headers=self.UserAgent)
@@ -73,7 +73,7 @@ class ClassName(object):
                     e)
                 self.logger.error(
                     "Fail during Request to PasteBin (Check Connection): " + str(e))
-                print helpers.color(error, warning=True)
+                print(helpers.color(error, warning=True))
             try:
                 RawHtml = r.content
                 try:
@@ -90,7 +90,7 @@ class ClassName(object):
                 error = " [!] Fail during parsing result: " + str(e)
                 self.logger.error(
                     "PasteBinSearch Fail during parsing result: " + str(e))
-                print helpers.color(error, warning=True)
+                print(helpers.color(error, warning=True))
             self.Counter += 100
         # Now take all gathered URL's and gather the Raw content needed
         for Url in self.urlList:
@@ -102,12 +102,12 @@ class ClassName(object):
                 error = "[!] Connection Timed out on PasteBin Search:" + str(e)
                 self.logger.error(
                     "Connection Timed out on PasteBin raw download: " + str(e))
-                print helpers.color(error, warning=True)
+                print(helpers.color(error, warning=True))
 
         if self.verbose:
             p = ' [*] Searching PasteBin Complete'
             self.logger.info("Searching PasteBin Complete")
-            print helpers.color(p, firewall=True)
+            print(helpers.color(p, firewall=True))
 
     def get_emails(self):
         Parse = Parser.Parser(self.Text)

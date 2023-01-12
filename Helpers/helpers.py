@@ -4,7 +4,6 @@ import os
 import textwrap
 import logging
 import time
-import magic
 import json
 import configparser
 import collections
@@ -135,9 +134,9 @@ def modsleep(delay, jitter=0):
     sleepTime = random.randint(minSleep, maxSleep)
     time.sleep(int(sleepTime))
 
-def filetype(path):
-    m = magic.from_file(str(path))
-    return m
+#def filetype(path):
+#    m = magic.from_file(str(path))
+#    return m
 
 #######################
 # Setup Logging Class #
@@ -169,7 +168,7 @@ class log(object):
             logger = logging.getLogger(msg)
             logger.info(str(message))
         except Exception as e:
-            print e
+            print(e)
 
     def warningmsg(self, message, modulename):
         try:
@@ -177,4 +176,4 @@ class log(object):
             logger = logging.getLogger(msg)
             logger.warning(str(message))
         except Exception as e:
-            print e
+            print(e)

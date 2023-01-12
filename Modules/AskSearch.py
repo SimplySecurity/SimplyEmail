@@ -36,7 +36,7 @@ class ClassName(object):
         except Exception as e:
             self.logger.critical(
                 'AskSearch module failed to load: ' + str(e))
-            print helpers.color("[*] Major Settings for Ask Search are missing, EXITING!\n", warning=True)
+            print(helpers.color("[*] Major Settings for Ask Search are missing, EXITING!\n", warning=True))
 
     def execute(self):
         self.logger.debug("AskSearch module started")
@@ -49,7 +49,7 @@ class ClassName(object):
         while self.Counter <= self.PageLimit:
             if self.verbose:
                 p = ' [*] AskSearch on page: ' + str(self.Counter)
-                print helpers.color(p, firewall=True)
+                print(helpers.color(p, firewall=True))
                 self.logger.info('AskSearch on page: ' + str(self.Counter))
             try:
                 url = 'http://www.ask.com/web?q=@' + str(self.Domain) + \
@@ -57,7 +57,7 @@ class ClassName(object):
             except Exception as e:
                 error = " [!] Major issue with Ask Search:" + str(e)
                 self.logger.error('Major issue with Ask Search: ' + str(e))
-                print helpers.color(error, warning=True)
+                print(helpers.color(error, warning=True))
             try:
                 rawhtml = dl.requesturl(url, useragent=self.UserAgent)
             except Exception as e:
@@ -65,7 +65,7 @@ class ClassName(object):
                     str(e)
                 self.logger.error(
                     'Fail during Request to Ask (Check Connection): ' + str(e))
-                print helpers.color(error, warning=True)
+                print(helpers.color(error, warning=True))
             self.Html += rawhtml
             self.Counter += 1
             helpers.modsleep(self.Sleep, jitter=self.Jitter)

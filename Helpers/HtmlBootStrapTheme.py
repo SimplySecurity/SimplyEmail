@@ -2,6 +2,7 @@
 # encoding=utf8 
 import sys
 import ast
+import importlib
 
 # This Classes main goal is to build the HTML output file using all self
 # contained CSS and JS
@@ -14,7 +15,7 @@ class HtmlBuilder(object):
         self.Domain = Domain
         self.Source = ""
         self.HTML = ""
-        reload(sys)
+        importlib.reload(sys)
         sys.setdefaultencoding('utf8')
 
     def BuildHtml(self):
@@ -121,14 +122,14 @@ function AnchorJS(a){"use strict";this.options=a||{},this._applyRemainingDefault
     def OutPutHTML(self, Path):
         try:
             with open('Helpers/bootstrap-3.3.5/SimplyEmailTemplate.html', "r") as myfile:
-                SourceHtml = unicode(myfile.read())
+                SourceHtml = str(myfile.read())
         except Exception as e:
-            print e
+            print(e)
         # Add my tables to the bottom of the HTML and CSS
-        SourceHtml += unicode(self.HTML)
+        SourceHtml += str(self.HTML)
         buildpath = Path + '/Email_List.html'
         try:
             with open(buildpath, "w") as myfile:
                 myfile.write(SourceHtml)
         except Exception as e:
-            print e
+            print(e)

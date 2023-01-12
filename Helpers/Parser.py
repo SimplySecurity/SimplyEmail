@@ -8,7 +8,7 @@ import string
 import subprocess
 import time
 from random import randint
-import helpers
+from . import helpers
 
 # Simple Parser Options for email enumeration.
 
@@ -70,7 +70,7 @@ class Parser(object):
         except Exception as e:
             self.logger.error('UTF8 decoding issues' + str(e))
             p = '[!] UTF8 decoding issues Matching: ' + str(e)
-            print helpers.color(p, firewall=True)
+            print((helpers.color(p, firewall=True)))
 
     def FindEmails(self):
         Result = []

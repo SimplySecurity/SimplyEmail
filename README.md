@@ -33,3 +33,12 @@ or
 root@kali:~# docker pull simplysecurity/simplyemail
 root@kali:~# docker run -ti simplysecurity/simplyemail
 ```
+
+Install dependencies:
+pip install dnspython==2.3.0rc1
+
+#install mechanize
+git clone https://github.com/python-mechanize/mechanize.git
+cd mechanize
+pip3 install -e .
+

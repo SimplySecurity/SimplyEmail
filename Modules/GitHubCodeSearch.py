@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import configparser
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 from Helpers import Download
 from Helpers import Parser
 from Helpers import helpers
@@ -55,7 +55,7 @@ class ClassName(object):
             self.Depth = int(config['GitHubSearch']['PageDepth'])
             self.Counter = int(config['GitHubSearch']['QueryStart'])
         except:
-            print helpers.color(" [*] Major Settings for GitHubSearch are missing, EXITING!\n", warning=True)
+            print(helpers.color(" [*] Major Settings for GitHubSearch are missing, EXITING!\n", warning=True))
 
     def execute(self):
         self.process()
@@ -70,7 +70,7 @@ class ClassName(object):
         while self.Counter <= self.Depth:
             if self.verbose:
                 p = ' [*] GitHub Code Search on page: ' + str(self.Counter)
-                print helpers.color(p, firewall=True)
+                print(helpers.color(p, firewall=True))
             try:
                 url = "https://github.com/search?p=" + str(self.Counter) + "&q=" + \
                     str(self.domain) + "+&ref=searchresults&type=Code&utf8=✓"
@@ -80,7 +80,7 @@ class ClassName(object):
             except Exception as e:
                 error = " [!] Major isself.Counter += 1sue with GitHub Search:" + \
                     str(e)
-                print helpers.color(error, warning=True)
+                print(helpers.color(error, warning=True))
             RawHtml = r.content
             # Parse the results for our URLS)
             soup = BeautifulSoup(RawHtml)
@@ -97,7 +97,7 @@ class ClassName(object):
                 self.Html += html
             except Exception as e:
                 error = " [!] Connection Timed out on Github Search:" + str(e)
-                print helpers.color(error, warning=True)
+                print(helpers.color(error, warning=True))
 
     def get_emails(self):
         Parse = Parser.Parser(self.Html)

@@ -128,7 +128,7 @@ def test_converter():
     # test the convert for all formats
     p = os.path.dirname(os.path.realpath('.')) + '/SimplyEmail/tests/'
     c = Converter.Converter(verbose=True)
-    print p
+    print(p)
     text = c.convert_docx_to_txt(p + 'Test-DOCX.docx')
     assert text
     assert 'How to Design and Test' in text
@@ -227,7 +227,7 @@ def test_emailformat():
     assert 'madm@verisgroup.com' in emails
     fm = '{first}_{last}'
     emails = em.EmailBuilder(cleannames, domain, fm)
-    print emails
+    print(emails)
     assert 'mad_max@verisgroup.com' in emails
     fm = '{first}'
     emails = em.EmailBuilder(cleannames, domain, fm)

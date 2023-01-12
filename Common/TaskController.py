@@ -60,7 +60,7 @@ class Conducter(object):
             self.TimeDate = str(t.strftime("%Y%m%d-%H%M"))
             self.logger.info("SimplyEmail started at: " + self.TimeDate)
         except Exception as e:
-            print e
+            print(e)
 
     # def TestModule(self, module, domain):
     #     ModuleName = module
@@ -95,13 +95,13 @@ class Conducter(object):
         if Module.apikeyv:
             e = " [*] API module key loaded for: " + \
                 Module.name
-            print helpers.color(e, status=True)
+            print(helpers.color(e, status=True))
             self.logger.info("_execute_api_module: API key present")
             return True
         else:
             e = " [*] No API module key loaded for: " + \
                 Module.name
-            print helpers.color(e, firewall=True)
+            print(helpers.color(e, firewall=True))
             # Exit a API module with out a key
             self.logger.info("_execute_api_module: no API key present")
             return False
@@ -131,7 +131,7 @@ class Conducter(object):
                 Task = self.modules[Task]
                 Module = Task.ClassName(domain, verbose=verbose)
                 name = " [*] Starting: " + Module.name
-                print helpers.color(name, status=True)
+                print(helpers.color(name, status=True))
                 # Try to start the module
                 try:
                     # Check for API key to ensure its in .ini
@@ -149,14 +149,14 @@ class Conducter(object):
                     else:
                         Message = " [*] " + Module.name + \
                             " has completed with no Email(s)"
-                        print helpers.color(Message, status=True)
+                        print(helpers.color(Message, status=True))
                 except Exception as e:
                     error = " [!] Error During Runtime in Module " + \
                         Module.name + ": " + str(e)
-                    print helpers.color(error, warning=True)
+                    print(helpers.color(error, warning=True))
             except Exception as e:
                 error = " [!] Error Loading Module: " + str(e)
-                print helpers.color(error, warning=True)
+                print(helpers.color(error, warning=True))
 
     def printer(self, FinalEmailList, Domain, VerifyEmail=False, NameEmails=False):
         # Building out the Text file that will be outputted
@@ -178,14 +178,14 @@ class Conducter(object):
                         with open(NamePath, "a") as myfile:
                             myfile.write(PrintTitle)
                     except Exception as e:
-                        print e
+                        print(e)
                 try:
                     with open(NamePath, "a") as myfile:
                         myfile.write(item)
                     x += 1
                 except Exception as e:
-                    print e
-            print helpers.color(" [*] Completed output!", status=True)
+                    print(e)
+            print(helpers.color(" [*] Completed output!", status=True))
             self.logger.info("Version / Update request started")
             return x
         elif VerifyEmail:
@@ -198,14 +198,14 @@ class Conducter(object):
                         with open(VerPath, "a") as myfile:
                             myfile.write(PrintTitle)
                     except Exception as e:
-                        print e
+                        print(e)
                 try:
                     with open(VerPath, "a") as myfile:
                         myfile.write(item)
                     x += 1
                 except Exception as e:
-                    print e
-            print helpers.color(" [*] Completed output!", status=True)
+                    print(e)
+            print(helpers.color(" [*] Completed output!", status=True))
             return x
         else:
             x = 0
@@ -217,14 +217,14 @@ class Conducter(object):
                         with open(ListPath, "a") as myfile:
                             myfile.write(PrintTitle)
                     except Exception as e:
-                        print e
+                        print(e)
                 try:
                     with open(ListPath, "a") as myfile:
                         myfile.write(item)
                     x += 1
                 except Exception as e:
-                    print e
-            print helpers.color(" [*] Completed output!", status=True)
+                    print(e)
+            print(helpers.color(" [*] Completed output!", status=True))
             return x
 
     def HtmlPrinter(self, HtmlFinalEmailList, Domain):
@@ -290,7 +290,7 @@ class Conducter(object):
         for item in HtmlSecondList:
             if item not in HtmlFinalList:
                 HtmlFinalList.append(item)
-        print helpers.color(" [*] Completed cleaning results", status=True)
+        print(helpers.color(" [*] Completed cleaning results", status=True))
         self.logger.info("Completed cleaning results")
         return FinalList, HtmlFinalList
 
@@ -321,7 +321,7 @@ class Conducter(object):
                 self.ConsumerList.append(item)
             except Exception as e:
                 if verbose:
-                    print e
+                    print(e)
 
     def HtmlConsumer(self, Html_queue, verbose):
         while True:
@@ -332,7 +332,7 @@ class Conducter(object):
                 self.HtmlList.append(item)
             except Exception as e:
                 if verbose:
-                    print e
+                    print(e)
 
     def JsonConsumer(self, Json_queue, verbose):
         while True:
@@ -343,7 +343,7 @@ class Conducter(object):
                 self.JsonList.append(item)
             except Exception as e:
                 if verbose:
-                    print e
+                    print(e)
 
     def _task_queue_start(self):
         """
@@ -417,7 +417,7 @@ class Conducter(object):
         # Make sure we aren't starting up Procs that aren't needed.
         if total_proc > len(self.modules):
             total_proc = len(self.modules)
-        for i in xrange(total_proc):
+        for i in range(total_proc):
             Task_queue.put(None)
             i = i
         procs = []
@@ -470,7 +470,7 @@ class Conducter(object):
                 except Exception as e:
                     error = " [!] Something went wrong with parsing results:" + \
                         str(e)
-                    print helpers.color(error, warning=True)
+                    print(helpers.color(error, warning=True))
                     self.logger.critical("Something went wrong with parsing results: " + str(e))
                 try:
                     if not json:
@@ -478,7 +478,7 @@ class Conducter(object):
                 except Exception as e:
                     error = " [!] Something went wrong with outputixng results:" + \
                         str(e)
-                    print helpers.color(error, warning=True)
+                    print(helpers.color(error, warning=True))
                     self.logger.critical("Something went wrong with outputixng results: " + str(e))
                 try:
                     if json:
@@ -488,7 +488,7 @@ class Conducter(object):
                 except Exception as e:
                     error = " [!] Something went wrong with HTML results:" + \
                         str(e)
-                    print helpers.color(error, warning=True)
+                    print(helpers.color(error, warning=True))
                     self.logger.critical("Something went wrong with HTML results:: " + str(e))
                 break
         for p in procs:
@@ -518,7 +518,7 @@ class Conducter(object):
                             FinalEmailList, domain, VerifyEmail=Verify)
                         # save seperate file for verified emails
         except Exception as e:
-            print e
+            print(e)
         try:
             if Names:
                 if BuiltNames:
@@ -526,7 +526,7 @@ class Conducter(object):
         except Exception as e:
             error = " [!] Something went wrong with outputting results of Built Names:" + \
                 str(e)
-            print helpers.color(error, warning=True)
+            print(helpers.color(error, warning=True))
         if not json:
             self.CompletedScreen(FinalCount, BuiltNameCount, domain)
 
@@ -548,7 +548,7 @@ class Conducter(object):
             if module in Task:
                 Task_queue.put(Task)
         # Only use one proc since this is a test module
-        for i in xrange(total_proc):
+        for i in range(total_proc):
             Task_queue.put(None)
         procs = []
         for thread in range(total_proc):
@@ -598,7 +598,7 @@ class Conducter(object):
                 except Exception as e:
                     error = " [!] Something went wrong with parsing results:" + \
                         str(e)
-                    print helpers.color(error, warning=True)
+                    print(helpers.color(error, warning=True))
                     self.logger.critical("Something went wrong with parsing results: " + str(e))
                 try:
                     if not json:
@@ -606,7 +606,7 @@ class Conducter(object):
                 except Exception as e:
                     error = " [!] Something went wrong with outputting results:" + \
                         str(e)
-                    print helpers.color(error, warning=True)
+                    print(helpers.color(error, warning=True))
                     self.logger.critical("Something went wrong with outputting results: " + str(e))
                 try:
                     if json:
@@ -616,7 +616,7 @@ class Conducter(object):
                 except Exception as e:
                     error = " [!] Something went wrong with HTML results:" + \
                         str(e)
-                    print helpers.color(error, warning=True)
+                    print(helpers.color(error, warning=True))
                     self.logger.critical("Something went wrong with HTML results: " + str(e))
                 # Check for valid emails if user wants
                 break
@@ -649,7 +649,7 @@ class Conducter(object):
                             FinalEmailList, domain, VerifyEmail=Verify)
                         # save Seprate file for verified emails
         except Exception as e:
-            print e
+            print(e)
         try:
             if Names:
                 if BuiltNames:
@@ -657,7 +657,7 @@ class Conducter(object):
         except Exception as e:
             error = " [!] Something went wrong with outputting results of Built Names:" + \
                 str(e)
-            print helpers.color(error, warning=True)
+            print(helpers.color(error, warning=True))
         if not json:
             self.CompletedScreen(FinalCount, BuiltNameCount, domain)
 
@@ -673,7 +673,7 @@ class Conducter(object):
         ValidFormat = ['{first}.{last}', '{first}{last}', '{f}{last}',
                        '{f}.{last}', '{first}{l}', '{first}_{last}', '{first}']
         line = " [*] Now attempting to build Names:\n"
-        print line
+        print(line)
         CleanNames = []
         # Query for Linkedin Names - Adapted from
         # https://github.com/pan0pt1c0n/PhishBait
@@ -683,7 +683,7 @@ class Conducter(object):
         if LNames:
             e = ' [*] LinkedinScraper has Gathered: ' + \
                 str(len(LNames)) + ' Names'
-            print helpers.color(e, status=True)
+            print(helpers.color(e, status=True))
             self.logger.info("LinkedInScraper has Gathered: " + str(len(LNames)))
             for raw in LNames:
                 try:
@@ -691,27 +691,27 @@ class Conducter(object):
                     if name:
                         CleanNames.append(name)
                 except Exception as e:
-                    print e
+                    print(e)
                     self.logger.error("Issue cleaning LinkedInNames: " + str(e))
         # Query for Connect6 Names
         c6 = Connect6.Connect6Scraper(domain, Verbose=Verbose)
         urllist = c6.Connect6AutoUrl()
         self.title()
-        print helpers.color(" [*] Now Starting Connect6 Scrape:")
+        print(helpers.color(" [*] Now Starting Connect6 Scrape:"))
         self.logger.info("Now starting Connect6 scrape")
         if urllist:
             line = " [*] SimplyEmail has attempted to find correct URL for Connect6:\n"
             line += "     URL detected: " + \
                 helpers.color(urllist[0], status=True)
-            print line
+            print(line)
             Question = " [>] Is this URL correct?: "
-            Answer = raw_input(helpers.color(Question, bold=False))
+            Answer = input(helpers.color(Question, bold=False))
             if Answer.upper() in "YES":
                 Names = c6.Connect6Download(urllist[0])
                 if Names:
                     e = ' [*] Connect6 has Gathered: ' + \
                         str(len(Names)) + ' Names'
-                    print helpers.color(e, status=True)
+                    print(helpers.color(e, status=True))
                     for raw in Names:
                         name = c6.Connect6ParseName(raw)
                         if name:
@@ -719,16 +719,16 @@ class Conducter(object):
             else:
                 while True:
                     for item in urllist:
-                        print "    Potential URL: " + item
+                        print("    Potential URL: " + item)
                     e = ' [!] GoogleDork This: site:connect6.com "' + \
                         str(domain)+'"'
-                    print helpers.color(e, bold=False)
-                    print " [-] Commands Supported: (B) ack - (R) etry"
+                    print(helpers.color(e, bold=False))
+                    print(" [-] Commands Supported: (B) ack - (R) etry")
                     Question = " [>] Please Provide a URL: "
-                    Answer = raw_input(helpers.color(Question, bold=False))
+                    Answer = input(helpers.color(Question, bold=False))
                     if Answer.upper() in "BACK":
                         e = " [!] Skipping Connect6 Scrape!"
-                        print helpers.color(e, firewall=True)
+                        print(helpers.color(e, firewall=True))
                         break
                     if Answer:
                         break
@@ -737,7 +737,7 @@ class Conducter(object):
                     if Names:
                         e = ' [*] Connect6 has Gathered: ' + \
                             str(len(Names)) + ' Names'
-                        print helpers.color(e, status=True)
+                        print(helpers.color(e, status=True))
                         for raw in Names:
                             name = c6.Connect6ParseName(raw)
                             if name:
@@ -745,40 +745,40 @@ class Conducter(object):
         else:
             line = " [*] SimplyEmail has attempted to find correct URL for Connect6:\n"
             line += "     URL was not detected!"
-            print line
+            print(line)
             e = ' [!] GoogleDork This: site:connect6.com "'+str(domain)+'"'
-            print helpers.color(e, bold=False)
+            print(helpers.color(e, bold=False))
             while True:
-                print " [-] Commands Supported: (B) ack - (R) etry"
+                print(" [-] Commands Supported: (B) ack - (R) etry")
                 Question = " [>] Please Provide a URL: "
-                Answer = raw_input(helpers.color(Question, bold=False))
+                Answer = input(helpers.color(Question, bold=False))
                 if Answer.upper() in "BACK":
                     e = " [!] Skipping Connect6 Scrape!"
-                    print helpers.color(e, firewall=True)
+                    print(helpers.color(e, firewall=True))
                     break
                 if Answer:
                     break
             if Answer.upper() != "B":
                 Names = c6.Connect6Download(Answer)
-                print Names
+                print(Names)
                 if Names:
                     e = ' [*] Connect6 has Gathered: ' + \
                         str(len(Names)) + ' Names'
-                    print helpers.color(e, status=True)
+                    print(helpers.color(e, status=True))
                     for raw in Names:
                         name = c6.Connect6ParseName(raw)
                         if name:
                             CleanNames.append(name)
         self.title()
-        print helpers.color(' [*] Names have been built:', status=True)
-        print helpers.color(' [*] Attempting to resolve email format', status=True)
+        print(helpers.color(' [*] Names have been built:', status=True))
+        print(helpers.color(' [*] Attempting to resolve email format', status=True))
         Em = EmailFormat.EmailFormat(domain, Verbose=Verbose)
         Format = Em.EmailHunterDetect()
         if Format:
             e = ' [!] Auto detected the format: ' + str(Format)
-            print helpers.color(e, status=True)
+            print(helpers.color(e, status=True))
         if not Format:
-            print helpers.color(" [*] Now attempting to manually detect format (slow)!")
+            print(helpers.color(" [*] Now attempting to manually detect format (slow)!"))
             Format = Em.EmailDetect(CleanNames, domain, emaillist)
             # Now check if we have more than one result in the list
             # This due to how I perform checks, in rare cases I had more than
@@ -789,21 +789,21 @@ class Conducter(object):
                 try:
                     for item in Format:
                         line += '   * Format: ' + item + '\n'
-                    print line
+                    print(line)
                 except:
                     p = " [*] No email samples gathered to show."
-                    print helpers.color(p, firewall=True)
+                    print(helpers.color(p, firewall=True))
                 line = ' [*] Here are a few samples of the emails obtained:\n'
                 for i in range(1, 6, 1):
                     try:
                         line += '      %s) %s \n' % (i, emaillist[i])
                     except:
                         pass
-                print line
+                print(line)
                 while True:
                     s = False
                     Question = " [>] Please provide a valid format: "
-                    Answer = raw_input(helpers.color(Question, bold=False))
+                    Answer = input(helpers.color(Question, bold=False))
                     try:
                         for item in ValidFormat:
                             if str(Answer) == str(item):
@@ -818,7 +818,7 @@ class Conducter(object):
             else:
                 Format = str(Format[0])
         if not Format:
-            print helpers.color(' [!] Failed to resolve format of email', firewall=True)
+            print(helpers.color(' [!] Failed to resolve format of email', firewall=True))
             line = helpers.color(
                 ' [*] Available formats supported:\n', status=True)
             line += '     {first}.{last} = alex.alex@domain.com\n'
@@ -829,7 +829,7 @@ class Conducter(object):
             line += '     {first}.{l} = j.amesh@domain.com\n'
             line += '     {first}_{last} = james_amesh@domain.com\n'
             line += '     {first} = james@domain.com\n\n'
-            print line
+            print(line)
             if len(emaillist) > 0:
                 line = ' [*] Here are a few samples of the emails obtained:\n'
                 line += '      1)' + emaillist[0] + '\n'
@@ -840,14 +840,14 @@ class Conducter(object):
                         line += '      3)' + emaillist[2]
                 except:
                     pass
-                print line
+                print(line)
             else:
                 line = ' [*] No unique emails discovered to display (May have to go manual)!\n'
-                print helpers.color(line, firewall=True)
+                print(helpers.color(line, firewall=True))
             while True:
                 s = False
                 Question = " [>] Please provide a valid format: "
-                Answer = raw_input(helpers.color(Question, bold=False))
+                Answer = input(helpers.color(Question, bold=False))
                 try:
                     for item in ValidFormat:
                         if str(Answer) == str(item):
@@ -880,7 +880,7 @@ class Conducter(object):
         return self.modules
 
     def ListModules(self):
-        print helpers.color(" [*] Available Modules are:\n", blue=True)
+        print(helpers.color(" [*] Available Modules are:\n", blue=True))
         self.logger.debug("User Executed ListModules")
         x = 1
         ordList = []
@@ -893,19 +893,19 @@ class Conducter(object):
             name = 'Modules/' + name
             finalList.append(name)
         for name in finalList:
-            print "\t%s)\t%s" % (x, '{0: <24}'.format(name))
+            print("\t%s)\t%s" % (x, '{0: <24}'.format(name)))
             x += 1
-        print ""
+        print("")
 
     def title(self):
         os.system('clear')
         # stolen from Veil :)
         self.logger.debug("Title executed")
-        print " ============================================================"
-        print " Current Version: " + self.version + " | Website: CyberSyndicates.com"
-        print " ============================================================"
-        print " Twitter: @real_slacker007 |  Twitter: @Killswitch_gui"
-        print " ============================================================"
+        print(" ============================================================")
+        print(" Current Version: " + self.version + " | Website: CyberSyndicates.com")
+        print(" ============================================================")
+        print(" Twitter: @real_slacker007 |  Twitter: @Killswitch_gui")
+        print(" ============================================================")
 
     def title_screen(self):
         self.logger.debug("Title_screen executed")
@@ -921,7 +921,7 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
  $$$$$$/ $$$$$$$$/$$/  $$/  $$/ $$$$$$$/$$/$$/
 
 ------------------------------------------------------------"""
-        print helpers.color(offtext, bold=False)
+        print(helpers.color(offtext, bold=False))
 
     def CompletedScreen(self, FinalCount, EmailsBuilt, domain):
         Config = configparser.ConfigParser()
@@ -942,11 +942,11 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
         Line += "   Verified Email File:\t\tEmail_List_Verified.txt\n"
         Line += "   Domain Performed:\t\t" + str(domain) + "\n"
         self.title()
-        print Line
+        print(Line)
 
         # Ask user to open report on CLI
         Question = "[>] Would you like to launch the HTML report?: "
-        Answer = raw_input(helpers.color(Question, bold=False))
+        Answer = input(helpers.color(Question, bold=False))
         Answer = Answer.upper()
         if Answer in "NO":
             sys.exit(0)
@@ -967,9 +967,9 @@ $$    $$/$$       $$ | $$ | $$ $$    $$ $$ $$ |
         line += "    This grabs the MX records, sorts and attempts to check\n"
         line += "    if the SMTP server sends a code other than 250 for known bad addresses\n"
 
-        print line
+        print(line)
         Question = " [>] Would you like to verify email(s)?: "
-        Answer = raw_input(helpers.color(Question, bold=False))
+        Answer = input(helpers.color(Question, bold=False))
         Answer = Answer.upper()
         if Answer in "NO":
             self.logger.info("User declined to run verify emails")

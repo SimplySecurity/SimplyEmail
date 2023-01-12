@@ -44,7 +44,7 @@ class canary(object):
 
     # 'data' must be in the form of a dictionary
     def build_url(s, data):
-        d = ['%s=%s' % (x, y) for x, y in data.iteritems()]
+        d = ['%s=%s' % (x, y) for x, y in list(data.items())]
         return '%s&%s' % (s.url, '&'.join(d))
 
     # Does a search--whee. Bangs can be specified via separate argument. This is due to plan to make changes to the search for API users

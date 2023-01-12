@@ -1,7 +1,6 @@
 #!/usr/bin/env python
-import helpers
+from . import helpers
 import configparser
-import mechanize
 from bs4 import BeautifulSoup
 
 
@@ -25,7 +24,7 @@ class LinkedinScraper(object):
             self.FinalAnswer = ''
             self.verbose = Verbose
         except Exception as e:
-            print e
+            print(e)
 
     def LinkedInNames(self):
         # This function simply uses
@@ -58,7 +57,7 @@ class LinkedinScraper(object):
                             name = name.split(' ')
                             if self.verbose:
                                 e = ' [*] LinkedIn Name Found: ' + str(name)
-                                print helpers.color(e, firewall=True)
+                                print(helpers.color(e, firewall=True))
                             namelist.append(name)
                     for link in br.links():
                         link_list.append(link.text)
@@ -72,7 +71,7 @@ class LinkedinScraper(object):
         except Exception as e:
             error = " [!] Major issue with Downloading LinkedIn source:" + \
                 str(e)
-            print helpers.color(error, warning=True)
+            print(helpers.color(error, warning=True))
         if namelist:
             return namelist
 
@@ -122,10 +121,10 @@ class LinkedinScraper(object):
                     pass
                 if self.verbose:
                     e = ' [*] Name Cleaned: ' + str([firstname, lastname])
-                    print helpers.color(e, firewall=True)
+                    print(helpers.color(e, firewall=True))
                 return [firstname, lastname]
         except Exception as e:
             if self.verbose:
                 h = " [!] Error during name building: " + str(e)
-                print helpers.color(h, warning=True)
+                print(helpers.color(h, warning=True))
             return None
