@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import requests
 import configparser
-import helpers
+from . import helpers
 import logging
 
 
@@ -19,7 +19,7 @@ class VersionCheck(object):
             self.UserAgent = {
                 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
         except Exception as e:
-            print e
+            print(e)
 
     def VersionRequest(self):
         if self.Start == "Yes":
@@ -30,7 +30,7 @@ class VersionCheck(object):
                 results = results.rstrip('\n')
                 if str(results) != str(self.version):
                     p = " [!] Newer Version Available, Re-Run Setup.sh to update!"
-                    print helpers.color(p, warning=True, bold=False)
+                    print((helpers.color(p, warning=True, bold=False)))
                     self.logger.info(
                         "Version / Update returned newer Version Available")
                 self.logger.info("Version / Update request completed OK")
@@ -38,4 +38,4 @@ class VersionCheck(object):
                 error = " [!] Fail during Request to Update/Version Check (Check Connection)"
                 self.logger.error(
                     "Fail during Request to Update/Version Check (Check Connection)" + str(e))
-                print helpers.color(error, warning=True)
+                print((helpers.color(error, warning=True)))

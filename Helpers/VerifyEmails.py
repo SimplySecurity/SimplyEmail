@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import configparser
-import helpers
+from . import helpers
 import dns.resolver
 import socket
 import smtplib
@@ -24,7 +24,7 @@ class VerifyEmail(object):
             self.FinalList = []
             self.verbose = True
         except Exception as e:
-            print e
+            print(e)
 
     def VerifyEmail(self, email, email2):
         '''
@@ -39,14 +39,14 @@ class VerifyEmail(object):
         try:
             if self.verbose:
                 e = " [*] Checking for valid email: " + str(email)
-                print helpers.color(e, firewall=True)
+                print((helpers.color(e, firewall=True)))
             server.connect(self.mxhost['Host'])
             server.helo(hostname)
             server.mail('email@gmail.com')
             code, message = server.rcpt(str(email))
             server.quit()
         except Exception as e:
-            print e
+            print(e)
         if code == 250:
             return True
         else:
@@ -75,13 +75,13 @@ class VerifyEmail(object):
             else:
                 return True
         except Exception as e:
-            print e
+            print(e)
 
     def GetMX(self):
         MXRecord = []
         try:
             if self.verbose:
-                print helpers.color(' [*] Attempting to resolve MX records!', firewall=True)
+                print((helpers.color(' [*] Attempting to resolve MX records!', firewall=True)))
             answers = dns.resolver.query(self.domain, 'MX')
             for rdata in answers:
                 data = {
@@ -95,10 +95,10 @@ class VerifyEmail(object):
             self.mxhost = Newlist[0]
             if self.verbose:
                 val = ' [*] MX Host: ' + str(self.mxhost['Host'])
-                print helpers.color(val, firewall=True)
+                print((helpers.color(val, firewall=True)))
         except Exception as e:
             error = ' [!] Failed to get MX record: ' + str(e)
-            print helpers.color(error, warning=True)
+            print((helpers.color(error, warning=True)))
 
     def ExecuteVerify(self):
         self.GetMX()
@@ -108,15 +108,15 @@ class VerifyEmail(object):
                 IsTrue = self.VerifyEmail(item)
                 if IsTrue:
                     e = " [!] Email seems valid: " + str(item)
-                    print helpers.color(e, status=True)
+                    print((helpers.color(e, status=True)))
                     self.FinalList.append(item)
                 else:
                     if self.verbose:
                         e = " [!] Checks show email is not valid: " + str(item)
-                        print helpers.color(e, firewall=True)
+                        print((helpers.color(e, firewall=True)))
         else:
             e = " [!] Checks show 'Server Is Catch All' on: " + \
                 str(self.mxhost['Host'])
-            print helpers.color(e, warning=True)
+            print((helpers.color(e, warning=True)))
 
         return self.FinalList

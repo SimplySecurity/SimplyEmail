@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3.7
 
 # Class will have the following properties:
 # 1) name / description
@@ -6,7 +6,7 @@
 # 3) execute function (calls everything it needs)
 # 4) places the findings into a queue
 import requests
-import urlparse
+import urllib.parse
 import configparser
 import time
 import logging
@@ -14,7 +14,7 @@ from Helpers import Download
 from Helpers import helpers
 from Helpers import Parser
 from Helpers import Converter
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 
 
 class ClassName(object):
@@ -41,7 +41,7 @@ class ClassName(object):
         except Exception as e:
             self.logger.critical(
                 'GoogleXlsxSearch module failed to load: ' + str(e))
-            print helpers.color(" [*] Major Settings for GoogleXlsxSearch are missing, EXITING!\n", warning=True)
+            print(helpers.color(" [*] Major Settings for GoogleXlsxSearch are missing, EXITING!\n", warning=True))
 
     def execute(self):
         self.logger.debug("GoogleXlsxSearch Started")
@@ -57,7 +57,7 @@ class ClassName(object):
                 p = ' [*] Google XLSX Search on page: ' + str(self.Counter)
                 self.logger.info(
                     "Google XLSX Search on page: " + str(self.Counter))
-                print helpers.color(p, firewall=True)
+                print(helpers.color(p, firewall=True))
             try:
                 urly = "https://www.google.com/search?q=site:" + \
                     self.Domain + "+filetype:xlsx&start=" + str(self.Counter)
@@ -65,7 +65,7 @@ class ClassName(object):
                 error = " [!] Major issue with Google XLSX Search:" + str(e)
                 self.logger.error(
                     "GoogleXlsxSearch failed to build url: " + str(e))
-                print helpers.color(error, warning=True)
+                print(helpers.color(error, warning=True))
             try:
                 r = requests.get(urly)
             except Exception as e:
@@ -73,7 +73,7 @@ class ClassName(object):
                     str(e)
                 self.logger.error(
                     "GoogleXlsxSearch failed to request url (Check Connection): " + str(e))
-                print helpers.color(error, warning=True)
+                print(helpers.color(error, warning=True))
             RawHtml = r.content
             soup = BeautifulSoup(RawHtml)
             # I use this to parse my results, for URLS to follow
@@ -82,8 +82,8 @@ class ClassName(object):
                     # https://stackoverflow.com/questions/21934004/not-getting-proper-links-
                     # from-google-search-results-using-mechanize-and-beautifu/22155412#22155412?
                     # newreg=01f0ed80771f4dfaa269b15268b3f9a9
-                    l = urlparse.parse_qs(
-                        urlparse.urlparse(a['href']).query)['q'][0]
+                    l = urllib.parse.parse_qs(
+                        urllib.parse.urlparse(a['href']).query)['q'][0]
                     if l.startswith('http') or l.startswith('www'):
                         if "webcache.googleusercontent.com" not in l:
                             self.urlList.append(l)
@@ -100,7 +100,7 @@ class ClassName(object):
                     p = ' [*] Google XLSX search downloading: ' + str(url)
                     self.logger.info(
                         "Google XLSX search downloading: " + str(url))
-                    print helpers.color(p, firewall=True)
+                    print(helpers.color(p, firewall=True))
                 try:
                     filetype = ".xlsx"
                     dl = Download.Download(self.verbose)
@@ -111,11 +111,11 @@ class ClassName(object):
                                 str(url)
                             self.logger.info(
                                 "Google XLSX file was downloaded: " + str(url))
-                            print helpers.color(p, firewall=True)
+                            print(helpers.color(p, firewall=True))
                         self.Text += convert.convert_Xlsx_to_Csv(FileName)
                     # print self.Text
                 except Exception as e:
-                    print helpers.color(" [!] Issue with opening Xlsx Files\n", firewall=True)
+                    print(helpers.color(" [!] Issue with opening Xlsx Files\n", firewall=True))
                     self.logger.error("Google XLSX had issue opening file")
                 try:
                     dl.delete_file(FileName)
@@ -123,7 +123,7 @@ class ClassName(object):
                     self.logger.error(
                         "Google XLSX failed to delete file: " + str(e))
         except Exception as e:
-            print helpers.color(" [*] No XLSX's to download from google!\n", firewall=True)
+            print(helpers.color(" [*] No XLSX's to download from google!\n", firewall=True))
             self.logger.error("No XLSX's to download from google! " + str(e))
 
     def get_emails(self):

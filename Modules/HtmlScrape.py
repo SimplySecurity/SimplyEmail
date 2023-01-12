@@ -42,7 +42,7 @@ class ClassName(object):
             self.retVal = 0
             self.maxRetries = "--tries=5"
         except:
-            print helpers.color(" [*] Major Settings for HTML are missing, EXITING!\n", warning=True)
+            print(helpers.color(" [*] Major Settings for HTML are missing, EXITING!\n", warning=True))
 
     def execute(self):
         try:
@@ -50,7 +50,7 @@ class ClassName(object):
             FinalOutput, HtmlResults, JsonResults = self.get_emails()
             return FinalOutput, HtmlResults, JsonResults
         except Exception as e:
-            print e
+            print(e)
 
     def search(self):
         # setup domain so it will follow redirects
@@ -62,20 +62,20 @@ class ClassName(object):
             # "--convert-links"
             if self.verbose:
                 p = ' [*] HTML scrape underway [This can take a bit!]'
-                print helpers.color(p, firewall=True)
+                print(helpers.color(p, firewall=True))
             self.retVal = subprocess.call(["wget", "-q", "-e robots=off", "--header=\"Accept: text/html\"", self.useragent,
                              "--recursive", self.depth, self.wait, self.limit_rate, self.save,
                              self.timeout, "--page-requisites", "-R gif,jpg,pdf,png,css,zip,mov,wmv,ppt,doc,docx,xls,exe,bin,pptx,avi,swf,vbs,xlsx,kfp,pub",
                              "--no-clobber", self.maxRetries,"--domains", self.domain, TempDomain])
             if self.retVal > 0:
-                print helpers.color(" [*] Wget returned error, likely 403 (attempting again): " + str(self.retVal), warning=True)
+                print(helpers.color(" [*] Wget returned error, likely 403 (attempting again): " + str(self.retVal), warning=True))
                 self.retVal = subprocess.call(["wget", "-q", "-e robots=off", "--header=\"Accept: text/html\"", self.useragent,
                              "--recursive", self.depth, self.wait, self.limit_rate, self.save,
                              self.timeout, "--page-requisites", "-R gif,jpg,pdf,png,css,zip,mov,wmv,ppt,doc,docx,xls,exe,bin,pptx,avi,swf,vbs,xlsx,kfp,pub",
                              "--no-clobber", self.maxRetries,"--domains", self.domain, TempDomain])
         except Exception as e:
-            print e
-            print " [!] ERROR during Wget Request"
+            print(e)
+            print(" [!] ERROR during Wget Request")
 
     def get_emails(self):
         # Direct location of new dir created during wget
@@ -110,7 +110,7 @@ class ClassName(object):
                     for item in output:
                         FinalOutput.append(item.rstrip("\n"))
         except Exception as e:
-            print e
+            print(e)
         if self.remove == "yes" or self.remove == "Yes":
             if not self.retVal > 0:
                 shutil.rmtree(directory)

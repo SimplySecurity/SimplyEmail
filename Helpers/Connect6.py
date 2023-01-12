@@ -1,10 +1,10 @@
 #!/usr/bin/env python
-import helpers
+from . import helpers
 import requests
 import configparser
-import urlparse
+import urllib.parse
 import logging
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 
 
 class Connect6Scraper(object):
@@ -24,7 +24,7 @@ class Connect6Scraper(object):
             self.FinalAnswer = ''
             self.verbose = Verbose
         except Exception as e:
-            print e
+            print(e)
 
     '''
     Try to find the connect6 url for the domain
@@ -44,14 +44,14 @@ class Connect6Scraper(object):
         except Exception as e:
             error = "[!] Major issue with Google Search: for Connect6 URL" + \
                 str(e)
-            print helpers.color(error, warning=True)
+            print((helpers.color(error, warning=True)))
         try:
             rawhtml = r.content
             soup = BeautifulSoup(rawhtml)
             for a in soup.findAll('a', href=True):
                 try:
-                    l = urlparse.parse_qs(
-                        urlparse.urlparse(a['href']).query)['q']
+                    l = urllib.parse.parse_qs(
+                        urllib.parse.urlparse(a['href']).query)['q']
                     if 'site:connect6.com' not in l[0]:
                         l = l[0].split(":")
                         urllist.append(l[2])
@@ -67,7 +67,7 @@ class Connect6Scraper(object):
                     y += 1
             return urllist
         except Exception as e:
-            print e
+            print(e)
             return urllist
 
     def Connect6Download(self, url):
@@ -82,12 +82,12 @@ class Connect6Scraper(object):
                 url = 'http://' + str(url)
                 if self.verbose:
                     p = " [*] Now downloading Connect6 Source: " + str(url)
-                    print helpers.color(p, firewall=True)
+                    print((helpers.color(p, firewall=True)))
                 r = requests.get(url, headers=self.UserAgent)
         except Exception as e:
             error = " [!] Major issue with Downloading Connect6 source:" + \
                 str(e)
-            print helpers.color(error, warning=True)
+            print((helpers.color(error, warning=True)))
         try:
             if r:
                 rawhtml = r.content
@@ -99,13 +99,13 @@ class Connect6Scraper(object):
                             if self.verbose:
                                 p = " [*] Connect6 Name Found: " + \
                                     str(litag.text)
-                                print helpers.color(p, firewall=True)
+                                print((helpers.color(p, firewall=True)))
                 except:
                     pass
                 return NameList
             # for a in soup.findAll('a', href=True):
         except Exception as e:
-            print e
+            print(e)
 
     def Connect6ParseName(self, raw):
         '''

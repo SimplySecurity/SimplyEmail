@@ -16,8 +16,8 @@ from bs4 import BeautifulSoup
 
 # import for "'ascii' codec can't decode byte" error
 import sys
-reload(sys)
-sys.setdefaultencoding("utf-8")
+import importlib
+importlib.reload(sys)
 # import for "'ascii' codec can't decode byte" error
 
 
@@ -42,7 +42,7 @@ class ClassName(object):
             self.Text = ""
         except Exception as e:
             self.logger.critical("ExaleadDOCSearch module failed to __init__: " + str(e))
-            print helpers.color(" [*] Major Settings for Exalead are missing, EXITING!\n", warning=True)
+            print(helpers.color(" [*] Major Settings for Exalead are missing, EXITING!\n", warning=True))
 
     def execute(self):
         self.logger.debug("ExaleadDOCSearch module started")
@@ -58,7 +58,7 @@ class ClassName(object):
             if self.verbose:
                 p = ' [*] Exalead DOC Search on page: ' + str(self.Counter)
                 self.logger.info('ExaleadDOCSearch on page: ' + str(self.Counter))
-                print helpers.color(p, firewall=True)
+                print(helpers.color(p, firewall=True))
             try:
                 url = 'http://www.exalead.com/search/web/results/?q="%40' + self.Domain + \
                       '"+filetype:word&elements_per_page=' + \
@@ -66,7 +66,7 @@ class ClassName(object):
             except Exception as e:
                 self.logger.error('ExaleadDOCSearch could not build URL')
                 error = " [!] Major issue with Exalead DOC Search: " + str(e)
-                print helpers.color(error, warning=True)
+                print(helpers.color(error, warning=True))
             try:
                 RawHtml = dl.requesturl(url, useragent=self.UserAgent)
                 # sometimes url is broken but exalead search results contain
@@ -78,7 +78,7 @@ class ClassName(object):
             except Exception as e:
                 self.logger.error('ExaleadDOCSearch could not request / parse HTML')
                 error = " [!] Fail during parsing result: " + str(e)
-                print helpers.color(error, warning=True)
+                print(helpers.color(error, warning=True))
             self.Counter += 30
 
         # now download the required files
@@ -87,7 +87,7 @@ class ClassName(object):
                 if self.verbose:
                     p = ' [*] Exalead DOC search downloading: ' + str(url)
                     self.logger.info('ExaleadDOCSearch downloading: ' + str(url))
-                    print helpers.color(p, firewall=True)
+                    print(helpers.color(p, firewall=True))
                 try:
                     filetype = ".doc"
                     dl = Download.Download(self.verbose)
@@ -97,7 +97,7 @@ class ClassName(object):
                             p = ' [*] Exalead DOC file was downloaded: ' + \
                                 str(url)
                             self.logger.info('ExaleadDOCSearch downloaded: ' + str(p))
-                            print helpers.color(p, firewall=True)
+                            print(helpers.color(p, firewall=True))
                         ft = helpers.filetype(FileName).lower()
                         if 'word' in ft:
                             self.Text += convert.convert_doc_to_txt(FileName)
@@ -105,18 +105,18 @@ class ClassName(object):
                             self.logger.warning('Downloaded file is not a DOC: ' + ft)
                 except Exception as e:
                     error = " [!] Issue with opening DOC Files:%s\n" % (str(e))
-                    print helpers.color(error, warning=True)
+                    print(helpers.color(error, warning=True))
                 try:
                     dl.delete_file(FileName)
                 except Exception as e:
-                    print e
+                    print(e)
         except Exception as e:
             self.logger.error("ExaleadDOCSearch no doc's to download")
-            print helpers.color(" [*] No DOC's to download from Exalead!\n", firewall=True)
+            print(helpers.color(" [*] No DOC's to download from Exalead!\n", firewall=True))
 
         if self.verbose:
             p = ' [*] Searching DOC from Exalead Complete'
-            print helpers.color(p, status=True)
+            print(helpers.color(p, status=True))
 
     def get_emails(self):
         Parse = Parser.Parser(self.Text)

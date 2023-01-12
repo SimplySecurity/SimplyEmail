@@ -15,8 +15,8 @@ from Helpers import Converter
 from bs4 import BeautifulSoup
 # import for "'ascii' codec can't decode byte" error
 import sys
-reload(sys)
-sys.setdefaultencoding("utf-8")
+import importlib
+importlib.reload(sys)
 # import for "'ascii' codec can't decode byte" error
 
 
@@ -41,7 +41,7 @@ class ClassName(object):
             self.Text = ""
         except Exception as e:
             self.logger.critical("ExaleadPPTXSearch module failed to __init__: " + str(e))
-            print helpers.color(" [*] Major Settings for Exalead are missing, EXITING!\n", warning=True)
+            print(helpers.color(" [*] Major Settings for Exalead are missing, EXITING!\n", warning=True))
 
     def execute(self):
         self.logger.debug("ExaleadPPTXSearch module started")
@@ -57,7 +57,7 @@ class ClassName(object):
             if self.verbose:
                 p = ' [*] Exalead PPTX Search on page: ' + str(self.Counter)
                 self.logger.info('ExaleadPPTXSearch on page: ' + str(self.Counter))
-                print helpers.color(p, firewall=True)
+                print(helpers.color(p, firewall=True))
             try:
                 url = 'http://www.exalead.com/search/web/results/?q="%40' + self.Domain + \
                       '"+filetype:pptx&elements_per_page=' + \
@@ -65,7 +65,7 @@ class ClassName(object):
             except Exception as e:
                 self.logger.error('ExaleadPPTXSearch could not build URL')
                 error = " [!] Major issue with Exalead PPTX Search: " + str(e)
-                print helpers.color(error, warning=True)
+                print(helpers.color(error, warning=True))
             try:
                 RawHtml = dl.requesturl(url, useragent=self.UserAgent)
                 # sometimes url is broken but exalead search results contain
@@ -77,7 +77,7 @@ class ClassName(object):
             except Exception as e:
                 self.logger.error('ExaleadPPTXSearch could not request / parse HTML')
                 error = " [!] Fail during parsing result: " + str(e)
-                print helpers.color(error, warning=True)
+                print(helpers.color(error, warning=True))
             self.Counter += 30
 
         # now download the required files
@@ -86,7 +86,7 @@ class ClassName(object):
                 if self.verbose:
                     p = ' [*] Exalead PPTX search downloading: ' + str(url)
                     self.logger.info('ExaleadPPTXSearch downloading: ' + str(url))
-                    print helpers.color(p, firewall=True)
+                    print(helpers.color(p, firewall=True))
                 try:
                     filetype = ".pptx"
                     dl = Download.Download(self.verbose)
@@ -96,7 +96,7 @@ class ClassName(object):
                             p = ' [*] Exalead PPTX file was downloaded: ' + \
                                 str(url)
                             self.logger.info('ExaleadDOCSearch downloaded: ' + str(p))
-                            print helpers.color(p, firewall=True)
+                            print(helpers.color(p, firewall=True))
                         ft = helpers.filetype(FileName).lower()
                         if 'powerpoint' in ft:
                             self.Text += convert.convert_zip_to_text(FileName)
@@ -104,18 +104,18 @@ class ClassName(object):
                             self.logger.warning('Downloaded file is not a PPTX: ' + ft)
                 except Exception as e:
                     error = " [!] Issue with opening PPTX Files:%s" % (str(e))
-                    print helpers.color(error, warning=True)
+                    print(helpers.color(error, warning=True))
                 try:
                     dl.delete_file(FileName)
                 except Exception as e:
-                    print e
+                    print(e)
         except Exception as e:
             self.logger.error("ExaleadPPTXSearch no doc's to download")
-            print helpers.color(" [*] No PPTX's to download from Exalead!\n", firewall=True)
+            print(helpers.color(" [*] No PPTX's to download from Exalead!\n", firewall=True))
 
         if self.verbose:
             p = ' [*] Searching PPTX from Exalead Complete'
-            print helpers.color(p, status=True)
+            print(helpers.color(p, status=True))
 
     def get_emails(self):
         Parse = Parser.Parser(self.Text)

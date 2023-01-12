@@ -5,13 +5,13 @@
 # 2) main name called "ClassName"
 # 3) execute function (calls everything it needs)
 # 4) places the findings into a queue
-import urlparse
+import urllib.parse
 import configparser
 import time
 from Helpers import Download
 from Helpers import helpers
 from Helpers import Parser
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 
 
 class ClassName(object):
@@ -35,7 +35,7 @@ class ClassName(object):
             self.urlList = []
             self.Text = ""
         except:
-            print helpers.color(" [*] Major Settings for GoogleCsvSearch are missing, EXITING!\n", warning=True)
+            print(helpers.color(" [*] Major Settings for GoogleCsvSearch are missing, EXITING!\n", warning=True))
 
     def execute(self):
         self.search()
@@ -48,25 +48,25 @@ class ClassName(object):
             time.sleep(1)
             if self.verbose:
                 p = ' [*] Google CSV Search on page: ' + str(self.Counter)
-                print helpers.color(p, firewall=True)
+                print(helpers.color(p, firewall=True))
             try:
                 url = "https://www.google.com/search?q=site:" + \
                     self.Domain + "+filetype:csv&start=" + str(self.Counter)
             except Exception as e:
                 error = " [!] Major issue with Google Search:" + str(e)
-                print helpers.color(error, warning=True)
+                print(helpers.color(error, warning=True))
             try:
                 RawHtml = dl.requesturl(url, useragent=self.UserAgent)
             except Exception as e:
                 error = " [!] Fail during Request to Google (Check Connection):" + \
                     str(e)
-                print helpers.color(error, warning=True)
+                print(helpers.color(error, warning=True))
             # check for captcha
             try:
                 # Url = r.url
                 dl.GoogleCaptchaDetection(RawHtml)
             except Exception as e:
-                print e
+                print(e)
             soup = BeautifulSoup(RawHtml)
             # I use this to parse my results, for URLS to follow
             for a in soup.findAll('a'):
@@ -74,8 +74,8 @@ class ClassName(object):
                     # https://stackoverflow.com/questions/21934004/not-getting-proper-links-
                     # from-google-search-results-using-mechanize-and-beautifu/22155412#22155412?
                     # newreg=01f0ed80771f4dfaa269b15268b3f9a9
-                    l = urlparse.parse_qs(
-                        urlparse.urlparse(a['href']).query)['q'][0]
+                    l = urllib.parse.parse_qs(
+                        urllib.parse.urlparse(a['href']).query)['q'][0]
                     if l.startswith('http') or l.startswith('www'):
                         if "webcache.googleusercontent.com" not in l:
                             self.urlList.append(l)
@@ -88,7 +88,7 @@ class ClassName(object):
             for url in self.urlList:
                 if self.verbose:
                     p = ' [*] Google CSV search downloading: ' + str(url)
-                    print helpers.color(p, firewall=True)
+                    print(helpers.color(p, firewall=True))
                 try:
                     filetype = ".csv"
                     FileName, FileDownload = dl.download_file2(url, filetype)
@@ -96,18 +96,18 @@ class ClassName(object):
                         if self.verbose:
                             p = '[*] Google CSV file was downloaded: ' + \
                                 str(url)
-                            print helpers.color(p, firewall=True)
+                            print(helpers.color(p, firewall=True))
                         with open(FileName) as f:
                             self.Text += f.read()
                     # print self.Text
                 except Exception as e:
-                    print helpers.color(" [!] Issue with opening CSV Files\n", firewall=True)
+                    print(helpers.color(" [!] Issue with opening CSV Files\n", firewall=True))
                 try:
                     dl.delete_file(FileName)
                 except Exception as e:
-                    print e
+                    print(e)
         except:
-            print helpers.color(" [*] No CSV to download from Google!\n", firewall=True)
+            print(helpers.color(" [*] No CSV to download from Google!\n", firewall=True))
 
     def get_emails(self):
         Parse = Parser.Parser(self.Text)

@@ -32,7 +32,7 @@ class ClassName(object):
         except Exception as e:
             self.logger.critical(
                 'Whoisology module failed to __init__: ' + str(e))
-            print helpers.color("[*] Major Settings for Search Whoisology are missing, EXITING!\n", warning=True)
+            print(helpers.color("[*] Major Settings for Search Whoisology are missing, EXITING!\n", warning=True))
 
     def execute(self):
         self.logger.debug("Whoisology Started")
@@ -45,14 +45,14 @@ class ClassName(object):
             if self.verbose:
                 self.logger.info("Whoisology request started")
                 p = ' [*] Whoisology request started'
-                print helpers.color(p, firewall=True)
+                print(helpers.color(p, firewall=True))
             url = "https://whoisology.com/archive_11/" + \
                 self.domain
             r = requests.get(url)
         except Exception as e:
             error = "[!] Major issue with Whoisology Search:" + str(e)
             self.logger.error("Whoisology can download source (Check Connection)")
-            print helpers.color(error, warning=True)
+            print(helpers.color(error, warning=True))
         self.results = r.content
 
     def get_emails(self):

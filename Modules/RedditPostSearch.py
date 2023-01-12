@@ -33,7 +33,7 @@ class ClassName(object):
         except Exception as e:
             self.logger.critical(
                 'RedditPostSearch module failed to load: ' + str(e))
-            print helpers.color(" [*] Major Settings for RedditPostSearch are missing, EXITING!\n", warning=True)
+            print(helpers.color(" [*] Major Settings for RedditPostSearch are missing, EXITING!\n", warning=True))
 
     def execute(self):
         self.logger.debug("RedditPostSearch started")
@@ -49,7 +49,7 @@ class ClassName(object):
                 p = ' [*] RedditPost Search on result: ' + str(self.Counter)
                 self.logger.debug(
                     "RedditPost Search on result: " + str(self.Counter))
-                print helpers.color(p, firewall=True)
+                print(helpers.color(p, firewall=True))
             try:
                 url = "https://www.reddit.com/search?q=%40" + str(self.Domain) + \
                     "&restrict_sr=&sort=relevance&t=all&count=" + str(self.Counter) + \
@@ -58,7 +58,7 @@ class ClassName(object):
                 error = " [!] Major issue with RedditPost search:" + str(e)
                 self.logger.error(
                     "Major issue with RedditPostSearch: " + str(e))
-                print helpers.color(error, warning=True)
+                print(helpers.color(error, warning=True))
             try:
                 RawHtml = dl.requesturl(url, useragent=self.UserAgent)
             except Exception as e:
@@ -66,7 +66,7 @@ class ClassName(object):
                     str(e)
                 self.logger.error(
                     "Fail during Request to Reddit (Check Connection): " + str(e))
-                print helpers.color(error, warning=True)
+                print(helpers.color(error, warning=True))
             self.Html += RawHtml
             # reddit seems to increment by 25 in cases
             self.Counter += 25
